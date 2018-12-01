@@ -22,6 +22,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
+import back.Connector;
 import back.Profil;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     Intent intent;
 
     Connection con;
-    String user, pass, db, ip;
+    Connector connector;
 
     EditText loginT, passwordT;
     Button submit;
@@ -48,11 +49,7 @@ public class MainActivity extends AppCompatActivity {
         progress = findViewById(R.id.progressBar);
 
         progress.setVisibility(View.GONE);
-
-        ip = "mssql8.gear.host";
-        db = "crowd";
-        user = "crowd";
-        pass = "Ng65JF4j79-!";
+        this.connector = new Connector();
 
     }
 
@@ -88,15 +85,20 @@ public class MainActivity extends AppCompatActivity {
             }
             else{
                 try {
-                    con = connectionClass(user, pass, db, ip);
+                    con = connector.connectionClass();
                     if (con == null) {
                         z = "Check Your Internet Access!";
                     }
                     else{
                         String query = "select * from Profil where Name= '" + username.toString() + "' and password = '" + password.toString() + "'";
-                        Statement stmt = con.createStatement();
-                        ResultSet res = stmt.executeQuery(query);
+                        ResultSet res = connector.runQuery(query, con);
                         if(res.next()){
+                           //z = res.toString();
+                          // System.out.println(res);
+                            int id = res.getInt("profilID");
+                            String name = res.getString("name");
+                            String points = res.getString("points");
+                            Profil profil = new Profil(id, name, points);
                             z = "Login succesful";
                             isSuccess = true;
                             con.close();
@@ -148,14 +150,13 @@ public class MainActivity extends AppCompatActivity {
             }
             else{
                 try {
-                    con = connectionClass(user, pass, db, ip);
+                    con = connector.connectionClass();
                     if (con == null) {
                         z = "Check Your Internet Access!";
                     }
                     else{
                         String query = "select * from Profil where Name= '" + username.toString() + "'";
-                        Statement stmt = con.createStatement();
-                        ResultSet res = stmt.executeQuery(query);
+                        ResultSet res = connector.runQuery(query, con);
                         if(res.next()){
                             z = "Login already exist";
                             isSuccess = false;
@@ -163,11 +164,11 @@ public class MainActivity extends AppCompatActivity {
                         else{
                             z = "Inwalid Credentils!";
                             String query1 = "Insert into Profil(Name, Password, Points) values('" + username.toString() + "', '" + password.toString() + "', 0)";
-                            Statement stmt1 = con.createStatement();
-                            ResultSet res1 = stmt1.executeQuery(query1);
-                            if(res.next()){
+                            ResultSet res1 = connector.runQuery(query1, con);
+                            if(res1.next()){
                                 z = "Success";
                                 isSuccess = true;
+                                con.close();
                             }
                             else{
                                 z = "Fail";
@@ -199,28 +200,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @SuppressLint("NewApi")
-    public Connection connectionClass(String user, String password, String database, String server){
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        Connection connectioin = null;
-        String connectionURL = null;
-        try{
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            connectionURL = "jdbc:jtds:sqlserver;//den1.mssql8.gear.host/crowd;user=crowd;password=Ng65JF4j79-!;";
-            connectioin = DriverManager.getConnection(connectionURL);
-        }
-        catch(SQLException e){
-            Log.e("error here 1; ", e.getMessage());
-        }
-        catch(ClassNotFoundException e){
-            Log.e("error here 2; ", e.getMessage());
-        }
-        catch(Exception e){
-            Log.e("error here 1; ", e.getMessage());
-        }
-        return connectioin;
-    }
 
 }
 

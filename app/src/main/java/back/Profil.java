@@ -2,12 +2,12 @@ package back;
 
 public class Profil {
     public String name;
-    private String password;
+    private int ID;
     public int points;
 
-    public Profil(String name, String password){
+    public Profil(int ID, String name, String password){
+        this.ID = ID;
         this.name = name;
-        this.password = password;
         this.points = 0;
     }
 
@@ -15,8 +15,8 @@ public class Profil {
         return name;
     }
 
-    public String getPassword() {
-        return password;
+    public int getID() {
+        return ID;
     }
 
     public int getPoints() {
@@ -27,8 +27,8 @@ public class Profil {
         this.name = name;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public void addPoints(int toAdd){

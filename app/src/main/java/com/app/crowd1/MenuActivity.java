@@ -37,8 +37,7 @@ public class MenuActivity extends AppCompatActivity {
                 z = "Check Your Internet Access!";
             }
             else{
-                //String query = "select * from Profil where Name= '" + username.toString() + "' and password = '" + password.toString() + "'";\
-                String query = "select * from Question";
+                String query = "select * from Game";
                 Statement stmt = con.createStatement();
                 ResultSet res = stmt.executeQuery(query);
                 while(res.next()){
@@ -46,14 +45,8 @@ public class MenuActivity extends AppCompatActivity {
                     Button myButton = new Button(this);
                     myButton.setText(question.getQuestion());
                     ll.addView(myButton, lp);
-                    //z = "Login succesful";
-                   // isSuccess = true;
                     con.close();
                 }
-//                else{
-//                    z = "Inwalid Credentils!";
-//                    isSuccess = false;
-//                }
             }
         }
         catch(Exception e){
