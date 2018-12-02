@@ -11,9 +11,9 @@ public class ManyAnswer extends Question {
         return answer;
     }
 
-    public ArrayList<String> getAnswers() {
-        return answers;
-    }
+//    public ArrayList<String> getAnswers() {
+//        return answers;
+//    }
 
     public void setAnswer(ArrayList<String> answer) {
         this.answer = answer;

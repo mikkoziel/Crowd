@@ -12,9 +12,9 @@ public class OneAnswer extends Question{
         this.answers = answers;
     }
 
-    public ArrayList<String> getAnswers() {
-        return answers;
-    }
+//    public ArrayList<String> getAnswers() {
+//        return answers;
+//    }
 
     public String getAnswer() {
         return answer;

@@ -1,31 +1,32 @@
 package back;
 
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
+import com.app.crowd1.MainActivity;
+import com.app.crowd1.MenuActivity;
+import com.app.crowd1.QuestionActivity;
+
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class Game {
+public class Game implements Serializable {
     private int gameID;
     public String gameName;
     public ArrayList<Question> questions;
+    public Boolean played;
 
     public Game(int ID, String gameName){
         this.gameID = ID;
         this.gameName = gameName;
         this.questions = new ArrayList<>();
-    }
-
-    public void setGameID(int gameID) {
-        this.gameID = gameID;
-    }
-
-    public ArrayList<Question> getQuestions() {
-        return questions;
-    }
-
-    public void setGameName(String gameName) {
-        this.gameName = gameName;
+        this.played = false;
     }
 
     public int getGameID() {
@@ -36,9 +37,28 @@ public class Game {
         return gameName;
     }
 
-    public void setQuestions(Connector connector) throws SQLException {
-        String z;
-        Boolean isSuccess = false;
+    public ArrayList<Question> getQuestions() {
+        return questions;
+    }
+
+    public Boolean getPlayed() {
+        return played;
+    }
+
+    public void setGameID(int gameID) {
+        this.gameID = gameID;
+    }
+
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
+    }
+
+    public void setPlayed() {
+        this.played = true;
+    }
+
+    public String setQuestions(Connector connector) throws SQLException {
+        String z = "";
 
         Connection con = connector.connectionClass();
         if (con == null) {
@@ -47,15 +67,16 @@ public class Game {
         else {
             String query = "select * from Question where gameID = " + gameID + ";";
             ResultSet res = connector.runQuery(query, con);
-            if(res.next()){
-//                z = "Login succesful";
-//                isSuccess = true;
-                con.close();
+            while(res.next()){
+                int type = res.getInt("typeID");
+                Question question = new Question(res.getString("question"), res.getInt("gameID"));
+                question.setType(type);
+                questions.add(question);
             }
-            else{
-//                z = "Inwalid Credentils!";
-//                isSuccess = false;
-            }
+            con.close();
         }
+        return z;
     }
+
+
 }

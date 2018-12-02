@@ -1,6 +1,8 @@
 package back;
 
-public class Profil {
+import java.io.Serializable;
+
+public class Profil implements Serializable {
     public String name;
     private int ID;
     public int points;

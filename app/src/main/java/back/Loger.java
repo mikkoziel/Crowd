@@ -1,12 +1,12 @@
 package back;
 
 import android.os.AsyncTask;
-import android.view.View;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 
-public class Loger {
+public class Loger implements Serializable {
     public Profil user;
     private Connector connector;
     private Connection con;

@@ -4,13 +4,14 @@ import android.annotation.SuppressLint;
 import android.os.StrictMode;
 import android.util.Log;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Connector {
+public class Connector implements Serializable {
     public String user = "crowd";
     public String password = "Ng65JF4j79-!";
     public String database = "crowd";

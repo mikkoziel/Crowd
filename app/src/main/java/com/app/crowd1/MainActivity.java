@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 
 import back.Connector;
+import back.Game;
 import back.Profil;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     Button submit;
     ProgressBar progress;
 
+    Bundle extras;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +54,13 @@ public class MainActivity extends AppCompatActivity {
 
         progress.setVisibility(View.GONE);
         this.connector = new Connector();
+        this.extras = new Bundle();
 
     }
 
     public void loginBttn(View view){
         intent = new Intent(this, MenuActivity.class);
+        intent.putExtra("connector", connector);
 
         CheckLogin checklogin =  new CheckLogin();
         checklogin.execute("");
@@ -90,17 +96,11 @@ public class MainActivity extends AppCompatActivity {
                         z = "Check Your Internet Access!";
                     }
                     else{
-                        String query = "select * from Profil where Name= '" + username.toString() + "' and password = '" + password.toString() + "'";
+                        String query = "select * from Profil where Name= '" + username + "' and password = '" + password + "'";
                         ResultSet res = connector.runQuery(query, con);
                         if(res.next()){
-                           //z = res.toString();
-                          // System.out.println(res);
-                            int id = res.getInt("profilID");
-                            String name = res.getString("name");
-                            String points = res.getString("points");
-                            Profil profil = new Profil(id, name, points);
-                            z = "Login succesful";
-                            isSuccess = true;
+                            setMenu(res);
+                            setGames();
                             con.close();
                         }
                         else{
@@ -129,6 +129,29 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         }
+
+        public void setMenu(ResultSet res) throws SQLException {
+            int id = res.getInt("profilID");
+            String name = res.getString("name");
+            String points = res.getString("points");
+            Profil profil = new Profil(id, name, points);
+            intent.putExtra("profil", profil);
+            z = "Login succesful";
+            isSuccess = true;
+        }
+
+        public void setGames() throws SQLException {
+           ArrayList<Game> games = new ArrayList<>();
+           // Game[] games = ;
+            String query = "select * from Game";
+
+            ResultSet res = connector.runQuery(query, con);
+            while(res.next()) {
+                Game game = new Game(res.getInt("gameID"), res.getString("gameName"));
+                games.add(game);
+                intent.putExtra("games", games);
+            }
+        }
     }
 
     public class RegisterLogin extends AsyncTask<String, String, String>{
@@ -155,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                         z = "Check Your Internet Access!";
                     }
                     else{
-                        String query = "select * from Profil where Name= '" + username.toString() + "'";
+                        String query = "select * from Profil where Name= '" + username + "'";
                         ResultSet res = connector.runQuery(query, con);
                         if(res.next()){
                             z = "Login already exist";
@@ -163,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         else{
                             z = "Inwalid Credentils!";
-                            String query1 = "Insert into Profil(Name, Password, Points) values('" + username.toString() + "', '" + password.toString() + "', 0)";
+                            String query1 = "Insert into Profil(Name, Password, Points) values('" + username + "', '" + password + "', 0)";
                             ResultSet res1 = connector.runQuery(query1, con);
                             if(res1.next()){
                                 z = "Success";
