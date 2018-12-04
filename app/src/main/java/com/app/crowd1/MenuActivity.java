@@ -22,6 +22,7 @@ import back.Connector;
 import back.Game;
 import back.Loger;
 import back.Profil;
+import back.Question;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -68,6 +69,16 @@ public class MenuActivity extends AppCompatActivity {
             });
             ll.addView(gameButton, lp);
         }
+
+//        Button bttn = new Button(this);
+//        bttn.setText("Try");
+//        final Intent inten = new Intent(this, QuestionActivity.class);
+//        bttn.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                startActivity(inten);
+//            }
+//        });
+//        ll.addView(bttn, lp);
     }
 
     public class SetQuestions extends AsyncTask<String, String, String> {
@@ -86,14 +97,19 @@ public class MenuActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params){
+           // try {
             try {
-                z = game.setQuestions(connector);
+                z = setQ(game, connector);
                 z = "Game starting";
                 isSuccess = true;
             } catch (SQLException e) {
                 e.printStackTrace();
-                z = "Exception";
             }
+            // z = game.setQuestions(connector);
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//                z = "Exception";
+//            }
             return z;
         }
 
@@ -105,6 +121,43 @@ public class MenuActivity extends AppCompatActivity {
                 Toast.makeText(MenuActivity.this, "Game starting", Toast.LENGTH_LONG).show();
                 intent.putExtra("game", game);
                 startActivity(intent);
+            }
+        }
+
+        public String setQ(Game game, Connector connector) throws SQLException {
+            String z = "";
+
+            Connection con = connector.connectionClass();
+            if (con == null) {
+                z = "Check Your Internet Access!";
+            }
+            else {
+                String query = "select * from Question where gameID = " + game.getGameID() + ";";
+                ResultSet res = connector.runQuery(query, con);
+                game.setQuestions(res);
+                Thread thread = new Thread(new Runnable(){
+                    @Override
+                    public void run(){
+                        try {
+                            setAnswers();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                thread.start();
+                con.close();
+                z = "All alright";
+            }
+
+            return z;
+        }
+
+        public void setAnswers() throws SQLException {
+            for(Question question : game.getQuestions()){
+                String query = "select top 3 * from Answer where questionID = " + question.getQuestionID() + ";";
+                ResultSet res = connector.runQuery(query, con);
+                question.setAnswers(res);
             }
         }
     }

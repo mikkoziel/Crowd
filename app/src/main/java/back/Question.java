@@ -49,24 +49,26 @@ public class Question implements Serializable{
         this.type = type;
     }
 
-    public void setAnswers(Connector connector) throws SQLException {
-        String z;
-        Boolean isSuccess = false;
-
-        Connection con = connector.connectionClass();
-        if (con == null) {
-            z = "Check Your Internet Access!";
-        }
-        else {
+    public void setAnswers(ResultSet res) throws SQLException {
+//        String z;
+//        Boolean isSuccess = false;
+//
+//        Connection con = connector.connectionClass();
+//        if (con == null) {
+//            z = "Check Your Internet Access!";
+//        }
+//        else {
 //            String query = "select * from Answer where questionID = " + questionID + "; ORDER BY RAND() LIMIT 3";
-            String query = "select * from Answer where questionID = " + questionID + ";";
-            ResultSet res = connector.runQuery(query, con);
+//            String query = "select * from Answer where questionID = " + questionID + ";";
+//            ResultSet res = connector.runQuery(query, con);
             while(res.next()){
+                int type = res.getInt("typeID");
                 Answer answer = new Answer(res.getInt("answerID"), res.getString("answer"));
+                answer.setType(type);
                 answers.add(answer);
             }
-            con.close();
-        }
+          //  con.close();
+       // }
     }
 }
 
