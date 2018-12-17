@@ -46,7 +46,7 @@ public class MenuActivity extends AppCompatActivity {
         progress.setVisibility(View.GONE);
 
         this.loger = new Loger(profil, connector);
-        intent = new Intent(this, QuestionActivity.class);
+        intent = new Intent(this, GameActivity.class);
     //    intent.putExtra("loger", loger);
 
         LinearLayout ll = (LinearLayout)findViewById(R.id.layout);
@@ -135,17 +135,17 @@ public class MenuActivity extends AppCompatActivity {
                 String query = "select * from Question where gameID = " + game.getGameID() + ";";
                 ResultSet res = connector.runQuery(query, con);
                 game.setQuestions(res);
-                Thread thread = new Thread(new Runnable(){
-                    @Override
-                    public void run(){
-                        try {
-                            setAnswers();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-                thread.start();
+//                Thread thread = new Thread(new Runnable(){
+//                    @Override
+//                    public void run(){
+//                        try {
+//                            setAnswers();
+//                        } catch (SQLException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                });
+//                thread.start();
                 con.close();
                 z = "All alright";
             }

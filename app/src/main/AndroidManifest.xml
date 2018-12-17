@@ -20,6 +20,7 @@
         </activity>
         <activity android:name=".MenuActivity" />
         <activity android:name=".QuestionActivity" />
+        <activity android:name=".GameActivity"></activity>
     </application>
 
 </manifest>
