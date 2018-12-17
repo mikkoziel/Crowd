@@ -12,12 +12,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Connector implements Serializable {
-    public String user = "crowd";
-    public String password = "Ng65JF4j79-!";
-    public String database = "crowd";
-    public String ip = "den1.mssql8.gear.host";
+    public String user = "mkoziel";
+    public String password = "3w37r0APSZS9LoDy";
+    public String database = "mkoziel";
+    public String ip = "mysql.agh.edu.pl";
+    public String port = "3306";
     private String nameClass = "net.sourceforge.jtds.jdbc.Driver";
-    private String connectionURL = "jdbc:jtds:sqlserver;//" + ip + "/" + database + ";user=" + user + ";password=" + password + ";";
+//    private String connectionURL = "jdbc:jtds:sqlserver;//" + ip + ":" + port + "/" + database + ";user=" + user + ";password=" + password + ";";
+    private String connectionURL = "jdbc:jtds:sqlserver://" + ip + "/" + database + ";user=" + user + ";password=" + password + ";";
 
     public Connector(){}
 
