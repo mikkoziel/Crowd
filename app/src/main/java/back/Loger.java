@@ -14,7 +14,7 @@ public class Loger implements Serializable {
     public Loger(Profil profil, Connector con){
         this.user = profil;
         this.connector = con;
-        this.con = connector.connectionClass();
+//        this.con = connector.establishConnection();
     }
 
     public void logAnswer(){
@@ -37,16 +37,16 @@ public class Loger implements Serializable {
                 }
                 else{
                     String query = "Insert into Log(profilID, questionID, AnswerID, Date) values(" + user.getID();
-                    ResultSet res = connector.runQuery(query, con);
-                    if(res.next()){
-                        z = "Login succesful";
-                        isSuccess = true;
-                        con.close();
-                    }
-                    else{
-                        z = "Inwalid Credentils!";
-                        isSuccess = false;
-                    }
+//                    ResultSet res = connector.runQuery(query);
+//                    if(res.next()){
+//                        z = "Login succesful";
+//                        isSuccess = true;
+//                        con.close();
+//                    }
+//                    else{
+//                        z = "Inwalid Credentils!";
+//                        isSuccess = false;
+//                    }
                 }
             }
             catch(Exception e){

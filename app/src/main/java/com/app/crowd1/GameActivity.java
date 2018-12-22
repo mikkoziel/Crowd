@@ -155,13 +155,13 @@ public class GameActivity extends AppCompatActivity {
         public String setQ(Game game, Connector connector) throws SQLException {
             String z = "";
 
-            Connection con = connector.connectionClass();
-            if (con == null) {
-                z = "Check Your Internet Access!";
-            } else {
-                String query = "select * from Question where gameID = " + game.getGameID() + ";";
-                ResultSet res = connector.runQuery(query, con);
-                game.setQuestions(res);
+//            Connection con = connector.connectionClass();
+//            if (connector.getConnection() == null) {
+//                z = "Check Your Internet Access!";
+//            } else {
+//                String query = "select * from Question where gameID = " + game.getGameID() + ";";
+//                ResultSet res = connector.runQuery(query);
+//                game.setQuestions(res);
 //                Thread thread = new Thread(new Runnable(){
 //                    @Override
 //                    public void run(){
@@ -173,9 +173,9 @@ public class GameActivity extends AppCompatActivity {
 //                    }
 //                });
 //                thread.start();
-                con.close();
-                z = "All alright";
-            }
+//                connector.getConnection().close();
+//                z = "All alright";
+//            }
             return z;
         }
     }

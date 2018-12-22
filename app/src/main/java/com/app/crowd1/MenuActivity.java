@@ -39,21 +39,21 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
 
         Intent thisIntent = getIntent();
-        this.connector = (Connector)thisIntent.getSerializableExtra("connector");
+//        this.connector = (Connector)thisIntent.getSerializableExtra("connector");
         this.profil = (Profil)thisIntent.getSerializableExtra("profil");
 
         this.progress = findViewById(R.id.progressMenu);
         progress.setVisibility(View.GONE);
 
-        this.loger = new Loger(profil, connector);
+//        this.loger = new Loger(profil, connector);
         intent = new Intent(this, GameActivity.class);
     //    intent.putExtra("loger", loger);
 
         LinearLayout ll = (LinearLayout)findViewById(R.id.layout);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
-        ArrayList<?> games = (ArrayList<?>) thisIntent.getSerializableExtra("games");
-        ListIterator<?> iterator = games.listIterator();
+//        ArrayList<?> games = (ArrayList<?>) thisIntent.getSerializableExtra("games");
+        ListIterator<?> iterator = profil.getGames().listIterator();
 
         while (iterator.hasNext()) {
             final Game game = (Game) iterator.next();
@@ -127,39 +127,39 @@ public class MenuActivity extends AppCompatActivity {
         public String setQ(Game game, Connector connector) throws SQLException {
             String z = "";
 
-            Connection con = connector.connectionClass();
-            if (con == null) {
-                z = "Check Your Internet Access!";
-            }
-            else {
-                String query = "select * from Question where gameID = " + game.getGameID() + ";";
-                ResultSet res = connector.runQuery(query, con);
-                game.setQuestions(res);
-//                Thread thread = new Thread(new Runnable(){
-//                    @Override
-//                    public void run(){
-//                        try {
-//                            setAnswers();
-//                        } catch (SQLException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
-//                thread.start();
-                con.close();
-                z = "All alright";
-            }
+//            Connection con = connector.connectionClass();
+//            if (connector.getConnection() == null) {
+//                z = "Check Your Internet Access!";
+//            }
+//            else {
+//                String query = "select * from Question where gameID = " + game.getGameID() + ";";
+//                ResultSet res = connector.runQuery(query);
+//                game.setQuestions(res);
+////                Thread thread = new Thread(new Runnable(){
+////                    @Override
+////                    public void run(){
+////                        try {
+////                            setAnswers();
+////                        } catch (SQLException e) {
+////                            e.printStackTrace();
+////                        }
+////                    }
+////                });
+////                thread.start();
+//                connector.getConnection().close();
+//                z = "All alright";
+//            }
 
             return z;
         }
 
-        public void setAnswers() throws SQLException {
-            for(Question question : game.getQuestions()){
-                String query = "select top 3 * from Answer where questionID = " + question.getQuestionID() + ";";
-                ResultSet res = connector.runQuery(query, con);
-                question.setAnswers(res);
-            }
-        }
+//        public void setAnswers() throws SQLException {
+//            for(Question question : game.getQuestions()){
+//                String query = "select top 3 * from Answer where questionID = " + question.getQuestionID() + ";";
+//                ResultSet res = connector.runQuery(query);
+//                question.setAnswers(res);
+//            }
+//        }
     }
     @Override
     public void onBackPressed() {

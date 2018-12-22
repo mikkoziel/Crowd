@@ -1,16 +1,21 @@
 package back;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Profil implements Serializable {
     public String name;
     private int ID;
-    public int points;
+    private int points;
+    private ArrayList<Game> games;
+    public Connector connector;
+
 
     public Profil(int ID, String name, String password){
         this.ID = ID;
         this.name = name;
         this.points = 0;
+        this.games = new ArrayList<>();
     }
 
     public String getName() {
@@ -25,6 +30,14 @@ public class Profil implements Serializable {
         return points;
     }
 
+    public ArrayList<Game> getGames() {
+        return games;
+    }
+
+    public Connector getConnector() {
+        return connector;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -37,4 +50,15 @@ public class Profil implements Serializable {
         this.points += toAdd;
     }
 
+    public void setGames(ArrayList<Game> games) {
+        this.games = games;
+    }
+
+    public void addGames(Game game){
+        this.games.add(game);
+    }
+
+    public void setConnector(Connector connector) {
+        this.connector = connector;
+    }
 }
