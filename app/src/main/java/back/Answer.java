@@ -14,6 +14,14 @@ public class Answer implements Serializable {
         this.answer = answer;
     }
 
+    public Answer(int answerID, String answer, int used, double percentageUsed, int type){
+        this.answerID = answerID;
+        this.answer = answer;
+        this.used = used;
+        this.percentageUsed = percentageUsed;
+        this.type = type;
+    }
+
     public int getAnswerID() {
         return answerID;
     }

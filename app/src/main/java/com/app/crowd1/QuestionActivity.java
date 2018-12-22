@@ -11,12 +11,14 @@ import java.util.ListIterator;
 
 import back.Answer;
 import back.Game;
+import back.Profil;
 import back.Question;
 
 public class QuestionActivity extends AppCompatActivity {
 
-//    public Game game;
-//    public Question question;
+    public Game game;
+    public Profil profil;
+    public Question question;
 //    public ListIterator<Question> questionIterator;
 //    public ListIterator<Answer> answerIterator;
 
@@ -26,6 +28,17 @@ public class QuestionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_question);
 
 
+        Intent inetnt = getIntent();
+        this.game = (Game)inetnt.getSerializableExtra("game");
+        this.profil = (Profil) inetnt.getSerializableExtra("profil");
+
+        this.question = game.getQuestions().get(game.getIndex());
+        game.nextIndex();
+
+
+//        ArrayList<?> games = (ArrayList<?>) thisIntent.getSerializableExtra("games");
+
+
 //        Intent inetnt = getIntent();
 //        this.game = (Game)inetnt.getSerializableExtra("game");
 //        this.questionIterator = game.getQuestions().listIterator();
@@ -33,13 +46,21 @@ public class QuestionActivity extends AppCompatActivity {
 //        this.answerIterator = question.getAnswers().listIterator();
 //
 //        LinearLayout questionlayout = (LinearLayout)findViewById(R.id.questionlayout);
+
+        LinearLayout answerLayout = (LinearLayout)findViewById(R.id.answerlayout);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 //
-//        LinearLayout answerLayout = (LinearLayout)findViewById(R.id.answerlayout);
-//        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-//
-//        TextView questionText = (TextView) findViewById(R.id.question);
-//        questionText.setText(question.getQuestion());
+        TextView questionText = (TextView) findViewById(R.id.question);
+        questionText.setText(question.getQuestion());
 //        questionlayout.addView(questionText, lp);
+
+        for(int i = 0; i < 4; i++){
+            ToggleButton answer = new ToggleButton(this);
+            answer.setText(question.getAnswers().get(question.getIndex()).getAnswer());
+            question.nextIndex();
+            answerLayout.addView(answer, lp);
+        }
+
 
 //        while(answerIterator.hasNext()){
 //            ToggleButton answer = new ToggleButton(this);

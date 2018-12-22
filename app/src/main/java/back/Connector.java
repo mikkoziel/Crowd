@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import gui.AnswerSetter;
+
 public class Connector implements Serializable {
     private String user = "crowd";
     private String password = "Ng65JF4j79-!";
@@ -242,4 +244,42 @@ public class Connector implements Serializable {
 
         return result;
     }
+
+    private ResultSet getQuestions(Game game, Connection connection){
+        String query = "select * from Question where gameID = " + game.getGameID() + ";";
+        ResultSet res = runQuery(query, connection);
+        return res;
+    }
+
+    public String setQuestions(Game game) throws SQLException {
+        ResultSet res = null;
+        Connection connection = makeConnection();
+        Boolean isConnect = checkConnection(connection);
+
+        if (isConnect) {
+            res = getQuestions(game, connection);
+
+            while(res.next()) {
+                String content = res.getString("question");
+                int ID = res.getInt("questionID");
+                int type = res.getInt("typeID");
+
+                Question question = new Question(content, ID, type);
+
+//                AnswerSetter answerSetter = new AnswerSetter(question, this);
+//                answerSetter.execute("");
+
+                game.addQuestion(question);
+            }
+            result = "Game Starting";
+            isSuccess = true;
+        }
+        else{
+            result = "Something went wrong";
+            isSuccess = false;
+        }
+
+        return result;
+    }
+
 }

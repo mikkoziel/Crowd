@@ -2,15 +2,17 @@ package back;
 
 import java.util.ArrayList;
 
-public class OneAnswer extends Question{
+public class OneAnswer{
 
     public String answer;
     public ArrayList<String> answers;
 
-    public OneAnswer(String question, ArrayList<String> answers){
-        this.question = question;
-        this.answers = answers;
-    }
+//    public OneAnswer(){}
+
+//    public OneAnswer(String question, ArrayList<String> answers){
+//        this.question = question;
+//        this.answers = answers;
+//    }
 
 //    public ArrayList<String> getAnswers() {
 //        return answers;

@@ -21,12 +21,14 @@ public class Game implements Serializable {
     public String gameName;
     public ArrayList<Question> questions;
     public Boolean played;
+    public int index;
 
     public Game(int ID, String gameName){
         this.gameID = ID;
         this.gameName = gameName;
         this.questions = new ArrayList<>();
         this.played = false;
+        this.index = 0;
     }
 
     public int getGameID() {
@@ -45,6 +47,10 @@ public class Game implements Serializable {
         return played;
     }
 
+    public int getIndex() {
+        return index;
+    }
+
     public void setGameID(int gameID) {
         this.gameID = gameID;
     }
@@ -57,25 +63,31 @@ public class Game implements Serializable {
         this.played = true;
     }
 
-    public String setQuestions(ResultSet res) throws SQLException {
-        String z = "";
-
-//        Connection con = connector.connectionClass();
-//        if (con == null) {
-//            z = "Check Your Internet Access!";
-//        }
-//        else {
-//            String query = "select * from Question where gameID = " + gameID + ";";
-//            ResultSet res = connector.runQuery(query, con);
-            while(res.next()){
-                int type = res.getInt("typeID");
-                Question question = new Question(res.getString("question"), res.getInt("gameID"));
-                question.setType(type);
-                questions.add(question);
-            }
-      //  }
-        return z;
+    public void addQuestion(Question question){
+        this.questions.add(question);
     }
+
+    public void nextIndex(){this.index ++;}
+
+//    public String setQuestions(ResultSet res) throws SQLException {
+//        String z = "";
+//
+////        Connection con = connector.connectionClass();
+////        if (con == null) {
+////            z = "Check Your Internet Access!";
+////        }
+////        else {
+////            String query = "select * from Question where gameID = " + gameID + ";";
+////            ResultSet res = connector.runQuery(query, con);
+//            while(res.next()){
+//                int type = res.getInt("typeID");
+//                Question question = new Question(res.getString("question"), res.getInt("gameID"));
+//                question.setType(type);
+//                questions.add(question);
+//            }
+//      //  }
+//        return z;
+//    }
 
 
 }

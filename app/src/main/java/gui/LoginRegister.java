@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import back.Connector;
