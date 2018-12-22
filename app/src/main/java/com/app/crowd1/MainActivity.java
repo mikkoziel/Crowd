@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void registerBttn(View view){
-        LoginRegister registerLogin = new LoginRegister(this, progress, loginT, passwordT, connector, intent);
+        LoginRegister registerLogin = new LoginRegister(this, progress, loginT, passwordT, connector);
         registerLogin.execute("");
 //        RegisterLogin registerLogin = new RegisterLogin();
 //        registerLogin.execute("");

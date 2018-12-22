@@ -9,8 +9,8 @@ import java.sql.ResultSet;
 public class Loger implements Serializable {
     public Profil user;
     private Connector connector;
-    private Connection con;
-
+//    private Connection con;
+//
     public Loger(Profil profil, Connector con){
         this.user = profil;
         this.connector = con;
@@ -31,30 +31,30 @@ public class Loger implements Serializable {
 
         @Override
         protected String doInBackground(String... params){
-            try {
-                if (con == null) {
-                    z = "Check Your Internet Access!";
-                }
-                else{
-                    String query = "Insert into Log(profilID, questionID, AnswerID, Date) values(" + user.getID();
-//                    ResultSet res = connector.runQuery(query);
-//                    if(res.next()){
-//                        z = "Login succesful";
-//                        isSuccess = true;
-//                        con.close();
-//                    }
-//                    else{
-//                        z = "Inwalid Credentils!";
-//                        isSuccess = false;
-//                    }
-                }
-            }
-            catch(Exception e){
-                isSuccess = false;
-                z = e.getMessage();
-
-            }
-
+//            try {
+//                if (con == null) {
+//                    z = "Check Your Internet Access!";
+//                }
+//                else{
+//                    String query = "Insert into Log(profilID, questionID, AnswerID, Date) values(" + user.getID();
+////                    ResultSet res = connector.runQuery(query);
+////                    if(res.next()){
+////                        z = "Login succesful";
+////                        isSuccess = true;
+////                        con.close();
+////                    }
+////                    else{
+////                        z = "Inwalid Credentils!";
+////                        isSuccess = false;
+////                    }
+//                }
+//            }
+//            catch(Exception e){
+//                isSuccess = false;
+//                z = e.getMessage();
+//
+//            }
+//
 
             return z;
         }

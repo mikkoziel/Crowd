@@ -62,14 +62,14 @@ public class LoginChecker extends AsyncTask<String, String, String> {
                 if (res != null) {
                     profil = connector.setMenu(res);
                     connector.setGames(profil);
+                    profil.setConnector(connector);
+                    intent.putExtra("profil", profil);
 //                        connector.getConnection().close();
                 }
-
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            Objects.requireNonNull(profil).setConnector(connector);
-            intent.putExtra("profil", profil);
+
             z = connector.getResult();
             isSuccess = connector.getSuccess();
         }

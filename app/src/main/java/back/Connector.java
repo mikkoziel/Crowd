@@ -80,6 +80,19 @@ public class Connector implements Serializable {
         return result;
     }
 
+    public int updateQuery(String query, Connection connection){
+        Statement stmt;
+        int result = 0;
+        try {
+            stmt = connection.createStatement();
+            result = stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+
     public Boolean checkConnection(Connection connection){
         Boolean res = false;
         if (connection != null) {
@@ -200,15 +213,33 @@ public class Connector implements Serializable {
         }
     }
 
-    public ResultSet registerLogin(String username, String password) {
+    public String registerLogin(String username, String password) throws SQLException {
         ResultSet res = null;
         Connection connection = makeConnection();
         Boolean isConnect = checkConnection(connection);
 
         if (isConnect) {
-
+            res = getLogin(username, connection);
+            if (res.next()) {
+                result = "Login already exist";
+                isSuccess = false;
+            }
+            else{
+                result = "Inwalid Credentils!";
+                String query1 = "Insert into Profil(Name, Password, Points) values('" + username + "', '" + password + "', 0)";
+                int res1 = updateQuery(query1, connection);
+                if(res1 > 0){
+                    result = "Success";
+                    isSuccess = true;
+                    connection.close();
+                }
+                else{
+                    result = "Fail";
+                    isSuccess = false;
+                }
+            }
         }
 
-        return res;
+        return result;
     }
 }

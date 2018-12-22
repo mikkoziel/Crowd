@@ -23,17 +23,15 @@ public class LoginRegister extends AsyncTask<String, String, String> {
     private String username;
     public String password;
     private Connector connector;
-    private Intent intent;
-    String z = "";
-    Boolean isSuccess = false;
+    private String z = "";
+    private Boolean isSuccess = false;
 
-    public LoginRegister(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT, Connector connector, Intent intent){
+    public LoginRegister(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT, Connector connector){
         this.activity = activity;
         this.progress = progress;
         this.username = loginT.getText().toString();
         this.password = passwordT.getText().toString();
         this.connector = connector;
-        this.intent = intent;
     }
 
     @Override
@@ -48,12 +46,12 @@ public class LoginRegister extends AsyncTask<String, String, String> {
             z = "Please enter Username and Password";
         }
         else{
-            ResultSet res = null;
             try {
-                res = connector.checkLogin(username, password);
+                z = connector.registerLogin(username, password);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+            isSuccess = connector.getSuccess();
 //            try {
 //                    con = connector.connectionClass();
 //                    if (con == null) {
