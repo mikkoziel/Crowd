@@ -2,7 +2,7 @@ package back;
 
 import java.util.ArrayList;
 
-public class ManyAnswer extends Question {
+public class ManyAnswer {
 
     public ArrayList<String> answer;
     public ArrayList<String> answers;
