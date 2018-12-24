@@ -58,6 +58,10 @@ public class Question implements Serializable{
         answers.add(answer);
     }
 
+    public void setAnswers(ArrayList<Answer> answers) {
+        this.answers = answers;
+    }
+
     public void nextIndex(){this.index ++;}
 
 //    public void setAnswers(ResultSet res) throws SQLException {

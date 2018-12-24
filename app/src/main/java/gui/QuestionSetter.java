@@ -10,11 +10,14 @@ import android.widget.Toast;
 
 import com.app.crowd1.MenuActivity;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import back.Answer;
 import back.Connector;
 import back.Game;
+import back.Question;
 
 public class QuestionSetter extends AsyncTask<String, String, String> {
 
@@ -48,6 +51,7 @@ public class QuestionSetter extends AsyncTask<String, String, String> {
         String z = "";
         try {
             z = connector.setQuestions(game);
+//            setAnswers();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -68,7 +72,40 @@ public class QuestionSetter extends AsyncTask<String, String, String> {
         if(isSuccess){
 //            Toast.makeText(activity, "Game starting", Toast.LENGTH_LONG).show();
             intent.putExtra("game", game);
-//            activity.startActivity(intent);
+            activity.startActivity(intent);
+        }
+
+    }
+
+    private void setAnswers() throws SQLException {
+        ResultSet res = null;
+        Connection connection = connector.makeConnection();
+        Boolean isConnect = connector.checkConnection(connection);
+        if(isConnect) {
+            for (Question x : game.getQuestions()) {
+                res = getAnswers(x, connector, connection);
+                doAnswers(res, x);
+            }
+        }
+    }
+
+    private ResultSet getAnswers(Question question, Connector connector, Connection connection){
+        String query = "select TOP 3 from Answer where questionID= '" + question.getQuestionID() + "'";
+        ResultSet res = connector.runQuery(query, connection);
+        return res;
+    }
+
+    public void doAnswers(ResultSet res, Question question) throws SQLException {
+        while(res.next()) {
+            String content = res.getString("answer");
+            int ID = res.getInt("answerID");
+            int type = res.getInt("typeID");
+            int used = res.getInt("used");
+            double percentageUsed = res.getDouble("percentageUsed");
+            Answer answer = new Answer(ID, content, used, percentageUsed, type);
+//                    answers.add(answer);
+            question.addAnswer(answer);
+//            result = true;
         }
     }
 //

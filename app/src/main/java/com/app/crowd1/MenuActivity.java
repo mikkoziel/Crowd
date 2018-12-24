@@ -18,6 +18,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ListIterator;
+import java.util.concurrent.ExecutionException;
 
 import back.Connector;
 import back.Game;
@@ -53,7 +54,7 @@ public class MenuActivity extends AppCompatActivity {
         this.intent = new Intent(this, GameActivity.class);
         intent.putExtra("profil", profil);
         this.activity = this;
-    //    intent.putExtra("loger", loger);
+    //    intent.putExtra("loger", loger);*
 
         LinearLayout ll = (LinearLayout)findViewById(R.id.layout);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -71,12 +72,12 @@ public class MenuActivity extends AppCompatActivity {
 //                    if (!game.getPlayed() || !createAlertDialog("Game Activity", "Do you want to continue previous game?")){
                     QuestionSetter questionSetter = new QuestionSetter(game, activity, progress, profil.getConnector(), intent);
                     questionSetter.execute("");
+                    //                    while(game.getQuestions().isEmpty()){
+//
+//                    }
+//
+//                    setAnswers(game);
 
-                    for(Question x: game.getQuestions()){
-                        AnswerSetter answerSetter = new AnswerSetter(x, connector, progress);
-                        answerSetter.execute("");
-                    }
-                    activity.startActivity(intent);
 //                        SetQuestions setQuestions = new SetQuestions(game);
 //                        setQuestions.execute("");
                 }
@@ -95,6 +96,21 @@ public class MenuActivity extends AppCompatActivity {
 //        });
 //        ll.addView(bttn, lp);
     }
+
+//    public void setAnswers(Game game){
+////        int tmp = 0;
+//        //int size = game.getQuestions().size();
+//        for(Question x: game.getQuestions()){
+////            if(x == null){
+////                wait();
+////            }
+//            AnswerSetter answerSetter = new AnswerSetter(x, connector, progress);
+//            answerSetter.execute("");
+////            tmp++;
+//        }
+////        while(game.getQuestions().get(tmp).getAnswers().isEmpty())
+//        activity.startActivity(intent);
+//    }
 
 //    public class SetQuestions extends AsyncTask<String, String, String> {
 //        String z = "";
