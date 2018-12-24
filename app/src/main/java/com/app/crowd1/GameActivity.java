@@ -91,6 +91,7 @@ public class GameActivity extends AppCompatActivity {
         startBttn.setText("START");
         startBttn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                game.setPlayed(true);
                 activity.startActivity(intent);
             }
         });
