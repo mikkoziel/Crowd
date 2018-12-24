@@ -71,6 +71,8 @@ public class Game implements Serializable {
 
     public void prevIndex(){this.index --;}
 
+    public void zeroIndex(){this.index = 0;}
+
 //    public String setQuestions(ResultSet res) throws SQLException {
 //        String z = "";
 //

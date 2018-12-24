@@ -27,6 +27,8 @@ public class QuestionActivity extends AppCompatActivity {
     public Question question;
     public ProgressBar progress;
     public Activity activity;
+    public LinearLayout answerLayout;
+    public LinearLayout.LayoutParams lp;
 //    public ListIterator<Question> questionIterator;
 //    public ListIterator<Answer> answerIterator;
 
@@ -56,11 +58,13 @@ public class QuestionActivity extends AppCompatActivity {
 //
 //        LinearLayout questionlayout = (LinearLayout)findViewById(R.id.questionlayout);
 
-        LinearLayout answerLayout = findViewById(R.id.answerlayout);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        this.answerLayout = findViewById(R.id.answerlayout);
+        this.lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 //
         TextView questionText = findViewById(R.id.question);
         questionText.setText(question.getQuestion());
+
+        setAnswer();
 //        questionlayout.addView(questionText, lp);
 
 //        while(question.getAnswers().isEmpty()){
@@ -70,8 +74,7 @@ public class QuestionActivity extends AppCompatActivity {
 //                e.printStackTrace();
 //            }
 //        }
-        AnswerSetter answerSetter = new AnswerSetter(this, question, profil.connector, progress, lp, answerLayout, game, profil);
-        answerSetter.execute("");
+
 
 //        for(final Answer x : question.getAnswers()){
 ////        for(int i = 0; i < 4; i++){
@@ -133,5 +136,10 @@ public class QuestionActivity extends AppCompatActivity {
                 })
                 .show();
         return answer[0];
+    }
+
+    public void setAnswer(){
+        AnswerSetter answerSetter = new AnswerSetter(this, question, profil.connector, progress, lp, answerLayout, game, profil);
+        answerSetter.execute("");
     }
 }
