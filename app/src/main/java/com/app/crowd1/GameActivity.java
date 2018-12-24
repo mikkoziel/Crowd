@@ -202,4 +202,10 @@ public class GameActivity extends AppCompatActivity {
 //            return z;
 //        }
 //    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MenuActivity.class);
+        intent.putExtra("profil", profil);
+        this.startActivity(intent);
+    }
 }
