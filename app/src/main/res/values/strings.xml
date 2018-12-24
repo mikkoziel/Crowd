@@ -2,4 +2,5 @@
     <string name="app_name">Crowd1</string>
     <string name="menuButton">Login</string>
     <string name="registerButton">Register</string>
+    <string name="previousText">Do you want to continue previous game?</string>
 </resources>

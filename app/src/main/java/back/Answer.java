@@ -7,10 +7,19 @@ public class Answer implements Serializable {
     public String answer;
     private int used;
     private double percentageUsed;
+    public int type;
 
     public Answer(int answerID, String answer){
         this.answerID = answerID;
         this.answer = answer;
+    }
+
+    public Answer(int answerID, String answer, int used, double percentageUsed, int type){
+        this.answerID = answerID;
+        this.answer = answer;
+        this.used = used;
+        this.percentageUsed = percentageUsed;
+        this.type = type;
     }
 
     public int getAnswerID() {
@@ -29,6 +38,10 @@ public class Answer implements Serializable {
         return percentageUsed;
     }
 
+    public int getType() {
+        return type;
+    }
+
     public void setAnswerID(int answerID) {
         this.answerID = answerID;
     }
@@ -43,5 +56,9 @@ public class Answer implements Serializable {
 
     public void setPercentageUsed(double percentageUsed) {
         this.percentageUsed = percentageUsed;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }
