@@ -6,17 +6,7 @@ public class OneAnswer{
 
     public String answer;
     public ArrayList<String> answers;
-
-//    public OneAnswer(){}
-
-//    public OneAnswer(String question, ArrayList<String> answers){
-//        this.question = question;
-//        this.answers = answers;
-//    }
-
-//    public ArrayList<String> getAnswers() {
-//        return answers;
-//    }
+    
 
     public String getAnswer() {
         return answer;
