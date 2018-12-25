@@ -17,6 +17,7 @@ public class Profil implements Serializable {
         this.name = name;
         this.points = 0;
         this.games = new ArrayList<>();
+        this.loger = new Loger();
     }
 
     public String getName() {

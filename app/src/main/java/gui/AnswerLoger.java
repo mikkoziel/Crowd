@@ -1,13 +1,21 @@
 package gui;
 
 import android.os.AsyncTask;
-import android.view.View;
 import android.widget.Button;
+
+import java.sql.Date;
+
+import back.Game;
+import back.Profil;
 
 public class AnswerLoger extends AsyncTask<String, Button, String> {
 
-    public AnswerLoger(){
+    public Date date;
+    public Game game;
 
+    public AnswerLoger(Date date, Game game){
+        this.date = date;
+        this.game = game;
     }
 
     @Override

@@ -1,27 +1,52 @@
 package back;
 
-import android.os.AsyncTask;
-
 import java.io.Serializable;
-import java.sql.Connection;
 import java.sql.Date;
-import java.sql.ResultSet;
+import java.util.Calendar;
 
 import gui.AnswerLoger;
 
 public class Loger implements Serializable {
 
     public Date date;
+    public Game game;
+    public Question question;
 
     public Loger(){}
 
     public void logAnswer(){
-        AnswerLoger answerLoger = new AnswerLoger();
+        setDate();
+        AnswerLoger answerLoger = new AnswerLoger(date, game);
         answerLoger.execute("");
     }
 
+    public void setDate(){
+//        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+//        java.util.Date date = new Date();
+        this.date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+    }
 
-//    public Profil user;
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    //    public Profil user;
 //    private Connector connector;
 //    private Connection con;
 //
