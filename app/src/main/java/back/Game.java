@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.app.crowd1.MainActivity;
-import com.app.crowd1.MenuActivity;
 import com.app.crowd1.QuestionActivity;
 
 import java.io.Serializable;
