@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.app.crowd1.GameActivity;
 import com.app.crowd1.QuestionActivity;
 import com.app.crowd1.R;
 
@@ -26,7 +27,7 @@ import back.Game;
 import back.Profil;
 import back.Question;
 
-public class AnswerSetter extends AsyncTask<String, String, String> {
+public class AnswerSetter extends AsyncTask<String, Button, String> {
 
     @SuppressLint("StaticFieldLeak")
     public Activity activity;
@@ -36,8 +37,8 @@ public class AnswerSetter extends AsyncTask<String, String, String> {
     public Connector connector;
     private Boolean result;
     @SuppressLint("StaticFieldLeak")
-    private LinearLayout answerLayout;
-    private LinearLayout.LayoutParams lp;
+    public LinearLayout answerLayout;
+    public LinearLayout.LayoutParams lp;
     public Game game;
     public Profil profil;
 
@@ -89,7 +90,8 @@ public class AnswerSetter extends AsyncTask<String, String, String> {
                 e.printStackTrace();
             }
             for(Answer x : answers){
-                publishProgress(x.getAnswer());
+                Button bttn = setButtons(x.getAnswer());
+                publishProgress(bttn);
 
             }
             question.setAnswers(answers);
@@ -99,24 +101,13 @@ public class AnswerSetter extends AsyncTask<String, String, String> {
     }
 
     @Override
-    protected void onProgressUpdate(String... progress) {
+    protected void onProgressUpdate(Button... answer) {
 //        if(progress ) {
 //            Toast.makeText(this, returnVal, Toast.LENGTH_SHORT).show();
 //        } else {
 //
 //        }
-        String answerText = progress[0];
-        Button answer = new Button(activity);
-//            answer.setText(question.getAnswers().get(question.getIndex()).getAnswer());
-        answer.setText(answerText);
-        answer.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(activity, QuestionActivity.class);
-                intent.putExtra("profil", profil);
-                intent.putExtra("game", game);
-                activity.startActivity(intent);
-            }
-        });
+
 //        answer.setTextOff(answerText);
 //        answer.setTextOn("Your choice");
 //        answer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -129,7 +120,7 @@ public class AnswerSetter extends AsyncTask<String, String, String> {
 //            }
 //        });
 //            question.nextIndex();
-        answerLayout.addView(answer, lp);
+        answerLayout.addView(answer[0], lp);
     }
 
     @Override
@@ -153,5 +144,33 @@ public class AnswerSetter extends AsyncTask<String, String, String> {
 
     public Boolean getResult() {
         return result;
+    }
+
+    public Button setButtons(String answerText){
+        Button answer = new Button(activity);
+//            answer.setText(question.getAnswers().get(question.getIndex()).getAnswer());
+        answer.setText(answerText);
+        if(game.getIndex() < game.getQuestions().size()) {
+            answer.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent intent = new Intent(activity, QuestionActivity.class);
+                    intent.putExtra("profil", profil);
+                    intent.putExtra("game", game);
+                    activity.startActivity(intent);
+                }
+            });
+        }
+        else{
+            game.setPlayed(false);
+            answer.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent intent = new Intent(activity, GameActivity.class);
+                    intent.putExtra("profil", profil);
+                    intent.putExtra("game", game);
+                    activity.startActivity(intent);
+                }
+            });
+        }
+        return answer;
     }
 }

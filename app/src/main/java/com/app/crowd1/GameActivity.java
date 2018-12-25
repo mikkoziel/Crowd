@@ -22,12 +22,13 @@ import back.Connector;
 import back.Game;
 import back.Profil;
 import back.Question;
+import gui.QuestionSetter;
 
 public class GameActivity extends AppCompatActivity {
     public Game game;
     public Profil profil;
     public ProgressBar progress;
-    public Intent intent;
+//    public Intent intent;
     public Activity activity;
 
     @Override
@@ -42,9 +43,9 @@ public class GameActivity extends AppCompatActivity {
 
         this.progress = findViewById(R.id.progress);
         progress.setVisibility(View.GONE);
-        this.intent = new Intent(this, QuestionActivity.class);
-        intent.putExtra("profil", profil);
-        intent.putExtra("game", game);
+//        this.intent = new Intent(this, QuestionActivity.class);
+//        intent.putExtra("profil", profil);
+//        intent.putExtra("game", game);
 
         TextView gameText = (TextView) findViewById(R.id.game);
         gameText.setText(game.getGameName());
@@ -69,7 +70,12 @@ public class GameActivity extends AppCompatActivity {
         resumeBttn.setText("RESUME");
         resumeBttn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                Intent intent = new Intent(activity, QuestionActivity.class);
+                intent.putExtra("setter", false);
+                intent.putExtra("profil", profil);
+                intent.putExtra("game", game);
+                game.setPlayed(true);
+                activity.startActivity(intent);
             }
         });
 
@@ -77,7 +83,15 @@ public class GameActivity extends AppCompatActivity {
         newBttn.setText("NEW GAME");
         newBttn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                Intent intent = new Intent(activity, QuestionActivity.class);
+                intent.putExtra("setter", true);
+                intent.putExtra("profil", profil);
+                intent.putExtra("game", game);
+                game.setPlayed(true);
+                game.zeroIndex();
+                QuestionSetter questionSetter = new QuestionSetter(game, activity, progress, profil.getConnector(), intent);
+                questionSetter.execute("");
+//                activity.startActivity(intent);
             }
         });
 
@@ -91,6 +105,12 @@ public class GameActivity extends AppCompatActivity {
         startBttn.setText("START");
         startBttn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Intent intent = new Intent(activity, QuestionActivity.class);
+                intent.putExtra("setter", true);
+                intent.putExtra("profil", profil);
+                intent.putExtra("game", game);
+                game.setPlayed(true);
+                game.zeroIndex();
                 activity.startActivity(intent);
             }
         });
@@ -182,4 +202,10 @@ public class GameActivity extends AppCompatActivity {
 //            return z;
 //        }
 //    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MenuActivity.class);
+        intent.putExtra("profil", profil);
+        this.startActivity(intent);
+    }
 }
