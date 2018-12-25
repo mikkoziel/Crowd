@@ -1,10 +1,12 @@
 package com.app.crowd1;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -20,6 +22,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+
+import back.Profil;
 
 public class TabMenuActivity extends AppCompatActivity {
 
@@ -186,5 +190,36 @@ public class TabMenuActivity extends AppCompatActivity {
             }
             return null;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        createAlertDialog("Closing Activity", "Are you sure you want to logout?");
+    }
+
+    public Boolean createAlertDialog(String title, String message){
+        final Boolean[] answer = new Boolean[]{Boolean.TRUE};
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        answer[0] = false;
+                    }
+
+                })
+                .show();
+        return answer[0];
     }
  }
