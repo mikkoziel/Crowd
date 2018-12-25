@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loginBttn(View view){
-        intent = new Intent(this, MenuActivity.class);
+        intent = new Intent(this, TabMenuActivity.class);
 //        intent.putExtra("connector", connector);
 
         LoginChecker loginChecker = new LoginChecker(this, progress, loginT, passwordT, connector, intent);

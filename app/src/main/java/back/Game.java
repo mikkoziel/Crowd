@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.app.crowd1.MainActivity;
-import com.app.crowd1.MenuActivity;
 import com.app.crowd1.QuestionActivity;
 
 import java.io.Serializable;
@@ -59,8 +58,8 @@ public class Game implements Serializable {
         this.gameName = gameName;
     }
 
-    public void setPlayed() {
-        this.played = true;
+    public void setPlayed(Boolean tmp) {
+        this.played = tmp;
     }
 
     public void addQuestion(Question question){
@@ -68,6 +67,10 @@ public class Game implements Serializable {
     }
 
     public void nextIndex(){this.index ++;}
+
+    public void prevIndex(){this.index --;}
+
+    public void zeroIndex(){this.index = 0;}
 
 //    public String setQuestions(ResultSet res) throws SQLException {
 //        String z = "";
