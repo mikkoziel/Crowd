@@ -81,7 +81,7 @@ public class MenuTabMenuActivity extends Fragment {
 //                }
             });
             ll.addView(gameButton, lp);
-            return rootView;
+//            return rootView;
 
         }
         return rootView;
