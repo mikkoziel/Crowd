@@ -9,6 +9,7 @@ public class Profil implements Serializable {
     private int points;
     private ArrayList<Game> games;
     public Connector connector;
+    public Loger loger;
 
 
     public Profil(int ID, String name, String password){
@@ -38,6 +39,10 @@ public class Profil implements Serializable {
         return connector;
     }
 
+    public Loger getLoger() {
+        return loger;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -60,5 +65,9 @@ public class Profil implements Serializable {
 
     public void setConnector(Connector connector) {
         this.connector = connector;
+    }
+
+    public void setLoger(Loger loger) {
+        this.loger = loger;
     }
 }
