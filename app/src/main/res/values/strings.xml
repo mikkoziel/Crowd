@@ -14,5 +14,8 @@
     <string name="repeatPassword">Repeat Password</string>
     <string name="login">Login</string>
     <string name="password">Password</string>
+    <string name="setting1">Button</string>
+    <string name="setting2">Button</string>
+    <string name="back">Back</string>
     <string name="section_format">Hello World from section: %1$d</string>
 </resources>

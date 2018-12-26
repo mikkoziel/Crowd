@@ -32,9 +32,9 @@ public class SettingsTabMenuActivity extends Fragment {
         return rootView;
     }
 
-    public void changePassword(View view){
-        Intent intent = new Intent(activity, changePasswordActivity.class);
-        intent.putExtra("profil", profil);
-        activity.startActivity(intent);
-    }
+//    public void changePassword(View view){
+//        Intent intent = new Intent(activity, changePasswordActivity.class);
+//        intent.putExtra("profil", profil);
+//        activity.startActivity(intent);
+//    }
 }
