@@ -22,8 +22,9 @@ public class Connector implements Serializable {
     private String ip = "mysql.agh.edu.pl";
     public String port = "3306";
     private String nameClass = "net.sourceforge.jtds.jdbc.Driver";
-//    private String connectionURL = "jdbc:jtds:sqlserver;//" + ip + ":" + port + "/" + database + ";user=" + user + ";password=" + password + ";";
-    private String connectionURL = "jdbc:jtds:sqlserver://" + ip + "/" + database + ";user=" + user + ";password=" + password + ";";
+//    private String connectionURL = "jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + database + ";user=" + user + ";password=" + password + ";";
+//    private String connectionURL = "jdbc:jtds:sqlserver://" + ip + "/" + database + ";user=" + user + ";password=" + password + ";";
+    private String connectionURL = "jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + database; // + ";";
 
 //    private String user = "crowd";
 //    private String password = "Ng65JF4j79-!";
@@ -63,16 +64,20 @@ public class Connector implements Serializable {
         try{
             Class.forName(nameClass);
 //            this.connection = DriverManager.getConnection(connectionURL);
-            connection = DriverManager.getConnection(connectionURL);
+//            connection = DriverManager.getConnection(connectionURL);
+            connection = DriverManager.getConnection(connectionURL, user, password);
         }
         catch(SQLException e){
-            Log.e("error here 1; ", e.getMessage());
+            Log.e("error here 1 ", e.getMessage());
+            Log.e("error here 1 ", Integer.toString(e.getErrorCode()));
+            Log.e("error here 1 ", e.getSQLState());
+//            Log.e("error here 1 ", e.getMessage());
         }
         catch(ClassNotFoundException e){
-            Log.e("error here 2; ", e.getMessage());
+            Log.e("error here 2 ", e.getMessage());
         }
         catch(Exception e){
-            Log.e("error here 1; ", e.getMessage());
+            Log.e("error here 3 ", e.getMessage());
         }
         if(connection == null){
             result = "Check Your Internet Access!";
