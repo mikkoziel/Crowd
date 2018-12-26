@@ -207,7 +207,8 @@ public class TabMenuActivity extends AppCompatActivity {
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        finish();
+                        Intent intent = new Intent(activity, MainActivity.class);
+                        activity.startActivity(intent);
                     }
 
                 })
