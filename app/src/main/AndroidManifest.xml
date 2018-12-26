@@ -24,7 +24,8 @@
         <activity
             android:name=".TabMenuActivity"
             android:label="@string/title_activity_tab_menu"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".changePasswordActivity"></activity>
     </application>
 
 </manifest>

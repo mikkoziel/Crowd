@@ -157,6 +157,7 @@ public class TabMenuActivity extends AppCompatActivity {
             switch(position) {
                 case 0:
                     ProfilTabMenuActivity tab1 = new ProfilTabMenuActivity();
+                    tab1.setOnCreate(activity, intent);
                     return tab1;
                 case 1:
                     MenuTabMenuActivity tab2 = new MenuTabMenuActivity();
@@ -164,6 +165,7 @@ public class TabMenuActivity extends AppCompatActivity {
                     return tab2;
                 case 2:
                     SettingsTabMenuActivity tab3 = new SettingsTabMenuActivity();
+                    tab3.setOnCreate(activity, intent);
                     return tab3;
                 default:
                     return null;
