@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.app.crowd1.MenuActivity;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
