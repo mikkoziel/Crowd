@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.app.crowd1.EndGameActivity;
 import com.app.crowd1.GameActivity;
 import com.app.crowd1.QuestionActivity;
 import com.app.crowd1.R;
@@ -166,7 +167,7 @@ public class AnswerSetter extends AsyncTask<String, Button, String> {
             game.setPlayed(false);
             answer.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Intent intent = new Intent(activity, GameActivity.class);
+                    Intent intent = new Intent(activity, EndGameActivity.class);
                     intent.putExtra("answer", a);
                     intent.putExtra("profil", profil);
                     intent.putExtra("game", game);

@@ -17,5 +17,7 @@
     <string name="setting1">Button</string>
     <string name="setting2">Button</string>
     <string name="back">Back</string>
+    <string name="repeatGame">Repeat Game</string>
+    <string name="backMenu">Back To Menu</string>
     <string name="section_format">Hello World from section: %1$d</string>
 </resources>
