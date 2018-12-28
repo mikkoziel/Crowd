@@ -1,6 +1,8 @@
 package com.app.crowd1;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,13 +17,12 @@ import gui.LoginRegister;
 public class MainActivity extends AppCompatActivity {
 //    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 //    public ArrayList<Profil> profiles;
-    Intent intent;
-
-    Connector connector;
-
-    EditText loginT, passwordT;
-    Button submit;
-    ProgressBar progress;
+    public Intent intent;
+    public Connector connector;
+    public EditText loginT, passwordT;
+    public Button submit;
+    public ProgressBar progress;
+//    public Activi
 
 //    Bundle extras;
 
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loginBttn(View view){
-        intent = new Intent(this, MenuActivity.class);
+        intent = new Intent(this, TabMenuActivity.class);
 //        intent.putExtra("connector", connector);
 
         LoginChecker loginChecker = new LoginChecker(this, progress, loginT, passwordT, connector, intent);
@@ -216,7 +217,38 @@ public class MainActivity extends AppCompatActivity {
 //
 //
 //    }
+@Override
+public void onBackPressed() {
+    createAlertDialog("Closing Activity", "Are you sure you want to exit?");
+}
 
+    public Boolean createAlertDialog(String title, String message){
+        final Boolean[] answer = new Boolean[]{Boolean.TRUE};
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                        Intent intent = new Intent(this, MainActivity.class);
+//                        activity.startActivity(intent);
+                        finish();
+                    }
+
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        answer[0] = false;
+                    }
+
+                })
+                .show();
+        return answer[0];
+    }
 
 }
 
