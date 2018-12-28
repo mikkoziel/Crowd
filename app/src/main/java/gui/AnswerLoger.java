@@ -46,7 +46,7 @@ public class AnswerLoger extends AsyncTask<String, Button, String> {
 
     @Override
     protected void onPreExecute(){
-        progress.setVisibility(View.VISIBLE);
+//        progress.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -64,11 +64,11 @@ public class AnswerLoger extends AsyncTask<String, Button, String> {
 
     @Override
     protected void onPostExecute(String r) {
-        progress.setVisibility(View.GONE);
-        Toast.makeText(activity, r, Toast.LENGTH_SHORT).show();
-        if(isSuccess){
-            Toast.makeText(activity, "Success", Toast.LENGTH_LONG).show();
-        }
+//        progress.setVisibility(View.GONE);
+//        Toast.makeText(activity, r, Toast.LENGTH_SHORT).show();
+//        if(isSuccess){
+//            Toast.makeText(activity, "Success", Toast.LENGTH_LONG).show();
+//        }
     }
 
     private void log(Connection connection, String query){

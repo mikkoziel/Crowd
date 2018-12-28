@@ -8,7 +8,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import back.Game;
+import back.Loger;
 import back.Profil;
+import gui.GivenAnswer;
 
 public class EndGameActivity extends AppCompatActivity {
 
@@ -27,6 +29,12 @@ public class EndGameActivity extends AppCompatActivity {
 
         this.progress = findViewById(R.id.progress);
         progress.setVisibility(View.GONE);
+
+        if(getIntent().hasExtra("answer")){
+            GivenAnswer given = (GivenAnswer) inetnt.getSerializableExtra("answer");
+            Loger loger = profil.getLoger();
+            loger.logAnswer(given, this, progress);
+        }
 
         TextView endText = findViewById(R.id.endgame);
         String text = "You answered all questions.\n What would you like to do?";
