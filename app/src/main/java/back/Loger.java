@@ -1,50 +1,55 @@
 package back;
 
+import android.app.Activity;
+import android.widget.ProgressBar;
+
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Calendar;
 
 import gui.AnswerLoger;
+import gui.GivenAnswer;
 
 public class Loger implements Serializable {
 
     public Date date;
-    public Game game;
-    public Question question;
+//    public Game game;
+//    public Question question;
 
     public Loger(){}
 
-    public void logAnswer(){
+    public void logAnswer(GivenAnswer answer, Activity activity, ProgressBar progress){
         setDate();
-        AnswerLoger answerLoger = new AnswerLoger(date, game);
+        AnswerLoger answerLoger = new AnswerLoger(date, answer, activity, progress);
         answerLoger.execute("");
     }
 
     public void setDate(){
 //        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 //        java.util.Date date = new Date();
-        this.date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+        java.util.Date dateUtil = new java.util.Date();
+        this.date = new java.sql.Date(dateUtil.getTime());
     }
 
-    public void setGame(Game game) {
-        this.game = game;
-    }
+//    public void setGame(Game game) {
+//        this.game = game;
+//    }
 
-    public void setQuestion(Question question) {
-        this.question = question;
-    }
+//    public void setQuestion(Question question) {
+//        this.question = question;
+//    }
 
     public Date getDate() {
         return date;
     }
 
-    public Game getGame() {
-        return game;
-    }
+//    public Game getGame() {
+//        return game;
+//    }
 
-    public Question getQuestion() {
-        return question;
-    }
+//    public Question getQuestion() {
+//        return question;
+//    }
 
     //    public Profil user;
 //    private Connector connector;

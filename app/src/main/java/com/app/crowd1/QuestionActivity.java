@@ -16,9 +16,11 @@ import java.util.ListIterator;
 
 import back.Answer;
 import back.Game;
+import back.Loger;
 import back.Profil;
 import back.Question;
 import gui.AnswerSetter;
+import gui.GivenAnswer;
 
 public class QuestionActivity extends AppCompatActivity {
 
@@ -42,10 +44,16 @@ public class QuestionActivity extends AppCompatActivity {
         this.game = (Game)inetnt.getSerializableExtra("game");
         this.profil = (Profil) inetnt.getSerializableExtra("profil");
 
+
         this.question = game.getQuestions().get(game.getIndex());
         game.nextIndex();
         this.progress = findViewById(R.id.progress);
         this.activity = this;
+        if(getIntent().hasExtra("answer")){
+            GivenAnswer given = (GivenAnswer) inetnt.getSerializableExtra("answer");
+            Loger loger = profil.getLoger();
+            loger.logAnswer(given, activity, progress);
+        }
 
 //        ArrayList<?> games = (ArrayList<?>) thisIntent.getSerializableExtra("games");
 
