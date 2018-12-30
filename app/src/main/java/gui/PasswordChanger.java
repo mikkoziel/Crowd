@@ -28,6 +28,7 @@ public class PasswordChanger extends AsyncTask<String, String, String> {
     public String result = "";
     private Boolean isSuccess = false;
     private int mode;
+    private int semafor;
 
     public PasswordChanger(Activity activity, ProgressBar progress, Profil profil, String password, int mode){
         this.activity = activity;
@@ -37,6 +38,7 @@ public class PasswordChanger extends AsyncTask<String, String, String> {
         this.connector = profil.getConnector();
         this.userID = profil.getID();
         this.mode = mode;
+        this.semafor = 0;
     }
 
     @Override
@@ -53,9 +55,11 @@ public class PasswordChanger extends AsyncTask<String, String, String> {
                 switch (mode) {
                     case 0:
                         modeCheckOld(connection);
+                        semafor = 1;
                         return "";
                     case 1:
                         modeChangeToNew(connection);
+                        semafor =1;
                         return "";
                 }
             }
@@ -165,6 +169,10 @@ public class PasswordChanger extends AsyncTask<String, String, String> {
 
     public Boolean getIsSuccess() {
         return isSuccess;
+    }
+
+    public int getSemafor(){
+        return semafor;
     }
 
 }
