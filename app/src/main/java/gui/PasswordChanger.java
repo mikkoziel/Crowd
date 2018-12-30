@@ -23,20 +23,20 @@ public class PasswordChanger extends AsyncTask<String, String, String> {
     public ProgressBar progress;
     private String username;
     private int userID;
-    public String oldPassword;
-    public String newPassword;
+    public String password;
     private Connector connector;
-    private String result = "";
+    public String result = "";
     private Boolean isSuccess = false;
+    private int mode;
 
-    public PasswordChanger(Activity activity, ProgressBar progress, Profil profil, String oldPassword, String newPassword){
+    public PasswordChanger(Activity activity, ProgressBar progress, Profil profil, String password, int mode){
         this.activity = activity;
         this.progress = progress;
         this.username = profil.getName();
-        this.oldPassword = oldPassword;
-        this.newPassword = newPassword;
+        this.password = password;
         this.connector = profil.getConnector();
         this.userID = profil.getID();
+        this.mode = mode;
     }
 
     @Override
@@ -48,24 +48,39 @@ public class PasswordChanger extends AsyncTask<String, String, String> {
     protected String doInBackground(String... strings) {
         Connection connection = connector.makeConnection();
         Boolean isConnect = connector.checkConnection(connection);
-        String query1 = "Select * from Profil where profilID = " + userID;
-        String query2 = "Update Profil set password = " + newPassword + "where profilID = " + userID;
-        Boolean oldOK;
-
         try {
             if (isConnect) {
-                oldOK = checkOld(connection, query1);
-
-                if(oldOK){
-                    changeToNew(connection, query2);
+                switch (mode) {
+                    case 0:
+                        modeCheckOld(connection);
+                        return "";
+                    case 1:
+                        modeChangeToNew(connection);
+                        return "";
                 }
-                else{
-                    Toast.makeText(activity, "Wrong Old Password", Toast.LENGTH_SHORT).show();
-                }
+            }
+            else{
+                Toast.makeText(activity, "Wrong Old Password", Toast.LENGTH_SHORT).show();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+//        Boolean oldOK;
+
+//        try {
+//            if (isConnect) {
+//                oldOK = checkOld(connection, query1);
+//
+//                if(oldOK){
+//                    changeToNew(connection, query2);
+//                }
+//                else{
+//                    Toast.makeText(activity, "Wrong Old Password", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
 
         return "";
     }
@@ -75,26 +90,29 @@ public class PasswordChanger extends AsyncTask<String, String, String> {
         progress.setVisibility(View.GONE);
         Toast.makeText(activity, result, Toast.LENGTH_SHORT).show();
         if(isSuccess){
-            Toast.makeText(activity, "Password Change Successful", Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, "Password Change OK", Toast.LENGTH_LONG).show();
         }
     }
 
-    private Boolean checkOld(Connection connection, String query) throws SQLException {
+    private void modeCheckOld(Connection connection) throws SQLException {
+        String query = "Select * from Profil where profilID = " + userID;
         ResultSet res = connector.runQuery(query, connection);
-        if (res != null) {
+        if (res.next()) {
             String name = res.getString("name");
-            if(username.equals(name)){
-                String oldPasswordRes = res.getString("password");
-                if(oldPassword.equals(oldPasswordRes)){
-                    return true;
-                }
+            String oldPasswordRes = res.getString("password");
+            if(username.equals(name) && password.equals(oldPasswordRes)){
+                result = "Success";
+                isSuccess = true;
+            }
+            else{
+                result = "Fail";
+                isSuccess = false;
             }
         }
-        return false;
-
     }
 
-    private void changeToNew(Connection connection, String query){
+    private void modeChangeToNew(Connection connection){
+        String query = "Update Profil set password = '" + password + "' where profilID = " + userID;
         int res = -1;
         res = connector.updateQuery(query, connection);
         if(res > 0){
@@ -110,6 +128,43 @@ public class PasswordChanger extends AsyncTask<String, String, String> {
             result = "Fail";
             isSuccess = false;
         }
+    }
+
+//    private Boolean checkOld(Connection connection, String query) throws SQLException {
+//        ResultSet res = connector.runQuery(query, connection);
+//        if (res.next()) {
+//            String name = res.getString("name");
+//            if(username.equals(name)){
+//                String oldPasswordRes = res.getString("password");
+//                if(password.equals(oldPasswordRes)){
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
+//
+//    }
+//
+//    private void changeToNew(Connection connection, String query){
+//        int res = -1;
+//        res = connector.updateQuery(query, connection);
+//        if(res > 0){
+//            result = "Success";
+//            isSuccess = true;
+//            try {
+//                connection.close();
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        else{
+//            result = "Fail";
+//            isSuccess = false;
+//        }
+//    }
+
+    public Boolean getIsSuccess() {
+        return isSuccess;
     }
 
 }

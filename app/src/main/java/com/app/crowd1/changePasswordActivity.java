@@ -44,29 +44,39 @@ public class changePasswordActivity extends AppCompatActivity {
     public void changePassword(View view){
         switch(checkPasswords()) {
             case 0:
-                String oldPasswordText = (String) oldPassword.getText();
-                String newPasswordText = (String) newPassword.getText();
-                PasswordChanger passwordChanger = new PasswordChanger(this, progress, profil, oldPasswordText, newPasswordText);
+                String newPasswordText = newPassword.getText().toString();
+                PasswordChanger passwordChanger = new PasswordChanger(this, progress, profil, newPasswordText, 1);
                 passwordChanger.execute("");
+                return;
             case 1:
                 Toast.makeText(this, "Passwords doesn't match", Toast.LENGTH_LONG).show();
+                return;
             case 2:
                 Toast.makeText(this, "New password is the same as old password", Toast.LENGTH_LONG).show();
+                return;
+            case 3:
+                Toast.makeText(this, "Wrong old password", Toast.LENGTH_LONG).show();
+                return;
             default:
         }
     }
 
     public int checkPasswords(){
-        if(newPassword.getText() == repeatPassword.getText()){
-            return 1;
-        }
-        else{
-            if(oldPassword.getText() == newPassword.getText()){
-                return 2;
+        String oldPasswordText = oldPassword.getText().toString();
+        PasswordChanger passwordChanger = new PasswordChanger(this, progress, profil, oldPasswordText, 0);
+        passwordChanger.execute("");
+
+        if(passwordChanger.getIsSuccess()) {
+            if (newPassword.getText() == repeatPassword.getText()) {
+                return 1;
+            } else {
+                if (oldPassword.getText() == newPassword.getText()) {
+                    return 2;
+                } else {
+                    return 0;
+                }
             }
-            else{
-                return 0;
-            }
         }
+        return 3;
     }
 }
