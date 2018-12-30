@@ -24,6 +24,8 @@ public class PasswordChanger extends AsyncTask<String, String, String> {
     private String username;
     private int userID;
     public String password;
+    public String passwordCheck;
+    public String passwordCheck2;
     private Connector connector;
     public String result = "";
     private Boolean isSuccess = false;
@@ -38,7 +40,7 @@ public class PasswordChanger extends AsyncTask<String, String, String> {
         this.connector = profil.getConnector();
         this.userID = profil.getID();
         this.mode = mode;
-        this.semafor = 0;
+        this.semafor = 4;
     }
 
     @Override
@@ -55,11 +57,11 @@ public class PasswordChanger extends AsyncTask<String, String, String> {
                 switch (mode) {
                     case 0:
                         modeCheckOld(connection);
-                        semafor = 1;
+//                        semafor = 1;
                         return "";
                     case 1:
                         modeChangeToNew(connection);
-                        semafor =1;
+//                        semafor =1;
                         return "";
                 }
             }
@@ -105,12 +107,30 @@ public class PasswordChanger extends AsyncTask<String, String, String> {
             String name = res.getString("name");
             String oldPasswordRes = res.getString("password");
             if(username.equals(name) && password.equals(oldPasswordRes)){
-                result = "Success";
-                isSuccess = true;
+                checkRest();
             }
             else{
                 result = "Fail";
                 isSuccess = false;
+                semafor = 3;
+            }
+        }
+    }
+
+    public void checkRest(){
+        if (!passwordCheck.equals(passwordCheck2)) {
+            result = "Fail";
+            isSuccess = false;
+            semafor = 1;
+        } else {
+            if (!password.equals(passwordCheck)) {
+                result = "Fail";
+                isSuccess = false;
+                semafor = 2;
+            } else {
+                result = "Success";
+                isSuccess = true;
+                semafor = 0;
             }
         }
     }
@@ -175,4 +195,11 @@ public class PasswordChanger extends AsyncTask<String, String, String> {
         return semafor;
     }
 
+    public void setPasswordCheck(String passwordCheck) {
+        this.passwordCheck = passwordCheck;
+    }
+
+    public void setPasswordCheck2(String passwordCheck2) {
+        this.passwordCheck2 = passwordCheck2;
+    }
 }

@@ -64,22 +64,25 @@ public class changePasswordActivity extends AppCompatActivity {
     public int checkPasswords(){
         String oldPasswordText = oldPassword.getText().toString();
         PasswordChanger passwordChanger = new PasswordChanger(this, progress, profil, oldPasswordText, 0);
+        passwordChanger.setPasswordCheck(newPassword.getText().toString());
+        passwordChanger.setPasswordCheck2(repeatPassword.getText().toString());
         passwordChanger.execute("");
 
-        while(passwordChanger.getSemafor() == 0){ }
-        if(passwordChanger.getIsSuccess()) {
-            if (newPassword.getText() == repeatPassword.getText()) {
-                return 1;
-            } else {
-                if (oldPassword.getText() == newPassword.getText()) {
-                    return 2;
-                } else {
-                    return 0;
-                }
-            }
-        }
-        else {
-            return 3;
-        }
+        while(passwordChanger.getSemafor() == 4){ }
+//        if(passwordChanger.getIsSuccess()) {
+//            if (newPassword.getText() == repeatPassword.getText()) {
+//                return 1;
+//            } else {
+//                if (oldPassword.getText() == newPassword.getText()) {
+//                    return 2;
+//                } else {
+//                    return 0;
+//                }
+//            }
+//        }
+//        else {
+//            return 3;
+//        }
+        return passwordChanger.getSemafor();
     }
 }
