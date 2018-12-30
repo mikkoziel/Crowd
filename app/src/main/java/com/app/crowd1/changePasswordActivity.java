@@ -69,20 +69,6 @@ public class changePasswordActivity extends AppCompatActivity {
         passwordChanger.execute("");
 
         while(passwordChanger.getSemafor() == 4){ }
-//        if(passwordChanger.getIsSuccess()) {
-//            if (newPassword.getText() == repeatPassword.getText()) {
-//                return 1;
-//            } else {
-//                if (oldPassword.getText() == newPassword.getText()) {
-//                    return 2;
-//                } else {
-//                    return 0;
-//                }
-//            }
-//        }
-//        else {
-//            return 3;
-//        }
         return passwordChanger.getSemafor();
     }
 }
