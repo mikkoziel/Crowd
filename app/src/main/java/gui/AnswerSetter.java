@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.app.crowd1.EndGameActivity;
 import com.app.crowd1.GameActivity;
 import com.app.crowd1.QuestionActivity;
 import com.app.crowd1.R;
@@ -90,7 +91,7 @@ public class AnswerSetter extends AsyncTask<String, Button, String> {
                 e.printStackTrace();
             }
             for(Answer x : answers){
-                Button bttn = setButtons(x.getAnswer());
+                Button bttn = setButtons(x.getAnswer(), x);
                 publishProgress(bttn);
 
             }
@@ -146,7 +147,7 @@ public class AnswerSetter extends AsyncTask<String, Button, String> {
         return result;
     }
 
-    public Button setButtons(String answerText){
+    public Button setButtons(String answerText, final Answer a){
         Button answer = new Button(activity);
 //            answer.setText(question.getAnswers().get(question.getIndex()).getAnswer());
         answer.setText(answerText);
@@ -154,6 +155,8 @@ public class AnswerSetter extends AsyncTask<String, Button, String> {
             answer.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Intent intent = new Intent(activity, QuestionActivity.class);
+                    GivenAnswer given = new GivenAnswer(profil, question, a);
+                    intent.putExtra("answer", given);
                     intent.putExtra("profil", profil);
                     intent.putExtra("game", game);
                     activity.startActivity(intent);
@@ -164,7 +167,8 @@ public class AnswerSetter extends AsyncTask<String, Button, String> {
             game.setPlayed(false);
             answer.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Intent intent = new Intent(activity, GameActivity.class);
+                    Intent intent = new Intent(activity, EndGameActivity.class);
+                    intent.putExtra("answer", a);
                     intent.putExtra("profil", profil);
                     intent.putExtra("game", game);
                     activity.startActivity(intent);
@@ -173,4 +177,5 @@ public class AnswerSetter extends AsyncTask<String, Button, String> {
         }
         return answer;
     }
+    
 }

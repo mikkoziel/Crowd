@@ -58,9 +58,10 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="153dp"
-        android:layout_height="36dp"
+        android:layout_height="34dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
+        android:text="Crowdsource"
         app:layout_constraintBottom_toTopOf="@+id/login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
