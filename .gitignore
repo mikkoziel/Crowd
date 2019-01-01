@@ -8,3 +8,9 @@
 /build
 /captures
 .externalNativeBuild
+.idea
+gradle
+gradlew
+gradle.*
+gradlew.*
+build.gradle
