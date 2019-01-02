@@ -8,6 +8,7 @@
     tools:context=".TabMenuActivity$PlaceholderFragment">
 
     <LinearLayout
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -18,10 +19,16 @@
 
 
         <Button
-            android:id="@+id/button6"
+            android:id="@+id/changePass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/changePasswordBttn" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ToggleButton" />
 
         <Button
             android:id="@+id/button7"
@@ -34,5 +41,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/setting1" />
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
