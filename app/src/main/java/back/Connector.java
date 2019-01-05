@@ -185,7 +185,7 @@ public class Connector implements Serializable {
 
     }
 
-    public Profil setMenu(ResultSet res) throws SQLException {
+    public Profil setProfil(ResultSet res) throws SQLException {
         int id = res.getInt("profilID");
         String name = res.getString("name");
         String points = res.getString("points");
