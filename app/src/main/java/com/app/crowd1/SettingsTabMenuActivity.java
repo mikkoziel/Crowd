@@ -8,7 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.CompoundButton;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import back.Profil;
 
@@ -30,18 +32,25 @@ public class SettingsTabMenuActivity extends Fragment {
         final View rootView = inflater.inflate(R.layout.settings_tab_menu, container, false);
 
         this.profil = (Profil) thisIntent.getSerializableExtra("profil");
-//
-//        LinearLayout ll = (LinearLayout) rootView.findViewById(R.id.layout);
-//        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-//
-//        Button gameButton = new Button(activity);
-//        gameButton.setText("jfhiw");
-//        ll.addView(gameButton, lp);
 
         Button changeBttn = rootView.findViewById(R.id.changePass);
         changeBttn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 changePassword(rootView);
+            }
+        });
+
+        ToggleButton themeBttn = rootView.findViewById(R.id.themeBttn);
+        themeBttn.setText("Dark Theme");
+        themeBttn.setTextOff("Dark Theme");
+        themeBttn.setTextOn("Light Theme");
+        themeBttn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    setLightTheme();
+                } else {
+                    setDarkTheme();
+                }
             }
         });
 
@@ -53,10 +62,13 @@ public class SettingsTabMenuActivity extends Fragment {
         intent.putExtra("profil", profil);
         activity.startActivity(intent);
     }
-    
-//    public void changePassword(View view){
-//        Intent intent = new Intent(activity, changePasswordActivity.class);
-//        intent.putExtra("profil", profil);
-//        activity.startActivity(intent);
-//    }
+
+    public void setLightTheme(){
+        Toast.makeText(activity, "Light Theme", Toast.LENGTH_LONG).show();
+    }
+
+    public void setDarkTheme(){
+        Toast.makeText(activity, "Dark Theme", Toast.LENGTH_LONG).show();
+    }
+
 }

@@ -19,5 +19,6 @@
     <string name="back">Back</string>
     <string name="repeatGame">Repeat Game</string>
     <string name="backMenu">Back To Menu</string>
+    <string name="changeTheme">Change Theme</string>
     <string name="section_format">Hello World from section: %1$d</string>
 </resources>
