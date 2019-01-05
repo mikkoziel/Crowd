@@ -60,7 +60,7 @@ public class LoginChecker extends AsyncTask<String, String, String> {
 
             try {
                 if (res != null) {
-                    profil = connector.setMenu(res);
+                    profil = connector.setProfil(res);
                     connector.setGames(profil);
                     profil.setConnector(connector);
                     intent.putExtra("profil", profil);

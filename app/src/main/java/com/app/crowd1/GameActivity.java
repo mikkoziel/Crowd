@@ -53,11 +53,15 @@ public class GameActivity extends AppCompatActivity {
         LinearLayout buttonLayout = (LinearLayout)findViewById(R.id.chooselayout);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        if (game.getPlayed()){
-            gamePlayed(buttonLayout, lp);
+        if(game.getQuestions().isEmpty()){
+            gameEmpty(buttonLayout, lp);
         }
-        else{
-            gameNotPlayed(buttonLayout, lp);
+        else {
+            if (game.getPlayed()) {
+                gamePlayed(buttonLayout, lp);
+            } else {
+                gameNotPlayed(buttonLayout, lp);
+            }
         }
 
     }
@@ -115,6 +119,24 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
+        buttonLayout.addView(startBttn, lp);
+    }
+
+    public void gameEmpty( LinearLayout buttonLayout, LinearLayout.LayoutParams lp){
+        TextView text = new TextView(this);
+        text.setText("Game Empty. Go Back To Menu");
+        Button startBttn = new Button(this);
+        startBttn.setText("BACK");
+        startBttn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, TabMenuActivity.class);
+                intent.putExtra("profil", profil);
+                game.setPlayed(false);
+                game.zeroIndex();
+                activity.startActivity(intent);
+            }
+        });
+        buttonLayout.addView(text, lp);
         buttonLayout.addView(startBttn, lp);
     }
 
