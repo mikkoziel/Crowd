@@ -168,7 +168,8 @@ public class AnswerSetter extends AsyncTask<String, Button, String> {
             answer.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Intent intent = new Intent(activity, EndGameActivity.class);
-                    intent.putExtra("answer", a);
+                    GivenAnswer given = new GivenAnswer(profil, question, a);
+                    intent.putExtra("answer", given);
                     intent.putExtra("profil", profil);
                     intent.putExtra("game", game);
                     activity.startActivity(intent);
