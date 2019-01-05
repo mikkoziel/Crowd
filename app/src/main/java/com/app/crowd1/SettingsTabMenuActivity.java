@@ -8,7 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import back.Profil;
 
@@ -45,6 +48,20 @@ public class SettingsTabMenuActivity extends Fragment {
             }
         });
 
+        ToggleButton themeBttn = rootView.findViewById(R.id.themeBttn);
+        themeBttn.setText("Dark Theme");
+        themeBttn.setTextOff("Dark Theme");
+        themeBttn.setTextOn("Light Theme");
+        themeBttn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    setLightTheme();
+                } else {
+                    setDarkTheme();
+                }
+            }
+        });
+
         return rootView;
     }
 
@@ -52,6 +69,14 @@ public class SettingsTabMenuActivity extends Fragment {
         Intent intent = new Intent(activity, changePasswordActivity.class);
         intent.putExtra("profil", profil);
         activity.startActivity(intent);
+    }
+
+    public void setLightTheme(){
+        Toast.makeText(activity, "Light Theme", Toast.LENGTH_LONG).show();
+    }
+
+    public void setDarkTheme(){
+        Toast.makeText(activity, "Dark Theme", Toast.LENGTH_LONG).show();
     }
     
 //    public void changePassword(View view){
