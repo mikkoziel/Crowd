@@ -123,7 +123,7 @@ public class PasswordChanger extends AsyncTask<String, String, String> {
             isSuccess = false;
             semafor = 1;
         } else {
-            if (!password.equals(passwordCheck)) {
+            if (password.equals(passwordCheck)) {
                 result = "Fail";
                 isSuccess = false;
                 semafor = 2;
@@ -153,39 +153,6 @@ public class PasswordChanger extends AsyncTask<String, String, String> {
             isSuccess = false;
         }
     }
-
-//    private Boolean checkOld(Connection connection, String query) throws SQLException {
-//        ResultSet res = connector.runQuery(query, connection);
-//        if (res.next()) {
-//            String name = res.getString("name");
-//            if(username.equals(name)){
-//                String oldPasswordRes = res.getString("password");
-//                if(password.equals(oldPasswordRes)){
-//                    return true;
-//                }
-//            }
-//        }
-//        return false;
-//
-//    }
-//
-//    private void changeToNew(Connection connection, String query){
-//        int res = -1;
-//        res = connector.updateQuery(query, connection);
-//        if(res > 0){
-//            result = "Success";
-//            isSuccess = true;
-//            try {
-//                connection.close();
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        else{
-//            result = "Fail";
-//            isSuccess = false;
-//        }
-//    }
 
     public Boolean getIsSuccess() {
         return isSuccess;
