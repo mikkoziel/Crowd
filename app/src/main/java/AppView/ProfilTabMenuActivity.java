@@ -1,4 +1,4 @@
-package com.app.crowd1;
+package AppView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import back.Profil;
+import com.app.crowd1.R;
+
+import Entity.Profil;
 
 public class ProfilTabMenuActivity extends Fragment {
 

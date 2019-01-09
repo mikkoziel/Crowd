@@ -1,10 +1,10 @@
-package gui;
+package Presenter;
 
 import java.io.Serializable;
 
-import back.Answer;
-import back.Profil;
-import back.Question;
+import Entity.Answer;
+import Entity.Profil;
+import Entity.Question;
 
 public class GivenAnswer implements Serializable{
 

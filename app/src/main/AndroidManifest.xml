@@ -11,22 +11,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".MainActivity">
+        <activity android:name="AppView.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MenuActivity" />
-        <activity android:name=".QuestionActivity" />
-        <activity android:name=".GameActivity" />
+        <activity android:name="AppView.MenuActivity" />
+        <activity android:name="AppView.QuestionActivity" />
+        <activity android:name="AppView.GameActivity" />
         <activity
-            android:name=".TabMenuActivity"
+            android:name="AppView.TabMenuActivity"
             android:label="@string/title_activity_tab_menu"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".changePasswordActivity" />
-        <activity android:name=".EndGameActivity" />
+        <activity android:name="AppView.changePasswordActivity" />
+        <activity android:name="AppView.EndGameActivity" />
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.app.crowd1;
+package AppView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,7 +12,10 @@ import android.widget.CompoundButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import back.Profil;
+import com.app.crowd1.R;
+
+import AppView.changePasswordActivity;
+import Entity.Profil;
 
 public class SettingsTabMenuActivity extends Fragment {
 

@@ -1,4 +1,4 @@
-package com.app.crowd1;
+package AppView;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,8 +8,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import back.Profil;
-import gui.PasswordChanger;
+import com.app.crowd1.R;
+
+import Entity.Profil;
+import Presenter.PasswordChanger;
 
 public class changePasswordActivity extends AppCompatActivity {
 

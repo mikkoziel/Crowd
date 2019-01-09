@@ -1,4 +1,4 @@
-package com.app.crowd1;
+package AppView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,13 +11,16 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.app.crowd1.R;
+
 import java.sql.Connection;
 
-import back.Connector;
-import back.Game;
-import back.Loger;
-import back.Profil;
-import gui.QuestionSetter;
+import AppView.GameActivity;
+import Interactor.Connector;
+import Entity.Game;
+import Presenter.Loger;
+import Entity.Profil;
+import Presenter.QuestionSetter;
 
 public class MenuTabMenuActivity extends Fragment {
 

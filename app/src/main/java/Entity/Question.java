@@ -1,10 +1,9 @@
-package back;
+package Entity;
 
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
+
+import Entity.Answer;
 
 public class Question implements Serializable{
 

@@ -1,21 +1,17 @@
-package gui;
+package Presenter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import back.Connector;
-import back.Game;
-import back.Profil;
+import Interactor.Connector;
+import Presenter.GivenAnswer;
 
 public class AnswerLoger extends AsyncTask<String, Button, String> {
 

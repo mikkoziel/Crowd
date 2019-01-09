@@ -1,9 +1,8 @@
-package com.app.crowd1;
+package AppView;
 
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,22 +10,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+
+import com.app.crowd1.R;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.ListIterator;
-import java.util.concurrent.ExecutionException;
 
-import back.Connector;
-import back.Game;
-import back.Loger;
-import back.Profil;
-import back.Question;
-import gui.AnswerSetter;
-import gui.QuestionSetter;
+import AppView.GameActivity;
+import Interactor.Connector;
+import Entity.Game;
+import Presenter.Loger;
+import Entity.Profil;
+import Presenter.QuestionSetter;
 
 public class MenuActivity extends AppCompatActivity {
 

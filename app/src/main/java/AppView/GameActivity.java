@@ -1,8 +1,7 @@
-package com.app.crowd1;
+package AppView;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,19 +9,12 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.ListIterator;
+import com.app.crowd1.R;
 
-import back.Connector;
-import back.Game;
-import back.Profil;
-import back.Question;
-import gui.QuestionSetter;
+import Entity.Game;
+import Entity.Profil;
+import Presenter.QuestionSetter;
 
 public class GameActivity extends AppCompatActivity {
     public Game game;

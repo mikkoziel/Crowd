@@ -1,10 +1,9 @@
-package gui;
+package Presenter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -12,8 +11,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import back.Connector;
-import back.Profil;
+import Interactor.Connector;
+import Entity.Profil;
 
 public class PasswordChanger extends AsyncTask<String, String, String> {
 

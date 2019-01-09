@@ -1,14 +1,10 @@
-package back;
+package Presenter;
 
 import android.app.Activity;
 import android.widget.ProgressBar;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.Calendar;
-
-import gui.AnswerLoger;
-import gui.GivenAnswer;
 
 public class Loger implements Serializable {
 

@@ -1,4 +1,4 @@
-package com.app.crowd1;
+package AppView;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -6,21 +6,19 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
-import java.util.ListIterator;
+import com.app.crowd1.R;
 
-import back.Answer;
-import back.Game;
-import back.Loger;
-import back.Profil;
-import back.Question;
-import gui.AnswerSetter;
-import gui.GivenAnswer;
+import AppView.GameActivity;
+import Entity.Game;
+import Presenter.Loger;
+import Entity.Profil;
+import Entity.Question;
+import Presenter.AnswerSetter;
+import Presenter.GivenAnswer;
 
 public class QuestionActivity extends AppCompatActivity {
 

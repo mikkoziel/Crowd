@@ -1,4 +1,4 @@
-package gui;
+package Presenter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -6,17 +6,16 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import back.Answer;
-import back.Connector;
-import back.Game;
-import back.Question;
+import Entity.Answer;
+import Interactor.Connector;
+import Entity.Game;
+import Entity.Question;
 
 public class QuestionSetter extends AsyncTask<String, String, String> {
 

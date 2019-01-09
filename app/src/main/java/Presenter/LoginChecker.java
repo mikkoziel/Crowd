@@ -1,4 +1,4 @@
-package gui;
+package Presenter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -9,11 +9,13 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import back.Connector;
+import Interactor.Connector;
+import Entity.Profil;
 
-public class LoginRegister extends AsyncTask<String, String, String> {
+public class LoginChecker extends AsyncTask<String, String, String> {
 
     @SuppressLint("StaticFieldLeak")
     private Activity activity;
@@ -22,15 +24,16 @@ public class LoginRegister extends AsyncTask<String, String, String> {
     private String username;
     public String password;
     private Connector connector;
-    private String z = "";
+    private Intent intent;
     private Boolean isSuccess = false;
 
-    public LoginRegister(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT, Connector connector){
+    public LoginChecker(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT, Connector connector, Intent intent){
         this.activity = activity;
         this.progress = progress;
         this.username = loginT.getText().toString();
         this.password = passwordT.getText().toString();
         this.connector = connector;
+        this.intent = intent;
     }
 
     @Override
@@ -41,50 +44,63 @@ public class LoginRegister extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... params){
 
+        String z;
         if(username.trim().equals("")|| password.trim().equals("")){
             z = "Please enter Username and Password";
         }
-        else{
+        else {
+            ResultSet res = null;
             try {
-                z = connector.registerLogin(username, password);
+                res = connector.checkLogin(username, password);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+            Profil profil = null;
+
+            try {
+                if (res != null) {
+                    profil = connector.setProfil(res);
+                    connector.setGames(profil);
+                    profil.setConnector(connector);
+                    intent.putExtra("profil", profil);
+//                        connector.getConnection().close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            z = connector.getResult();
             isSuccess = connector.getSuccess();
-//            try {
+        }
+//            if(username.trim().equals("")|| password.trim().equals("")){
+//                z = "Please enter Username and Password";
+//            }
+//            else{
+//                try {
 //                    con = connector.connectionClass();
 //                    if (con == null) {
 //                        z = "Check Your Internet Access!";
 //                    }
 //                    else{
-//                        String query = "select * from Profil where Name= '" + username + "'";
-//                        ResultSet res = connector.runQuery(query);
+//                        String query = "select * from Profil where Name= '" + username + "' and password = '" + password + "'";
+//                        ResultSet res = connector.runQuery(query, con);
 //                        if(res.next()){
-//                            z = "Login already exist";
-//                            isSuccess = false;
+//                            setMenu(res);
+//                            setGames();
+//                            con.close();
 //                        }
 //                        else{
 //                            z = "Inwalid Credentils!";
-//                            String query1 = "Insert into Profil(Name, Password, Points) values('" + username + "', '" + password + "', 0)";
-//                            ResultSet res1 = connector.runQuery(query1);
-//                            if(res1.next()){
-//                                z = "Success";
-//                                isSuccess = true;
-//                                con.close();
-//                            }
-//                            else{
-//                                z = "Fail";
-//                                isSuccess = false;
-//                            }
+//                            isSuccess = false;
 //                        }
 //                    }
-//            }
-//            catch(Exception e){
-//                isSuccess = false;
-//                z = e.getMessage();
+//                }
+//                catch(Exception e){
+//                    isSuccess = false;
+//                    z = e.getMessage();
 //
+//                }
 //            }
-        }
 
         return z;
     }
@@ -95,7 +111,8 @@ public class LoginRegister extends AsyncTask<String, String, String> {
         progress.setVisibility(View.GONE);
         Toast.makeText(activity, r, Toast.LENGTH_SHORT).show();
         if(isSuccess){
-            Toast.makeText(activity, "Login Registration Successful", Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, "Login Successful", Toast.LENGTH_LONG).show();
+            activity.startActivity(intent);
         }
     }
 
