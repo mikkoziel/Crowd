@@ -1,7 +1,10 @@
 package interactor;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.util.Date;
+
+import entity.Question;
 
 public class AnswerInteractor {
     private DataBaseConnector _dbConnector;
@@ -29,5 +32,13 @@ public class AnswerInteractor {
         if (isConnect) {
             _logger.log(connection, query);
         }
+    }
+
+    public ResultSet getAnswers(Question question)
+    {
+        String query = "select * from Answer where questionID= '" + question.getQuestionID() + "'";
+        Connection connection = _dbConnector.makeConnection();
+        ResultSet res = _dbConnector.runQuery(query, connection);
+        return res;
     }
 }

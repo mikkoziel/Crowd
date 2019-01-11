@@ -3,7 +3,6 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import interactor.Connector;
 import interactor.Logger;
 
 public class Profile implements Serializable {

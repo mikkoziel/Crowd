@@ -15,7 +15,7 @@ import entity.Profile;
 import entity.Question;
 import entity.GivenAnswer;
 
-import presenter.AnswerSetter;
+import presenter.PossibleAnswerPresenter;
 import presenter.GivenAnswerPresenter;
 
 public class QuestionActivity extends AppCompatActivity {
@@ -143,7 +143,7 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     public void setAnswer(){
-        AnswerSetter answerSetter = new AnswerSetter(this, question, profile.connector, progress, lp, answerLayout, game, profile);
-        answerSetter.execute("");
+        PossibleAnswerPresenter possibleAnswerPresenter = new PossibleAnswerPresenter(this, question, progress, lp, answerLayout, game, profile);
+        possibleAnswerPresenter.execute("");
     }
 }

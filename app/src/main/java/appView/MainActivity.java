@@ -10,9 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import appView.R;
-import appView.TabMenuActivity;
-import interactor.Connector;
 import presenter.LoginChecker;
 import presenter.LoginRegister;
 
@@ -20,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
 //    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 //    public ArrayList<Profile> profiles;
     public Intent intent;
-    public Connector connector;
     public EditText loginT, passwordT;
     public Button submit;
     public ProgressBar progress;
@@ -40,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         progress = findViewById(R.id.progressBar);
 
         progress.setVisibility(View.GONE);
-        this.connector = new Connector();
 //        this.extras = new Bundle();
 
     }
@@ -49,14 +44,14 @@ public class MainActivity extends AppCompatActivity {
         intent = new Intent(this, TabMenuActivity.class);
 //        intent.putExtra("connector", connector);
 
-        LoginChecker loginChecker = new LoginChecker(this, progress, loginT, passwordT, connector, intent);
+        LoginChecker loginChecker = new LoginChecker(this, progress, loginT, passwordT, intent);
         loginChecker.execute("");
 //        CheckLogin checklogin =  new CheckLogin();
 //        checklogin.execute("");
     }
 
     public void registerBttn(View view){
-        LoginRegister registerLogin = new LoginRegister(this, progress, loginT, passwordT, connector);
+        LoginRegister registerLogin = new LoginRegister(this, progress, loginT, passwordT);
         registerLogin.execute("");
 //        RegisterLogin registerLogin = new RegisterLogin();
 //        registerLogin.execute("");

@@ -10,8 +10,6 @@ import android.widget.Toast;
 
 import java.sql.SQLException;
 
-import interactor.Connector;
-
 public class LoginRegister extends AsyncTask<String, String, String> {
 
     @SuppressLint("StaticFieldLeak")
@@ -20,16 +18,14 @@ public class LoginRegister extends AsyncTask<String, String, String> {
     public ProgressBar progress;
     private String username;
     public String password;
-    private Connector connector;
     private String z = "";
     private Boolean isSuccess = false;
 
-    public LoginRegister(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT, Connector connector){
+    public LoginRegister(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT){
         this.activity = activity;
         this.progress = progress;
         this.username = loginT.getText().toString();
         this.password = passwordT.getText().toString();
-        this.connector = connector;
     }
 
     @Override

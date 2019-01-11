@@ -12,7 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import entity.Profile;
-import interactor.Connector;
 
 public class PasswordChanger extends AsyncTask<String, String, String> {
 
@@ -25,7 +24,6 @@ public class PasswordChanger extends AsyncTask<String, String, String> {
     public String password;
     public String passwordCheck;
     public String passwordCheck2;
-    private Connector connector;
     public String result = "";
     private Boolean isSuccess = false;
     private int mode;
@@ -36,7 +34,6 @@ public class PasswordChanger extends AsyncTask<String, String, String> {
         this.progress = progress;
         this.username = profile.getName();
         this.password = password;
-        this.connector = profile.getConnector();
         this.userID = profile.getID();
         this.mode = mode;
         this.semafor = 4;

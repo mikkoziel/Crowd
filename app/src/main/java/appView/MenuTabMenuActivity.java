@@ -17,14 +17,12 @@ import android.widget.ProgressBar;
 import java.sql.Connection;
 
 import entity.Profile;
-import interactor.Connector;
 import entity.Game;
 import interactor.Logger;
 import presenter.QuestionSetter;
 
 public class MenuTabMenuActivity extends Fragment {
 
-    public Connector connector;
     public Profile profile;
     public Logger logger;
     public Connection con;
@@ -93,7 +91,6 @@ public class MenuTabMenuActivity extends Fragment {
 
     public static class MenuActivity extends AppCompatActivity {
 
-        public Connector connector;
         public Profile profile;
         public Logger logger;
         public Connection con;
@@ -167,7 +164,7 @@ public class MenuTabMenuActivity extends Fragment {
     ////            if(x == null){
     ////                wait();
     ////            }
-    //            AnswerSetter answerSetter = new AnswerSetter(x, connector, progress);
+    //            PossibleAnswerPresenter answerSetter = new PossibleAnswerPresenter(x, connector, progress);
     //            answerSetter.execute("");
     ////            tmp++;
     //        }

@@ -38,7 +38,7 @@ public class QuestionInteractor {
 
                 Question question = new Question(content, ID, type);
 
-//                AnswerSetter answerSetter = new AnswerSetter(question, this);
+//                PossibleAnswerPresenter answerSetter = new PossibleAnswerPresenter(question, this);
 //                answerSetter.execute("");
 
                 game.addQuestion(question);

@@ -13,7 +13,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import entity.Answer;
-import interactor.Connector;
 import entity.Game;
 import entity.Question;
 
@@ -24,16 +23,14 @@ public class QuestionSetter extends AsyncTask<String, String, String> {
     @SuppressLint("StaticFieldLeak")
     public ProgressBar progress;
     private Game game;
-    private Connector connector;
     public Intent intent;
 
     private Boolean isSuccess = false;
 
-    public QuestionSetter(Game game, Activity activity, ProgressBar progress, Connector connector, Intent intent){
+    public QuestionSetter(Game game, Activity activity, ProgressBar progress,Intent intent){
         this.game = game;
         this.activity = activity;
         this.progress = progress;
-        this.connector = connector;
         this.intent = intent;
     }
 

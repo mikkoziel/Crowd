@@ -13,7 +13,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import entity.Profile;
-import interactor.Connector;
 
 public class LoginChecker extends AsyncTask<String, String, String> {
 
@@ -23,16 +22,14 @@ public class LoginChecker extends AsyncTask<String, String, String> {
     public ProgressBar progress;
     private String username;
     public String password;
-    private Connector connector;
     private Intent intent;
     private Boolean isSuccess = false;
 
-    public LoginChecker(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT, Connector connector, Intent intent){
+    public LoginChecker(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT, Intent intent){
         this.activity = activity;
         this.progress = progress;
         this.username = loginT.getText().toString();
         this.password = passwordT.getText().toString();
-        this.connector = connector;
         this.intent = intent;
     }
 
