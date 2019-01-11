@@ -12,8 +12,8 @@ import android.widget.Toast;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import entity.Profile;
 import interactor.Connector;
-import entity.Profil;
 
 public class LoginChecker extends AsyncTask<String, String, String> {
 
@@ -55,14 +55,14 @@ public class LoginChecker extends AsyncTask<String, String, String> {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            Profil profil = null;
+            Profile profile = null;
 
             try {
                 if (res != null) {
-                    profil = connector.setProfil(res);
-                    connector.setGames(profil);
-                    profil.setConnector(connector);
-                    intent.putExtra("profil", profil);
+                    profile = connector.setProfil(res);
+                    connector.setGames(profile);
+                    profile.setConnector(connector);
+                    intent.putExtra("profile", profile);
 //                        connector.getConnection().close();
                 }
             } catch (SQLException e) {
@@ -82,7 +82,7 @@ public class LoginChecker extends AsyncTask<String, String, String> {
 //                        z = "Check Your Internet Access!";
 //                    }
 //                    else{
-//                        String query = "select * from Profil where Name= '" + username + "' and password = '" + password + "'";
+//                        String query = "select * from Profile where Name= '" + username + "' and password = '" + password + "'";
 //                        ResultSet res = connector.runQuery(query, con);
 //                        if(res.next()){
 //                            setMenu(res);

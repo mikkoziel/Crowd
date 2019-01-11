@@ -11,16 +11,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import entity.Game;
-import presenter.Loger;
-import entity.Profil;
+import entity.Profile;
 import entity.Question;
+import entity.GivenAnswer;
+
 import presenter.AnswerSetter;
-import presenter.GivenAnswer;
+import presenter.GivenAnswerPresenter;
 
 public class QuestionActivity extends AppCompatActivity {
 
     public Game game;
-    public Profil profil;
+    public Profile profile;
     public Question question;
     public ProgressBar progress;
     public Activity activity;
@@ -35,9 +36,9 @@ public class QuestionActivity extends AppCompatActivity {
         setContentView(appView.R.layout.activity_question);
 
 
-        Intent inetnt = getIntent();
-        this.game = (Game)inetnt.getSerializableExtra("game");
-        this.profil = (Profil) inetnt.getSerializableExtra("profil");
+        Intent intent = getIntent();
+        this.game = (Game)intent.getSerializableExtra("game");
+        this.profile = (Profile) intent.getSerializableExtra("profile");
 
 
         this.question = game.getQuestions().get(game.getIndex());
@@ -45,9 +46,9 @@ public class QuestionActivity extends AppCompatActivity {
         this.progress = findViewById(appView.R.id.progress);
         this.activity = this;
         if(getIntent().hasExtra("answer")){
-            GivenAnswer given = (GivenAnswer) inetnt.getSerializableExtra("answer");
-            Loger loger = profil.getLoger();
-            loger.logAnswer(given, activity, progress);
+            GivenAnswer given = (GivenAnswer) intent.getSerializableExtra("answer");
+            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(given);
+            givenAnswerPresenter.execute("");
         }
 
 //        ArrayList<?> games = (ArrayList<?>) thisIntent.getSerializableExtra("games");
@@ -123,7 +124,7 @@ public class QuestionActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         game.prevIndex();
                         Intent intent = new Intent(activity, GameActivity.class);
-                        intent.putExtra("profil", profil);
+                        intent.putExtra("profile", profile);
                         intent.putExtra("game", game);
                         activity.startActivity(intent);
                     }
@@ -142,7 +143,7 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     public void setAnswer(){
-        AnswerSetter answerSetter = new AnswerSetter(this, question, profil.connector, progress, lp, answerLayout, game, profil);
+        AnswerSetter answerSetter = new AnswerSetter(this, question, profile.connector, progress, lp, answerLayout, game, profile);
         answerSetter.execute("");
     }
 }

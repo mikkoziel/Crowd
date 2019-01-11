@@ -11,8 +11,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import entity.Profile;
 import interactor.Connector;
-import entity.Profil;
 
 public class PasswordChanger extends AsyncTask<String, String, String> {
 
@@ -31,13 +31,13 @@ public class PasswordChanger extends AsyncTask<String, String, String> {
     private int mode;
     private int semafor;
 
-    public PasswordChanger(Activity activity, ProgressBar progress, Profil profil, String password, int mode){
+    public PasswordChanger(Activity activity, ProgressBar progress, Profile profile, String password, int mode){
         this.activity = activity;
         this.progress = progress;
-        this.username = profil.getName();
+        this.username = profile.getName();
         this.password = password;
-        this.connector = profil.getConnector();
-        this.userID = profil.getID();
+        this.connector = profile.getConnector();
+        this.userID = profile.getID();
         this.mode = mode;
         this.semafor = 4;
     }
@@ -100,7 +100,7 @@ public class PasswordChanger extends AsyncTask<String, String, String> {
     }
 
     private void modeCheckOld(Connection connection) throws SQLException {
-        String query = "Select * from Profil where profilID = " + userID;
+        String query = "Select * from Profile where profilID = " + userID;
         ResultSet res = connector.runQuery(query, connection);
         if (res.next()) {
             String name = res.getString("name");
@@ -135,7 +135,7 @@ public class PasswordChanger extends AsyncTask<String, String, String> {
     }
 
     private void modeChangeToNew(Connection connection){
-        String query = "Update Profil set password = '" + password + "' where profilID = " + userID;
+        String query = "Update Profile set password = '" + password + "' where profilID = " + userID;
         int res = -1;
         res = connector.updateQuery(query, connection);
         if(res > 0){

@@ -10,16 +10,13 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import appView.R;
-import appView.QuestionActivity;
-import appView.TabMenuActivity;
 import entity.Game;
-import entity.Profil;
+import entity.Profile;
 import presenter.QuestionSetter;
 
 public class GameActivity extends AppCompatActivity {
     public Game game;
-    public Profil profil;
+    public Profile profile;
     public ProgressBar progress;
 //    public Intent intent;
     public Activity activity;
@@ -31,13 +28,13 @@ public class GameActivity extends AppCompatActivity {
 
         Intent inetnt = getIntent();
         this.game = (Game)inetnt.getSerializableExtra("game");
-        this.profil = (Profil) inetnt.getSerializableExtra("profil");
+        this.profile = (Profile) inetnt.getSerializableExtra("profile");
         this.activity = this;
 
         this.progress = findViewById(R.id.progress);
         progress.setVisibility(View.GONE);
 //        this.intent = new Intent(this, QuestionActivity.class);
-//        intent.putExtra("profil", profil);
+//        intent.putExtra("profile", profile);
 //        intent.putExtra("game", game);
 
         TextView gameText = (TextView) findViewById(R.id.game);
@@ -69,7 +66,7 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(activity, QuestionActivity.class);
                 intent.putExtra("setter", false);
-                intent.putExtra("profil", profil);
+                intent.putExtra("profile", profile);
                 intent.putExtra("game", game);
                 game.setPlayed(true);
                 activity.startActivity(intent);
@@ -82,11 +79,11 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(activity, QuestionActivity.class);
                 intent.putExtra("setter", true);
-                intent.putExtra("profil", profil);
+                intent.putExtra("profile", profile);
                 intent.putExtra("game", game);
                 game.setPlayed(true);
                 game.zeroIndex();
-                QuestionSetter questionSetter = new QuestionSetter(game, activity, progress, profil.getConnector(), intent);
+                QuestionSetter questionSetter = new QuestionSetter(game, activity, progress, profile.getConnector(), intent);
                 questionSetter.execute("");
 //                activity.startActivity(intent);
             }
@@ -104,7 +101,7 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(activity, QuestionActivity.class);
                 intent.putExtra("setter", true);
-                intent.putExtra("profil", profil);
+                intent.putExtra("profile", profile);
                 intent.putExtra("game", game);
                 game.setPlayed(true);
                 game.zeroIndex();
@@ -123,7 +120,7 @@ public class GameActivity extends AppCompatActivity {
         startBttn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(activity, TabMenuActivity.class);
-                intent.putExtra("profil", profil);
+                intent.putExtra("profile", profile);
                 game.setPlayed(false);
                 game.zeroIndex();
                 activity.startActivity(intent);
@@ -158,7 +155,7 @@ public class GameActivity extends AppCompatActivity {
 //                }
 //                else{
 //                    z = setQ(game, connector);
-//                    String query = "select * from Profil where Name= '" + username + "' and password = '" + password + "'";
+//                    String query = "select * from Profile where Name= '" + username + "' and password = '" + password + "'";
 //                    ResultSet res = connector.runQuery(query, con);
 //                    if(res.next()){
 //                        con.close();
@@ -220,7 +217,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, TabMenuActivity.class);
-        intent.putExtra("profil", profil);
+        intent.putExtra("profile", profile);
         this.startActivity(intent);
     }
 }

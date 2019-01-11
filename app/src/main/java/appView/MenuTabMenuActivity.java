@@ -16,17 +16,17 @@ import android.widget.ProgressBar;
 
 import java.sql.Connection;
 
+import entity.Profile;
 import interactor.Connector;
 import entity.Game;
-import presenter.Loger;
-import entity.Profil;
+import interactor.Logger;
 import presenter.QuestionSetter;
 
 public class MenuTabMenuActivity extends Fragment {
 
     public Connector connector;
-    public Profil profil;
-    public Loger loger;
+    public Profile profile;
+    public Logger logger;
     public Connection con;
     public Intent intent;
     public Intent thisIntent;
@@ -46,23 +46,23 @@ public class MenuTabMenuActivity extends Fragment {
         View rootView = inflater.inflate(appView.R.layout.menu_tab_menu, container, false);
 
 //        this.connector = (Connector)thisIntent.getSerializableExtra("connector");
-        this.profil = (Profil) thisIntent.getSerializableExtra("profil");
+        this.profile = (Profile) thisIntent.getSerializableExtra("profile");
 
         this.progress = rootView.findViewById(appView.R.id.progressMenu);
         progress.setVisibility(View.GONE);
 
-//        this.loger = new Loger(profil, connector);
+//        this.logger = new Logger(profile, connector);
         this.intent = new Intent(activity, GameActivity.class);
-        intent.putExtra("profil", profil);
-        //    intent.putExtra("loger", loger);*
+        intent.putExtra("profile", profile);
+        //    intent.putExtra("logger", logger);*
 
         LinearLayout ll = (LinearLayout) rootView.findViewById(appView.R.id.layout);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
 //        ArrayList<?> games = (ArrayList<?>) thisIntent.getSerializableExtra("games");
-//        ListIterator<?> iterator = profil.getGames().listIterator();
+//        ListIterator<?> iterator = profile.getGames().listIterator();
 
-        for (final Game game : profil.getGames()) {
+        for (final Game game : profile.getGames()) {
 //            while (iterator.hasNext()) {
 //            final Game game = (Game) iterator.next();
             Button gameButton = new Button(activity);
@@ -70,7 +70,7 @@ public class MenuTabMenuActivity extends Fragment {
             gameButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 //                    if (!game.getPlayed() || !createAlertDialog("Game Activity", "Do you want to continue previous game?")){
-                    QuestionSetter questionSetter = new QuestionSetter(game, activity, progress, profil.getConnector(), intent);
+                    QuestionSetter questionSetter = new QuestionSetter(game, activity, progress, profile.getConnector(), intent);
                     questionSetter.execute("");
                     //                    while(game.getQuestions().isEmpty()){
 //
@@ -94,8 +94,8 @@ public class MenuTabMenuActivity extends Fragment {
     public static class MenuActivity extends AppCompatActivity {
 
         public Connector connector;
-        public Profil profil;
-        public Loger loger;
+        public Profile profile;
+        public Logger logger;
         public Connection con;
         public Intent intent;
         public ProgressBar progress;
@@ -108,24 +108,24 @@ public class MenuTabMenuActivity extends Fragment {
 
             Intent thisIntent = getIntent();
     //        this.connector = (Connector)thisIntent.getSerializableExtra("connector");
-            this.profil = (Profil)thisIntent.getSerializableExtra("profil");
+            this.profile = (Profile)thisIntent.getSerializableExtra("profile");
 
             this.progress = findViewById(appView.R.id.progressMenu);
             progress.setVisibility(View.GONE);
 
-    //        this.loger = new Loger(profil, connector);
+    //        this.logger = new Logger(profile, connector);
             this.intent = new Intent(this, GameActivity.class);
-            intent.putExtra("profil", profil);
+            intent.putExtra("profile", profile);
             this.activity = this;
-        //    intent.putExtra("loger", loger);*
+        //    intent.putExtra("logger", logger);*
 
             LinearLayout ll = (LinearLayout)findViewById(appView.R.id.layout);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
     //        ArrayList<?> games = (ArrayList<?>) thisIntent.getSerializableExtra("games");
-    //        ListIterator<?> iterator = profil.getGames().listIterator();
+    //        ListIterator<?> iterator = profile.getGames().listIterator();
 
-            for (final Game game : profil.getGames()) {
+            for (final Game game : profile.getGames()) {
     //            while (iterator.hasNext()) {
     //            final Game game = (Game) iterator.next();
                 Button gameButton = new Button(this);
@@ -133,7 +133,7 @@ public class MenuTabMenuActivity extends Fragment {
                 gameButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
     //                    if (!game.getPlayed() || !createAlertDialog("Game Activity", "Do you want to continue previous game?")){
-                        QuestionSetter questionSetter = new QuestionSetter(game, activity, progress, profil.getConnector(), intent);
+                        QuestionSetter questionSetter = new QuestionSetter(game, activity, progress, profile.getConnector(), intent);
                         questionSetter.execute("");
                         //                    while(game.getQuestions().isEmpty()){
     //

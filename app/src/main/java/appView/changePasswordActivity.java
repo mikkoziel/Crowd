@@ -8,13 +8,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import entity.Profil;
+import entity.Profile;
 import presenter.PasswordChanger;
 
 public class changePasswordActivity extends AppCompatActivity {
 
     public ProgressBar progress;
-    public Profil profil;
+    public Profile profile;
     public TextView oldPassword;
     public TextView newPassword;
     public TextView repeatPassword;
@@ -28,7 +28,7 @@ public class changePasswordActivity extends AppCompatActivity {
         progress.setVisibility(View.GONE);
 
         Intent intent = getIntent();
-        this.profil = (Profil) intent.getSerializableExtra("profil");
+        this.profile = (Profile) intent.getSerializableExtra("profile");
 
         this.oldPassword = findViewById(appView.R.id.oldPassword);
         this.newPassword = findViewById(appView.R.id.newPassword);
@@ -37,7 +37,7 @@ public class changePasswordActivity extends AppCompatActivity {
 
     public void backBttn(View view){
         Intent intent = new Intent(this, changePasswordActivity.class);
-        intent.putExtra("profil", profil);
+        intent.putExtra("profile", profile);
         this.startActivity(intent);
     }
 
@@ -45,7 +45,7 @@ public class changePasswordActivity extends AppCompatActivity {
         switch(checkPasswords()) {
             case 0:
                 String newPasswordText = newPassword.getText().toString();
-                PasswordChanger passwordChanger = new PasswordChanger(this, progress, profil, newPasswordText, 1);
+                PasswordChanger passwordChanger = new PasswordChanger(this, progress, profile, newPasswordText, 1);
                 passwordChanger.execute("");
                 return;
             case 1:
@@ -63,7 +63,7 @@ public class changePasswordActivity extends AppCompatActivity {
 
     public int checkPasswords(){
         String oldPasswordText = oldPassword.getText().toString();
-        PasswordChanger passwordChanger = new PasswordChanger(this, progress, profil, oldPasswordText, 0);
+        PasswordChanger passwordChanger = new PasswordChanger(this, progress, profile, oldPasswordText, 0);
         passwordChanger.setPasswordCheck(newPassword.getText().toString());
         passwordChanger.setPasswordCheck2(repeatPassword.getText().toString());
         passwordChanger.execute("");

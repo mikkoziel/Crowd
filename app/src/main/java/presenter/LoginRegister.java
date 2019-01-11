@@ -56,7 +56,7 @@ public class LoginRegister extends AsyncTask<String, String, String> {
 //                        z = "Check Your Internet Access!";
 //                    }
 //                    else{
-//                        String query = "select * from Profil where Name= '" + username + "'";
+//                        String query = "select * from Profile where Name= '" + username + "'";
 //                        ResultSet res = connector.runQuery(query);
 //                        if(res.next()){
 //                            z = "Login already exist";
@@ -64,7 +64,7 @@ public class LoginRegister extends AsyncTask<String, String, String> {
 //                        }
 //                        else{
 //                            z = "Inwalid Credentils!";
-//                            String query1 = "Insert into Profil(Name, Password, Points) values('" + username + "', '" + password + "', 0)";
+//                            String query1 = "Insert into Profile(Name, Password, Points) values('" + username + "', '" + password + "', 0)";
 //                            ResultSet res1 = connector.runQuery(query1);
 //                            if(res1.next()){
 //                                z = "Success";

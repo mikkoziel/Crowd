@@ -4,23 +4,23 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import interactor.Connector;
-import presenter.Loger;
+import interactor.Logger;
 
-public class Profil implements Serializable {
+public class Profile implements Serializable {
     public String name;
     private int ID;
     private int points;
     private ArrayList<Game> games;
     public Connector connector;
-    public Loger loger;
+    public Logger logger;
 
 
-    public Profil(int ID, String name, String password){
+    public Profile(int ID, String name, String password){
         this.ID = ID;
         this.name = name;
         this.points = 0;
         this.games = new ArrayList<>();
-        this.loger = new Loger();
+        this.logger = new Logger();
     }
 
     public String getName() {
@@ -43,8 +43,8 @@ public class Profil implements Serializable {
         return connector;
     }
 
-    public Loger getLoger() {
-        return loger;
+    public Logger getLogger() {
+        return logger;
     }
 
     public void setName(String name) {
@@ -71,7 +71,7 @@ public class Profil implements Serializable {
         this.connector = connector;
     }
 
-    public void setLoger(Loger loger) {
-        this.loger = loger;
+    public void setLogger(Logger logger) {
+        this.logger = logger;
     }
 }

@@ -7,36 +7,34 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import appView.R;
-import appView.GameActivity;
-import appView.TabMenuActivity;
 import entity.Game;
-import presenter.Loger;
-import entity.Profil;
-import presenter.GivenAnswer;
+import entity.Profile;
+import entity.GivenAnswer;
+
+import presenter.GivenAnswerPresenter;
 
 public class EndGameActivity extends AppCompatActivity {
 
     public ProgressBar progress;
     public Game game;
-    public Profil profil;
+    public Profile profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_game);
 
-        Intent inetnt = getIntent();
-        this.game = (Game)inetnt.getSerializableExtra("game");
-        this.profil = (Profil) inetnt.getSerializableExtra("profil");
+        Intent intent = getIntent();
+        this.game = (Game)intent.getSerializableExtra("game");
+        this.profile = (Profile) intent.getSerializableExtra("profile");
 
         this.progress = findViewById(R.id.progress);
         progress.setVisibility(View.GONE);
 
         if(getIntent().hasExtra("answer")){
-            GivenAnswer given = (GivenAnswer) inetnt.getSerializableExtra("answer");
-            Loger loger = profil.getLoger();
-            loger.logAnswer(given, this, progress);
+            GivenAnswer given = (GivenAnswer) intent.getSerializableExtra("answer");
+            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(given);
+            givenAnswerPresenter.execute("");
         }
 
         TextView endText = findViewById(R.id.endgame);
@@ -46,14 +44,14 @@ public class EndGameActivity extends AppCompatActivity {
 
     public void backBttn(View view){
         Intent intent = new Intent(this, TabMenuActivity.class);
-        intent.putExtra("profil", profil);
+        intent.putExtra("profile", profile);
         this.startActivity(intent);
     }
 
     public void repeatBttn(View view){
         Intent intent = new Intent(this, GameActivity.class);
         intent.putExtra("game", game);
-        intent.putExtra("profil", profil);
+        intent.putExtra("profile", profile);
         this.startActivity(intent);
     }
 }

@@ -12,14 +12,13 @@ import android.widget.CompoundButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import appView.changePasswordActivity;
-import entity.Profil;
+import entity.Profile;
 
 public class SettingsTabMenuActivity extends Fragment {
 
     public Activity activity;
     public Intent thisIntent;
-    public Profil profil;
+    public Profile profile;
 
     public void setOnCreate(Activity activity, Intent intent){
         this.activity = activity;
@@ -32,7 +31,7 @@ public class SettingsTabMenuActivity extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(appView.R.layout.settings_tab_menu, container, false);
 
-        this.profil = (Profil) thisIntent.getSerializableExtra("profil");
+        this.profile = (Profile) thisIntent.getSerializableExtra("profile");
 
         Button changeBttn = rootView.findViewById(appView.R.id.changePass);
         changeBttn.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +59,7 @@ public class SettingsTabMenuActivity extends Fragment {
 
     public void changePassword(View view){
         Intent intent = new Intent(activity, changePasswordActivity.class);
-        intent.putExtra("profil", profil);
+        intent.putExtra("profile", profile);
         activity.startActivity(intent);
     }
 

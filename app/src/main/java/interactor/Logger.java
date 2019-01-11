@@ -1,24 +1,27 @@
-package presenter;
-
-import android.app.Activity;
-import android.widget.ProgressBar;
+package interactor;
 
 import java.io.Serializable;
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.SQLException;
 
-public class Loger implements Serializable {
+public class Logger implements Serializable {
+
+    private DataBaseConnector _dbConnector;
+
+    public Logger(DataBaseConnector dbConnector)
+    {
+        _dbConnector = dbConnector;
+    }
+
+    public Logger()
+    {
+        _dbConnector = new DataBaseConnector();
+    }
 
     public Date date;
 //    public Game game;
 //    public Question question;
-
-    public Loger(){}
-
-    public void logAnswer(GivenAnswer answer, Activity activity, ProgressBar progress){
-        setDate();
-        AnswerLoger answerLoger = new AnswerLoger(date, answer, activity, progress);
-        answerLoger.execute("");
-    }
 
     public void setDate(){
 //        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -47,12 +50,12 @@ public class Loger implements Serializable {
 //        return question;
 //    }
 
-    //    public Profil user;
+    //    public Profile user;
 //    private Connector connector;
 //    private Connection con;
 //
-//    public Loger(Profil profil, Connector con){
-//        this.user = profil;
+//    public Logger(Profile profile, Connector con){
+//        this.user = profile;
 //        this.connector = con;
 ////        this.con = connector.establishConnection();
 //    }
@@ -104,4 +107,24 @@ public class Loger implements Serializable {
 //        protected void onPostExecute(String r){
 //        }
 //    }
+
+    public void log(Connection connection, String query){
+        int res = -1;
+
+        res = _dbConnector.updateQuery(query, connection);
+        if(res > 0){
+            _dbConnector.setResult("Success");
+            _dbConnector.success(true);
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            _dbConnector.setResult("Fail");
+            _dbConnector.success(false);
+        }
+    }
+
 }
