@@ -1,10 +1,10 @@
-package Entity;
+package entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import Interactor.Connector;
-import Presenter.Loger;
+import interactor.Connector;
+import presenter.Loger;
 
 public class Profil implements Serializable {
     public String name;

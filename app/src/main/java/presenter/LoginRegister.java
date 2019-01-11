@@ -1,4 +1,4 @@
-package Presenter;
+package presenter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import java.sql.SQLException;
 
-import Interactor.Connector;
+import interactor.Connector;
 
 public class LoginRegister extends AsyncTask<String, String, String> {
 

@@ -1,4 +1,4 @@
-package AppView;
+package appView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,10 +12,8 @@ import android.widget.CompoundButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.app.crowd1.R;
-
-import AppView.changePasswordActivity;
-import Entity.Profil;
+import appView.changePasswordActivity;
+import entity.Profil;
 
 public class SettingsTabMenuActivity extends Fragment {
 
@@ -32,18 +30,18 @@ public class SettingsTabMenuActivity extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.settings_tab_menu, container, false);
+        final View rootView = inflater.inflate(appView.R.layout.settings_tab_menu, container, false);
 
         this.profil = (Profil) thisIntent.getSerializableExtra("profil");
 
-        Button changeBttn = rootView.findViewById(R.id.changePass);
+        Button changeBttn = rootView.findViewById(appView.R.id.changePass);
         changeBttn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 changePassword(rootView);
             }
         });
 
-        ToggleButton themeBttn = rootView.findViewById(R.id.themeBttn);
+        ToggleButton themeBttn = rootView.findViewById(appView.R.id.themeBttn);
         themeBttn.setText("Dark Theme");
         themeBttn.setTextOff("Dark Theme");
         themeBttn.setTextOn("Light Theme");

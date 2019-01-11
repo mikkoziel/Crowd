@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.app.crowd1">
+    package="appView">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,22 +11,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name="AppView.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="AppView.MenuActivity" />
-        <activity android:name="AppView.QuestionActivity" />
-        <activity android:name="AppView.GameActivity" />
+        <activity android:name=".MenuActivity" />
+        <activity android:name=".QuestionActivity" />
+        <activity android:name=".GameActivity" />
         <activity
-            android:name="AppView.TabMenuActivity"
+            android:name=".TabMenuActivity"
             android:label="@string/title_activity_tab_menu"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name="AppView.changePasswordActivity" />
-        <activity android:name="AppView.EndGameActivity" />
+        <activity android:name=".changePasswordActivity" />
+        <activity android:name=".EndGameActivity" />
     </application>
 
 </manifest>

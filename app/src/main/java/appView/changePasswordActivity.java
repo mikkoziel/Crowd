@@ -1,4 +1,4 @@
-package AppView;
+package appView;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,10 +8,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.app.crowd1.R;
-
-import Entity.Profil;
-import Presenter.PasswordChanger;
+import entity.Profil;
+import presenter.PasswordChanger;
 
 public class changePasswordActivity extends AppCompatActivity {
 
@@ -24,17 +22,17 @@ public class changePasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_change_password);
+        setContentView(appView.R.layout.activity_change_password);
 
-        this.progress = findViewById(R.id.progressBar);
+        this.progress = findViewById(appView.R.id.progressBar);
         progress.setVisibility(View.GONE);
 
         Intent intent = getIntent();
         this.profil = (Profil) intent.getSerializableExtra("profil");
 
-        this.oldPassword = findViewById(R.id.oldPassword);
-        this.newPassword = findViewById(R.id.newPassword);
-        this.repeatPassword = findViewById(R.id.repeatPassword);
+        this.oldPassword = findViewById(appView.R.id.oldPassword);
+        this.newPassword = findViewById(appView.R.id.newPassword);
+        this.repeatPassword = findViewById(appView.R.id.repeatPassword);
     }
 
     public void backBttn(View view){

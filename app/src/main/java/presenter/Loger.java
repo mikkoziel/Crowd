@@ -1,4 +1,4 @@
-package Presenter;
+package presenter;
 
 import android.app.Activity;
 import android.widget.ProgressBar;

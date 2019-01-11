@@ -1,4 +1,4 @@
-package Presenter;
+package presenter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -12,8 +12,8 @@ import android.widget.Toast;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import Interactor.Connector;
-import Entity.Profil;
+import interactor.Connector;
+import entity.Profil;
 
 public class LoginChecker extends AsyncTask<String, String, String> {
 

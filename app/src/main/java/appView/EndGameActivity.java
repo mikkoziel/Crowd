@@ -1,4 +1,4 @@
-package AppView;
+package appView;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,12 +7,13 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.app.crowd1.R;
-
-import Entity.Game;
-import Presenter.Loger;
-import Entity.Profil;
-import Presenter.GivenAnswer;
+import appView.R;
+import appView.GameActivity;
+import appView.TabMenuActivity;
+import entity.Game;
+import presenter.Loger;
+import entity.Profil;
+import presenter.GivenAnswer;
 
 public class EndGameActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package Presenter;
+package presenter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -10,8 +10,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 
-import Interactor.Connector;
-import Presenter.GivenAnswer;
+import interactor.Connector;
 
 public class AnswerLoger extends AsyncTask<String, Button, String> {
 

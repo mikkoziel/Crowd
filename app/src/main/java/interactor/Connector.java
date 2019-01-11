@@ -1,4 +1,4 @@
-package Interactor;
+package interactor;
 
 import android.annotation.SuppressLint;
 import android.os.StrictMode;
@@ -11,9 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import Entity.Game;
-import Entity.Profil;
-import Entity.Question;
+import entity.Game;
+import entity.Profil;
+import entity.Question;
 
 public class Connector implements Serializable {
     private String user = "crowd";

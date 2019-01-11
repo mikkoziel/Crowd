@@ -1,9 +1,7 @@
-package Entity;
+package entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
-import Entity.Answer;
 
 public class Question implements Serializable{
 

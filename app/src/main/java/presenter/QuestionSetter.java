@@ -1,4 +1,4 @@
-package Presenter;
+package presenter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -12,10 +12,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import Entity.Answer;
-import Interactor.Connector;
-import Entity.Game;
-import Entity.Question;
+import entity.Answer;
+import interactor.Connector;
+import entity.Game;
+import entity.Question;
 
 public class QuestionSetter extends AsyncTask<String, String, String> {
 

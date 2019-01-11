@@ -1,4 +1,4 @@
-package AppView;
+package appView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,11 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import com.app.crowd1.R;
-
-import Interactor.Connector;
-import Presenter.LoginChecker;
-import Presenter.LoginRegister;
+import appView.R;
+import appView.TabMenuActivity;
+import interactor.Connector;
+import presenter.LoginChecker;
+import presenter.LoginRegister;
 
 public class MainActivity extends AppCompatActivity {
 //    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";

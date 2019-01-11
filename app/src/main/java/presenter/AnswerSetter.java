@@ -1,4 +1,4 @@
-package Presenter;
+package presenter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -9,19 +9,19 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import AppView.EndGameActivity;
-import AppView.QuestionActivity;
+import appView.EndGameActivity;
+import appView.QuestionActivity;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import Entity.Answer;
-import Interactor.Connector;
-import Entity.Game;
-import Entity.Profil;
-import Entity.Question;
+import entity.Answer;
+import interactor.Connector;
+import entity.Game;
+import entity.Profil;
+import entity.Question;
 
 public class AnswerSetter extends AsyncTask<String, Button, String> {
 

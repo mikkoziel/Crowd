@@ -1,4 +1,4 @@
-package AppView;
+package appView;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -10,15 +10,12 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.app.crowd1.R;
-
-import AppView.GameActivity;
-import Entity.Game;
-import Presenter.Loger;
-import Entity.Profil;
-import Entity.Question;
-import Presenter.AnswerSetter;
-import Presenter.GivenAnswer;
+import entity.Game;
+import presenter.Loger;
+import entity.Profil;
+import entity.Question;
+import presenter.AnswerSetter;
+import presenter.GivenAnswer;
 
 public class QuestionActivity extends AppCompatActivity {
 
@@ -35,7 +32,7 @@ public class QuestionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_question);
+        setContentView(appView.R.layout.activity_question);
 
 
         Intent inetnt = getIntent();
@@ -45,7 +42,7 @@ public class QuestionActivity extends AppCompatActivity {
 
         this.question = game.getQuestions().get(game.getIndex());
         game.nextIndex();
-        this.progress = findViewById(R.id.progress);
+        this.progress = findViewById(appView.R.id.progress);
         this.activity = this;
         if(getIntent().hasExtra("answer")){
             GivenAnswer given = (GivenAnswer) inetnt.getSerializableExtra("answer");
@@ -64,10 +61,10 @@ public class QuestionActivity extends AppCompatActivity {
 //
 //        LinearLayout questionlayout = (LinearLayout)findViewById(R.id.questionlayout);
 
-        this.answerLayout = findViewById(R.id.answerlayout);
+        this.answerLayout = findViewById(appView.R.id.answerlayout);
         this.lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 //
-        TextView questionText = findViewById(R.id.question);
+        TextView questionText = findViewById(appView.R.id.question);
         questionText.setText(question.getQuestion());
 
         setAnswer();

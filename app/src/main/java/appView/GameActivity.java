@@ -1,4 +1,4 @@
-package AppView;
+package appView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,11 +10,12 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.app.crowd1.R;
-
-import Entity.Game;
-import Entity.Profil;
-import Presenter.QuestionSetter;
+import appView.R;
+import appView.QuestionActivity;
+import appView.TabMenuActivity;
+import entity.Game;
+import entity.Profil;
+import presenter.QuestionSetter;
 
 public class GameActivity extends AppCompatActivity {
     public Game game;

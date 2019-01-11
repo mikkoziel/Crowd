@@ -1,4 +1,4 @@
-package AppView;
+package appView;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -14,13 +14,6 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.app.crowd1.R;
-
-import AppView.MainActivity;
-import AppView.MenuTabMenuActivity;
-import AppView.ProfilTabMenuActivity;
-import AppView.SettingsTabMenuActivity;
 
 public class TabMenuActivity extends AppCompatActivity {
 
@@ -45,7 +38,7 @@ public class TabMenuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tab_menu);
+        setContentView(appView.R.layout.activity_tab_menu);
 
         this.intent = getIntent();
         this.activity = this;
@@ -57,10 +50,10 @@ public class TabMenuActivity extends AppCompatActivity {
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = (ViewPager) findViewById(appView.R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = (TabLayout) findViewById(appView.R.id.tabs);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
@@ -82,7 +75,7 @@ public class TabMenuActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_tab_menu, menu);
+        getMenuInflater().inflate(appView.R.menu.menu_tab_menu, menu);
         return true;
     }
 
@@ -94,7 +87,7 @@ public class TabMenuActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == appView.R.id.action_settings) {
             return true;
         }
 

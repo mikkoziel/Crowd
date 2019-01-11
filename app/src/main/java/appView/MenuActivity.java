@@ -1,4 +1,4 @@
-package AppView;
+package appView;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -11,16 +11,13 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import com.app.crowd1.R;
-
 import java.sql.Connection;
 
-import AppView.GameActivity;
-import Interactor.Connector;
-import Entity.Game;
-import Presenter.Loger;
-import Entity.Profil;
-import Presenter.QuestionSetter;
+import interactor.Connector;
+import entity.Game;
+import presenter.Loger;
+import entity.Profil;
+import presenter.QuestionSetter;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -35,13 +32,13 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
+        setContentView(appView.R.layout.activity_menu);
 
         Intent thisIntent = getIntent();
 //        this.connector = (Connector)thisIntent.getSerializableExtra("connector");
         this.profil = (Profil)thisIntent.getSerializableExtra("profil");
 
-        this.progress = findViewById(R.id.progressMenu);
+        this.progress = findViewById(appView.R.id.progressMenu);
         progress.setVisibility(View.GONE);
 
 //        this.loger = new Loger(profil, connector);
@@ -50,7 +47,7 @@ public class MenuActivity extends AppCompatActivity {
         this.activity = this;
     //    intent.putExtra("loger", loger);*
 
-        LinearLayout ll = (LinearLayout)findViewById(R.id.layout);
+        LinearLayout ll = (LinearLayout)findViewById(appView.R.id.layout);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
 //        ArrayList<?> games = (ArrayList<?>) thisIntent.getSerializableExtra("games");
