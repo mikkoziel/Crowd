@@ -6,12 +6,17 @@ import java.sql.SQLException;
 
 import entity.Profile;
 
-public class ProfilInteractor {
+public class ProfileInteractor {
     private DataBaseConnector _dbConnector;
 
-    public ProfilInteractor(DataBaseConnector dbConnector)
+    public ProfileInteractor(DataBaseConnector dbConnector)
     {
         _dbConnector = dbConnector;
+    }
+
+    public ProfileInteractor()
+    {
+        _dbConnector = new DataBaseConnector();
     }
 
     private ResultSet getLogin(String username, Connection connection){
@@ -20,7 +25,7 @@ public class ProfilInteractor {
         return res;
     }
 
-    public Profile setProfil(ResultSet res) throws SQLException {
+    public Profile setProfile(ResultSet res) throws SQLException {
         int id = res.getInt("profilID");
         String name = res.getString("name");
         String points = res.getString("points");
@@ -30,6 +35,16 @@ public class ProfilInteractor {
         _dbConnector.success(true);
 
         return profile;
+    }
+
+    public Boolean isSuccess()
+    {
+        return _dbConnector.getSuccess();
+    }
+
+    public String getResult()
+    {
+        return _dbConnector.getResult();
     }
 
 

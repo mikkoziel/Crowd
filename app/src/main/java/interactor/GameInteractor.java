@@ -15,6 +15,10 @@ public class GameInteractor {
         _dbConnector = dbConnector;
     }
 
+    public GameInteractor()
+    {
+        _dbConnector = new DataBaseConnector();
+    }
 
     public void setGames(Profile profile) throws SQLException {
 //        ArrayList<Game> games = new ArrayList<>();

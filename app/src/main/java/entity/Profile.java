@@ -10,8 +10,6 @@ public class Profile implements Serializable {
     private int ID;
     private int points;
     private ArrayList<Game> games;
-    public Connector connector;
-    public Logger logger;
 
 
     public Profile(int ID, String name, String password){
@@ -19,7 +17,6 @@ public class Profile implements Serializable {
         this.name = name;
         this.points = 0;
         this.games = new ArrayList<>();
-        this.logger = new Logger();
     }
 
     public String getName() {
@@ -38,13 +35,6 @@ public class Profile implements Serializable {
         return games;
     }
 
-    public Connector getConnector() {
-        return connector;
-    }
-
-    public Logger getLogger() {
-        return logger;
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -66,11 +56,4 @@ public class Profile implements Serializable {
         this.games.add(game);
     }
 
-    public void setConnector(Connector connector) {
-        this.connector = connector;
-    }
-
-    public void setLogger(Logger logger) {
-        this.logger = logger;
-    }
 }
