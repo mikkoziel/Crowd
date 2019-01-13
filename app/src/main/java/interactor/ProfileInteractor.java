@@ -127,7 +127,7 @@ public class ProfileInteractor {
 
     }
 
-
+    //PYTANIE: co z tymi semaforami?
     public void modeCheckOld(Profile profile, String password, int semaphore, String passwordCheck, String passwordCheck2) throws SQLException {
         String query = "Select * from Profile where profilID = " + profile.getID();
         ResultSet res = _dbConnector.runQuery(query, _connection);
@@ -145,7 +145,7 @@ public class ProfileInteractor {
         }
     }
 
-
+    //PYTANIE: co z tymi semaforami?
     private void checkRest(String passwordCheck, String passwordCheck2, int semaphore, String password){
         if (!passwordCheck.equals(passwordCheck2)) {
             _dbConnector.setResult("Fail");

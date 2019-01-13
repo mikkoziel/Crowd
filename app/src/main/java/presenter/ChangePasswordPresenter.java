@@ -21,8 +21,6 @@ public class ChangePasswordPresenter extends AsyncTask<String, String, String> {
     private String _password;
     private String _passwordCheck;
     private String _passwordCheck2;
-    private String _result = "";
-    private Boolean _isSuccess = false;
     private int _mode;
     private int _semaphore;
     private ProfileInteractor _profileInteractor;
@@ -43,6 +41,7 @@ public class ChangePasswordPresenter extends AsyncTask<String, String, String> {
         _progress.setVisibility(View.VISIBLE);
     }
 
+    //PYTANIE: co z tymi semaforami?
     @Override
     protected String doInBackground(String... strings) {
         try {
@@ -56,6 +55,7 @@ public class ChangePasswordPresenter extends AsyncTask<String, String, String> {
 //                  semafor =1;
                     return "";
                 }
+                // PYTANIE cz1: tu ustawiamy toast jak no success
             if(!_profileInteractor.getSuccess())
             {
                 Toast.makeText(_activity, "Wrong Old Password", Toast.LENGTH_SHORT).show();
@@ -69,7 +69,8 @@ public class ChangePasswordPresenter extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String r){
         _progress.setVisibility(View.GONE);
-        Toast.makeText(_activity, _result, Toast.LENGTH_SHORT).show();
+        Toast.makeText(_activity, _profileInteractor.getResult(), Toast.LENGTH_SHORT).show();
+        // PYTANIE cz 2: tu ustawiamy toast jak succes, po co tak? nie można tutaj obu? i czmu nie korzytsamy z result ustawionego w profileInteractor?
         if(_profileInteractor.getSuccess()){
             Toast.makeText(_activity, "Password Change OK", Toast.LENGTH_LONG).show();
         }
