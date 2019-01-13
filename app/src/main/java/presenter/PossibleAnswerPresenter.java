@@ -64,7 +64,6 @@ public class PossibleAnswerPresenter extends AsyncTask<String, Button, String> {
         ResultSet res = _answerInteractor.getAnswers(_question);
         try {
             _answerInteractor.addPossibleAnswers(res, _question);
-            _game.addQuestion(_question);
         } catch (SQLException e) {
             e.printStackTrace();
         }

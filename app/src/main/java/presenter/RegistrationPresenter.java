@@ -20,8 +20,6 @@ public class RegistrationPresenter extends AsyncTask<String, String, String> {
     private ProgressBar _progress;
     private String _username;
     private String _password;
-    private String _z = "";
-    private Boolean _isSuccess = false;
     private ProfileInteractor _profileInteractor;
 
     public RegistrationPresenter(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT){
@@ -37,19 +35,19 @@ public class RegistrationPresenter extends AsyncTask<String, String, String> {
         _progress.setVisibility(View.VISIBLE);
     }
 
+    //czy można wywalić ten zakomenotwany kod?
     @Override
     protected String doInBackground(String... params){
-
+        String result = "";
         if(_username.trim().equals("")|| _password.trim().equals("")){
-            _z = "Please enter Username and Password";
+            result = "Please enter Username and Password";
         }
         else{
             try {
-                _z = _profileInteractor.registerLogin(_username, _password);
+                result = _profileInteractor.registerLogin(_username, _password);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            _isSuccess = _profileInteractor.getSuccess();
 //            try {
 //                    con = connector.connectionClass();
 //                    if (con == null) {
@@ -85,7 +83,7 @@ public class RegistrationPresenter extends AsyncTask<String, String, String> {
 //            }
         }
 
-        return _z;
+        return result;
     }
 
 
@@ -93,7 +91,7 @@ public class RegistrationPresenter extends AsyncTask<String, String, String> {
     protected void onPostExecute(String r){
         _progress.setVisibility(View.GONE);
         Toast.makeText(_activity, r, Toast.LENGTH_SHORT).show();
-        if(_isSuccess){
+        if(_profileInteractor.getSuccess()){
             Toast.makeText(_activity, "Login Registration Successful", Toast.LENGTH_LONG).show();
         }
     }

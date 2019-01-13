@@ -21,7 +21,6 @@ public class SetQuestionPresenter extends AsyncTask<String, String, String> {
     private Game _game;
     private Intent _intent;
 
-    private Boolean _isSuccess = false;
     private QuestionInteractor _questionInteractor;
 
     public SetQuestionPresenter(Game game, Activity activity, ProgressBar progress, Intent intent) {
@@ -39,19 +38,20 @@ public class SetQuestionPresenter extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        String z = "";
+        String result = "";
         try {
-            z = _questionInteractor.setQuestions(_game);
+            _questionInteractor.setQuestions(_game);
+            result = _questionInteractor.getResultInfo();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        _isSuccess = true;
-        return z;
+        return result;
     }
 
     @Override
+    //PYTANIE" po co ten r?
     protected void onPostExecute(String r) {
-        if (_isSuccess) {
+        if (_questionInteractor.isSuccess()) {
             _intent.putExtra("game", _game);
             _activity.startActivity(_intent);
         }

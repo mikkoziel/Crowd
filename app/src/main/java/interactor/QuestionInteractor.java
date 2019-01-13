@@ -9,43 +9,42 @@ import entity.Question;
 
 public class QuestionInteractor {
     private DataBaseConnector _dbConnector;
+    private Connection _connection;
+    private Boolean _isConnect;
 
     public QuestionInteractor(DataBaseConnector dbConnector)
     {
-        _dbConnector = dbConnector;
+        this._dbConnector = dbConnector;
+        this._connection = _dbConnector.makeConnection();
+        this._isConnect = _dbConnector.checkConnection(_connection);
     }
 
     public QuestionInteractor()
     {
         this._dbConnector = new DataBaseConnector();
+        this._connection = _dbConnector.makeConnection();
+        this._isConnect = _dbConnector.checkConnection(_connection);
     }
 
 
     private ResultSet getQuestions(Game game, Connection connection){
         String query = "select * from Question where gameID = " + game.getGameID() + ";";
-        ResultSet res = _dbConnector.runQuery(query, connection);
-        return res;
+        return _dbConnector.runQuery(query, connection);
     }
 
+    public Boolean isSuccess(){ return _dbConnector.getSuccess();}
 
-    public String setQuestions(Game game) throws SQLException {
-        ResultSet res = null;
-        Connection connection = _dbConnector.makeConnection();
-        Boolean isConnect = _dbConnector.checkConnection(connection);
+    public String getResultInfo(){return _dbConnector.getResult();}
 
-        if (isConnect) {
-            res = getQuestions(game, connection);
-
+    public void setQuestions(Game game) throws SQLException {
+        if (_isConnect) {
+            ResultSet res = getQuestions(game, _connection);
             while(res.next()) {
                 String content = res.getString("question");
                 int ID = res.getInt("questionID");
                 int type = res.getInt("typeID");
 
                 Question question = new Question(content, ID, type);
-
-//                PossibleAnswerPresenter answerSetter = new PossibleAnswerPresenter(question, this);
-//                answerSetter.execute("");
-
                 game.addQuestion(question);
             }
             _dbConnector.setResult("Game Starting");
@@ -55,8 +54,6 @@ public class QuestionInteractor {
             _dbConnector.setResult("Something went wrong");
             _dbConnector.success(false);
         }
-
-        return _dbConnector.getResult();
     }
 
 
