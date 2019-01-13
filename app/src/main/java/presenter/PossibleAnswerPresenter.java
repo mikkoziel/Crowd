@@ -126,9 +126,6 @@ public class PossibleAnswerPresenter extends AsyncTask<String, Button, String> {
 //        }
     }
 
-    public Boolean getResult() {
-        return _result;
-    }
 
     public Button setButtons(String answerText, final Answer a){
         Button answer = new Button(_activity);

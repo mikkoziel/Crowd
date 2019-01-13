@@ -16,7 +16,7 @@ import entity.Profile;
 import interactor.GameInteractor;
 import interactor.ProfileInteractor;
 
-public class LoginChecker extends AsyncTask<String, String, String> {
+public class CheckLoginPresenter extends AsyncTask<String, String, String> {
 
     @SuppressLint("StaticFieldLeak")
     private Activity _activity;
@@ -30,7 +30,7 @@ public class LoginChecker extends AsyncTask<String, String, String> {
     private ProfileInteractor _profileInteractor;
     private GameInteractor _gameInteractor;
 
-    public LoginChecker(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT, Intent intent){
+    public CheckLoginPresenter(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT, Intent intent){
         this._activity = activity;
         this._progress = progress;
         this._username = loginT.getText().toString();

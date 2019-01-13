@@ -15,6 +15,11 @@ public class QuestionInteractor {
         _dbConnector = dbConnector;
     }
 
+    public QuestionInteractor()
+    {
+        this._dbConnector = new DataBaseConnector();
+    }
+
 
     private ResultSet getQuestions(Game game, Connection connection){
         String query = "select * from Question where gameID = " + game.getGameID() + ";";

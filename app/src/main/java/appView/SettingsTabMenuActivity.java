@@ -58,7 +58,7 @@ public class SettingsTabMenuActivity extends Fragment {
     }
 
     public void changePassword(View view){
-        Intent intent = new Intent(activity, changePasswordActivity.class);
+        Intent intent = new Intent(activity, ChangePasswordActivity.class);
         intent.putExtra("profile", profile);
         activity.startActivity(intent);
     }

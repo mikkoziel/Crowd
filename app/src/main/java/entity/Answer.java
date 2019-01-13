@@ -3,62 +3,62 @@ package entity;
 import java.io.Serializable;
 
 public class Answer implements Serializable {
-    public int answerID;
-    public String answer;
-    private int used;
-    private double percentageUsed;
-    public int type;
+    private int _answerID;
+    private String _answer;
+    private int _used;
+    private double _percentageUsed;
+    private int _type;
 
     public Answer(int answerID, String answer){
-        this.answerID = answerID;
-        this.answer = answer;
+        this._answerID = answerID;
+        this._answer = answer;
     }
 
     public Answer(int answerID, String answer, int used, double percentageUsed, int type){
-        this.answerID = answerID;
-        this.answer = answer;
-        this.used = used;
-        this.percentageUsed = percentageUsed;
-        this.type = type;
+        this._answerID = answerID;
+        this._answer = answer;
+        this._used = used;
+        this._percentageUsed = percentageUsed;
+        this._type = type;
     }
 
     public int getAnswerID() {
-        return answerID;
+        return _answerID;
     }
 
     public String getAnswer() {
-        return answer;
+        return _answer;
     }
 
     public int getUsed() {
-        return used;
+        return _used;
     }
 
     public double getPercentageUsed() {
-        return percentageUsed;
+        return _percentageUsed;
     }
 
     public int getType() {
-        return type;
+        return _type;
     }
 
     public void setAnswerID(int answerID) {
-        this.answerID = answerID;
+        this._answerID = answerID;
     }
 
     public void setAnswer(String answer) {
-        this.answer = answer;
+        this._answer = answer;
     }
 
     public void setUsed(int used) {
-        this.used = used;
+        this._used = used;
     }
 
     public void setPercentageUsed(double percentageUsed) {
-        this.percentageUsed = percentageUsed;
+        this._percentageUsed = percentageUsed;
     }
 
     public void setType(int type) {
-        this.type = type;
+        this._type = type;
     }
 }

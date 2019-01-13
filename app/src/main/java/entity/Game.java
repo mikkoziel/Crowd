@@ -5,10 +5,10 @@ import java.util.ArrayList;
 
 public class Game implements Serializable {
     private int gameID;
-    public String gameName;
-    public ArrayList<Question> questions;
-    public Boolean played;
-    public int index;
+    private String gameName;
+    private ArrayList<Question> questions;
+    private Boolean played;
+    private int index;
 
     public Game(int ID, String gameName){
         this.gameID = ID;

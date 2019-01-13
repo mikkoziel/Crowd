@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import entity.Game;
 import entity.Profile;
-import presenter.QuestionSetter;
+import presenter.SetQuestionPresenter;
 
 public class GameActivity extends AppCompatActivity {
     public Game game;
@@ -83,8 +83,8 @@ public class GameActivity extends AppCompatActivity {
                 intent.putExtra("game", game);
                 game.setPlayed(true);
                 game.zeroIndex();
-                QuestionSetter questionSetter = new QuestionSetter(game, activity, progress, profile.getConnector(), intent);
-                questionSetter.execute("");
+                SetQuestionPresenter setQuestionPresenter = new SetQuestionPresenter(game, activity, progress, intent);
+                setQuestionPresenter.execute("");
 //                activity.startActivity(intent);
             }
         });

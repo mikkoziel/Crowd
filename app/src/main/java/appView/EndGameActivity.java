@@ -42,13 +42,13 @@ public class EndGameActivity extends AppCompatActivity {
         endText.setText(text);
     }
 
-    public void backBttn(View view){
+    public void backButton(View view){
         Intent intent = new Intent(this, TabMenuActivity.class);
         intent.putExtra("profile", profile);
         this.startActivity(intent);
     }
 
-    public void repeatBttn(View view){
+    public void repeatButton(View view){
         Intent intent = new Intent(this, GameActivity.class);
         intent.putExtra("game", game);
         intent.putExtra("profile", profile);

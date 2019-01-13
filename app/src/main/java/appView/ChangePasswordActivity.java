@@ -11,7 +11,7 @@ import android.widget.Toast;
 import entity.Profile;
 import presenter.ChangePasswordPresenter;
 
-public class changePasswordActivity extends AppCompatActivity {
+public class ChangePasswordActivity extends AppCompatActivity {
 
     public ProgressBar progress;
     public Profile profile;
@@ -35,8 +35,8 @@ public class changePasswordActivity extends AppCompatActivity {
         this.repeatPassword = findViewById(appView.R.id.repeatPassword);
     }
 
-    public void backBttn(View view){
-        Intent intent = new Intent(this, changePasswordActivity.class);
+    public void backButton(View view){
+        Intent intent = new Intent(this, ChangePasswordActivity.class);
         intent.putExtra("profile", profile);
         this.startActivity(intent);
     }

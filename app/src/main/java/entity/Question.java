@@ -5,61 +5,70 @@ import java.util.ArrayList;
 
 public class Question implements Serializable{
 
-    public String question;
-    private int questionID;
-    public int type;
-    public ArrayList<Answer> answers;
-    public int index;
+    private String _question;
+    private int _questionID;
+    private int _type;
+    private ArrayList<Answer> _answers;
+    private int _index;
 
     public Question(String question, int questionID, int type){
-        this.question = question;
-        this.questionID = questionID;
-        this.type = type;
-        this.answers = new ArrayList<>();
-        this.index = 0;
+        this._question = question;
+        this._questionID = questionID;
+        this._type = type;
+        this._answers = new ArrayList<>();
+        this._index = 0;
+    }
+
+    public Question()
+    {
+        this._question = "";
+        this._questionID = 0;
+        this._type = 0;
+        this._answers = null;
+        this._index = 0;
     }
 
     public String getQuestion() {
-        return question;
+        return _question;
     }
 
     public int getQuestionID() {
-        return questionID;
+        return _questionID;
     }
 
     public int getType() {
-        return type;
+        return _type;
     }
 
     public ArrayList<Answer> getAnswers() {
-        return answers;
+        return _answers;
     }
 
     public int getIndex() {
-        return index;
+        return _index;
     }
 
     public void setQuestion(String question) {
-        this.question = question;
+        this._question = question;
     }
 
     public void setQuestionID(int questionID) {
-        this.questionID = questionID;
+        this._questionID = questionID;
     }
 
     public void setType(int type) {
-        this.type = type;
+        this._type = type;
     }
 
     public void addAnswer(Answer answer){
-        answers.add(answer);
+        _answers.add(answer);
     }
 
     public void setAnswers(ArrayList<Answer> answers) {
-        this.answers = answers;
+        this._answers = answers;
     }
 
-    public void nextIndex(){this.index ++;}
+    public void nextIndex(){this._index ++;}
 
 //    public void setAnswers(ResultSet res) throws SQLException {
 ////        String z;

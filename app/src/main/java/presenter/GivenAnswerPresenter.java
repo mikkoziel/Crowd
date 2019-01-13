@@ -3,8 +3,6 @@ package presenter;
 import android.os.AsyncTask;
 import android.widget.Button;
 
-import java.sql.Date;
-
 import entity.GivenAnswer;
 import interactor.AnswerInteractor;
 
@@ -24,7 +22,6 @@ public class GivenAnswerPresenter extends AsyncTask<String, Button, String> {
 
     @Override
     protected void onPreExecute(){
-//        progress.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -35,10 +32,5 @@ public class GivenAnswerPresenter extends AsyncTask<String, Button, String> {
 
     @Override
     protected void onPostExecute(String r) {
-//        progress.setVisibility(View.GONE);
-//        Toast.makeText(activity, r, Toast.LENGTH_SHORT).show();
-//        if(isSuccess){
-//            Toast.makeText(activity, "Success", Toast.LENGTH_LONG).show();
-//        }
     }
 }

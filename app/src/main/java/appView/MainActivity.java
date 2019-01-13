@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import presenter.LoginChecker;
+import presenter.CheckLoginPresenter;
 import presenter.RegistrationPresenter;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
         intent = new Intent(this, TabMenuActivity.class);
 //        intent.putExtra("connector", connector);
 
-        LoginChecker loginChecker = new LoginChecker(this, progress, loginT, passwordT, intent);
-        loginChecker.execute("");
+        CheckLoginPresenter checkLoginPresenter = new CheckLoginPresenter(this, progress, loginT, passwordT, intent);
+        checkLoginPresenter.execute("");
 //        CheckLogin checklogin =  new CheckLogin();
 //        checklogin.execute("");
     }

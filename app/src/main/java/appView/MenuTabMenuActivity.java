@@ -19,7 +19,7 @@ import java.sql.Connection;
 import entity.Profile;
 import entity.Game;
 import interactor.Logger;
-import presenter.QuestionSetter;
+import presenter.SetQuestionPresenter;
 
 public class MenuTabMenuActivity extends Fragment {
 
@@ -68,8 +68,8 @@ public class MenuTabMenuActivity extends Fragment {
             gameButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 //                    if (!game.getPlayed() || !createAlertDialog("Game Activity", "Do you want to continue previous game?")){
-                    QuestionSetter questionSetter = new QuestionSetter(game, activity, progress, profile.getConnector(), intent);
-                    questionSetter.execute("");
+                    SetQuestionPresenter setQuestionPresenter = new SetQuestionPresenter(game, activity, progress, intent);
+                    setQuestionPresenter.execute("");
                     //                    while(game.getQuestions().isEmpty()){
 //
 //                    }
@@ -130,8 +130,8 @@ public class MenuTabMenuActivity extends Fragment {
                 gameButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
     //                    if (!game.getPlayed() || !createAlertDialog("Game Activity", "Do you want to continue previous game?")){
-                        QuestionSetter questionSetter = new QuestionSetter(game, activity, progress, profile.getConnector(), intent);
-                        questionSetter.execute("");
+                        SetQuestionPresenter setQuestionPresenter = new SetQuestionPresenter(game, activity, progress, intent);
+                        setQuestionPresenter.execute("");
                         //                    while(game.getQuestions().isEmpty()){
     //
     //                    }
