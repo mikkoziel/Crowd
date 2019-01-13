@@ -74,7 +74,7 @@ public class LoginChecker extends AsyncTask<String, String, String> {
             }
 
             z = _profileInteractor.getResult();
-            _isSuccess = _profileInteractor.isSuccess();
+            _isSuccess = _profileInteractor.getSuccess();
         }
         return z;
     }

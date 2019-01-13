@@ -10,42 +10,46 @@ import android.widget.Toast;
 
 import java.sql.SQLException;
 
-public class LoginRegister extends AsyncTask<String, String, String> {
+import interactor.ProfileInteractor;
+
+public class RegistrationPresenter extends AsyncTask<String, String, String> {
 
     @SuppressLint("StaticFieldLeak")
-    private Activity activity;
+    private Activity _activity;
     @SuppressLint("StaticFieldLeak")
-    public ProgressBar progress;
-    private String username;
-    public String password;
-    private String z = "";
-    private Boolean isSuccess = false;
+    private ProgressBar _progress;
+    private String _username;
+    private String _password;
+    private String _z = "";
+    private Boolean _isSuccess = false;
+    private ProfileInteractor _profileInteractor;
 
-    public LoginRegister(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT){
-        this.activity = activity;
-        this.progress = progress;
-        this.username = loginT.getText().toString();
-        this.password = passwordT.getText().toString();
+    public RegistrationPresenter(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT){
+        this._activity = activity;
+        this._progress = progress;
+        this._username = loginT.getText().toString();
+        this._password = passwordT.getText().toString();
+        this._profileInteractor = new ProfileInteractor();
     }
 
     @Override
     protected void onPreExecute(){
-        progress.setVisibility(View.VISIBLE);
+        _progress.setVisibility(View.VISIBLE);
     }
 
     @Override
     protected String doInBackground(String... params){
 
-        if(username.trim().equals("")|| password.trim().equals("")){
-            z = "Please enter Username and Password";
+        if(_username.trim().equals("")|| _password.trim().equals("")){
+            _z = "Please enter Username and Password";
         }
         else{
             try {
-                z = connector.registerLogin(username, password);
+                _z = _profileInteractor.registerLogin(_username, _password);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            isSuccess = connector.getSuccess();
+            _isSuccess = _profileInteractor.getSuccess();
 //            try {
 //                    con = connector.connectionClass();
 //                    if (con == null) {
@@ -81,16 +85,16 @@ public class LoginRegister extends AsyncTask<String, String, String> {
 //            }
         }
 
-        return z;
+        return _z;
     }
 
 
     @Override
     protected void onPostExecute(String r){
-        progress.setVisibility(View.GONE);
-        Toast.makeText(activity, r, Toast.LENGTH_SHORT).show();
-        if(isSuccess){
-            Toast.makeText(activity, "Login Registration Successful", Toast.LENGTH_LONG).show();
+        _progress.setVisibility(View.GONE);
+        Toast.makeText(_activity, r, Toast.LENGTH_SHORT).show();
+        if(_isSuccess){
+            Toast.makeText(_activity, "Login Registration Successful", Toast.LENGTH_LONG).show();
         }
     }
 

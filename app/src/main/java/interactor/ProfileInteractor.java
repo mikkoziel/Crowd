@@ -26,18 +26,18 @@ public class ProfileInteractor {
     }
 
     public Profile setProfile(ResultSet res) throws SQLException {
-        int id = res.getInt("profilID");
+        int id = res.getInt("profileID");
         String name = res.getString("name");
         String points = res.getString("points");
         Profile profile = new Profile(id, name, points);
 //        intent.putExtra("profile", profile);
-        _dbConnector.setResult("Login succesful");
+        _dbConnector.setResult("Login successful");
         _dbConnector.success(true);
 
         return profile;
     }
 
-    public Boolean isSuccess()
+    public Boolean getSuccess()
     {
         return _dbConnector.getSuccess();
     }
@@ -49,7 +49,7 @@ public class ProfileInteractor {
 
 
     public String registerLogin(String username, String password) throws SQLException {
-        ResultSet res = null;
+        ResultSet res;
         Connection connection = _dbConnector.makeConnection();
         Boolean isConnect = _dbConnector.checkConnection(connection);
 
@@ -60,7 +60,7 @@ public class ProfileInteractor {
                 _dbConnector.success(false);
             }
             else{
-                _dbConnector.setResult("Inwalid Credentils!");
+                _dbConnector.setResult("Invalid Credentials!");
                 String query1 = "Insert into Profile(Name, Password, Points) values('" + username + "', '" + password + "', 0)";
                 int res1 = _dbConnector.updateQuery(query1, connection);
                 if(res1 > 0){

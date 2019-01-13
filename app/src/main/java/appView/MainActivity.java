@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import presenter.LoginChecker;
-import presenter.LoginRegister;
+import presenter.RegistrationPresenter;
 
 public class MainActivity extends AppCompatActivity {
 //    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void registerBttn(View view){
-        LoginRegister registerLogin = new LoginRegister(this, progress, loginT, passwordT);
+        RegistrationPresenter registerLogin = new RegistrationPresenter(this, progress, loginT, passwordT);
         registerLogin.execute("");
 //        RegisterLogin registerLogin = new RegisterLogin();
 //        registerLogin.execute("");
