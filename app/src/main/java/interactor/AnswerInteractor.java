@@ -48,7 +48,7 @@ public class AnswerInteractor {
         return res;
     }
 
-    public void setAnswers(Game game) throws SQLException {
+    public void setAnswersForAllQuestions(Game game) throws SQLException {
         ResultSet res;
         if(_isConnect) {
             for (Question question : game.getQuestions()) {
@@ -63,7 +63,7 @@ public class AnswerInteractor {
         return res;
     }
 
-    private void addPossibleAnswers(ResultSet res, Question question) throws SQLException {
+    public void addPossibleAnswers(ResultSet res, Question question) throws SQLException {
         while(res.next()) {
             String content = res.getString("answer");
             int ID = res.getInt("answerID");

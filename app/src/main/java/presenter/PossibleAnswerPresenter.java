@@ -14,7 +14,6 @@ import appView.QuestionActivity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import entity.Answer;
 import entity.GivenAnswer;
@@ -27,17 +26,16 @@ import interactor.AnswerInteractor;
 public class PossibleAnswerPresenter extends AsyncTask<String, Button, String> {
 
     @SuppressLint("StaticFieldLeak")
-    public Activity _activity;
+    private Activity _activity;
     @SuppressLint("StaticFieldLeak")
-    public ProgressBar _progress;
-    public Question _question;
+    private ProgressBar _progress;
+    private Question _question;
 
-    private Boolean _result;
     @SuppressLint("StaticFieldLeak")
-    public LinearLayout _answerLayout;
-    public LinearLayout.LayoutParams _lp;
-    public Game _game;
-    public Profile _profile;
+    private LinearLayout _answerLayout;
+    private LinearLayout.LayoutParams _lp;
+    private Game _game;
+    private Profile _profile;
 
     private AnswerInteractor _answerInteractor;
 
@@ -47,7 +45,6 @@ public class PossibleAnswerPresenter extends AsyncTask<String, Button, String> {
 
         this._activity = activity;
         this._question = question;
-        this._result = false;
         this._progress = progress;
         this._lp = lp;
         this._answerLayout = answerLayout;
@@ -61,36 +58,26 @@ public class PossibleAnswerPresenter extends AsyncTask<String, Button, String> {
         _progress.setVisibility(View.VISIBLE);
     }
 
+    // pytanie: tutaj ustawiamy odpowiedzi dla jednego pytania z jednej gry tak?
     @Override
     protected String doInBackground(String... params){
-        ResultSet res = null;
-        ArrayList<Answer> answers = new ArrayList<>();
-
-        res = _answerInteractor.getAnswers(_question);
+        ResultSet res = _answerInteractor.getAnswers(_question);
         try {
-            while(res.next()) {
-                String content = res.getString("answer");
-                int ID = res.getInt("answerID");
-                int type = res.getInt("typeID");
-                int used = res.getInt("used");
-                double percentageUsed = res.getDouble("percentageUsed");
-                Answer answer = new Answer(ID, content, used, percentageUsed, type);
-//                    answers.add(answer);
-                answers.add(answer);
-                _result = true;
-//                    notifyAll();
-            }
+            _answerInteractor.addPossibleAnswers(res, _question);
+            _game.addQuestion(_question);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        for(Answer x : answers){
-            Button bttn = setButtons(x.getAnswer(), x);
-            publishProgress(bttn);
+
+        //a to nie w widoku?
+        for(Answer answer : _question.getAnswers()){
+            Button button = setButtons(answer.getAnswer(), answer);
+            publishProgress(button);
         }
-            _question.setAnswers(answers);
-        return "";
+        return ""; // TO DO: ???
     }
 
+    //pytanie: można wykasować zakomentowany kod?
     @Override
     protected void onProgressUpdate(Button... answer) {
 //        if(progress ) {
@@ -114,6 +101,7 @@ public class PossibleAnswerPresenter extends AsyncTask<String, Button, String> {
         _answerLayout.addView(answer[0], _lp);
     }
 
+    //pytanie: można wykasować zakomentowany kod?
     @Override
     protected void onPostExecute(String r){
         _progress.setVisibility(View.GONE);
@@ -127,6 +115,7 @@ public class PossibleAnswerPresenter extends AsyncTask<String, Button, String> {
     }
 
 
+    //pytanie: czy to ma być tutaj? nie powinno być w widoku?
     public Button setButtons(String answerText, final Answer a){
         Button answer = new Button(_activity);
 //            answer.setText(question.getAnswers().get(question.getIndex()).getAnswer());

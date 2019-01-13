@@ -18,8 +18,6 @@ public class ChangePasswordPresenter extends AsyncTask<String, String, String> {
     private Activity _activity;
     @SuppressLint("StaticFieldLeak")
     private ProgressBar _progress;
-    private String _username;
-    private int _userID;
     private String _password;
     private String _passwordCheck;
     private String _passwordCheck2;
@@ -28,16 +26,16 @@ public class ChangePasswordPresenter extends AsyncTask<String, String, String> {
     private int _mode;
     private int _semaphore;
     private ProfileInteractor _profileInteractor;
+    private Profile _profile;
 
     public ChangePasswordPresenter(Activity activity, ProgressBar progress, Profile profile, String password, int mode){
         this._activity = activity;
         this._progress = progress;
-        this._username = profile.getName();
         this._password = password;
-        this._userID = profile.getID();
         this._mode = mode;
         this._semaphore = 4;
         this._profileInteractor = new ProfileInteractor();
+        this._profile = profile;
     }
 
     @Override
@@ -50,11 +48,11 @@ public class ChangePasswordPresenter extends AsyncTask<String, String, String> {
         try {
             switch (_mode) {
                 case 0:
-                    _profileInteractor.modeCheckOld(_userID, _username, _password, _semaphore, _passwordCheck, _passwordCheck2);
+                    _profileInteractor.modeCheckOld(_profile, _password, _semaphore, _passwordCheck, _passwordCheck2);
 //                  semafor = 1;
                     return "";  //?? return? a nie break?
                 case 1:
-                    _profileInteractor.modeChangeToNew(_password, _userID);
+                    _profileInteractor.modeChangeToNew(_password, _profile);
 //                  semafor =1;
                     return "";
                 }

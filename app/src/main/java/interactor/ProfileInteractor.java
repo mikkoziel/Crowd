@@ -128,13 +128,13 @@ public class ProfileInteractor {
     }
 
 
-    public void modeCheckOld(int userID, String username, String password, int semaphore, String passwordCheck, String passwordCheck2) throws SQLException {
-        String query = "Select * from Profile where profilID = " + userID;
+    public void modeCheckOld(Profile profile, String password, int semaphore, String passwordCheck, String passwordCheck2) throws SQLException {
+        String query = "Select * from Profile where profilID = " + profile.getID();
         ResultSet res = _dbConnector.runQuery(query, _connection);
         if (res.next()) {
             String name = res.getString("name");
             String oldPasswordRes = res.getString("password");
-            if(username.equals(name) && password.equals(oldPasswordRes)){
+            if(profile.getName().equals(name) && password.equals(oldPasswordRes)){
                 checkRest(passwordCheck, passwordCheck2, semaphore, password);
             }
             else{
@@ -164,8 +164,8 @@ public class ProfileInteractor {
         }
     }
 
-    public void modeChangeToNew(String password, int userID){
-        String query = "Update Profile set password = '" + password + "' where profilID = " + userID;
+    public void modeChangeToNew(String password, Profile profile){
+        String query = "Update Profile set password = '" + password + "' where profilID = " + profile.getID();
         int res = -1;
         res = _dbConnector.updateQuery(query, _connection);
         if(res > 0){
