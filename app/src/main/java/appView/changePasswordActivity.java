@@ -9,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import entity.Profile;
-import presenter.PasswordChanger;
+import presenter.ChangePasswordPresenter;
 
 public class changePasswordActivity extends AppCompatActivity {
 
@@ -45,8 +45,8 @@ public class changePasswordActivity extends AppCompatActivity {
         switch(checkPasswords()) {
             case 0:
                 String newPasswordText = newPassword.getText().toString();
-                PasswordChanger passwordChanger = new PasswordChanger(this, progress, profile, newPasswordText, 1);
-                passwordChanger.execute("");
+                ChangePasswordPresenter changePasswordPresenter = new ChangePasswordPresenter(this, progress, profile, newPasswordText, 1);
+                changePasswordPresenter.execute("");
                 return;
             case 1:
                 Toast.makeText(this, "Passwords doesn't match", Toast.LENGTH_LONG).show();
@@ -63,12 +63,12 @@ public class changePasswordActivity extends AppCompatActivity {
 
     public int checkPasswords(){
         String oldPasswordText = oldPassword.getText().toString();
-        PasswordChanger passwordChanger = new PasswordChanger(this, progress, profile, oldPasswordText, 0);
-        passwordChanger.setPasswordCheck(newPassword.getText().toString());
-        passwordChanger.setPasswordCheck2(repeatPassword.getText().toString());
-        passwordChanger.execute("");
+        ChangePasswordPresenter changePasswordPresenter = new ChangePasswordPresenter(this, progress, profile, oldPasswordText, 0);
+        changePasswordPresenter.setPasswordCheck(newPassword.getText().toString());
+        changePasswordPresenter.setPasswordCheck2(repeatPassword.getText().toString());
+        changePasswordPresenter.execute("");
 
-        while(passwordChanger.getSemafor() == 4){ }
-        return passwordChanger.getSemafor();
+        while(changePasswordPresenter.getSemaphore() == 4){ }
+        return changePasswordPresenter.getSemaphore();
     }
 }
