@@ -25,7 +25,6 @@ public class CheckLoginPresenter extends AsyncTask<String, String, String> {
     private String _username;
     private String _password;
     private Intent _intent;
-    private Boolean _isSuccess = false;
 
     private ProfileInteractor _profileInteractor;
     private GameInteractor _gameInteractor;
@@ -48,35 +47,26 @@ public class CheckLoginPresenter extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... params){
 
-        String z;
+        String result;
         if(_username.trim().equals("")|| _password.trim().equals("")){
-            z = "Please enter Username and Password";
+            result = "Please enter Username and Password";
         }
         else {
-            ResultSet res = null;
+            ResultSet res;
             try {
-                res = _profileInteractor.checkLogin(_username, _password);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            Profile profile = null;
-
-            try {
-                if (res != null) {
-                    profile = _profileInteractor.setProfile(res);
-                    _gameInteractor.setGames(profile);
-                    //profile.setConnector(connector);
-                    _intent.putExtra("profile", profile);
-//                        connector.getConnection().close();
-                }
+                res = _profileInteractor
+                        .checkLogin(_username, _password);
+                Profile profile = _profileInteractor.setProfile(res);
+                _gameInteractor.setGames(profile);
+                _intent.putExtra("profile", profile);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
 
-            z = _profileInteractor.getResult();
-            _isSuccess = _profileInteractor.getSuccess();
+            result = _profileInteractor.getResult();
         }
-        return z;
+        //PYTANIE: co roimy z tym resultem?
+        return result;
     }
 
 
@@ -84,7 +74,7 @@ public class CheckLoginPresenter extends AsyncTask<String, String, String> {
     protected void onPostExecute(String r){
         _progress.setVisibility(View.GONE);
         Toast.makeText(_activity, r, Toast.LENGTH_SHORT).show();
-        if(_isSuccess){
+        if(_profileInteractor.getSuccess()){
             Toast.makeText(_activity, "Login Successful", Toast.LENGTH_LONG).show();
             _activity.startActivity(_intent);
         }
