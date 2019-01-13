@@ -4,61 +4,61 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Game implements Serializable {
-    private int gameID;
-    private String gameName;
-    private ArrayList<Question> questions;
-    private Boolean played;
-    private int index;
+    private int _gameID;
+    private String _gameName;
+    private ArrayList<Question> _questions;
+    private Boolean _played;
+    private int _index;
 
     public Game(int ID, String gameName){
-        this.gameID = ID;
-        this.gameName = gameName;
-        this.questions = new ArrayList<>();
-        this.played = false;
-        this.index = 0;
+        this._gameID = ID;
+        this._gameName = gameName;
+        this._questions = new ArrayList<>();
+        this._played = false;
+        this._index = 0;
     }
 
     public int getGameID() {
-        return gameID;
+        return _gameID;
     }
 
     public String getGameName() {
-        return gameName;
+        return _gameName;
     }
 
     public ArrayList<Question> getQuestions() {
-        return questions;
+        return _questions;
     }
 
     public Boolean getPlayed() {
-        return played;
+        return _played;
     }
 
     public int getIndex() {
-        return index;
+        return _index;
     }
 
     public void setGameID(int gameID) {
-        this.gameID = gameID;
+        this._gameID = gameID;
     }
 
     public void setGameName(String gameName) {
-        this.gameName = gameName;
+        this._gameName = gameName;
     }
 
     public void setPlayed(Boolean tmp) {
-        this.played = tmp;
+        this._played = tmp;
     }
 
     public void addQuestion(Question question){
-        this.questions.add(question);
+        this._questions.add(question);
     }
 
-    public void nextIndex(){this.index ++;}
+    public void nextIndex(){this._index ++;}
 
-    public void prevIndex(){this.index --;}
+    public void prevIndex(){this._index --;}
 
-    public void zeroIndex(){this.index = 0;}
+    public void zeroIndex(){this._index = 0;}
 
 //    public String setQuestions(ResultSet res) throws SQLException {
 //        String z = "";

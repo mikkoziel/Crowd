@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 public class GivenAnswer implements Serializable{
 
-    public Profile _profile;
-    public Question _question;
-    public Answer _answer;
+    private Profile _profile;
+    private Question _question;
+    private Answer _answer;
 
     public GivenAnswer(Profile profile, Question question, Answer answer){
         this._profile = profile;

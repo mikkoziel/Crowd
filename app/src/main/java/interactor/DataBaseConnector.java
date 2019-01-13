@@ -41,7 +41,7 @@ public class DataBaseConnector implements Serializable {
 
 
     @SuppressLint("NewApi")
-    public Connection establishConnection(){
+    private Connection establishConnection(){
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         Connection connection = null;
