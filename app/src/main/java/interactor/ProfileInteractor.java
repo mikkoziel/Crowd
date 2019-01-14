@@ -32,7 +32,7 @@ public class ProfileInteractor {
     }
 
     public Profile setProfile(ResultSet res) throws SQLException {
-        int id = res.getInt("profileID");
+        int id = res.getInt("profilID");
         String name = res.getString("name");
         String points = res.getString("points");
         Profile profile = new Profile(id, name, points);
@@ -99,7 +99,7 @@ public class ProfileInteractor {
 //            res = runQuery(query, connection);
             res = getLogin(username, _connection);
             if (res.next()) {
-                if(res.getString("password") == password) {
+                if(res.getString("password").equals(password)) {
                     _dbConnector.success(true);
                 }
                 else{
