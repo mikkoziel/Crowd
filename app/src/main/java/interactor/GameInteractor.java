@@ -10,21 +10,13 @@ import entity.Profile;
 public class GameInteractor {
     private DataBaseConnector _dbConnector;
 
-    public GameInteractor(DataBaseConnector dbConnector)
-    {
-        _dbConnector = dbConnector;
-    }
-
     public GameInteractor()
     {
         _dbConnector = new DataBaseConnector();
     }
 
     public void setGames(Profile profile) throws SQLException {
-//        ArrayList<Game> games = new ArrayList<>();
-        // Game[] games = ;
         String query = "select * from Game";
-//        Connection connection = null;
         Connection connection = _dbConnector.makeConnection();
         Boolean isConnect = _dbConnector.checkConnection(connection);
 
@@ -33,7 +25,6 @@ public class GameInteractor {
             while (res.next()) {
                 Game game = new Game(res.getInt("gameID"), res.getString("gameName"));
                 profile.addGames(game);
-//            intent.putExtra("games", games);
             }
         }
     }

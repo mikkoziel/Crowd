@@ -35,7 +35,6 @@ public class RegistrationPresenter extends AsyncTask<String, String, String> {
         _progress.setVisibility(View.VISIBLE);
     }
 
-    //czy można wywalić ten zakomenotwany kod?
     @Override
     protected String doInBackground(String... params){
         String result = "";
@@ -48,41 +47,7 @@ public class RegistrationPresenter extends AsyncTask<String, String, String> {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-//            try {
-//                    con = connector.connectionClass();
-//                    if (con == null) {
-//                        z = "Check Your Internet Access!";
-//                    }
-//                    else{
-//                        String query = "select * from Profile where Name= '" + username + "'";
-//                        ResultSet res = connector.runQuery(query);
-//                        if(res.next()){
-//                            z = "Login already exist";
-//                            isSuccess = false;
-//                        }
-//                        else{
-//                            z = "Inwalid Credentils!";
-//                            String query1 = "Insert into Profile(Name, Password, Points) values('" + username + "', '" + password + "', 0)";
-//                            ResultSet res1 = connector.runQuery(query1);
-//                            if(res1.next()){
-//                                z = "Success";
-//                                isSuccess = true;
-//                                con.close();
-//                            }
-//                            else{
-//                                z = "Fail";
-//                                isSuccess = false;
-//                            }
-//                        }
-//                    }
-//            }
-//            catch(Exception e){
-//                isSuccess = false;
-//                z = e.getMessage();
-//
-//            }
         }
-
         return result;
     }
 

@@ -12,13 +12,6 @@ public class QuestionInteractor {
     private Connection _connection;
     private Boolean _isConnect;
 
-    public QuestionInteractor(DataBaseConnector dbConnector)
-    {
-        this._dbConnector = dbConnector;
-        this._connection = _dbConnector.makeConnection();
-        this._isConnect = _dbConnector.checkConnection(_connection);
-    }
-
     public QuestionInteractor()
     {
         this._dbConnector = new DataBaseConnector();
@@ -26,7 +19,7 @@ public class QuestionInteractor {
         this._isConnect = _dbConnector.checkConnection(_connection);
     }
 
-
+    // TO DO ograniczyć do 10 pytań
     private ResultSet getQuestions(Game game, Connection connection){
         String query = "select * from Question where gameID = " + game.getGameID() + ";";
         return _dbConnector.runQuery(query, connection);

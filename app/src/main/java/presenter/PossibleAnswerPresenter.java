@@ -39,10 +39,7 @@ public class PossibleAnswerPresenter extends AsyncTask<String, Button, String> {
 
     private AnswerInteractor _answerInteractor;
 
-//
     public PossibleAnswerPresenter(Activity activity, Question question, ProgressBar progress, LinearLayout.LayoutParams lp, LinearLayout answerLayout, Game game, Profile profile) {
-//    public PossibleAnswerPresenter(Question question, Connector connector) {
-
         this._activity = activity;
         this._question = question;
         this._progress = progress;
@@ -58,7 +55,6 @@ public class PossibleAnswerPresenter extends AsyncTask<String, Button, String> {
         _progress.setVisibility(View.VISIBLE);
     }
 
-    // pytanie: tutaj ustawiamy odpowiedzi dla jednego pytania z jednej gry tak?
     @Override
     protected String doInBackground(String... params){
         ResultSet res = _answerInteractor.getAnswers(_question);
@@ -68,7 +64,6 @@ public class PossibleAnswerPresenter extends AsyncTask<String, Button, String> {
             e.printStackTrace();
         }
 
-        //a to nie w widoku?
         for(Answer answer : _question.getAnswers()){
             Button button = setButtons(answer.getAnswer(), answer);
             publishProgress(button);
@@ -76,48 +71,19 @@ public class PossibleAnswerPresenter extends AsyncTask<String, Button, String> {
         return ""; // TO DO: ???
     }
 
-    //pytanie: można wykasować zakomentowany kod?
     @Override
     protected void onProgressUpdate(Button... answer) {
-//        if(progress ) {
-//            Toast.makeText(this, returnVal, Toast.LENGTH_SHORT).show();
-//        } else {
-//
-//        }
-
-//        answer.setTextOff(answerText);
-//        answer.setTextOn("Your choice");
-//        answer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (isChecked) {
-//                    answer.setText("Your choice");
-//                } else {
-//                    answer.setText(answerText);
-//                }
-//            }
-//        });
-//            question.nextIndex();
         _answerLayout.addView(answer[0], _lp);
     }
 
-    //pytanie: można wykasować zakomentowany kod?
     @Override
     protected void onPostExecute(String r){
         _progress.setVisibility(View.GONE);
-//        answerLayout.addView(answer, lp);
-        //Toast.makeText(activity, r, Toast.LENGTH_SHORT).show();
-//        if(isSuccess){
-//            Toast.makeText(activity, "Game starting", Toast.LENGTH_LONG).show();
-//            intent.putExtra("game", game);
-//            activity.startActivity(intent);
-//        }
     }
 
 
-    //pytanie: czy to ma być tutaj? nie powinno być w widoku?
-    public Button setButtons(String answerText, final Answer a){
+    private Button setButtons(String answerText, final Answer a){
         Button answer = new Button(_activity);
-//            answer.setText(question.getAnswers().get(question.getIndex()).getAnswer());
         answer.setText(answerText);
         if(_game.getIndex() < _game.getQuestions().size()) {
             answer.setOnClickListener(new View.OnClickListener() {

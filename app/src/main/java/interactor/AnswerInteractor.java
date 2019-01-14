@@ -14,14 +14,6 @@ public class AnswerInteractor {
     private Connection _connection;
     private Boolean _isConnect;
 
-    public AnswerInteractor(DataBaseConnector dbConnector, Logger logger)
-    {
-        _dbConnector = dbConnector;
-        _logger = logger;
-        _connection = _dbConnector.makeConnection();
-        _isConnect = _dbConnector.checkConnection(_connection);
-    }
-
     public AnswerInteractor()
     {
         _dbConnector = new DataBaseConnector();
@@ -44,8 +36,7 @@ public class AnswerInteractor {
     {
         String query = "select * from Answer where questionID= '" + question.getQuestionID() + "'";
         Connection connection = _dbConnector.makeConnection();
-        ResultSet res = _dbConnector.runQuery(query, connection);
-        return res;
+        return _dbConnector.runQuery(query, connection);
     }
 
     public void setAnswersForAllQuestions(Game game) throws SQLException {
@@ -57,10 +48,10 @@ public class AnswerInteractor {
             }
         }
     }
+
     private ResultSet getTop3Answers(Question question){
         String query = "select TOP 3 from Answer where questionID= '" + question.getQuestionID() + "'";
-        ResultSet res = _dbConnector.runQuery(query, _connection);
-        return res;
+        return _dbConnector.runQuery(query, _connection);
     }
 
     public void addPossibleAnswers(ResultSet res, Question question) throws SQLException {

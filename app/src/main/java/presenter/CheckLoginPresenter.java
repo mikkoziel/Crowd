@@ -69,7 +69,6 @@ public class CheckLoginPresenter extends AsyncTask<String, String, String> {
         return result;
     }
 
-
     @Override
     protected void onPostExecute(String r){
         _progress.setVisibility(View.GONE);
@@ -79,6 +78,4 @@ public class CheckLoginPresenter extends AsyncTask<String, String, String> {
             _activity.startActivity(_intent);
         }
     }
-
-
 }

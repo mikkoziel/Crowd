@@ -95,19 +95,6 @@ public class DataBaseConnector implements Serializable {
     public Boolean checkConnection(Connection connection){
         Boolean res = false;
         if (connection != null) {
-//            result = "Check Your Internet Access!";
-//            try {
-//                connection = establishConnection();
-//            } catch (Exception e) {
-//                this.isSuccess = false;
-//                this.result = e.getMessage();
-//            }
-//            if (connection == null) {
-//                result = "Check Your Internet Access!";
-//            }
-//            else{
-//                res = true;
-//            }
             res = true;
         }
         else{

@@ -11,13 +11,6 @@ public class ProfileInteractor {
     private Connection _connection;
     private Boolean _isConnect;
 
-    public ProfileInteractor(DataBaseConnector dbConnector)
-    {
-        _dbConnector = dbConnector;
-        _connection = _dbConnector.makeConnection();
-        _isConnect = _dbConnector.checkConnection(_connection);
-    }
-
     public ProfileInteractor()
     {
         _dbConnector = new DataBaseConnector();
@@ -36,7 +29,6 @@ public class ProfileInteractor {
         String name = res.getString("name");
         String points = res.getString("points");
         Profile profile = new Profile(id, name, points);
-//        intent.putExtra("profile", profile);
         _dbConnector.setResult("Login successful");
         _dbConnector.success(true);
 
@@ -53,7 +45,7 @@ public class ProfileInteractor {
         return _dbConnector.getResult();
     }
 
-
+    // tO DO, czy może być void?
     public String registerLogin(String username, String password) throws SQLException {
         ResultSet res;
 
@@ -64,7 +56,7 @@ public class ProfileInteractor {
                 _dbConnector.success(false);
             }
             else{
-                _dbConnector.setResult("Invalid Credentials!");
+                _dbConnector.setResult("Invalid Credentials!"); // czy to jest potrzebne?
                 String query1 = "Insert into Profile(Name, Password, Points) values('" + username + "', '" + password + "', 0)";
                 int res1 = _dbConnector.updateQuery(query1, _connection);
                 if(res1 > 0){
@@ -85,18 +77,8 @@ public class ProfileInteractor {
 
     public ResultSet checkLogin(String username, String password) throws SQLException {
         ResultSet res = null;
-//        Connection connection = null;
 
         if(_isConnect) {
-
-//            try {
-//                Connection con = connectionClass();
-//                if (con == null) {
-//                    result = "Check Your Internet Access!";
-//                }
-//                else{
-//            String query = "select * from Profile where Name= '" + username + "' and password = '" + password + "'";
-//            res = runQuery(query, connection);
             res = getLogin(username, _connection);
             if (res.next()) {
                 if(res.getString("password").equals(password)) {
@@ -106,25 +88,12 @@ public class ProfileInteractor {
                     _dbConnector.setResult("Invalid Credentils!");
                     _dbConnector.success(false);
                 }
-//                        setMenu(res);
-//                        setGames();
-//                        con.close();
             } else {
                 _dbConnector.setResult("This profile doesn't exist");
                 _dbConnector.success(false);
             }
-//                }
-//            }
-//            catch(Exception e){
-//                isSuccess = false;
-//                result = e.getMessage();
-//
-//            }
-//        }
         }
-
         return res;
-
     }
 
     //PYTANIE: co z tymi semaforami?
