@@ -25,7 +25,7 @@ public class AnswerInteractor {
     public void logAnswer(int profileID, int questionID, int answerID)
     {
         _logger.setDate();
-        String query = "Insert into Log(profileID, questionID, answerID, date) values(" + profileID + ", " + questionID + ", " + answerID + ", " + _logger.getDate() + ")";
+        String query = "Insert into Log(profilID, questionID, answerID, date) values(" + profileID + ", " + questionID + ", " + answerID + ", " + _logger.getDate() + ")";
 
         if (_isConnect) {
             _logger.log(_connection, query);

@@ -33,7 +33,7 @@ public class QuestionInteractor {
         if (_isConnect) {
             ResultSet res = getQuestions(game, _connection);
             while(res.next()) {
-                String content = res.getString("question");
+                String content = res.getString("questionText");
                 int ID = res.getInt("questionID");
                 int type = res.getInt("typeID");
 
