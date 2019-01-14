@@ -1,9 +1,8 @@
-package com.app.crowd1;
+package appView;
 
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,28 +10,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.ListIterator;
-import java.util.concurrent.ExecutionException;
 
-import back.Connector;
-import back.Game;
-import back.Loger;
-import back.Profil;
-import back.Question;
-import gui.AnswerSetter;
-import gui.QuestionSetter;
+import entity.Profile;
+import entity.Game;
+import interactor.Logger;
+import presenter.SetQuestionPresenter;
 
 public class MenuActivity extends AppCompatActivity {
 
-    public Connector connector;
-    public Profil profil;
-    public Loger loger;
+    public Profile profile;
+    public Logger logger;
     public Connection con;
     public Intent intent;
     public ProgressBar progress;
@@ -41,28 +30,28 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
+        setContentView(appView.R.layout.activity_menu);
 
         Intent thisIntent = getIntent();
 //        this.connector = (Connector)thisIntent.getSerializableExtra("connector");
-        this.profil = (Profil)thisIntent.getSerializableExtra("profil");
+        this.profile = (Profile)thisIntent.getSerializableExtra("profile");
 
-        this.progress = findViewById(R.id.progressMenu);
+        this.progress = findViewById(appView.R.id.progressMenu);
         progress.setVisibility(View.GONE);
 
-//        this.loger = new Loger(profil, connector);
+//        this.logger = new Logger(profile, connector);
         this.intent = new Intent(this, GameActivity.class);
-        intent.putExtra("profil", profil);
+        intent.putExtra("profile", profile);
         this.activity = this;
-    //    intent.putExtra("loger", loger);*
+    //    intent.putExtra("logger", logger);*
 
-        LinearLayout ll = (LinearLayout)findViewById(R.id.layout);
+        LinearLayout ll = (LinearLayout)findViewById(appView.R.id.layout);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
 //        ArrayList<?> games = (ArrayList<?>) thisIntent.getSerializableExtra("games");
-//        ListIterator<?> iterator = profil.getGames().listIterator();
+//        ListIterator<?> iterator = profile.getGames().listIterator();
 
-        for (final Game game : profil.getGames()) {
+        for (final Game game : profile.getGames()) {
 //            while (iterator.hasNext()) {
 //            final Game game = (Game) iterator.next();
             Button gameButton = new Button(this);
@@ -70,8 +59,8 @@ public class MenuActivity extends AppCompatActivity {
             gameButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 //                    if (!game.getPlayed() || !createAlertDialog("Game Activity", "Do you want to continue previous game?")){
-                    QuestionSetter questionSetter = new QuestionSetter(game, activity, progress, profil.getConnector(), intent);
-                    questionSetter.execute("");
+                    SetQuestionPresenter setQuestionPresenter = new SetQuestionPresenter(game, activity, progress, intent);
+                    setQuestionPresenter.execute("");
                     //                    while(game.getQuestions().isEmpty()){
 //
 //                    }
@@ -104,7 +93,7 @@ public class MenuActivity extends AppCompatActivity {
 ////            if(x == null){
 ////                wait();
 ////            }
-//            AnswerSetter answerSetter = new AnswerSetter(x, connector, progress);
+//            PossibleAnswerPresenter answerSetter = new PossibleAnswerPresenter(x, connector, progress);
 //            answerSetter.execute("");
 ////            tmp++;
 //        }

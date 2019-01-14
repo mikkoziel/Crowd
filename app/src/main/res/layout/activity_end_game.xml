@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EndGameActivity">
+    tools:context="appView.EndGameActivity">
 
     <ProgressBar
         android:id="@+id/progress"
@@ -51,14 +51,14 @@
                 android:id="@+id/repeatGame"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="repeatBttn"
+                android:onClick="repeatButton"
                 android:text="@string/repeatGame" />
 
             <Button
                 android:id="@+id/backToMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="backBttn"
+                android:onClick="backButton"
                 android:text="@string/backMenu" />
 
         </LinearLayout>

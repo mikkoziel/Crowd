@@ -1,4 +1,4 @@
-package com.app.crowd1;
+package appView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,13 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import back.Profil;
+import entity.Profile;
 
 public class ProfilTabMenuActivity extends Fragment {
 
     public Activity activity;
     public Intent thisIntent;
-    public Profil profil;
+    public Profile profile;
 
 
     public void setOnCreate(Activity activity, Intent intent){
@@ -28,13 +28,13 @@ public class ProfilTabMenuActivity extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.profil_tab_menu, container, false);
 
-        this.profil = (Profil) thisIntent.getSerializableExtra("profil");
+        this.profile = (Profile) thisIntent.getSerializableExtra("profile");
 
         TextView user = rootView.findViewById(R.id.userName);
         TextView points = rootView.findViewById(R.id.points);
 
-        user.setText("Username: " + profil.getName());
-        points.setText("Points: " + Integer.toString(profil.getPoints()));
+        user.setText("Username: " + profile.getName());
+        points.setText("Points: " + Integer.toString(profile.getPoints()));
 
         return rootView;
     }

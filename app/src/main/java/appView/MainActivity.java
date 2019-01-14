@@ -1,4 +1,4 @@
-package com.app.crowd1;
+package appView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,15 +10,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import back.Connector;
-import gui.LoginChecker;
-import gui.LoginRegister;
+import presenter.CheckLoginPresenter;
+import presenter.RegistrationPresenter;
 
 public class MainActivity extends AppCompatActivity {
 //    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
-//    public ArrayList<Profil> profiles;
+//    public ArrayList<Profile> profiles;
     public Intent intent;
-    public Connector connector;
     public EditText loginT, passwordT;
     public Button submit;
     public ProgressBar progress;
@@ -38,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         progress = findViewById(R.id.progressBar);
 
         progress.setVisibility(View.GONE);
-        this.connector = new Connector();
 //        this.extras = new Bundle();
 
     }
@@ -47,14 +44,14 @@ public class MainActivity extends AppCompatActivity {
         intent = new Intent(this, TabMenuActivity.class);
 //        intent.putExtra("connector", connector);
 
-        LoginChecker loginChecker = new LoginChecker(this, progress, loginT, passwordT, connector, intent);
-        loginChecker.execute("");
+        CheckLoginPresenter checkLoginPresenter = new CheckLoginPresenter(this, progress, loginT, passwordT, intent);
+        checkLoginPresenter.execute("");
 //        CheckLogin checklogin =  new CheckLogin();
 //        checklogin.execute("");
     }
 
     public void registerBttn(View view){
-        LoginRegister registerLogin = new LoginRegister(this, progress, loginT, passwordT, connector);
+        RegistrationPresenter registerLogin = new RegistrationPresenter(this, progress, loginT, passwordT);
         registerLogin.execute("");
 //        RegisterLogin registerLogin = new RegisterLogin();
 //        registerLogin.execute("");
@@ -85,20 +82,20 @@ public class MainActivity extends AppCompatActivity {
 //                } catch (SQLException e) {
 //                    e.printStackTrace();
 //                }
-//                Profil profil = null;
+//                Profile profile = null;
 //
 //                try {
 //                    if (res != null) {
-//                        profil = connector.setMenu(res);
-//                        connector.setGames(profil);
+//                        profile = connector.setMenu(res);
+//                        connector.setGames(profile);
 ////                        connector.getConnection().close();
 //                    }
 //
 //                } catch (SQLException e) {
 //                    e.printStackTrace();
 //                }
-//                profil.setConnector(connector);
-//                intent.putExtra("profil", profil);
+//                profile.setConnector(connector);
+//                intent.putExtra("profile", profile);
 //                z = connector.getResult();
 //                isSuccess = connector.getSuccess();
 //            }
@@ -112,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 ////                        z = "Check Your Internet Access!";
 ////                    }
 ////                    else{
-////                        String query = "select * from Profil where Name= '" + username + "' and password = '" + password + "'";
+////                        String query = "select * from Profile where Name= '" + username + "' and password = '" + password + "'";
 ////                        ResultSet res = connector.runQuery(query, con);
 ////                        if(res.next()){
 ////                            setMenu(res);
@@ -173,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
 ////                        z = "Check Your Internet Access!";
 ////                    }
 ////                    else{
-////                        String query = "select * from Profil where Name= '" + username + "'";
+////                        String query = "select * from Profile where Name= '" + username + "'";
 ////                        ResultSet res = connector.runQuery(query);
 ////                        if(res.next()){
 ////                            z = "Login already exist";
@@ -181,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
 ////                        }
 ////                        else{
 ////                            z = "Inwalid Credentils!";
-////                            String query1 = "Insert into Profil(Name, Password, Points) values('" + username + "', '" + password + "', 0)";
+////                            String query1 = "Insert into Profile(Name, Password, Points) values('" + username + "', '" + password + "', 0)";
 ////                            ResultSet res1 = connector.runQuery(query1);
 ////                            if(res1.next()){
 ////                                z = "Success";
