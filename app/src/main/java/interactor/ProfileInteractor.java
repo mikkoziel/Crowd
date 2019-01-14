@@ -121,7 +121,7 @@ public class ProfileInteractor {
             _dbConnector.success(false);
             semaphore = 1;
         } else {
-            if (!password.equals(passwordCheck)) {
+            if (password.equals(passwordCheck)) {
                 _dbConnector.setResult("Fail");
                 _dbConnector.success(false);
                 semaphore = 2;
