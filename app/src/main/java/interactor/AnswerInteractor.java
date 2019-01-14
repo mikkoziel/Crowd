@@ -56,7 +56,7 @@ public class AnswerInteractor {
 
     public void addPossibleAnswers(ResultSet res, Question question) throws SQLException {
         while(res.next()) {
-            String content = res.getString("answer");
+            String content = res.getString("answerText");
             int ID = res.getInt("answerID");
             int type = res.getInt("typeID");
             int used = res.getInt("used");
