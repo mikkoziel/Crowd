@@ -97,39 +97,33 @@ public class ProfileInteractor {
         return res;
     }
 
-    //PYTANIE: co z tymi semaforami?
-    public void modeCheckOld(Profile profile, String password, int semaphore, String passwordCheck, String passwordCheck2) throws SQLException {
+    public void modeCheckOld(Profile profile, String password, String passwordCheck, String passwordCheck2) throws SQLException {
         String query = "Select * from Profile where profilID = " + profile.getID();
         ResultSet res = _dbConnector.runQuery(query, _connection);
         if (res.next()) {
             String name = res.getString("name");
             String oldPasswordRes = res.getString("password");
             if(profile.getName().equals(name) && password.equals(oldPasswordRes)){
-                checkRest(passwordCheck, passwordCheck2, semaphore, password);
+                checkRest(passwordCheck, passwordCheck2, password);
             }
             else{
-                _dbConnector.setResult("Fail");
+                _dbConnector.setResult("Wrong old password");
                 _dbConnector.success(false);
-                semaphore = 3;
             }
         }
     }
 
-    //PYTANIE: co z tymi semaforami?
-    private void checkRest(String passwordCheck, String passwordCheck2, int semaphore, String password){
+    private void checkRest(String passwordCheck, String passwordCheck2, String password){
         if (!passwordCheck.equals(passwordCheck2)) {
-            _dbConnector.setResult("Fail");
+            _dbConnector.setResult("Passwords doesn't match");
             _dbConnector.success(false);
-            semaphore = 1;
         } else {
             if (password.equals(passwordCheck)) {
-                _dbConnector.setResult("Fail");
+                _dbConnector.setResult("New password is the same as old password");
                 _dbConnector.success(false);
-                semaphore = 2;
             } else {
-                _dbConnector.setResult("Success");
+                _dbConnector.setResult("Correct Data");
                 _dbConnector.success(true);
-                semaphore = 0;
             }
         }
     }
@@ -139,7 +133,7 @@ public class ProfileInteractor {
         int res = -1;
         res = _dbConnector.updateQuery(query, _connection);
         if(res > 0){
-            _dbConnector.setResult("Success");
+            _dbConnector.setResult("Password Change successfull");
             _dbConnector.success(true);
             try {
                 _connection.close();
@@ -148,7 +142,7 @@ public class ProfileInteractor {
             }
         }
         else{
-            _dbConnector.setResult("Fail");
+            _dbConnector.setResult("Password Change failed");
             _dbConnector.success(false);
         }
     }

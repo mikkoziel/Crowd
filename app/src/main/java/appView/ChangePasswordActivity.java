@@ -42,33 +42,21 @@ public class ChangePasswordActivity extends AppCompatActivity {
     }
 
     public void changePassword(View view){
-        switch(checkPasswords()) {
-            case 0:
-                String newPasswordText = newPassword.getText().toString();
-                ChangePasswordPresenter changePasswordPresenter = new ChangePasswordPresenter(this, progress, profile, newPasswordText, 1);
-                changePasswordPresenter.execute("");
-                return;
-            case 1:
-                Toast.makeText(this, "Passwords doesn't match", Toast.LENGTH_LONG).show();
-                return;
-            case 2:
-                Toast.makeText(this, "New password is the same as old password", Toast.LENGTH_LONG).show();
-                return;
-            case 3:
-                Toast.makeText(this, "Wrong old password", Toast.LENGTH_LONG).show();
-                return;
-            default:
+        if(checkPasswords()) {
+            String newPasswordText = newPassword.getText().toString();
+            ChangePasswordPresenter changePasswordPresenter = new ChangePasswordPresenter(this, progress, profile, newPasswordText, 1);
+            changePasswordPresenter.execute();
         }
     }
 
-    public int checkPasswords(){
+    public Boolean checkPasswords(){
         String oldPasswordText = oldPassword.getText().toString();
         ChangePasswordPresenter changePasswordPresenter = new ChangePasswordPresenter(this, progress, profile, oldPasswordText, 0);
         changePasswordPresenter.setPasswordCheck(newPassword.getText().toString());
         changePasswordPresenter.setPasswordCheck2(repeatPassword.getText().toString());
-        changePasswordPresenter.execute("");
+        changePasswordPresenter.execute();
 
-        while(changePasswordPresenter.getSemaphore() == 4){ }
-        return changePasswordPresenter.getSemaphore();
+        while(changePasswordPresenter.getSemaphore()){ }
+        return changePasswordPresenter.getSuccess();
     }
 }
