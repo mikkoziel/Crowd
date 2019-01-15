@@ -189,8 +189,7 @@ public class TabMenuActivity extends AppCompatActivity {
         createAlertDialog("Closing Activity", "Are you sure you want to logout?");
     }
 
-    public Boolean createAlertDialog(String title, String message){
-        final Boolean[] answer = new Boolean[]{Boolean.TRUE};
+    public void createAlertDialog(String title, String message){
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle(title)
@@ -204,15 +203,7 @@ public class TabMenuActivity extends AppCompatActivity {
                     }
 
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        answer[0] = false;
-                    }
-
-                })
+                .setNegativeButton("No", null)
                 .show();
-        return answer[0];
     }
  }

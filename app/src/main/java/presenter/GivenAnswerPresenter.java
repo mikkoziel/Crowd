@@ -7,7 +7,7 @@ import entity.GivenAnswer;
 import interactor.AnswerInteractor;
 
 // void void void ?
-public class GivenAnswerPresenter extends AsyncTask<String, Button, String> {
+public class GivenAnswerPresenter extends AsyncTask<Void, Void, Void> {
     private int _profileID;
     private int _questionID;
     private int _answerID;
@@ -26,12 +26,12 @@ public class GivenAnswerPresenter extends AsyncTask<String, Button, String> {
     }
 
     @Override
-    protected String doInBackground(String... strings) {
+    protected Void doInBackground(Void... voids) {
         _answerInteractor.logAnswer(_profileID, _questionID, _answerID);
-        return "";
+        return null;
     }
 
     @Override
-    protected void onPostExecute(String r) {
+    protected void onPostExecute(Void voids) {
     }
 }

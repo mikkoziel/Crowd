@@ -14,15 +14,10 @@ import presenter.CheckLoginPresenter;
 import presenter.RegistrationPresenter;
 
 public class MainActivity extends AppCompatActivity {
-//    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
-//    public ArrayList<Profile> profiles;
     public Intent intent;
     public EditText loginT, passwordT;
     public Button submit;
     public ProgressBar progress;
-//    public Activi
-
-//    Bundle extras;
 
 
     @Override
@@ -36,191 +31,27 @@ public class MainActivity extends AppCompatActivity {
         progress = findViewById(R.id.progressBar);
 
         progress.setVisibility(View.GONE);
-//        this.extras = new Bundle();
 
     }
 
     public void loginBttn(View view){
         intent = new Intent(this, TabMenuActivity.class);
-//        intent.putExtra("connector", connector);
 
         CheckLoginPresenter checkLoginPresenter = new CheckLoginPresenter(this, progress, loginT, passwordT, intent);
-        checkLoginPresenter.execute("");
-//        CheckLogin checklogin =  new CheckLogin();
-//        checklogin.execute("");
+        checkLoginPresenter.execute();
     }
 
     public void registerBttn(View view){
         RegistrationPresenter registerLogin = new RegistrationPresenter(this, progress, loginT, passwordT);
-        registerLogin.execute("");
-//        RegisterLogin registerLogin = new RegisterLogin();
-//        registerLogin.execute("");
-
+        registerLogin.execute();
     }
 
-//    public class CheckLogin extends AsyncTask<String, String, String> {
-//        String z = "";
-//        Boolean isSuccess = false;
-//
-//        @Override
-//        protected void onPreExecute(){
-//            progress.setVisibility(View.VISIBLE);
-//        }
-//
-//        @Override
-//        protected String doInBackground(String... params){
-//            String username = loginT.getText().toString();
-//            String password = passwordT.getText().toString();
-//
-//            if(username.trim().equals("")|| password.trim().equals("")){
-//                z = "Please enter Username and Password";
-//            }
-//            else {
-//                ResultSet res = null;
-//                try {
-//                    res = connector.checkLogin(username, password);
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                }
-//                Profile profile = null;
-//
-//                try {
-//                    if (res != null) {
-//                        profile = connector.setMenu(res);
-//                        connector.setGames(profile);
-////                        connector.getConnection().close();
-//                    }
-//
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                }
-//                profile.setConnector(connector);
-//                intent.putExtra("profile", profile);
-//                z = connector.getResult();
-//                isSuccess = connector.getSuccess();
-//            }
-////            if(username.trim().equals("")|| password.trim().equals("")){
-////                z = "Please enter Username and Password";
-////            }
-////            else{
-////                try {
-////                    con = connector.connectionClass();
-////                    if (con == null) {
-////                        z = "Check Your Internet Access!";
-////                    }
-////                    else{
-////                        String query = "select * from Profile where Name= '" + username + "' and password = '" + password + "'";
-////                        ResultSet res = connector.runQuery(query, con);
-////                        if(res.next()){
-////                            setMenu(res);
-////                            setGames();
-////                            con.close();
-////                        }
-////                        else{
-////                            z = "Inwalid Credentils!";
-////                            isSuccess = false;
-////                        }
-////                    }
-////                }
-////                catch(Exception e){
-////                    isSuccess = false;
-////                    z = e.getMessage();
-////
-////                }
-////            }
-//
-//            return z;
-//        }
-//
-//
-//        @Override
-//        protected void onPostExecute(String r){
-//            progress.setVisibility(View.GONE);
-//            Toast.makeText(MainActivity.this, r, Toast.LENGTH_SHORT).show();
-//            if(isSuccess){
-//                Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
-//                startActivity(intent);
-//            }
-//        }
-//
-//
-//    }
+    @Override
+    public void onBackPressed() {
+        createAlertDialog("Closing Activity", "Are you sure you want to exit?");
+    }
 
-//    public class RegisterLogin extends AsyncTask<String, String, String>{
-//        String z = "";
-//        Boolean isSuccess = false;
-//
-//        @Override
-//        protected void onPreExecute(){
-//            progress.setVisibility(View.VISIBLE);
-//        }
-//
-//        @Override
-//        protected String doInBackground(String... params){
-//            String username = loginT.getText().toString();
-//            String password = passwordT.getText().toString();
-//
-//            if(username.trim().equals("")|| password.trim().equals("")){
-//                z = "Please enter Username and Password";
-//            }
-//            else{
-//                try {
-////                    con = connector.connectionClass();
-////                    if (con == null) {
-////                        z = "Check Your Internet Access!";
-////                    }
-////                    else{
-////                        String query = "select * from Profile where Name= '" + username + "'";
-////                        ResultSet res = connector.runQuery(query);
-////                        if(res.next()){
-////                            z = "Login already exist";
-////                            isSuccess = false;
-////                        }
-////                        else{
-////                            z = "Inwalid Credentils!";
-////                            String query1 = "Insert into Profile(Name, Password, Points) values('" + username + "', '" + password + "', 0)";
-////                            ResultSet res1 = connector.runQuery(query1);
-////                            if(res1.next()){
-////                                z = "Success";
-////                                isSuccess = true;
-////                                con.close();
-////                            }
-////                            else{
-////                                z = "Fail";
-////                                isSuccess = false;
-////                            }
-////                        }
-////                    }
-//                }
-//                catch(Exception e){
-//                    isSuccess = false;
-//                    z = e.getMessage();
-//
-//                }
-//            }
-//
-//            return z;
-//        }
-//
-//
-//        @Override
-//        protected void onPostExecute(String r){
-//            progress.setVisibility(View.GONE);
-//            Toast.makeText(MainActivity.this, r, Toast.LENGTH_SHORT).show();
-//            if(isSuccess){
-//                Toast.makeText(MainActivity.this, "Login Registration Successful", Toast.LENGTH_LONG).show();
-//            }
-//        }
-//
-//
-//    }
-@Override
-public void onBackPressed() {
-    createAlertDialog("Closing Activity", "Are you sure you want to exit?");
-}
-
-    public Boolean createAlertDialog(String title, String message){
-        final Boolean[] answer = new Boolean[]{Boolean.TRUE};
+    public void createAlertDialog(String title, String message){
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle(title)
@@ -229,22 +60,12 @@ public void onBackPressed() {
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                        Intent intent = new Intent(this, MainActivity.class);
-//                        activity.startActivity(intent);
                         finish();
                     }
 
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        answer[0] = false;
-                    }
-
-                })
+                .setNegativeButton("No", null)
                 .show();
-        return answer[0];
     }
 
 }

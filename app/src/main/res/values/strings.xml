@@ -21,4 +21,9 @@
     <string name="backMenu">Back To Menu</string>
     <string name="changeTheme">Change Theme</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="emptyGame">Game Empty. Go Back To Menu</string>
+    <string name="newGame">NEW GAME</string>
+    <string name="start">START</string>
+    <string name="previousGame">Do you want to continue previous game?</string>
+    <string name="resume">RESUME</string>
 </resources>

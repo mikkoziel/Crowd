@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import entity.Profile;
 import interactor.ProfileInteractor;
 
-public class ChangePasswordPresenter extends AsyncTask<String, String, String> {
+public class ChangePasswordPresenter extends AsyncTask<Void, Void, Void> {
 
     @SuppressLint("StaticFieldLeak")
     private Activity _activity;
@@ -22,7 +22,7 @@ public class ChangePasswordPresenter extends AsyncTask<String, String, String> {
     private String _passwordCheck;
     private String _passwordCheck2;
     private int _mode;
-    private int _semaphore;
+    private Boolean _semaphore;
     private ProfileInteractor _profileInteractor;
     private Profile _profile;
 
@@ -31,7 +31,7 @@ public class ChangePasswordPresenter extends AsyncTask<String, String, String> {
         this._progress = progress;
         this._password = password;
         this._mode = mode;
-        this._semaphore = 4;
+        this._semaphore = true;
         this._profileInteractor = new ProfileInteractor();
         this._profile = profile;
     }
@@ -41,46 +41,37 @@ public class ChangePasswordPresenter extends AsyncTask<String, String, String> {
         _progress.setVisibility(View.VISIBLE);
     }
 
-    //PYTANIE: co z tymi semaforami?
     @Override
-    protected String doInBackground(String... strings) {
+    protected Void doInBackground(Void... voids) {
         try {
             switch (_mode) {
                 case 0:
-                    _profileInteractor.modeCheckOld(_profile, _password, _semaphore, _passwordCheck, _passwordCheck2);
-//                  semafor = 1;
-                    return "";  //?? return? a nie break?
+                    _profileInteractor.modeCheckOld(_profile, _password, _passwordCheck, _passwordCheck2);
+                    break;
                 case 1:
                     _profileInteractor.modeChangeToNew(_password, _profile);
-//                  semafor =1;
-                    return "";
+                    break;
                 }
-                // PYTANIE cz1: tu ustawiamy toast jak no success
-            if(!_profileInteractor.getSuccess())
-            {
-                Toast.makeText(_activity, "Wrong Old Password", Toast.LENGTH_SHORT).show();
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return "";
+
+        _semaphore = false;
+        return null;
     }
 
     @Override
-    protected void onPostExecute(String r){
+    protected void onPostExecute(Void voids){
         _progress.setVisibility(View.GONE);
-        Toast.makeText(_activity, _profileInteractor.getResult(), Toast.LENGTH_SHORT).show();
-        // PYTANIE cz 2: tu ustawiamy toast jak succes, po co tak? nie można tutaj obu? i czmu nie korzytsamy z result ustawionego w profileInteractor?
-        if(_profileInteractor.getSuccess()){
-            Toast.makeText(_activity, "Password Change OK", Toast.LENGTH_LONG).show();
-        }
+        String result = _profileInteractor.getResult();
+        Toast.makeText(_activity, result, Toast.LENGTH_LONG).show();
     }
 
-    public Boolean getIsSuccess() {
+    public Boolean getSuccess() {
         return _profileInteractor.getSuccess();
     }
 
-    public int getSemaphore(){
+    public Boolean getSemaphore(){
         return _semaphore;
     }
 

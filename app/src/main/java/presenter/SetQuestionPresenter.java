@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import entity.Game;
 import interactor.QuestionInteractor;
 
-public class SetQuestionPresenter extends AsyncTask<String, String, String> {
+public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
 
     @SuppressLint("StaticFieldLeak")
     private Activity _activity;
@@ -37,20 +37,18 @@ public class SetQuestionPresenter extends AsyncTask<String, String, String> {
     }
 
     @Override
-    protected String doInBackground(String... params) {
-        String result = "";
+    protected Void doInBackground(Void... voids) {
         try {
             _questionInteractor.setQuestions(_game);
-            result = _questionInteractor.getResultInfo();
+//            result = _questionInteractor.getResultInfo();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     @Override
-    //PYTANIE" po co ten r?
-    protected void onPostExecute(String r) {
+    protected void onPostExecute(Void voids) {
         if (_questionInteractor.isSuccess()) {
             _intent.putExtra("game", _game);
             _activity.startActivity(_intent);
