@@ -34,7 +34,7 @@ public class EndGameActivity extends AppCompatActivity {
         if(getIntent().hasExtra("answer")){
             GivenAnswer given = (GivenAnswer) intent.getSerializableExtra("answer");
             GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(given);
-            givenAnswerPresenter.execute("");
+            givenAnswerPresenter.execute();
         }
 
         TextView endText = findViewById(R.id.endgame);

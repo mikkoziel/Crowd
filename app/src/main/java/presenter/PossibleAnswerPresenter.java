@@ -23,7 +23,7 @@ import entity.Question;
 
 import interactor.AnswerInteractor;
 
-public class PossibleAnswerPresenter extends AsyncTask<String, Button, String> {
+public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
 
     @SuppressLint("StaticFieldLeak")
     private Activity _activity;
@@ -56,7 +56,7 @@ public class PossibleAnswerPresenter extends AsyncTask<String, Button, String> {
     }
 
     @Override
-    protected String doInBackground(String... params){
+    protected Void doInBackground(Void... voids){
         ResultSet res = _answerInteractor.getAnswers(_question);
         try {
             _answerInteractor.addPossibleAnswers(res, _question);
@@ -68,7 +68,7 @@ public class PossibleAnswerPresenter extends AsyncTask<String, Button, String> {
             Button button = setButtons(answer.getAnswer(), answer);
             publishProgress(button);
         }
-        return ""; // TO DO: ???
+        return null;
     }
 
     @Override
@@ -77,7 +77,7 @@ public class PossibleAnswerPresenter extends AsyncTask<String, Button, String> {
     }
 
     @Override
-    protected void onPostExecute(String r){
+    protected void onPostExecute(Void voids){
         _progress.setVisibility(View.GONE);
     }
 
