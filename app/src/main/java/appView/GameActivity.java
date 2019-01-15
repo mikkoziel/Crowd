@@ -18,7 +18,6 @@ public class GameActivity extends AppCompatActivity {
     public Game game;
     public Profile profile;
     public ProgressBar progress;
-//    public Intent intent;
     public Activity activity;
 
     @Override
@@ -33,9 +32,6 @@ public class GameActivity extends AppCompatActivity {
 
         this.progress = findViewById(R.id.progress);
         progress.setVisibility(View.GONE);
-//        this.intent = new Intent(this, QuestionActivity.class);
-//        intent.putExtra("profile", profile);
-//        intent.putExtra("game", game);
 
         TextView gameText = (TextView) findViewById(R.id.game);
         gameText.setText(game.getGameName());
@@ -58,10 +54,10 @@ public class GameActivity extends AppCompatActivity {
 
     public void gamePlayed( LinearLayout buttonLayout, LinearLayout.LayoutParams lp){
         TextView previousText = new TextView(this);
-        previousText.setText("Do you want to continue previous game?");
+        previousText.setText(R.string.previousGame);
 
         Button resumeBttn = new Button(this);
-        resumeBttn.setText("RESUME");
+        resumeBttn.setText(R.string.resume);
         resumeBttn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(activity, QuestionActivity.class);
@@ -73,8 +69,9 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
+        //TO DO: Co wkładamy do intenta? (Game 2 razy)
         Button newBttn = new Button(this);
-        newBttn.setText("NEW GAME");
+        newBttn.setText(R.string.newGame);
         newBttn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(activity, QuestionActivity.class);
@@ -84,8 +81,7 @@ public class GameActivity extends AppCompatActivity {
                 game.setPlayed(true);
                 game.zeroIndex();
                 SetQuestionPresenter setQuestionPresenter = new SetQuestionPresenter(game, activity, progress, intent);
-                setQuestionPresenter.execute("");
-//                activity.startActivity(intent);
+                setQuestionPresenter.execute();
             }
         });
 
@@ -96,7 +92,7 @@ public class GameActivity extends AppCompatActivity {
 
     public void gameNotPlayed( LinearLayout buttonLayout, LinearLayout.LayoutParams lp){
         Button startBttn = new Button(this);
-        startBttn.setText("START");
+        startBttn.setText(R.string.start);
         startBttn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(activity, QuestionActivity.class);
@@ -114,9 +110,9 @@ public class GameActivity extends AppCompatActivity {
 
     public void gameEmpty( LinearLayout buttonLayout, LinearLayout.LayoutParams lp){
         TextView text = new TextView(this);
-        text.setText("Game Empty. Go Back To Menu");
+        text.setText(R.string.emptyGame);
         Button startBttn = new Button(this);
-        startBttn.setText("BACK");
+        startBttn.setText(R.string.back);
         startBttn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(activity, TabMenuActivity.class);
@@ -131,89 +127,6 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
-//    public class CheckLogin extends AsyncTask<String, String, String> {
-//        String z = "";
-//        Boolean isSuccess = false;
-//
-//        @Override
-//        protected void onPreExecute(){
-//            progress.setVisibility(View.VISIBLE);
-//        }
-//
-//        @Override
-//        protected String doInBackground(String... params){
-//            Connection con;
-//            try {
-//                z = setQ(game, connector);
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
-//            try {
-//                con = connector.connectionClass();
-//                if (con == null) {
-//                    z = "Check Your Internet Access!";
-//                }
-//                else{
-//                    z = setQ(game, connector);
-//                    String query = "select * from Profile where Name= '" + username + "' and password = '" + password + "'";
-//                    ResultSet res = connector.runQuery(query, con);
-//                    if(res.next()){
-//                        con.close();
-//                    }
-//                    else{
-//                        z = "Inwalid Credentils!";
-//                        isSuccess = false;
-//                    }
-//                }
-//            }
-//            catch(Exception e){
-//                isSuccess = false;
-//                z = e.getMessage();
-//
-//            }
-//
-//
-//            return z;
-//        }
-//
-//
-//        @Override
-//        protected void onPostExecute(String r){
-//            progress.setVisibility(View.GONE);
-//            Toast.makeText(GameActivity.this, r, Toast.LENGTH_SHORT).show();
-//            if(isSuccess){
-//                Toast.makeText(GameActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
-//                startActivity(intent);
-//            }
-//        }
-//
-//        public String setQ(Game game, Connector connector) throws SQLException {
-//            String z = "";
-
-//            Connection con = connector.connectionClass();
-//            if (connector.getConnection() == null) {
-//                z = "Check Your Internet Access!";
-//            } else {
-//                String query = "select * from Question where gameID = " + game.getGameID() + ";";
-//                ResultSet res = connector.runQuery(query);
-//                game.setQuestions(res);
-//                Thread thread = new Thread(new Runnable(){
-//                    @Override
-//                    public void run(){
-//                        try {
-//                            setAnswers();
-//                        } catch (SQLException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
-//                thread.start();
-//                connector.getConnection().close();
-//                z = "All alright";
-//            }
-//            return z;
-//        }
-//    }
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, TabMenuActivity.class);

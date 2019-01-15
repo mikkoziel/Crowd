@@ -88,6 +88,6 @@ public class QuestionActivity extends AppCompatActivity {
 
     public void setAnswer(){
         PossibleAnswerPresenter possibleAnswerPresenter = new PossibleAnswerPresenter(this, question, progress, lp, answerLayout, game, profile);
-        possibleAnswerPresenter.execute("");
+        possibleAnswerPresenter.execute();
     }
 }
