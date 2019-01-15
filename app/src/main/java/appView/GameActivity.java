@@ -117,6 +117,7 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(activity, TabMenuActivity.class);
                 intent.putExtra("profile", profile);
+                intent.putExtra("item", 1);
                 game.setPlayed(false);
                 game.zeroIndex();
                 activity.startActivity(intent);
@@ -131,6 +132,7 @@ public class GameActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent(this, TabMenuActivity.class);
         intent.putExtra("profile", profile);
+        intent.putExtra("item", 1);
         this.startActivity(intent);
     }
 }

@@ -27,8 +27,6 @@ public class QuestionActivity extends AppCompatActivity {
     public Activity activity;
     public LinearLayout answerLayout;
     public LinearLayout.LayoutParams lp;
-//    public ListIterator<Question> questionIterator;
-//    public ListIterator<Answer> answerIterator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

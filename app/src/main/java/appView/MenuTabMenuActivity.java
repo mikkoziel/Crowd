@@ -45,7 +45,6 @@ public class MenuTabMenuActivity extends Fragment {
         this.progress = rootView.findViewById(appView.R.id.progressMenu);
         progress.setVisibility(View.GONE);
 
-//        this.logger = new Logger(profile, connector);
         this.intent = new Intent(activity, GameActivity.class);
         intent.putExtra("profile", profile);
 

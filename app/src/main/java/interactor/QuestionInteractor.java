@@ -29,6 +29,8 @@ public class QuestionInteractor {
 
     public String getResultInfo(){return _dbConnector.getResult();}
 
+    public void emptyQuestions(Game game){game.getQuestions().clear();}
+
     public void setQuestions(Game game) throws SQLException {
         if (_isConnect) {
             ResultSet res = getQuestions(game, _connection);
