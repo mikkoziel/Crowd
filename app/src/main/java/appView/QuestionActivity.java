@@ -3,14 +3,19 @@ package appView;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.Image;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import entity.Game;
+import entity.ImageQuestion;
 import entity.Profile;
 import entity.Question;
 import entity.GivenAnswer;
@@ -22,7 +27,7 @@ public class QuestionActivity extends AppCompatActivity {
 
     public Game game;
     public Profile profile;
-    public Question question;
+    public Question _question;
     public ProgressBar progress;
     public Activity activity;
     public LinearLayout answerLayout;
@@ -39,7 +44,7 @@ public class QuestionActivity extends AppCompatActivity {
         this.profile = (Profile) intent.getSerializableExtra("profile");
 
 
-        this.question = game.getQuestions().get(game.getIndex());
+        this._question = game.getQuestions().get(game.getIndex());
         game.nextIndex();
         this.progress = findViewById(appView.R.id.progress);
         this.activity = this;
@@ -52,10 +57,58 @@ public class QuestionActivity extends AppCompatActivity {
         this.answerLayout = findViewById(appView.R.id.answerlayout);
         this.lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        TextView questionText = findViewById(appView.R.id.question);
-        questionText.setText(question.getQuestion());
-
+        setQuestion();
         setAnswer();
+    }
+
+    public void setQuestion(){
+        LinearLayout layout = findViewById(appView.R.id.questionlayout);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        switch(_question.getType()) {
+            case 1:
+                setTextQuestion(layout, lp);
+                break;
+            case 1003:
+                setImageQuestion(layout, lp);
+                break;
+        }
+    }
+
+    public void setTextQuestion(LinearLayout layout, LinearLayout.LayoutParams lp){
+        String questionText = _question.getQuestion();
+        TextView question = setTextView(questionText);
+        layout.addView(question, lp);
+    }
+
+    public void setImageQuestion(LinearLayout layout, LinearLayout.LayoutParams lp){
+        String questionText = _question.getQuestion();
+        TextView question = setTextView(questionText);
+
+//        Bitmap questionImage = ((ImageQuestion) _question).getImage();
+//        ImageView questionI = setImageView(questionImage);
+
+//        layout.addView(questionI, lp);
+        layout.addView(question, lp);
+    }
+
+    public TextView setTextView(String questionText){
+        TextView question = new TextView(this);
+        question.setText(questionText);
+        question.setGravity(Gravity.CENTER);
+        return question;
+    }
+
+    public ImageView setImageView(Bitmap questionImage){
+        ImageView question = new ImageView(this);
+        question.setImageBitmap(questionImage);
+//        question.setText(questionText);
+        return question;
+    }
+
+    public void setAnswer(){
+        PossibleAnswerPresenter possibleAnswerPresenter = new PossibleAnswerPresenter(this, _question, progress, lp, answerLayout, game, profile);
+        possibleAnswerPresenter.execute();
     }
 
     @Override
@@ -82,10 +135,5 @@ public class QuestionActivity extends AppCompatActivity {
                 })
                 .setNegativeButton("No", null)
                 .show();
-    }
-
-    public void setAnswer(){
-        PossibleAnswerPresenter possibleAnswerPresenter = new PossibleAnswerPresenter(this, question, progress, lp, answerLayout, game, profile);
-        possibleAnswerPresenter.execute();
     }
 }
