@@ -10,13 +10,15 @@ public class Question implements Serializable{
     private int _type;
     private ArrayList<Answer> _answers;
     private int _index;
+    private Boolean _defaultAnswer;
 
-    public Question(String question, int questionID, int type){
+    public Question(String question, int questionID, int type, Boolean defaultAnswer){
         this._question = question;
         this._questionID = questionID;
         this._type = type;
         this._answers = new ArrayList<>();
         this._index = 0;
+        this._defaultAnswer = defaultAnswer;
     }
 
     public Question()
@@ -26,6 +28,7 @@ public class Question implements Serializable{
         this._type = 0;
         this._answers = null;
         this._index = 0;
+        this._defaultAnswer = false;
     }
 
     public String getQuestion() {
@@ -46,6 +49,10 @@ public class Question implements Serializable{
 
     public int getIndex() {
         return _index;
+    }
+
+    public Boolean get_defaultAnswer() {
+        return _defaultAnswer;
     }
 
     public void setQuestion(String question) {
@@ -70,7 +77,11 @@ public class Question implements Serializable{
 
     public void nextIndex(){this._index ++;}
 
-//    public void setAnswers(ResultSet res) throws SQLException {
+    public void set_defaultAnswer(Boolean _defaultAnswer) {
+        this._defaultAnswer = _defaultAnswer;
+    }
+
+    //    public void setAnswers(ResultSet res) throws SQLException {
 ////        String z;
 ////        Boolean isSuccess = false;
 ////

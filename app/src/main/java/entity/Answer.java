@@ -8,18 +8,20 @@ public class Answer implements Serializable {
     private int _used;
     private double _percentageUsed;
     private int _type;
+    private Boolean _defaultAnswer;
 
     public Answer(int answerID, String answer){
         this._answerID = answerID;
         this._answer = answer;
     }
 
-    public Answer(int answerID, String answer, int used, double percentageUsed, int type){
+    public Answer(int answerID, String answer, int used, double percentageUsed, int type, Boolean defaultAnswer ){
         this._answerID = answerID;
         this._answer = answer;
         this._used = used;
         this._percentageUsed = percentageUsed;
         this._type = type;
+        this._defaultAnswer = defaultAnswer;
     }
 
     public int getAnswerID() {
@@ -42,6 +44,10 @@ public class Answer implements Serializable {
         return _type;
     }
 
+    public Boolean get_defaultAnswer() {
+        return _defaultAnswer;
+    }
+
     public void setAnswerID(int answerID) {
         this._answerID = answerID;
     }
@@ -60,5 +66,9 @@ public class Answer implements Serializable {
 
     public void setType(int type) {
         this._type = type;
+    }
+
+    public void set_defaultAnswer(Boolean _defaultAnswer) {
+        this._defaultAnswer = _defaultAnswer;
     }
 }

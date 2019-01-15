@@ -38,8 +38,9 @@ public class QuestionInteractor {
                 String content = res.getString("questionText");
                 int ID = res.getInt("questionID");
                 int type = res.getInt("typeID");
+                Boolean defaultAnswer = res.getBoolean("defaultAnswer");
 
-                Question question = new Question(content, ID, type);
+                Question question = new Question(content, ID, type, defaultAnswer);
                 game.addQuestion(question);
             }
             _dbConnector.setResult("Game Starting");

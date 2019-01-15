@@ -57,9 +57,8 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
 
     @Override
     protected Void doInBackground(Void... voids){
-        ResultSet res = _answerInteractor.getAnswers(_question);
         try {
-            _answerInteractor.addPossibleAnswers(res, _question);
+            _answerInteractor.getAnswers(_question);
         } catch (SQLException e) {
             e.printStackTrace();
         }

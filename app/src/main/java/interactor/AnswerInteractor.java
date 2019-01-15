@@ -3,6 +3,8 @@ package interactor;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Random;
 
 import entity.Answer;
 import entity.Game;
@@ -32,12 +34,80 @@ public class AnswerInteractor {
         }
     }
 
-    public ResultSet getAnswers(Question question)
-    {
-        String query = "select * from Answer where questionID= '" + question.getQuestionID() + "'";
-        Connection connection = _dbConnector.makeConnection();
-        return _dbConnector.runQuery(query, connection);
+//    public ResultSet getAnswers(Question question)
+    public void getAnswers(Question question) throws SQLException {
+        ArrayList<Integer> ids = selectAnswerID(question);
+
+        if(question.get_defaultAnswer()){
+            setRandomAnswer(ids, question, 4);
+            defaultAnswer(question);
+        }
+        else{
+            setRandomAnswer(ids, question, 5);
+        }
+//        String query = "select * from Answer where questionID= '" + question.getQuestionID() + "'";
+//        Connection connection = _dbConnector.makeConnection();
+//        addPossibleAnswers(_dbConnector.runQuery(query, connection), question);
+//        return _dbConnector.runQuery(query, connection);
     }
+
+    private void defaultAnswer(Question question) throws SQLException {
+        String query = "select * from Answer where questionID= '" + question.getQuestionID() + "' and defaultAnswer = 1";
+        Connection connection = _dbConnector.makeConnection();
+//        ResultSet res = _dbConnector.runQuery(query, connection);
+        addPossibleAnswers(_dbConnector.runQuery(query, connection), question);
+    }
+
+    private ArrayList<Integer> selectAnswerID(Question question) throws SQLException {
+        String query = "select answerID from Answer where questionID= '" + question.getQuestionID() + "' and defaultAnswer = 0";
+        Connection connection = _dbConnector.makeConnection();
+        ResultSet res = _dbConnector.runQuery(query, connection);
+        ArrayList<Integer> ids = new ArrayList<>();
+
+        while(res.next()) {
+            ids.add(res.getInt("answerID"));
+        }
+        return ids;
+    }
+
+    private void setRandomAnswer(ArrayList<Integer> ids, Question question, int numberOfAnswer) throws SQLException {
+        Random rand = new Random();
+
+        for(int i = 0; i < numberOfAnswer; i++){
+            int random = rand.nextInt(ids.size());
+            int randomElement = ids.get(random);
+            ids.remove(random);
+            getRandomAnswer(question, randomElement);
+        }
+    }
+
+    private void getRandomAnswer(Question question, int randomIndex) throws SQLException {
+        String query = "select * from Answer where answerID= '" + randomIndex + "'";
+        Connection connection = _dbConnector.makeConnection();
+//        ResultSet res = _dbConnector.runQuery(query, connection);
+//        while(res.next()) {
+//            addPossibleAnswers();
+//        }
+        addPossibleAnswers(_dbConnector.runQuery(query, connection), question);
+    }
+
+    private void addPossibleAnswers(ResultSet res, Question question) throws SQLException {
+        while(res.next()) {
+            String content = res.getString("answerText");
+            int ID = res.getInt("answerID");
+            int type = res.getInt("typeID");
+            int used = res.getInt("used");
+            double percentageUsed = res.getDouble("percentageUsed");
+            Boolean defaultAnswer = res.getBoolean("defaultAnswer");
+            Answer answer = new Answer(ID, content, used, percentageUsed, type, defaultAnswer);
+            question.addAnswer(answer);
+        }
+    }
+
+
+
+
+
 
     public void setAnswersForAllQuestions(Game game) throws SQLException {
         ResultSet res;
@@ -54,17 +124,7 @@ public class AnswerInteractor {
         return _dbConnector.runQuery(query, _connection);
     }
 
-    public void addPossibleAnswers(ResultSet res, Question question) throws SQLException {
-        while(res.next()) {
-            String content = res.getString("answerText");
-            int ID = res.getInt("answerID");
-            int type = res.getInt("typeID");
-            int used = res.getInt("used");
-            double percentageUsed = res.getDouble("percentageUsed");
-            Answer answer = new Answer(ID, content, used, percentageUsed, type);
-            question.addAnswer(answer);
-        }
-    }
+
 
 
 
