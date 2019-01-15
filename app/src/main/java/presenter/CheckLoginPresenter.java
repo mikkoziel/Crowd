@@ -16,7 +16,7 @@ import entity.Profile;
 import interactor.GameInteractor;
 import interactor.ProfileInteractor;
 
-public class CheckLoginPresenter extends AsyncTask<String, String, String> {
+public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
 
     @SuppressLint("StaticFieldLeak")
     private Activity _activity;
@@ -45,36 +45,35 @@ public class CheckLoginPresenter extends AsyncTask<String, String, String> {
     }
 
     @Override
-    protected String doInBackground(String... params){
+    protected Void doInBackground(Void... voids){
 
-        String result;
         if(_username.trim().equals("")|| _password.trim().equals("")){
-            result = "Please enter Username and Password";
+            _profileInteractor.setResult("Please enter Username and Password");
         }
         else {
             ResultSet res;
             try {
-                res = _profileInteractor
-                        .checkLogin(_username, _password);
-                Profile profile = _profileInteractor.setProfile(res);
-                _gameInteractor.setGames(profile);
-                _intent.putExtra("profile", profile);
+                res = _profileInteractor.checkLogin(_username, _password);
+                if(_profileInteractor.getSuccess()) {
+                    Profile profile = _profileInteractor.setProfile(res);
+                    _gameInteractor.setGames(profile);
+                    _intent.putExtra("profile", profile);
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
 
-            result = _profileInteractor.getResult();
         }
-        //PYTANIE: co roimy z tym resultem?
-        return result;
+        return null;
     }
 
+
     @Override
-    protected void onPostExecute(String r){
+    protected void onPostExecute(Void voids){
         _progress.setVisibility(View.GONE);
-        Toast.makeText(_activity, r, Toast.LENGTH_SHORT).show();
+        String result = _profileInteractor.getResult();
+        Toast.makeText(_activity, result, Toast.LENGTH_LONG).show();
         if(_profileInteractor.getSuccess()){
-            Toast.makeText(_activity, "Login Successful", Toast.LENGTH_LONG).show();
             _activity.startActivity(_intent);
         }
     }

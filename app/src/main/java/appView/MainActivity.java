@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 //        intent.putExtra("connector", connector);
 
         CheckLoginPresenter checkLoginPresenter = new CheckLoginPresenter(this, progress, loginT, passwordT, intent);
-        checkLoginPresenter.execute("");
+        checkLoginPresenter.execute();
 //        CheckLogin checklogin =  new CheckLogin();
 //        checklogin.execute("");
     }

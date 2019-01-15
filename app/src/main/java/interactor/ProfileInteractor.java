@@ -35,6 +35,8 @@ public class ProfileInteractor {
         return profile;
     }
 
+    public void setResult(String result){_dbConnector.setResult(result);}
+
     public Boolean getSuccess()
     {
         return _dbConnector.getSuccess();
@@ -82,6 +84,7 @@ public class ProfileInteractor {
             res = getLogin(username, _connection);
             if (res.next()) {
                 if(res.getString("password").equals(password)) {
+                    _dbConnector.setResult("Login Successful");
                     _dbConnector.success(true);
                 }
                 else{
