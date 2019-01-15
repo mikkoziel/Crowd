@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import entity.Game;
+import entity.ImageQuestion;
 import entity.Question;
 
 public class QuestionInteractor {
@@ -58,6 +59,7 @@ public class QuestionInteractor {
                         Bitmap bmp = BitmapFactory.decodeStream(in);
 
                         question = new Question(content, ID, type, defaultAnswer);
+//                        question = new ImageQuestion(bmp, content, ID, type, defaultAnswer);
                         break;
                 }
 

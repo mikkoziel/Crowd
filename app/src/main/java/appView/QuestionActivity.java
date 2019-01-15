@@ -73,8 +73,6 @@ public class QuestionActivity extends AppCompatActivity {
                 setImageQuestion(layout, lp);
                 break;
         }
-//        TextView questionText = findViewById(appView.R.id.question);
-//        questionText.setText(_question.getQuestion());
     }
 
     public void setTextQuestion(LinearLayout layout, LinearLayout.LayoutParams lp){
