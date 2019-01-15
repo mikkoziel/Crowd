@@ -33,8 +33,8 @@ public class ProfilTabMenuActivity extends Fragment {
         TextView user = rootView.findViewById(R.id.userName);
         TextView points = rootView.findViewById(R.id.points);
 
-        user.setText("Username: " + profile.getName());
-        points.setText("Points: " + Integer.toString(profile.getPoints()));
+        user.setText(String.format("Username: %s", profile.getName()));
+        points.setText(String.format("Points: %s", Integer.toString(profile.getPoints())));
 
         return rootView;
     }

@@ -39,6 +39,7 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... voids) {
         try {
+            _questionInteractor.emptyQuestions(_game);
             _questionInteractor.setQuestions(_game);
 //            result = _questionInteractor.getResultInfo();
         } catch (SQLException e) {

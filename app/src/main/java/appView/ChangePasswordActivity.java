@@ -36,8 +36,9 @@ public class ChangePasswordActivity extends AppCompatActivity {
     }
 
     public void backButton(View view){
-        Intent intent = new Intent(this, ChangePasswordActivity.class);
+        Intent intent = new Intent(this, TabMenuActivity.class);
         intent.putExtra("profile", profile);
+        intent.putExtra("item", 2);
         this.startActivity(intent);
     }
 
@@ -59,4 +60,13 @@ public class ChangePasswordActivity extends AppCompatActivity {
         while(changePasswordPresenter.getSemaphore()){ }
         return changePasswordPresenter.getSuccess();
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, TabMenuActivity.class);
+        intent.putExtra("profile", profile);
+        intent.putExtra("item", 2);
+        this.startActivity(intent);
+    }
+
 }

@@ -45,6 +45,7 @@ public class EndGameActivity extends AppCompatActivity {
     public void backButton(View view){
         Intent intent = new Intent(this, TabMenuActivity.class);
         intent.putExtra("profile", profile);
+        intent.putExtra("item", 1);
         this.startActivity(intent);
     }
 
@@ -52,6 +53,14 @@ public class EndGameActivity extends AppCompatActivity {
         Intent intent = new Intent(this, GameActivity.class);
         intent.putExtra("game", game);
         intent.putExtra("profile", profile);
+        this.startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, TabMenuActivity.class);
+        intent.putExtra("profile", profile);
+        intent.putExtra("item", 1);
         this.startActivity(intent);
     }
 }

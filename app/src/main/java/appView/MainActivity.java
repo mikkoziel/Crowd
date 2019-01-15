@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void loginBttn(View view){
         intent = new Intent(this, TabMenuActivity.class);
+        intent.putExtra("item", 1);
 
         CheckLoginPresenter checkLoginPresenter = new CheckLoginPresenter(this, progress, loginT, passwordT, intent);
         checkLoginPresenter.execute();
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         finish();
+                        System.exit(0);
                     }
 
                 })
