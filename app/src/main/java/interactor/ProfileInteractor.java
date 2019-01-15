@@ -37,6 +37,8 @@ public class ProfileInteractor {
 
     public void setResult(String result){_dbConnector.setResult(result);}
 
+    public void setSuccess(Boolean success){_dbConnector.success(success);}
+
     public Boolean getSuccess()
     {
         return _dbConnector.getSuccess();
@@ -47,8 +49,7 @@ public class ProfileInteractor {
         return _dbConnector.getResult();
     }
 
-    // tO DO, czy może być void?
-    public String registerLogin(String username, String password) throws SQLException {
+    public void registerLogin(String username, String password) throws SQLException {
         ResultSet res;
 
         if (_isConnect) {
@@ -58,22 +59,19 @@ public class ProfileInteractor {
                 _dbConnector.success(false);
             }
             else{
-                _dbConnector.setResult("Invalid Credentials!"); // czy to jest potrzebne?
                 String query1 = "Insert into Profile(Name, Password, Points, Userlevel) values('" + username + "', '" + password + "', 0, 0)";
                 int res1 = _dbConnector.updateQuery(query1, _connection);
                 if(res1 > 0){
-                    _dbConnector.setResult("Success");
+                    _dbConnector.setResult("Login registration successfull");
                     _dbConnector.success(true);
                     _connection.close();
                 }
                 else{
-                    _dbConnector.setResult("Fail");
+                    _dbConnector.setResult("Login registration failed");
                     _dbConnector.success(false);
                 }
             }
         }
-
-        return _dbConnector.getResult();
     }
 
 

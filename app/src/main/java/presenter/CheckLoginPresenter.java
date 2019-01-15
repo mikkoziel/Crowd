@@ -49,6 +49,7 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
 
         if(_username.trim().equals("")|| _password.trim().equals("")){
             _profileInteractor.setResult("Please enter Username and Password");
+            _profileInteractor.setSuccess(false);
         }
         else {
             ResultSet res;

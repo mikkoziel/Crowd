@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 import interactor.ProfileInteractor;
 
-public class RegistrationPresenter extends AsyncTask<String, String, String> {
+public class RegistrationPresenter extends AsyncTask<Void, Void, Void> {
 
     @SuppressLint("StaticFieldLeak")
     private Activity _activity;
@@ -36,29 +36,27 @@ public class RegistrationPresenter extends AsyncTask<String, String, String> {
     }
 
     @Override
-    protected String doInBackground(String... params){
-        String result = "";
+    protected Void doInBackground(Void... voids){
         if(_username.trim().equals("")|| _password.trim().equals("")){
-            result = "Please enter Username and Password";
+            _profileInteractor.setResult("Please enter Username and Password");
+            _profileInteractor.setSuccess(false);
         }
         else{
             try {
-                result = _profileInteractor.registerLogin(_username, _password);
+                _profileInteractor.registerLogin(_username, _password);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-        return result;
+        return null;
     }
 
 
     @Override
-    protected void onPostExecute(String r){
+    protected void onPostExecute(Void voids){
         _progress.setVisibility(View.GONE);
-        Toast.makeText(_activity, r, Toast.LENGTH_SHORT).show();
-        if(_profileInteractor.getSuccess()){
-            Toast.makeText(_activity, "Login Registration Successful", Toast.LENGTH_LONG).show();
-        }
+        String result = _profileInteractor.getResult();
+        Toast.makeText(_activity, result, Toast.LENGTH_LONG).show();
     }
 
 
