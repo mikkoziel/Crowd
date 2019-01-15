@@ -34,7 +34,6 @@ public class AnswerInteractor {
         }
     }
 
-//    public ResultSet getAnswers(Question question)
     public void getAnswers(Question question) throws SQLException {
         ArrayList<Integer> ids = selectAnswerID(question);
 
@@ -45,16 +44,11 @@ public class AnswerInteractor {
         else{
             setRandomAnswer(ids, question, 5);
         }
-//        String query = "select * from Answer where questionID= '" + question.getQuestionID() + "'";
-//        Connection connection = _dbConnector.makeConnection();
-//        addPossibleAnswers(_dbConnector.runQuery(query, connection), question);
-//        return _dbConnector.runQuery(query, connection);
     }
 
     private void defaultAnswer(Question question) throws SQLException {
         String query = "select * from Answer where questionID= '" + question.getQuestionID() + "' and defaultAnswer = 1";
         Connection connection = _dbConnector.makeConnection();
-//        ResultSet res = _dbConnector.runQuery(query, connection);
         addPossibleAnswers(_dbConnector.runQuery(query, connection), question);
     }
 
@@ -84,10 +78,6 @@ public class AnswerInteractor {
     private void getRandomAnswer(Question question, int randomIndex) throws SQLException {
         String query = "select * from Answer where answerID= '" + randomIndex + "'";
         Connection connection = _dbConnector.makeConnection();
-//        ResultSet res = _dbConnector.runQuery(query, connection);
-//        while(res.next()) {
-//            addPossibleAnswers();
-//        }
         addPossibleAnswers(_dbConnector.runQuery(query, connection), question);
     }
 
