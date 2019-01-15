@@ -10,12 +10,14 @@ public class ProfileInteractor {
     private DataBaseConnector _dbConnector;
     private Connection _connection;
     private Boolean _isConnect;
+    private AESCrypt _crypt;
 
     public ProfileInteractor()
     {
         _dbConnector = new DataBaseConnector();
         _connection = _dbConnector.makeConnection();
         _isConnect = _dbConnector.checkConnection(_connection);
+        _crypt = new AESCrypt();
     }
 
     private ResultSet getLogin(String username, Connection connection){
@@ -49,7 +51,7 @@ public class ProfileInteractor {
         return _dbConnector.getResult();
     }
 
-    public void registerLogin(String username, String password) throws SQLException {
+    public void registerLogin(String username, String password) throws Exception {
         ResultSet res;
 
         if (_isConnect) {
@@ -59,7 +61,7 @@ public class ProfileInteractor {
                 _dbConnector.success(false);
             }
             else{
-                String query1 = "Insert into Profile(Name, Password, Points, Userlevel) values('" + username + "', '" + password + "', 0, 0)";
+                String query1 = "Insert into Profile(Name, Password, Points, Userlevel) values('" + username + "', '" + _crypt.encrypt(password) + "', 0, 0)";
                 int res1 = _dbConnector.updateQuery(query1, _connection);
                 if(res1 > 0){
                     _dbConnector.setResult("Login registration successfull");
@@ -75,13 +77,14 @@ public class ProfileInteractor {
     }
 
 
-    public ResultSet checkLogin(String username, String password) throws SQLException {
+    public ResultSet checkLogin(String username, String password) throws Exception {
         ResultSet res = null;
 
         if(_isConnect) {
             res = getLogin(username, _connection);
             if (res.next()) {
-                if(res.getString("password").equals(password)) {
+                String passwordFromDB = _crypt.decrypt(res.getString("password"));
+                if(passwordFromDB.equals(password)) {
                     _dbConnector.setResult("Login Successful");
                     _dbConnector.success(true);
                 }
@@ -97,12 +100,12 @@ public class ProfileInteractor {
         return res;
     }
 
-    public void modeCheckOld(Profile profile, String password, String passwordCheck, String passwordCheck2) throws SQLException {
+    public void modeCheckOld(Profile profile, String password, String passwordCheck, String passwordCheck2) throws Exception {
         String query = "Select * from Profile where profilID = " + profile.getID();
         ResultSet res = _dbConnector.runQuery(query, _connection);
         if (res.next()) {
             String name = res.getString("name");
-            String oldPasswordRes = res.getString("password");
+            String oldPasswordRes = _crypt.decrypt(res.getString("password"));
             if(profile.getName().equals(name) && password.equals(oldPasswordRes)){
                 checkRest(passwordCheck, passwordCheck2, password);
             }
@@ -128,8 +131,8 @@ public class ProfileInteractor {
         }
     }
 
-    public void modeChangeToNew(String password, Profile profile){
-        String query = "Update Profile set password = '" + password + "' where profilID = " + profile.getID();
+    public void modeChangeToNew(String password, Profile profile) throws Exception {
+        String query = "Update Profile set password = '" + _crypt.encrypt(password) + "' where profilID = " + profile.getID();
         int res = -1;
         res = _dbConnector.updateQuery(query, _connection);
         if(res > 0){

@@ -52,7 +52,7 @@ public class ChangePasswordPresenter extends AsyncTask<Void, Void, Void> {
                     _profileInteractor.modeChangeToNew(_password, _profile);
                     break;
                 }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

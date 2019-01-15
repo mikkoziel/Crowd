@@ -60,7 +60,7 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
                     _gameInteractor.setGames(profile);
                     _intent.putExtra("profile", profile);
                 }
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 

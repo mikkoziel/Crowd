@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import interactor.AESCrypt;
 import presenter.CheckLoginPresenter;
 import presenter.RegistrationPresenter;
 

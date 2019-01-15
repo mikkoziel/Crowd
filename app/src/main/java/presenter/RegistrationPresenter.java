@@ -44,7 +44,7 @@ public class RegistrationPresenter extends AsyncTask<Void, Void, Void> {
         else{
             try {
                 _profileInteractor.registerLogin(_username, _password);
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
