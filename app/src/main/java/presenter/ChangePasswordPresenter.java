@@ -55,13 +55,14 @@ public class ChangePasswordPresenter extends AsyncTask<Void, Void, Void> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        _semaphore = false;
         return null;
     }
 
     @Override
     protected void onPostExecute(Void voids){
         _progress.setVisibility(View.GONE);
-        _semaphore = false;
         String result = _profileInteractor.getResult();
         Toast.makeText(_activity, result, Toast.LENGTH_LONG).show();
     }
