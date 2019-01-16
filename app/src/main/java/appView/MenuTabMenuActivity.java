@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -50,6 +52,26 @@ public class MenuTabMenuActivity extends Fragment {
 
         LinearLayout ll = (LinearLayout) rootView.findViewById(appView.R.id.layout);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
+        String[] Tags = {"image", "text"};
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line, Tags);
+        final AutoCompleteTextView sortText = rootView.findViewById(appView.R.id.sortTag);
+        sortText.setAdapter(adapter);
+        sortText.setThreshold(1);
+        sortText.setVisibility(View.GONE);
+
+        Button sortBttn = rootView.findViewById(appView.R.id.sortButton);
+        sortBttn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(sortText.getVisibility() == View.GONE) {
+                    sortText.setVisibility(View.VISIBLE);
+                }
+                else{
+//                    sort(sortText.getText());
+                }
+            }});
+
 
 
         for (final Game game : profile.getGames()) {
