@@ -17,10 +17,12 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import entity.Profile;
 import entity.Game;
 import interactor.Logger;
+import interactor.TagInteractor;
 import presenter.SetQuestionPresenter;
 
 public class MenuTabMenuActivity extends Fragment {
@@ -53,9 +55,17 @@ public class MenuTabMenuActivity extends Fragment {
         LinearLayout ll = (LinearLayout) rootView.findViewById(appView.R.id.layout);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
-        String[] Tags = {"image", "text"};
+//        String[] Tags = {"image", "text"};
+//
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line, Tags);
+        TagInteractor tagInteractor = new TagInteractor();
+        ArrayAdapter<String> adapter = null;
+        try {
+            adapter = tagInteractor.getTags(activity);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line, Tags);
         final AutoCompleteTextView sortText = rootView.findViewById(appView.R.id.sortTag);
         sortText.setAdapter(adapter);
         sortText.setThreshold(1);
