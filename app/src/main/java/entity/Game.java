@@ -9,6 +9,7 @@ public class Game implements Serializable {
     private ArrayList<Question> _questions;
     private Boolean _played;
     private int _index;
+    private ArrayList<Tag> _tags;
 
     public Game(int ID, String gameName){
         this._gameID = ID;
@@ -16,6 +17,7 @@ public class Game implements Serializable {
         this._questions = new ArrayList<>();
         this._played = false;
         this._index = 0;
+        this._tags = new ArrayList<>();
     }
 
     public int getGameID() {
@@ -60,7 +62,33 @@ public class Game implements Serializable {
 
     public void zeroIndex(){this._index = 0;}
 
-//    public String setQuestions(ResultSet res) throws SQLException {
+    public void setTags(ArrayList<Tag> tags) {
+        this._tags = tags;
+    }
+
+    public ArrayList<Tag> getTags() {
+        return _tags;
+    }
+
+    public void addTag(Tag tag){
+        this._tags.add(tag);
+    }
+
+    public Boolean haveTag(Tag tag) {
+       for(Tag x: _tags){
+            if(x.get_tag().equals(tag.get_tag())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return _gameName;
+    }
+
+    //    public String setQuestions(ResultSet res) throws SQLException {
 //        String z = "";
 //
 ////        Connection con = connector.connectionClass();

@@ -9,6 +9,8 @@ public class Answer implements Serializable {
     private double _percentageUsed;
     private int _type;
     private Boolean _defaultAnswer;
+    private Boolean _isImageAnswer;
+    private byte[] _image;
 
     public Answer(int answerID, String answer){
         this._answerID = answerID;
@@ -22,6 +24,19 @@ public class Answer implements Serializable {
         this._percentageUsed = percentageUsed;
         this._type = type;
         this._defaultAnswer = defaultAnswer;
+        this._image = null;
+        this._isImageAnswer = false;
+    }
+
+    public Answer(int answerID, String answer, int used, double percentageUsed, int type, Boolean defaultAnswer, byte[] image ){
+        this._answerID = answerID;
+        this._answer = answer;
+        this._used = used;
+        this._percentageUsed = percentageUsed;
+        this._type = type;
+        this._defaultAnswer = defaultAnswer;
+        this._image = image;
+        this._isImageAnswer = true;
     }
 
     public int getAnswerID() {
@@ -71,4 +86,10 @@ public class Answer implements Serializable {
     public void set_defaultAnswer(Boolean _defaultAnswer) {
         this._defaultAnswer = _defaultAnswer;
     }
+
+    public Boolean isImageAnswer(){return _isImageAnswer;}
+
+    public void setImage(byte[] image){this._image = image;}
+
+    public byte[] getImage(){return _image;}
 }

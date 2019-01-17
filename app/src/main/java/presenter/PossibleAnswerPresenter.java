@@ -3,6 +3,9 @@ package presenter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.Button;
@@ -83,7 +86,13 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
 
     private Button setButtons(String answerText, final Answer a){
         Button answer = new Button(_activity);
+
         answer.setText(answerText);
+        if(a.isImageAnswer()){
+            Drawable image = new BitmapDrawable(_activity.getResources(), BitmapFactory.decodeByteArray(a.getImage(), 0, a.getImage().length));
+            answer.setCompoundDrawablesWithIntrinsicBounds( image, null, null, null);
+        }
+
         if(_game.getIndex() < _game.getQuestions().size()) {
             answer.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
