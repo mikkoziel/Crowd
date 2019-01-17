@@ -41,7 +41,6 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
         try {
             _questionInteractor.emptyQuestions(_game);
             _questionInteractor.setQuestions(_game);
-//            result = _questionInteractor.getResultInfo();
         } catch (SQLException e) {
             e.printStackTrace();
         }

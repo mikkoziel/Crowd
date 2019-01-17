@@ -20,8 +20,7 @@ public class ProfileInteractor {
 
     private ResultSet getLogin(String username, Connection connection){
         String query = "select * from Profile where Name= '" + username + "'";
-        ResultSet res = _dbConnector.runQuery(query, connection);
-        return res;
+        return _dbConnector.runQuery(query, connection);
     }
 
     public Profile setProfile(ResultSet res) throws SQLException {
@@ -130,7 +129,7 @@ public class ProfileInteractor {
 
     public void modeChangeToNew(String password, Profile profile){
         String query = "Update Profile set password = '" + password + "' where profilID = " + profile.getID();
-        int res = -1;
+        int res;
         res = _dbConnector.updateQuery(query, _connection);
         if(res > 0){
             _dbConnector.setResult("Password Change successfull");

@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,7 +15,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import entity.Game;
-import entity.ImageQuestion;
 import entity.Profile;
 import entity.Question;
 import entity.GivenAnswer;
@@ -65,14 +64,10 @@ public class QuestionActivity extends AppCompatActivity {
         LinearLayout layout = findViewById(appView.R.id.questionlayout);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        switch(_question.getType()) {
-            case 1:
-                setTextQuestion(layout, lp);
-                break;
-            case 1003:
-                setImageQuestion(layout, lp);
-                break;
-        }
+        if(_question.isImageQuestion())
+            setImageQuestion(layout, lp);
+        else
+            setTextQuestion(layout, lp);
     }
 
     public void setTextQuestion(LinearLayout layout, LinearLayout.LayoutParams lp){
@@ -85,10 +80,11 @@ public class QuestionActivity extends AppCompatActivity {
         String questionText = _question.getQuestion();
         TextView question = setTextView(questionText);
 
-//        Bitmap questionImage = ((ImageQuestion) _question).getImage();
-//        ImageView questionI = setImageView(questionImage);
+        byte[] byteImage =  _question.getImage();
+        Bitmap bitmapImage = BitmapFactory.decodeByteArray(byteImage, 0, byteImage.length);
+        ImageView questionI = setImageView(bitmapImage);
 
-//        layout.addView(questionI, lp);
+        layout.addView(questionI, lp);
         layout.addView(question, lp);
     }
 
@@ -102,7 +98,6 @@ public class QuestionActivity extends AppCompatActivity {
     public ImageView setImageView(Bitmap questionImage){
         ImageView question = new ImageView(this);
         question.setImageBitmap(questionImage);
-//        question.setText(questionText);
         return question;
     }
 
