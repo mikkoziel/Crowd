@@ -84,6 +84,7 @@ public class MenuTabMenuActivity extends Fragment {
                 Toast.makeText(activity,
                         "Clicked " + arg2 + " name: " + selected.get_tag(),
                         Toast.LENGTH_SHORT).show();
+                sortGame(selected, ll, lp);
             }
         });
 
@@ -92,10 +93,13 @@ public class MenuTabMenuActivity extends Fragment {
             public void onClick(View v) {
                 if(sortText.getVisibility() == View.GONE) {
                     sortText.setVisibility(View.VISIBLE);
+                    sortText.requestFocus();
                 }
                 else{
-                    Tag selected = (Tag) sortText.getText();
-                    sortGame(selected, ll, lp);
+//                    Tag selected = (Tag) sortText.getText();
+//                    sortGame(selected, ll, lp);
+                    sortText.setVisibility(View.GONE);
+                    allVisible(ll);
                 }
             }});
 
@@ -115,10 +119,12 @@ public class MenuTabMenuActivity extends Fragment {
             Button v = (Button) ll.getChildAt(i);
             for (Game game : profile.getGames()){
                 if(game.getGameName().contentEquals(v.getText())){
-                    v.setVisibility(View.VISIBLE);
-                }
-                else{
-                    v.setVisibility(View.GONE);
+                    if(game.haveTag(tag)) {
+                        v.setVisibility(View.VISIBLE);
+                    }
+                    else{
+                        v.setVisibility(View.GONE);
+                    }
                 }
             }
 
@@ -138,6 +144,14 @@ public class MenuTabMenuActivity extends Fragment {
             });
             ll.addView(gameButton, lp);
 
+        }
+    }
+
+    public void allVisible(LinearLayout ll){
+        int count = ll.getChildCount();
+        for(int i=0; i<count; i++) {
+            Button v = (Button) ll.getChildAt(i);
+            v.setVisibility(View.VISIBLE);
         }
     }
 }
