@@ -40,8 +40,9 @@ public class ProfilTabMenuActivity extends Fragment {
     public Profile profile;
 
     public static final int PICK_PHOTO_FOR_AVATAR = 1;
-    public int questionID = 1008;
-    public String path = "/storage/sdcard/images/mario.png";
+    public int ID = 96;
+    public String path = "/storage/sdcard/images/+.png";
+    public String choice = "answer";
 
     private DataBaseConnector _dbConnector;
     private Connection _connection;
@@ -131,10 +132,10 @@ public class ProfilTabMenuActivity extends Fragment {
     }
 
     private void makeConn(byte[] immAsBytes) throws SQLException {
-        PreparedStatement pstmt = _connection.prepareStatement("UPDATE QUESTION SET questionImage = ? WHERE questionID = ?");
+        PreparedStatement pstmt = _connection.prepareStatement("UPDATE "+ choice +" SET "+ choice +"Image = ? WHERE "+ choice +"ID = ?");
         ByteArrayInputStream bais = new ByteArrayInputStream(immAsBytes);
         pstmt.setBinaryStream(1, bais, immAsBytes.length);
-        pstmt.setInt(2, questionID);
+        pstmt.setInt(2, ID);
         int result = pstmt.executeUpdate();
         pstmt.close();
         if(result < 1){
@@ -157,11 +158,11 @@ public class ProfilTabMenuActivity extends Fragment {
     }
 
     public void getImage(View view, LinearLayout layout, LinearLayout.LayoutParams lp) throws SQLException {
-        String query = "select * from Question where questionID = " + this.questionID + ";";
+        String query = "select * from "+ choice +" where "+ choice +"ID = " + this.ID + ";";
         if (_isConnect) {
             ResultSet res = _dbConnector.runQuery(query, _connection);
             while(res.next()) {
-                Blob immAsBlob = res.getBlob("questionImage");
+                Blob immAsBlob = res.getBlob( choice +"Image");
                 byte[] immAsBytes = immAsBlob.getBytes(1, (int)immAsBlob.length());
                 InputStream in = new ByteArrayInputStream(immAsBytes);
                 Bitmap bmp = BitmapFactory.decodeStream(in);
