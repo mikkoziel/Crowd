@@ -69,7 +69,6 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        //TO DO: Co wkładamy do intenta? (Game 2 razy)
         Button newBttn = new Button(this);
         newBttn.setText(R.string.newGame);
         newBttn.setOnClickListener(new View.OnClickListener() {
