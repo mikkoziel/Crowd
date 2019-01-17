@@ -1,23 +1,29 @@
 package interactor;
 
+import android.util.Base64;
+
+import java.security.Key;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+
 import entity.Profile;
 
 public class ProfileInteractor {
+    private static final String ALGORITHM = "AES";
+    private static final String KEY = "1Hbfh667adfDEJ78";
     private DataBaseConnector _dbConnector;
     private Connection _connection;
     private Boolean _isConnect;
-    private AESCrypt _crypt;
 
     public ProfileInteractor()
     {
         _dbConnector = new DataBaseConnector();
         _connection = _dbConnector.makeConnection();
         _isConnect = _dbConnector.checkConnection(_connection);
-        _crypt = new AESCrypt();
     }
 
     private ResultSet getLogin(String username, Connection connection){
@@ -60,7 +66,7 @@ public class ProfileInteractor {
                 _dbConnector.success(false);
             }
             else{
-                String query1 = "Insert into Profile(Name, Password, Points, Userlevel) values('" + username + "', '" + _crypt.encrypt(password) + "', 0, 0)";
+                String query1 = "Insert into Profile(Name, Password, Points, Userlevel) values('" + username + "', '" + encrypt(password) + "', 0, 0)";
                 int res1 = _dbConnector.updateQuery(query1, _connection);
                 if(res1 > 0){
                     _dbConnector.setResult("Login registration successfull");
@@ -82,7 +88,7 @@ public class ProfileInteractor {
         if(_isConnect) {
             res = getLogin(username, _connection);
             if (res.next()) {
-                String passwordFromDB = _crypt.decrypt(res.getString("password"));
+                String passwordFromDB = decrypt(res.getString("password"));
                 if(passwordFromDB.equals(password)) {
                     _dbConnector.setResult("Login Successful");
                     _dbConnector.success(true);
@@ -104,7 +110,7 @@ public class ProfileInteractor {
         ResultSet res = _dbConnector.runQuery(query, _connection);
         if (res.next()) {
             String name = res.getString("name");
-            String oldPasswordRes = _crypt.decrypt(res.getString("password"));
+            String oldPasswordRes = decrypt(res.getString("password"));
             if(profile.getName().equals(name) && password.equals(oldPasswordRes)){
                 checkRest(passwordCheck, passwordCheck2, password);
             }
@@ -147,6 +153,34 @@ public class ProfileInteractor {
             _dbConnector.setResult("Password Change failed");
             _dbConnector.success(false);
         }
+    }
+
+    private String encrypt(String value) throws Exception
+    {
+        Key key = generateKey();
+        Cipher cipher = Cipher.getInstance(ALGORITHM);
+        cipher.init(Cipher.ENCRYPT_MODE, key);
+        byte [] encryptedByteValue = cipher.doFinal(value.getBytes("utf-8"));
+        String encryptedValue64 = Base64.encodeToString(encryptedByteValue, Base64.DEFAULT);
+        return encryptedValue64.substring(0, encryptedValue64.length() - 1);
+
+    }
+
+    private String decrypt(String value) throws Exception
+    {
+        Key key = generateKey();
+        Cipher cipher = Cipher.getInstance(ALGORITHM);
+        cipher.init(Cipher.DECRYPT_MODE, key);
+        byte[] decryptedValue64 = Base64.decode(value, Base64.DEFAULT);
+        byte [] decryptedByteValue = cipher.doFinal(decryptedValue64);
+        String decryptedValue = new String(decryptedByteValue,"utf-8");
+        return decryptedValue.substring(0, decryptedValue.length() - 1);
+
+    }
+
+    private static Key generateKey() throws Exception
+    {
+        return new SecretKeySpec(KEY.getBytes(),ALGORITHM);
     }
 
 
