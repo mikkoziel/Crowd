@@ -94,11 +94,6 @@ public class AnswerInteractor {
         }
     }
 
-
-
-
-
-
     public void setAnswersForAllQuestions(Game game) throws SQLException {
         ResultSet res;
         if(_isConnect) {

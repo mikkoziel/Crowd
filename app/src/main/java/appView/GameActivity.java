@@ -33,10 +33,10 @@ public class GameActivity extends AppCompatActivity {
         this.progress = findViewById(R.id.progress);
         progress.setVisibility(View.GONE);
 
-        TextView gameText = (TextView) findViewById(R.id.game);
+        TextView gameText = findViewById(R.id.game);
         gameText.setText(game.getGameName());
 
-        LinearLayout buttonLayout = (LinearLayout)findViewById(R.id.chooselayout);
+        LinearLayout buttonLayout = findViewById(R.id.chooselayout);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
         if(game.getQuestions().isEmpty()){

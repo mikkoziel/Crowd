@@ -1,5 +1,7 @@
 package entity;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -11,6 +13,8 @@ public class Question implements Serializable{
     private ArrayList<Answer> _answers;
     private int _index;
     private Boolean _defaultAnswer;
+    private Boolean _isImageQuestion;
+    private byte[] _image;
 
     public Question(String question, int questionID, int type, Boolean defaultAnswer){
         this._question = question;
@@ -19,7 +23,21 @@ public class Question implements Serializable{
         this._answers = new ArrayList<>();
         this._index = 0;
         this._defaultAnswer = defaultAnswer;
+        this._isImageQuestion = false;
+        this._image = null;
     }
+
+    public Question(String question, int questionID, int type, Boolean defaultAnswer, byte[] image){
+        this._question = question;
+        this._questionID = questionID;
+        this._type = type;
+        this._answers = new ArrayList<>();
+        this._index = 0;
+        this._defaultAnswer = defaultAnswer;
+        this._isImageQuestion = true;
+        this._image = image;
+    }
+
 
     public Question()
     {
@@ -29,6 +47,8 @@ public class Question implements Serializable{
         this._answers = null;
         this._index = 0;
         this._defaultAnswer = false;
+        this._isImageQuestion = false;
+        this._image = null;
     }
 
     public String getQuestion() {
@@ -77,30 +97,16 @@ public class Question implements Serializable{
 
     public void nextIndex(){this._index ++;}
 
-    public void set_defaultAnswer(Boolean _defaultAnswer) {
+    public void setDefaultAnswer(Boolean _defaultAnswer) {
         this._defaultAnswer = _defaultAnswer;
     }
 
-    //    public void setAnswers(ResultSet res) throws SQLException {
-////        String z;
-////        Boolean isSuccess = false;
-////
-////        Connection con = connector.connectionClass();
-////        if (con == null) {
-////            z = "Check Your Internet Access!";
-////        }
-////        else {
-////            String query = "select * from Answer where questionID = " + questionID + "; ORDER BY RAND() LIMIT 3";
-////            String query = "select * from Answer where questionID = " + questionID + ";";
-////            ResultSet res = connector.runQuery(query, con);
-//            while(res.next()){
-//                int type = res.getInt("typeID");
-//                Answer answer = new Answer(res.getInt("answerID"), res.getString("answer"));
-//                answer.setType(type);
-//                answers.add(answer);
-//            }
-//          //  con.close();
-//       // }
-//    }
+    public void setIsImageQuestion(Boolean isImageQuestion){this._isImageQuestion = isImageQuestion;}
+
+    public Boolean isImageQuestion(){return _isImageQuestion;}
+
+    public void setImage(byte[] image){this._image = image;}
+
+    public byte[] getImage(){return _image;}
 }
 

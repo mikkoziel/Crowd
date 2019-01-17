@@ -3,15 +3,12 @@ package interactor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import entity.Game;
-import entity.ImageQuestion;
 import entity.Question;
 
 public class QuestionInteractor {
@@ -53,16 +50,11 @@ public class QuestionInteractor {
                         question = new Question(content, ID, type, defaultAnswer);
                         break;
                     case 1003:
-                        Blob immAsBlob = res.getBlob("questionImage");
-                        byte[] immAsBytes = immAsBlob.getBytes(1, (int)immAsBlob.length());
-                        InputStream in = new ByteArrayInputStream(immAsBytes);
-                        Bitmap bmp = BitmapFactory.decodeStream(in);
-
-                        question = new Question(content, ID, type, defaultAnswer);
-//                        question = new ImageQuestion(bmp, content, ID, type, defaultAnswer);
+                        Blob blobImage = res.getBlob("questionImage");
+                        byte[] byteImage = blobImage.getBytes(1, (int)blobImage.length());
+                        question = new Question(content, ID, type, defaultAnswer, byteImage);
                         break;
                 }
-
                 game.addQuestion(question);
             }
             _dbConnector.setResult("Game Starting");
