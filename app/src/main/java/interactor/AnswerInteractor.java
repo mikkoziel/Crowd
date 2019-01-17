@@ -43,7 +43,7 @@ public class AnswerInteractor {
             defaultAnswer(question);
         }
         else{
-            setRandomAnswer(ids, question, 5);
+            setRandomAnswer(ids, question, 3);
         }
     }
 
