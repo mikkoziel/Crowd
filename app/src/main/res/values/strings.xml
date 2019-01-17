@@ -26,4 +26,5 @@
     <string name="start">START</string>
     <string name="previousGame">Do you want to continue previous game?</string>
     <string name="resume">RESUME</string>
+    <string name="sort">SORT</string>
 </resources>
