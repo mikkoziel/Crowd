@@ -1,5 +1,6 @@
 package interactor;
 
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -42,7 +43,7 @@ public class AnswerInteractor {
             defaultAnswer(question);
         }
         else{
-            setRandomAnswer(ids, question, 5);
+            setRandomAnswer(ids, question, 3);
         }
     }
 
@@ -89,7 +90,17 @@ public class AnswerInteractor {
             int used = res.getInt("used");
             double percentageUsed = res.getDouble("percentageUsed");
             Boolean defaultAnswer = res.getBoolean("defaultAnswer");
-            Answer answer = new Answer(ID, content, used, percentageUsed, type, defaultAnswer);
+            Blob blobImage = res.getBlob("answerImage");
+
+            Answer answer;
+            if (res.wasNull()) {
+                answer = new Answer(ID, content, used, percentageUsed, type, defaultAnswer);
+            }
+            else{
+                byte[] byteImage = blobImage.getBytes(1, (int)blobImage.length());
+                answer = new Answer(ID, content, used, percentageUsed, type, defaultAnswer, byteImage);
+            }
+//            Answer answer = new Answer(ID, content, used, percentageUsed, type, defaultAnswer);
             question.addAnswer(answer);
         }
     }
