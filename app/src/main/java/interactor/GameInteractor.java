@@ -9,10 +9,12 @@ import entity.Profile;
 
 public class GameInteractor {
     private DataBaseConnector _dbConnector;
+    private TagInteractor _tagInteractor;
 
     public GameInteractor()
     {
         _dbConnector = new DataBaseConnector();
+        _tagInteractor = new TagInteractor();
     }
 
     public void setGames(Profile profile) throws SQLException {
@@ -23,7 +25,9 @@ public class GameInteractor {
         if(isConnect) {
             ResultSet res = _dbConnector.runQuery(query, connection);
             while (res.next()) {
-                Game game = new Game(res.getInt("gameID"), res.getString("gameName"));
+                int gameID = res.getInt("gameID");
+                Game game = new Game(gameID, res.getString("gameName"));
+                game.setTags(_tagInteractor.getTagsForGame(gameID));
                 profile.addGames(game);
             }
         }
