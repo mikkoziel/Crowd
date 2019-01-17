@@ -1,12 +1,10 @@
 package presenter;
 
 import android.os.AsyncTask;
-import android.widget.Button;
 
 import entity.GivenAnswer;
 import interactor.AnswerInteractor;
 
-// void void void ?
 public class GivenAnswerPresenter extends AsyncTask<Void, Void, Void> {
     private int _profileID;
     private int _questionID;
