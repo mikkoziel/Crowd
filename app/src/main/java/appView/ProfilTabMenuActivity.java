@@ -13,10 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -40,9 +42,13 @@ public class ProfilTabMenuActivity extends Fragment {
     public Profile profile;
 
     public static final int PICK_PHOTO_FOR_AVATAR = 1;
-    public int ID = 96;
-    public String path = "/storage/sdcard/images/+.png";
-    public String choice = "answer";
+//    public int ID = 96;
+//    public String path = "/storage/sdcard/images/+.png";
+//    public String choice = "answer";
+
+    public EditText number;
+    public ToggleButton toggle;
+    public EditText image;
 
     private DataBaseConnector _dbConnector;
     private Connection _connection;
@@ -82,11 +88,15 @@ public class ProfilTabMenuActivity extends Fragment {
 
         verifyStoragePermissions(activity);
 
+        number = rootView.findViewById(appView.R.id.login);
+        toggle = rootView.findViewById(appView.R.id.toggle);
+        image = rootView.findViewById(appView.R.id.image);
+
         Button button3 = rootView.findViewById(appView.R.id.button3);
         button3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try {
-                    addImage(rootView);
+                    addImage(rootView, Integer.parseInt(number.getText().toString()), image.getText().toString(), toggle.getText().toString());
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -97,7 +107,7 @@ public class ProfilTabMenuActivity extends Fragment {
         button4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try {
-                    getImage(rootView, layout, lp);
+                    getImage(rootView, layout, lp, Integer.parseInt(number.getText().toString()), toggle.getText().toString());
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -107,11 +117,12 @@ public class ProfilTabMenuActivity extends Fragment {
         return rootView;
     }
 
-    public void addImage(View view) throws SQLException {
+    public void addImage(View view, int number, String image, String choice) throws SQLException {
         if (_isConnect) {
-            File file = new File(this.path);
+            String path = "/storage/sdcard/images/" + image;
+            File file = new File(path);
             byte[] byteFile = imageToByte(file);
-            makeConn(byteFile);
+            makeConn(byteFile, number, choice);
         }
         else{
             Toast.makeText(activity, "Connection null", Toast.LENGTH_LONG).show();
@@ -131,11 +142,11 @@ public class ProfilTabMenuActivity extends Fragment {
         return bytes;
     }
 
-    private void makeConn(byte[] immAsBytes) throws SQLException {
+    private void makeConn(byte[] immAsBytes, int number, String choice) throws SQLException {
         PreparedStatement pstmt = _connection.prepareStatement("UPDATE "+ choice +" SET "+ choice +"Image = ? WHERE "+ choice +"ID = ?");
         ByteArrayInputStream bais = new ByteArrayInputStream(immAsBytes);
         pstmt.setBinaryStream(1, bais, immAsBytes.length);
-        pstmt.setInt(2, ID);
+        pstmt.setInt(2, number);
         int result = pstmt.executeUpdate();
         pstmt.close();
         if(result < 1){
@@ -157,8 +168,8 @@ public class ProfilTabMenuActivity extends Fragment {
         }
     }
 
-    public void getImage(View view, LinearLayout layout, LinearLayout.LayoutParams lp) throws SQLException {
-        String query = "select * from "+ choice +" where "+ choice +"ID = " + this.ID + ";";
+    public void getImage(View view, LinearLayout layout, LinearLayout.LayoutParams lp, int number, String choice) throws SQLException {
+        String query = "select * from "+ choice +" where "+ choice +"ID = " + number + ";";
         if (_isConnect) {
             ResultSet res = _dbConnector.runQuery(query, _connection);
             while(res.next()) {
