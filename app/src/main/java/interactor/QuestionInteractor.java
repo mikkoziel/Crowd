@@ -44,17 +44,18 @@ public class QuestionInteractor {
                 int type = res.getInt("typeID");
                 Boolean defaultAnswer = res.getBoolean("defaultAnswer");
 
-                Question question = null;
-                switch(type){
-                    case 1:
-                        question = new Question(content, ID, type, defaultAnswer);
-                        break;
-                    case 1003:
-                        Blob blobImage = res.getBlob("questionImage");
-                        byte[] byteImage = blobImage.getBytes(1, (int)blobImage.length());
-                        question = new Question(content, ID, type, defaultAnswer, byteImage);
-                        break;
+
+                Blob blobImage = res.getBlob("questionImage");
+
+                Question question;
+                if (res.wasNull()) {
+                    question = new Question(content, ID, type, defaultAnswer);
                 }
+                else{
+                    byte[] byteImage = blobImage.getBytes(1, (int)blobImage.length());
+                    question = new Question(content, ID, type, defaultAnswer, byteImage);
+                }
+
                 game.addQuestion(question);
             }
             _dbConnector.setResult("Game Starting");
