@@ -53,6 +53,6 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
             _intent.putExtra("game", _game);
             _activity.startActivity(_intent);
         }
-
+        _questionInteractor.endWork();
     }
 }

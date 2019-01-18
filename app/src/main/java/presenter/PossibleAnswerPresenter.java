@@ -15,7 +15,6 @@ import android.widget.ProgressBar;
 import appView.EndGameActivity;
 import appView.QuestionActivity;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import entity.Answer;
@@ -24,7 +23,7 @@ import entity.Game;
 import entity.Profile;
 import entity.Question;
 
-import interactor.AnswerInteractor;
+import interactor.PossibleAnswerInteractor;
 
 public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
 
@@ -40,7 +39,7 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
     private Game _game;
     private Profile _profile;
 
-    private AnswerInteractor _answerInteractor;
+    private PossibleAnswerInteractor _possibleAnswerInteractor;
 
     public PossibleAnswerPresenter(Activity activity, Question question, ProgressBar progress, LinearLayout.LayoutParams lp, LinearLayout answerLayout, Game game, Profile profile) {
         this._activity = activity;
@@ -50,7 +49,7 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
         this._answerLayout = answerLayout;
         this._profile = profile;
         this._game = game;
-        this._answerInteractor = new AnswerInteractor();
+        this._possibleAnswerInteractor = new PossibleAnswerInteractor();
     }
 
     @Override
@@ -61,7 +60,7 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
     @Override
     protected Void doInBackground(Void... voids){
         try {
-            _answerInteractor.getAnswers(_question);
+            _possibleAnswerInteractor.setPossibleAnswers(_question);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -81,6 +80,8 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
     @Override
     protected void onPostExecute(Void voids){
         _progress.setVisibility(View.GONE);
+        _possibleAnswerInteractor.endWork();
+
     }
 
 

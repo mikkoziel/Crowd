@@ -12,44 +12,27 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DataBaseConnector implements Serializable {
-    private String _user = "crowd";
-    private String _password = "Ng65JF4j79-!";
-    private String _database = "crowd";
-    private String _ip = "den1.mssql8.gear.host";
-    private String _nameClass = "net.sourceforge.jtds.jdbc.Driver";
-    private String _connectionURL = "jdbc:jtds:sqlserver;//" + _ip + "/" + _database + ";user=" + _user + ";password=" + _password + ";";
-    //    private Connection connection;
-    private Boolean _isSuccess;
-    private String _result;
+    private Connection _connection;
 
     public DataBaseConnector(){
-        this._isSuccess = false;
-        this._result = "";
-        establishConnection();
+        this._connection = establishConnection();
     }
-
-    public Boolean getSuccess() {
-        return _isSuccess;
-    }
-
-    public String getResult() {
-        return _result;
-    }
-
-    public void setResult(String result){_result = result;}
-    public void success(Boolean isSuccess){_isSuccess = isSuccess;};
-
 
     @SuppressLint("NewApi")
     private Connection establishConnection(){
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        Connection connection = null;
-//        this.connection = null;
+
+        String _user = "crowd";
+        String _password = "Ng65JF4j79-!";
+        String _database = "crowd";
+        String _ip = "den1.mssql8.gear.host";
+        String _nameClass = "net.sourceforge.jtds.jdbc.Driver";
+        String _connectionURL = "jdbc:jtds:sqlserver;//" + _ip + "/" + _database + ";user=" + _user + ";password=" + _password + ";";
+
         try{
             Class.forName(_nameClass);
-//            this.connection = DriverManager.getConnection(connectionURL);
-            connection = DriverManager.getConnection(_connectionURL);
+            _connection = DriverManager.getConnection(_connectionURL);
         }
         catch(SQLException e){
             Log.e("error here 1; ", e.getMessage());
@@ -60,18 +43,18 @@ public class DataBaseConnector implements Serializable {
         catch(Exception e){
             Log.e("error here 1; ", e.getMessage());
         }
-        if(connection == null){
-            _result = "Check Your Internet Access!";
-        }
-//        return connection;
-        return connection;
+        return _connection;
     }
 
-    public ResultSet runQuery(String query, Connection connection){
+    public ResultSet runQuery(String query){
         Statement stmt;
         ResultSet result = null;
+
+        if(_connection == null)
+            _connection = establishConnection();
+
         try {
-            stmt = connection.createStatement();
+            stmt = _connection.createStatement();
             result = stmt.executeQuery(query);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -79,11 +62,15 @@ public class DataBaseConnector implements Serializable {
         return result;
     }
 
-    public int updateQuery(String query, Connection connection){
+    public int updateQuery(String query){
+
+        if(_connection == null)
+            _connection = establishConnection();
+
         Statement stmt;
         int result = 0;
         try {
-            stmt = connection.createStatement();
+            stmt = _connection.createStatement();
             result = stmt.executeUpdate(query);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -91,29 +78,8 @@ public class DataBaseConnector implements Serializable {
         return result;
     }
 
-
-    public Boolean checkConnection(Connection connection){
-        Boolean res = false;
-        if (connection != null) {
-            res = true;
-        }
-        else{
-            _result = "Check Your Internet Access!";
-        }
-        return res;
-    }
-
-    public Connection makeConnection(){
-        Connection connection = null;
-//        if (connection == null) {
-//            result = "Check Your Internet Access!";
-        try {
-            connection = establishConnection();
-        } catch (Exception e) {
-            this._isSuccess = false;
-            this._result = e.getMessage();
-        }
-//        }
-        return connection;
+    public void closeConnection() throws SQLException
+    {
+        _connection.close();
     }
 }
