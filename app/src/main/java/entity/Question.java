@@ -1,7 +1,5 @@
 package entity;
 
-import android.graphics.Bitmap;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -38,7 +36,6 @@ public class Question implements Serializable{
         this._image = image;
     }
 
-
     public Question()
     {
         this._question = "";
@@ -71,7 +68,7 @@ public class Question implements Serializable{
         return _index;
     }
 
-    public Boolean get_defaultAnswer() {
+    public Boolean getDefaultAnswer() {
         return _defaultAnswer;
     }
 

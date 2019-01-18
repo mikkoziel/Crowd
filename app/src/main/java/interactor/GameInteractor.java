@@ -9,28 +9,31 @@ import entity.Profile;
 
 public class GameInteractor {
     private DataBaseConnector _dbConnector;
-    private TagInteractor _tagInteractor;
+    private Connection _connection;
 
     public GameInteractor()
     {
-        _dbConnector = new DataBaseConnector();
-        _tagInteractor = new TagInteractor();
+        this._dbConnector = new DataBaseConnector();
+        this._connection = _dbConnector.makeConnection();
     }
 
-    public void setGames(Profile profile) throws SQLException {
+    public void setGames(Profile profile, TagInteractor tagInteractor) throws SQLException {
         String query = "select * from Game";
-        Connection connection = _dbConnector.makeConnection();
-        Boolean isConnect = _dbConnector.checkConnection(connection);
+        if(!_dbConnector.checkConnection(_connection))
+            _connection = _dbConnector.makeConnection();
 
-        if(isConnect) {
-            ResultSet res = _dbConnector.runQuery(query, connection);
-            while (res.next()) {
-                int gameID = res.getInt("gameID");
-                Game game = new Game(gameID, res.getString("gameName"));
-                game.setTags(_tagInteractor.getTagsForGame(gameID));
-                profile.addGames(game);
-            }
+        ResultSet res = _dbConnector.runQuery(query, _connection);
+        while (res.next()) {
+            int gameID = res.getInt("gameID");
+            Game game = new Game(gameID, res.getString("gameName"));
+            game.setTags(tagInteractor.getTagsForGame(gameID));
+            profile.addGames(game);
         }
+    }
+
+    public void endWork() throws SQLException
+    {
+        _connection.close();
     }
 
 }

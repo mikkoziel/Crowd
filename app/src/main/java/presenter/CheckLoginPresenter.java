@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import entity.Profile;
 import interactor.GameInteractor;
 import interactor.ProfileInteractor;
+import interactor.TagInteractor;
 
 public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
 
@@ -28,6 +29,7 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
 
     private ProfileInteractor _profileInteractor;
     private GameInteractor _gameInteractor;
+    private TagInteractor _tagInteractor;
 
     public CheckLoginPresenter(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT, Intent intent){
         this._activity = activity;
@@ -37,6 +39,7 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
         this._intent = intent;
         this._profileInteractor = new ProfileInteractor();
         this._gameInteractor = new GameInteractor();
+        this._tagInteractor = new TagInteractor();
     }
 
     @Override
@@ -57,7 +60,7 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
                 res = _profileInteractor.checkLogin(_username, _password);
                 if(_profileInteractor.getSuccess()) {
                     Profile profile = _profileInteractor.setProfile(res);
-                    _gameInteractor.setGames(profile);
+                    _gameInteractor.setGames(profile, _tagInteractor);
                     _intent.putExtra("profile", profile);
                 }
             } catch (SQLException e) {
@@ -77,5 +80,12 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
         if(_profileInteractor.getSuccess()){
             _activity.startActivity(_intent);
         }
+
+        try {
+            _gameInteractor.endWork();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 }
