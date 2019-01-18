@@ -9,18 +9,64 @@ import entity.Profile;
 public class ProfileInteractor {
     private DataBaseConnector _dbConnector;
     private Connection _connection;
-    private Boolean _isConnect;
+    private String _result;
+    private Boolean _isSuccess;
 
     public ProfileInteractor()
     {
-        _dbConnector = new DataBaseConnector();
-        _connection = _dbConnector.makeConnection();
-        _isConnect = _dbConnector.checkConnection(_connection);
+        this._dbConnector = new DataBaseConnector();
+        this._connection = _dbConnector.makeConnection();
+        this._result = null;
+        this._isSuccess = false;
     }
 
-    private ResultSet getLogin(String username, Connection connection){
+    public Boolean userCredentialsFilled(String username, String password)
+    {
+        if(username.trim().equals("")|| password.trim().equals("")) {
+            setFailure("Please enter Username and Password");
+            return false;
+        }
+        else
+            return true;
+    }
+
+    public void registerLogin(String username, String password) throws SQLException {
+        if(!_dbConnector.checkConnection(_connection))
+            _connection = _dbConnector.makeConnection();
+
+        ResultSet resultSet = getLogin(username);
+        if (resultSet.next())
+            setFailure("Login already exist");
+        else {
+            String query1 = "Insert into Profile(Name, Password, Points, Userlevel) values('" + username + "', '" + password + "', 0, 0)";
+                int result = _dbConnector.updateQuery(query1, _connection);
+                if(result > 0)
+                    setSuccess("Login registration successful");
+                else
+                    setFailure("Login registration failed");
+            }
+    }
+
+    private ResultSet getLogin(String username){
         String query = "select * from Profile where Name= '" + username + "'";
-        return _dbConnector.runQuery(query, connection);
+        return _dbConnector.runQuery(query, _connection);
+    }
+
+
+    public ResultSet checkLogin(String username, String password) throws SQLException {
+        if(!_dbConnector.checkConnection(_connection))
+            _connection = _dbConnector.makeConnection();
+
+        ResultSet resultSet = getLogin(username);
+        if (resultSet.next()) {
+            if (resultSet.getString("password").equals(password))
+                setSuccess("Login Successful");
+            else
+                setFailure("Invalid Credentials!");
+        }
+        else
+            setFailure("This profile doesn't exist");
+        return resultSet;
     }
 
     public Profile setProfile(ResultSet res) throws SQLException {
@@ -32,68 +78,6 @@ public class ProfileInteractor {
         _dbConnector.success(true);
 
         return profile;
-    }
-
-    public void setResult(String result){_dbConnector.setResult(result);}
-
-    public void setSuccess(Boolean success){_dbConnector.success(success);}
-
-    public Boolean getSuccess()
-    {
-        return _dbConnector.getSuccess();
-    }
-
-    public String getResult()
-    {
-        return _dbConnector.getResult();
-    }
-
-    public void registerLogin(String username, String password) throws SQLException {
-        ResultSet res;
-
-        if (_isConnect) {
-            res = getLogin(username, _connection);
-            if (res.next()) {
-                _dbConnector.setResult("Login already exist");
-                _dbConnector.success(false);
-            }
-            else{
-                String query1 = "Insert into Profile(Name, Password, Points, Userlevel) values('" + username + "', '" + password + "', 0, 0)";
-                int res1 = _dbConnector.updateQuery(query1, _connection);
-                if(res1 > 0){
-                    _dbConnector.setResult("Login registration successfull");
-                    _dbConnector.success(true);
-                    _connection.close();
-                }
-                else{
-                    _dbConnector.setResult("Login registration failed");
-                    _dbConnector.success(false);
-                }
-            }
-        }
-    }
-
-
-    public ResultSet checkLogin(String username, String password) throws SQLException {
-        ResultSet res = null;
-
-        if(_isConnect) {
-            res = getLogin(username, _connection);
-            if (res.next()) {
-                if(res.getString("password").equals(password)) {
-                    _dbConnector.setResult("Login Successful");
-                    _dbConnector.success(true);
-                }
-                else{
-                    _dbConnector.setResult("Invalid Credentils!");
-                    _dbConnector.success(false);
-                }
-            } else {
-                _dbConnector.setResult("This profile doesn't exist");
-                _dbConnector.success(false);
-            }
-        }
-        return res;
     }
 
     public void modeCheckOld(Profile profile, String password, String passwordCheck, String passwordCheck2) throws SQLException {
@@ -145,6 +129,27 @@ public class ProfileInteractor {
             _dbConnector.success(false);
         }
     }
+
+    private void setSuccess(String message)
+    {
+        _result = message;
+        _isSuccess = true;
+    }
+
+    private void setFailure(String message)
+    {
+        _result = message;
+        _isSuccess = false;
+    }
+
+    public Boolean isSuccess(){return _isSuccess;}
+    public String getResult(){return _result;}
+
+    public void endWork() throws SQLException
+    {
+        _connection.close();
+    }
+
 
 
 }
