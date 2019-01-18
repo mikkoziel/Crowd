@@ -1,8 +1,5 @@
 package interactor;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -14,13 +11,42 @@ import entity.Question;
 public class QuestionInteractor {
     private DataBaseConnector _dbConnector;
     private Connection _connection;
-    private Boolean _isConnect;
+    private String _result;
+    private Boolean _isSuccess;
 
     public QuestionInteractor()
     {
         this._dbConnector = new DataBaseConnector();
         this._connection = _dbConnector.makeConnection();
-        this._isConnect = _dbConnector.checkConnection(_connection);
+        this._result = null;
+        this._isSuccess = false;
+    }
+
+    public void emptyQuestions(Game game){game.getQuestions().clear();}
+
+    public void setQuestions(Game game) throws SQLException {
+        if (!_dbConnector.checkConnection(_connection))
+            _connection = _dbConnector.makeConnection();
+
+        ResultSet resultSet = getQuestions(game, _connection);
+        while (resultSet.next()) {
+            String content = resultSet.getString("questionText");
+            int ID = resultSet.getInt("questionID");
+            int type = resultSet.getInt("typeID");
+            Boolean defaultAnswer = resultSet.getBoolean("defaultAnswer");
+
+            Blob blobImage = resultSet.getBlob("questionImage");
+            Question question;
+            if (resultSet.wasNull())
+                question = new Question(content, ID, type, defaultAnswer);
+
+            else {
+                byte[] byteImage = blobImage.getBytes(1, (int) blobImage.length());
+                question = new Question(content, ID, type, defaultAnswer, byteImage);
+            }
+            game.addQuestion(question);
+        }
+        setSuccess("Game Starting");
     }
 
     // TO DO ograniczyć do 10 pytań
@@ -29,42 +55,25 @@ public class QuestionInteractor {
         return _dbConnector.runQuery(query, connection);
     }
 
-    public Boolean isSuccess(){ return _dbConnector.getSuccess();}
+    private void setSuccess(String message)
+    {
+        _result = message;
+        _isSuccess = true;
+    }
 
-    public String getResultInfo(){return _dbConnector.getResult();}
+    private void setFailure(String message)
+    {
+        _result = message;
+        _isSuccess = false;
+    }
 
-    public void emptyQuestions(Game game){game.getQuestions().clear();}
-
-    public void setQuestions(Game game) throws SQLException {
-        if (_isConnect) {
-            ResultSet res = getQuestions(game, _connection);
-            while(res.next()) {
-                String content = res.getString("questionText");
-                int ID = res.getInt("questionID");
-                int type = res.getInt("typeID");
-                Boolean defaultAnswer = res.getBoolean("defaultAnswer");
+    public Boolean isSuccess(){return _isSuccess;}
+    public String getResult(){return _result;}
 
 
-                Blob blobImage = res.getBlob("questionImage");
-
-                Question question;
-                if (res.wasNull()) {
-                    question = new Question(content, ID, type, defaultAnswer);
-                }
-                else{
-                    byte[] byteImage = blobImage.getBytes(1, (int)blobImage.length());
-                    question = new Question(content, ID, type, defaultAnswer, byteImage);
-                }
-
-                game.addQuestion(question);
-            }
-            _dbConnector.setResult("Game Starting");
-            _dbConnector.success(true);
-        }
-        else{
-            _dbConnector.setResult("Something went wrong");
-            _dbConnector.success(false);
-        }
+    public void endWork() throws SQLException
+    {
+        _connection.close();
     }
 
 
