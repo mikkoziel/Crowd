@@ -80,12 +80,8 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
     @Override
     protected void onPostExecute(Void voids){
         _progress.setVisibility(View.GONE);
+        _possibleAnswerInteractor.endWork();
 
-        try {
-            _possibleAnswerInteractor.endWork();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
 

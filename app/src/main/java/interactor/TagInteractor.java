@@ -3,7 +3,6 @@ package interactor;
 import android.app.Activity;
 import android.widget.ArrayAdapter;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,14 +14,12 @@ import entity.Tag;
 public class TagInteractor {
 
     private DataBaseConnector _dbConnector;
-    private Connection _connection;
     private String _result;
     private Boolean _isSuccess;
 
     public TagInteractor()
     {
         _dbConnector = new DataBaseConnector();
-        _connection = _dbConnector.makeConnection();
         this._result = null;
         this._isSuccess = false;
     }
@@ -31,10 +28,7 @@ public class TagInteractor {
         ArrayAdapter<Tag> adapter = new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line);
         String query = "select * from Tag";
 
-        if (!_dbConnector.checkConnection(_connection))
-            _connection = _dbConnector.makeConnection();
-
-        ResultSet resultSet = _dbConnector.runQuery(query, _connection);
+        ResultSet resultSet = _dbConnector.runQuery(query);
         while (resultSet.next()) {
             String name = resultSet.getString("tag");
             int ID = resultSet.getInt("tagID");
@@ -60,11 +54,7 @@ public class TagInteractor {
 
         ArrayList<Integer> tags = new ArrayList<>();
         String query = "select * from GameTagRelation where gameID =" +gameID;
-
-        if (!_dbConnector.checkConnection(_connection))
-            _connection = _dbConnector.makeConnection();
-
-        ResultSet res = _dbConnector.runQuery(query, _connection);
+        ResultSet res = _dbConnector.runQuery(query);
         while (res.next()) {
             int ID = res.getInt("tagID");
             tags.add(ID);
@@ -74,14 +64,11 @@ public class TagInteractor {
     }
 
     private ArrayList<Tag> makeIntToTag(ArrayList<Integer> tagsInt) throws SQLException {
-        if (!_dbConnector.checkConnection(_connection))
-            _connection = _dbConnector.makeConnection();
-
         ResultSet resultSet;
         ArrayList<Tag>  tags = new ArrayList<>();
         for(int x: tagsInt) {
             String query = "select * from Tag where tagID =" + x;
-            resultSet = _dbConnector.runQuery(query, _connection);
+            resultSet = _dbConnector.runQuery(query);
             while (resultSet.next()) {
                 String name = resultSet.getString("tag");
                 Tag tag = new Tag(x, name);
@@ -108,9 +95,13 @@ public class TagInteractor {
     public String getResult(){return _result;}
 
 
-    public void endWork() throws SQLException
+    public void endWork()
     {
-        _connection.close();
+        try {
+            _dbConnector.closeConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

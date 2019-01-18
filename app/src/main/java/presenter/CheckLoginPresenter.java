@@ -56,7 +56,7 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
                 ResultSet resultSet = _profileInteractor.checkLogin(_username, _password);
                 if(_profileInteractor.isSuccess()) {
                     Profile profile = _profileInteractor.setProfile(resultSet);
-                    _gameInteractor.setGames(profile, _tagInteractor);
+                    _gameInteractor.setGames(profile);
                     _tagInteractor.addTagsForUserGames(profile);
                     _intent.putExtra("profile", profile);
                 }
@@ -68,21 +68,16 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
     }
 
     @Override
-    protected void onPostExecute(Void voids){
+    protected void onPostExecute(Void voids) {
         _progress.setVisibility(View.GONE);
         String result = _profileInteractor.getResult();
         Toast.makeText(_activity, result, Toast.LENGTH_LONG).show();
-        if(_profileInteractor.isSuccess()){
+
+        if (_profileInteractor.isSuccess())
             _activity.startActivity(_intent);
-        }
 
-        try {
-            _gameInteractor.endWork();
-            _profileInteractor.endWork();
-            _tagInteractor.endWork();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        _gameInteractor.endWork();
+        _profileInteractor.endWork();
+        _tagInteractor.endWork();
     }
 }

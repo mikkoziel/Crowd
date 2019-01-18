@@ -1,6 +1,5 @@
 package interactor;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -9,20 +8,16 @@ import entity.Profile;
 
 public class GameInteractor {
     private DataBaseConnector _dbConnector;
-    private Connection _connection;
 
     public GameInteractor()
     {
         this._dbConnector = new DataBaseConnector();
-        this._connection = _dbConnector.makeConnection();
     }
 
-    public void setGames(Profile profile, TagInteractor tagInteractor) throws SQLException {
+    public void setGames(Profile profile) throws SQLException {
         String query = "select * from Game";
-        if(!_dbConnector.checkConnection(_connection))
-            _connection = _dbConnector.makeConnection();
 
-        ResultSet res = _dbConnector.runQuery(query, _connection);
+        ResultSet res = _dbConnector.runQuery(query);
         while (res.next()) {
             int gameID = res.getInt("gameID");
             Game game = new Game(gameID, res.getString("gameName"));
@@ -30,9 +25,12 @@ public class GameInteractor {
         }
     }
 
-    public void endWork() throws SQLException
+    public void endWork()
     {
-        _connection.close();
+        try {
+            _dbConnector.closeConnection();
+        } catch (SQLException e) {
+        e.printStackTrace();
+        }
     }
-
 }

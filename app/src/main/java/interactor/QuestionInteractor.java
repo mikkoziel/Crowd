@@ -1,7 +1,6 @@
 package interactor;
 
 import java.sql.Blob;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -10,14 +9,12 @@ import entity.Question;
 
 public class QuestionInteractor {
     private DataBaseConnector _dbConnector;
-    private Connection _connection;
     private String _result;
     private Boolean _isSuccess;
 
     public QuestionInteractor()
     {
         this._dbConnector = new DataBaseConnector();
-        this._connection = _dbConnector.makeConnection();
         this._result = null;
         this._isSuccess = false;
     }
@@ -25,10 +22,8 @@ public class QuestionInteractor {
     public void emptyQuestions(Game game){game.getQuestions().clear();}
 
     public void setQuestions(Game game) throws SQLException {
-        if (!_dbConnector.checkConnection(_connection))
-            _connection = _dbConnector.makeConnection();
 
-        ResultSet resultSet = getQuestions(game, _connection);
+        ResultSet resultSet = getQuestions(game);
         while (resultSet.next()) {
             String content = resultSet.getString("questionText");
             int ID = resultSet.getInt("questionID");
@@ -50,9 +45,9 @@ public class QuestionInteractor {
     }
 
     // TO DO ograniczyć do 10 pytań
-    private ResultSet getQuestions(Game game, Connection connection){
+    private ResultSet getQuestions(Game game){
         String query = "select * from Question where gameID = " + game.getGameID() + ";";
-        return _dbConnector.runQuery(query, connection);
+        return _dbConnector.runQuery(query);
     }
 
     private void setSuccess(String message)
@@ -71,9 +66,13 @@ public class QuestionInteractor {
     public String getResult(){return _result;}
 
 
-    public void endWork() throws SQLException
+    public void endWork()
     {
-        _connection.close();
+        try {
+            _dbConnector.closeConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 

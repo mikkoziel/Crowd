@@ -1,12 +1,10 @@
 package interactor;
 
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 
 public class GivenAnswerInteractor {
     private DataBaseConnector _dbConnector;
-    private Connection _connection;
     private String _result;
     private Boolean _isSuccess;
     private Date _date;
@@ -14,7 +12,6 @@ public class GivenAnswerInteractor {
     public GivenAnswerInteractor()
     {
         this._dbConnector = new DataBaseConnector();
-        this._connection = _dbConnector.makeConnection();
         this._result = null;
         this._isSuccess = false;
     }
@@ -24,10 +21,7 @@ public class GivenAnswerInteractor {
         setDate();
         String query = "Insert into Log(profilID, questionID, answerID, date) values(" + profileID + ", " + questionID + ", " + answerID + ", " +_date + ")";
 
-        if(!_dbConnector.checkConnection(_connection))
-            _connection = _dbConnector.makeConnection();
-
-        int result = _dbConnector.updateQuery(query, _connection);
+        int result = _dbConnector.updateQuery(query);
         if(result > 0)
             setSuccess("Success");
         else
@@ -54,8 +48,12 @@ public class GivenAnswerInteractor {
         this._date = new java.sql.Date(dateUtil.getTime());
     }
 
-    public void endWork() throws SQLException
+    public void endWork()
     {
-        _connection.close();
+        try {
+            _dbConnector.closeConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

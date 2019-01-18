@@ -1,7 +1,6 @@
 package interactor;
 
 import java.sql.Blob;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,14 +11,12 @@ import entity.Question;
 
 public class PossibleAnswerInteractor {
     private DataBaseConnector _dbConnector;
-    private Connection _connection;
     private String _result;
     private Boolean _isSuccess;
 
     public PossibleAnswerInteractor()
     {
         this._dbConnector = new DataBaseConnector();
-        this._connection = _dbConnector.makeConnection();
         this._result = null;
         this._isSuccess = false;
     }
@@ -39,9 +36,7 @@ public class PossibleAnswerInteractor {
     private ArrayList<Integer> selectAnswerID(Question question) throws SQLException {
         String query = "select answerID from Answer where questionID= '" + question.getQuestionID() + "' and defaultAnswer = 0";
 
-        if(!_dbConnector.checkConnection(_connection))
-            _connection = _dbConnector.makeConnection();
-        ResultSet res = _dbConnector.runQuery(query, _connection);
+        ResultSet res = _dbConnector.runQuery(query);
         ArrayList<Integer> ids = new ArrayList<>();
 
         while(res.next()) {
@@ -64,19 +59,14 @@ public class PossibleAnswerInteractor {
     private void getRandomAnswer(Question question, int randomIndex) throws SQLException {
         String query = "select * from Answer where answerID= '" + randomIndex + "'";
 
-        if(!_dbConnector.checkConnection(_connection))
-            _connection = _dbConnector.makeConnection();
-        ResultSet resultSet = _dbConnector.runQuery(query, _connection);
+        ResultSet resultSet = _dbConnector.runQuery(query);
         addPossibleAnswers(resultSet, question);
     }
 
     private void defaultAnswer(Question question) throws SQLException {
         String query = "select * from Answer where questionID= '" + question.getQuestionID() + "' and defaultAnswer = 1";
 
-        if(!_dbConnector.checkConnection(_connection))
-            _connection = _dbConnector.makeConnection();
-
-        ResultSet resultSet = _dbConnector.runQuery(query, _connection);
+        ResultSet resultSet = _dbConnector.runQuery(query);
         addPossibleAnswers(resultSet, question);
     }
 
@@ -118,8 +108,12 @@ public class PossibleAnswerInteractor {
     public String getResult(){return _result;}
 
 
-    public void endWork() throws SQLException
+    public void endWork()
     {
-        _connection.close();
+        try {
+            _dbConnector.closeConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

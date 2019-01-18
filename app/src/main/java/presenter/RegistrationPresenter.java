@@ -53,12 +53,7 @@ public class RegistrationPresenter extends AsyncTask<Void, Void, Void> {
         _progress.setVisibility(View.GONE);
         String result = _profileInteractor.getResult();
         Toast.makeText(_activity, result, Toast.LENGTH_LONG).show();
-
-        try {
-            _profileInteractor.endWork();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        _profileInteractor.endWork();
     }
 
 

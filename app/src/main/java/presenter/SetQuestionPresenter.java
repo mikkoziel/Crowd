@@ -53,13 +53,6 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
             _intent.putExtra("game", _game);
             _activity.startActivity(_intent);
         }
-
-        try {
-            _questionInteractor.endWork();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
+        _questionInteractor.endWork();
     }
 }

@@ -33,10 +33,6 @@ public class GivenAnswerPresenter extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void voids) {
-        try {
-            _givenAnswerInteractor.endWork();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        _givenAnswerInteractor.endWork();
     }
 }
