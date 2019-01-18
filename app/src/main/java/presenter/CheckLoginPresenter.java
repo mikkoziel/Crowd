@@ -52,22 +52,20 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
 
         if(_profileInteractor.userCredentialsFilled(_username, _password))
         {
-            ResultSet res;
             try {
-                res = _profileInteractor.checkLogin(_username, _password);
+                ResultSet resultSet = _profileInteractor.checkLogin(_username, _password);
                 if(_profileInteractor.isSuccess()) {
-                    Profile profile = _profileInteractor.setProfile(res);
+                    Profile profile = _profileInteractor.setProfile(resultSet);
                     _gameInteractor.setGames(profile, _tagInteractor);
+                    _tagInteractor.addTagsForUserGames(profile);
                     _intent.putExtra("profile", profile);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
         }
         return null;
     }
-
 
     @Override
     protected void onPostExecute(Void voids){
@@ -81,6 +79,7 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
         try {
             _gameInteractor.endWork();
             _profileInteractor.endWork();
+            _tagInteractor.endWork();
         } catch (SQLException e) {
             e.printStackTrace();
         }

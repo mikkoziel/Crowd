@@ -26,7 +26,6 @@ public class GameInteractor {
         while (res.next()) {
             int gameID = res.getInt("gameID");
             Game game = new Game(gameID, res.getString("gameName"));
-            game.setTags(tagInteractor.getTagsForGame(gameID));
             profile.addGames(game);
         }
     }

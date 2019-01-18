@@ -17,7 +17,6 @@ public class GivenAnswerInteractor {
         this._connection = _dbConnector.makeConnection();
         this._result = null;
         this._isSuccess = false;
-
     }
 
     public void logAnswer(int profileID, int questionID, int answerID)
@@ -59,5 +58,4 @@ public class GivenAnswerInteractor {
     {
         _connection.close();
     }
-
 }

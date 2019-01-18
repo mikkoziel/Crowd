@@ -9,81 +9,108 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import entity.Game;
+import entity.Profile;
 import entity.Tag;
 
 public class TagInteractor {
 
     private DataBaseConnector _dbConnector;
     private Connection _connection;
-    private Boolean _isConnect;
+    private String _result;
+    private Boolean _isSuccess;
 
     public TagInteractor()
     {
         _dbConnector = new DataBaseConnector();
         _connection = _dbConnector.makeConnection();
-        _isConnect = _dbConnector.checkConnection(_connection);
-    }
-
-    private ResultSet getTagsFromDB(Connection connection, String query){
-        ResultSet res = _dbConnector.runQuery(query, connection);
-        return res;
+        this._result = null;
+        this._isSuccess = false;
     }
 
     public ArrayAdapter<Tag> getTags(Activity activity) throws SQLException {
-        ResultSet res;
         ArrayAdapter<Tag> adapter = new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line);
         String query = "select * from Tag";
 
-        if (_isConnect) {
-            res = getTagsFromDB(_connection, query);
-            while (res.next()) {
-                String name = res.getString("tag");
-                int ID = res.getInt("tagID");
-                Tag tag = new Tag(ID, name);
-                adapter.add(tag);
-//                _dbConnector.setResult("Tags ");
-//                _dbConnector.success(false);
-            }
-        }
+        if (!_dbConnector.checkConnection(_connection))
+            _connection = _dbConnector.makeConnection();
 
+        ResultSet resultSet = _dbConnector.runQuery(query, _connection);
+        while (resultSet.next()) {
+            String name = resultSet.getString("tag");
+            int ID = resultSet.getInt("tagID");
+            Tag tag = new Tag(ID, name);
+            adapter.add(tag);
+            setSuccess("Tags ok");
+            }
         return adapter;
     }
 
-    public ArrayList<Tag> getTagsForGame(int gameID) throws SQLException {
-        ResultSet res;
+    public void addTagsForUserGames(Profile profile)
+    {
+        for(Game game : profile.getGames())
+            try {
+                int gameID = game.getGameID();
+                game.setTags(getTagsForGame(gameID));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+    }
+
+    private ArrayList<Tag> getTagsForGame(int gameID) throws SQLException {
+
         ArrayList<Integer> tags = new ArrayList<>();
         String query = "select * from GameTagRelation where gameID =" +gameID;
 
-        if (_isConnect) {
-            res = getTagsFromDB(_connection, query);
-            while (res.next()) {
-                int ID = res.getInt("tagID");
-                tags.add(ID);
-//                _dbConnector.setResult("Tags ");
-//                _dbConnector.success(false);
-            }
-        }
+        if (!_dbConnector.checkConnection(_connection))
+            _connection = _dbConnector.makeConnection();
 
+        ResultSet res = _dbConnector.runQuery(query, _connection);
+        while (res.next()) {
+            int ID = res.getInt("tagID");
+            tags.add(ID);
+            setSuccess("Tags ok");
+        }
         return makeIntToTag(tags);
     }
 
     private ArrayList<Tag> makeIntToTag(ArrayList<Integer> tagsInt) throws SQLException {
-        ResultSet res;
+        if (!_dbConnector.checkConnection(_connection))
+            _connection = _dbConnector.makeConnection();
+
+        ResultSet resultSet;
         ArrayList<Tag>  tags = new ArrayList<>();
-        for(int x: tagsInt){
+        for(int x: tagsInt) {
             String query = "select * from Tag where tagID =" + x;
-            if (_isConnect) {
-                res = getTagsFromDB(_connection, query);
-                while (res.next()) {
-                    String name = res.getString("tag");
-                    Tag tag = new Tag(x, name);
-                    tags.add(tag);
-//                _dbConnector.setResult("Tags ");
-//                _dbConnector.success(false);
-                }
+            resultSet = _dbConnector.runQuery(query, _connection);
+            while (resultSet.next()) {
+                String name = resultSet.getString("tag");
+                Tag tag = new Tag(x, name);
+                tags.add(tag);
+                setSuccess("Tags ok");
             }
         }
         return tags;
+    }
+
+    private void setSuccess(String message)
+    {
+        _result = message;
+        _isSuccess = true;
+    }
+
+    private void setFailure(String message)
+    {
+        _result = message;
+        _isSuccess = false;
+    }
+
+    public Boolean isSuccess(){return _isSuccess;}
+    public String getResult(){return _result;}
+
+
+    public void endWork() throws SQLException
+    {
+        _connection.close();
     }
 
 }

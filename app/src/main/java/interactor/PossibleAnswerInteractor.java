@@ -80,7 +80,6 @@ public class PossibleAnswerInteractor {
         addPossibleAnswers(resultSet, question);
     }
 
-
     private void addPossibleAnswers(ResultSet res, Question question) throws SQLException {
         while(res.next()) {
             String content = res.getString("answerText");
@@ -123,5 +122,4 @@ public class PossibleAnswerInteractor {
     {
         _connection.close();
     }
-
 }

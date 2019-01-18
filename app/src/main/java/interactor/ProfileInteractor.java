@@ -81,6 +81,9 @@ public class ProfileInteractor {
     }
 
     public void modeCheckOld(Profile profile, String password, String passwordCheck, String passwordCheck2) throws SQLException {
+        if(!_dbConnector.checkConnection(_connection))
+            _connection = _dbConnector.makeConnection();
+
         String query = "Select * from Profile where profilID = " + profile.getID();
         ResultSet res = _dbConnector.runQuery(query, _connection);
         if (res.next()) {
@@ -89,45 +92,32 @@ public class ProfileInteractor {
             if(profile.getName().equals(name) && password.equals(oldPasswordRes)){
                 checkRest(passwordCheck, passwordCheck2, password);
             }
-            else{
-                _dbConnector.setResult("Wrong old password");
-                _dbConnector.success(false);
-            }
+            else
+                setFailure("Wrong old password");
         }
     }
 
     private void checkRest(String passwordCheck, String passwordCheck2, String password){
-        if (!passwordCheck.equals(passwordCheck2)) {
-            _dbConnector.setResult("Passwords doesn't match");
-            _dbConnector.success(false);
-        } else {
-            if (password.equals(passwordCheck)) {
-                _dbConnector.setResult("New password is the same as old password");
-                _dbConnector.success(false);
-            } else {
-                _dbConnector.setResult("Correct Data");
-                _dbConnector.success(true);
-            }
-        }
+        if (!passwordCheck.equals(passwordCheck2))
+            setFailure("Passwords doesn't match");
+        else
+            if (password.equals(passwordCheck))
+                setFailure("New password is the same as old password");
+            else
+                setSuccess("Correct Data");
     }
 
     public void modeChangeToNew(String password, Profile profile){
         String query = "Update Profile set password = '" + password + "' where profilID = " + profile.getID();
-        int res;
-        res = _dbConnector.updateQuery(query, _connection);
-        if(res > 0){
-            _dbConnector.setResult("Password Change successfull");
-            _dbConnector.success(true);
-            try {
-                _connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        else{
-            _dbConnector.setResult("Password Change failed");
-            _dbConnector.success(false);
-        }
+
+        if(!_dbConnector.checkConnection(_connection))
+            _connection = _dbConnector.makeConnection();
+
+        int res = _dbConnector.updateQuery(query, _connection);
+        if(res > 0)
+            setSuccess("Password Change successful");
+        else
+            setFailure("Password Change failed");
     }
 
     private void setSuccess(String message)

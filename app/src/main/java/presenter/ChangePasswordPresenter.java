@@ -65,10 +65,16 @@ public class ChangePasswordPresenter extends AsyncTask<Void, Void, Void> {
         _progress.setVisibility(View.GONE);
         String result = _profileInteractor.getResult();
         Toast.makeText(_activity, result, Toast.LENGTH_LONG).show();
+
+        try {
+            _profileInteractor.endWork();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public Boolean getSuccess() {
-        return _profileInteractor.getSuccess();
+        return _profileInteractor.isSuccess();
     }
 
     public Boolean getSemaphore(){

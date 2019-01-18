@@ -6,7 +6,6 @@ import java.sql.SQLException;
 
 import entity.GivenAnswer;
 import interactor.GivenAnswerInteractor;
-import interactor.PossibleAnswerInteractor;
 
 public class GivenAnswerPresenter extends AsyncTask<Void, Void, Void> {
     private int _profileID;
