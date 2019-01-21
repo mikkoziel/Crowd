@@ -63,7 +63,7 @@ public class ProfileInteractor {
     public Profile setProfile(ResultSet res) throws SQLException {
         int id = res.getInt("profilID");
         String name = res.getString("name");
-        String points = res.getString("points");
+        int points = res.getInt("points");
         Profile profile = new Profile(id, name, points);
         setSuccess("Login successful");
         return profile;

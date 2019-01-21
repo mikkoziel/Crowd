@@ -10,10 +10,10 @@ public class Profile implements Serializable {
     private ArrayList<Game> _games;
 
 
-    public Profile(int ID, String name, String password){
+    public Profile(int ID, String name, int points){
         this._ID = ID;
         this._name = name;
-        this._points = 0;
+        this._points = points;
         this._games = new ArrayList<>();
     }
 
@@ -33,25 +33,14 @@ public class Profile implements Serializable {
         return _games;
     }
 
-
     public void setName(String name) {
         this._name = name;
-    }
-
-    public void setID(int ID) {
-        this._ID = ID;
-    }
-
-    public void addPoints(int toAdd){
-        this._points += toAdd;
-    }
-
-    public void setGames(ArrayList<Game> games) {
-        this._games = games;
     }
 
     public void addGames(Game game){
         this._games.add(game);
     }
+
+    public void increasePoints(int extraPoints){_points += extraPoints;}
 
 }

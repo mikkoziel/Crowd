@@ -5,38 +5,39 @@ import java.io.Serializable;
 public class Answer implements Serializable {
     private int _answerID;
     private String _answer;
-    private int _used;
-    private double _percentageUsed;
     private int _type;
     private Boolean _defaultAnswer;
     private Boolean _isImageAnswer;
     private byte[] _image;
+    private int _showed;
+    private int _chosen;
 
     public Answer(int answerID, String answer){
         this._answerID = answerID;
         this._answer = answer;
     }
 
-    public Answer(int answerID, String answer, int used, double percentageUsed, int type, Boolean defaultAnswer ){
+    public Answer(int answerID, String answer, int type, Boolean defaultAnswer, int showed, int chosen){
         this._answerID = answerID;
         this._answer = answer;
-        this._used = used;
-        this._percentageUsed = percentageUsed;
         this._type = type;
         this._defaultAnswer = defaultAnswer;
         this._image = null;
         this._isImageAnswer = false;
+        this._showed = showed;
+        this._chosen = chosen;
     }
 
-    public Answer(int answerID, String answer, int used, double percentageUsed, int type, Boolean defaultAnswer, byte[] image ){
+    public Answer(int answerID, String answer, int type, Boolean defaultAnswer, byte[] image,  int showed, int chosen){
         this._answerID = answerID;
         this._answer = answer;
-        this._used = used;
-        this._percentageUsed = percentageUsed;
         this._type = type;
         this._defaultAnswer = defaultAnswer;
         this._image = image;
         this._isImageAnswer = true;
+        this._showed = showed;
+        this._chosen = chosen;
+
     }
 
     public int getAnswerID() {
@@ -47,49 +48,23 @@ public class Answer implements Serializable {
         return _answer;
     }
 
-    public int getUsed() {
-        return _used;
-    }
-
-    public double getPercentageUsed() {
-        return _percentageUsed;
-    }
-
     public int getType() {
         return _type;
     }
 
-    public Boolean get_defaultAnswer() {
+    public Boolean getDefaultAnswer() {
         return _defaultAnswer;
-    }
-
-    public void setAnswerID(int answerID) {
-        this._answerID = answerID;
-    }
-
-    public void setAnswer(String answer) {
-        this._answer = answer;
-    }
-
-    public void setUsed(int used) {
-        this._used = used;
-    }
-
-    public void setPercentageUsed(double percentageUsed) {
-        this._percentageUsed = percentageUsed;
-    }
-
-    public void setType(int type) {
-        this._type = type;
-    }
-
-    public void set_defaultAnswer(Boolean _defaultAnswer) {
-        this._defaultAnswer = _defaultAnswer;
     }
 
     public Boolean isImageAnswer(){return _isImageAnswer;}
 
-    public void setImage(byte[] image){this._image = image;}
-
     public byte[] getImage(){return _image;}
+
+    public void increaseShowed(){_showed++;}
+
+    public int getShowed(){return _showed;}
+
+    public void increaseChosen(){_chosen++;}
+
+    public int getChosen(){return _chosen;}
 }
