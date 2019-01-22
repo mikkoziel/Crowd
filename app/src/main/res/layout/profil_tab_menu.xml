@@ -22,7 +22,10 @@
                 android:id="@+id/user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="User" />
+                android:lines="2"
+                android:maxLines="4"
+                android:singleLine="false"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -35,7 +38,10 @@
                 android:id="@+id/stats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Stats" />
+                android:text="Stats"
+                android:lines="2"
+                android:maxLines="4"
+                android:singleLine="false"/>
 
             <Button
                 android:id="@+id/highscore"
@@ -77,14 +83,6 @@
 
             </LinearLayout>
         </ScrollView>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/floatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:clickable="true"
-            android:src="@color/colorPrimaryDark" />
 
     </LinearLayout>
 
