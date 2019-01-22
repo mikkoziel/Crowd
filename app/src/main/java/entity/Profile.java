@@ -10,10 +10,10 @@ public class Profile implements Serializable {
     private ArrayList<Game> _games;
 
 
-    public Profile(int ID, String name, String password){
+    public Profile(int ID, String name, int points){
         this._ID = ID;
         this._name = name;
-        this._points = 0;
+        this._points = points;
         this._games = new ArrayList<>();
     }
 

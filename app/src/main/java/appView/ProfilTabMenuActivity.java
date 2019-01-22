@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import entity.Profile;
+import presenter.HighscorePresenter;
 
 public class ProfilTabMenuActivity extends Fragment {
 
@@ -56,8 +57,8 @@ public class ProfilTabMenuActivity extends Fragment {
 
     public void showHighscore(){
         Intent intent = new Intent(activity, HighscoreActivity.class);
-        intent.putExtra("profile", profile);
-        activity.startActivity(intent);
+        HighscorePresenter highscorePresenter = new HighscorePresenter(profile, activity, intent);
+        highscorePresenter.execute();
     }
 
     public void showShop(){
