@@ -41,14 +41,25 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
 
     private PossibleAnswerInteractor _possibleAnswerInteractor;
 
-    public PossibleAnswerPresenter(Activity activity, Question question, ProgressBar progress, LinearLayout.LayoutParams lp, LinearLayout answerLayout, Game game, Profile profile) {
-        this._activity = activity;
+//    public PossibleAnswerPresenter(Activity activity, Question question, ProgressBar progress, LinearLayout.LayoutParams lp, LinearLayout answerLayout, Game game, Profile profile) {
+//        this._activity = activity;
+//        this._question = question;
+//        this._progress = progress;
+//        this._lp = lp;
+//        this._answerLayout = answerLayout;
+//        this._profile = profile;
+//        this._game = game;
+//        this._possibleAnswerInteractor = new PossibleAnswerInteractor();
+//    }
+
+    public PossibleAnswerPresenter(Question question, ProgressBar progress) {
+
         this._question = question;
         this._progress = progress;
-        this._lp = lp;
-        this._answerLayout = answerLayout;
-        this._profile = profile;
-        this._game = game;
+//        this._lp = lp;
+//        this._answerLayout = answerLayout;
+//        this._profile = profile;
+//        this._game = game;
         this._possibleAnswerInteractor = new PossibleAnswerInteractor();
     }
 
@@ -65,17 +76,17 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
             e.printStackTrace();
         }
 
-        for(Answer answer : _question.getAnswers()){
-            Button button = setButtons(answer.getAnswer(), answer);
-            publishProgress(button);
-        }
+//        for(Answer answer : _question.getAnswers()){
+//            Button button = setButtons(answer.getAnswer(), answer);
+//            publishProgress(button);
+//        }
         return null;
     }
 
-    @Override
-    protected void onProgressUpdate(Button... answer) {
-        _answerLayout.addView(answer[0], _lp);
-    }
+//    @Override
+//    protected void onProgressUpdate(Button... answer) {
+//        _answerLayout.addView(answer[0], _lp);
+//    }
 
     @Override
     protected void onPostExecute(Void voids){

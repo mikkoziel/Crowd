@@ -92,6 +92,8 @@ public class Question implements Serializable{
         this._answers = answers;
     }
 
+    public Boolean answerEmpty(){return _answers.isEmpty();}
+
     public void nextIndex(){this._index ++;}
 
     public void setDefaultAnswer(Boolean _defaultAnswer) {

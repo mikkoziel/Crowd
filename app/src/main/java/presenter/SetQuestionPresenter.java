@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import java.sql.SQLException;
 
 import entity.Game;
+import entity.Question;
 import interactor.QuestionInteractor;
 
 public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
@@ -40,7 +41,7 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... voids) {
         try {
             _questionInteractor.emptyQuestions(_game);
-            _questionInteractor.setQuestions(_game);
+            _questionInteractor.setQuestions1(_game);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -50,6 +51,16 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void voids) {
         if (_questionInteractor.isSuccess()) {
+            int i = _game.getQuestions().size();
+            for(Question x: _game.getQuestions()){
+                PossibleAnswerPresenter possibleAnswerPresenter = new PossibleAnswerPresenter(x, _progress);
+                possibleAnswerPresenter.execute();
+            }
+            while(i != 0){
+                if(_game.getQuestions().get(i).answerEmpty()){
+                    i -= 1;
+                }
+            }
             _intent.putExtra("game", _game);
             _activity.startActivity(_intent);
         }
