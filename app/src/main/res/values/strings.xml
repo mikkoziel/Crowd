@@ -27,4 +27,6 @@
     <string name="previousGame">Do you want to continue previous game?</string>
     <string name="resume">RESUME</string>
     <string name="sort">SORT</string>
+    <string name="highscore">Highscore</string>
+    <string name="title_activity_highscore">HighscoreActivity</string>
 </resources>
