@@ -5,6 +5,7 @@ import android.util.Base64;
 import java.security.Key;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -73,7 +74,7 @@ public class ProfileInteractor {
     public Profile setProfile(ResultSet res) throws SQLException {
         int id = res.getInt("profilID");
         String name = res.getString("name");
-        String points = res.getString("points");
+        int points = res.getInt("points");
         Profile profile = new Profile(id, name, points);
         setSuccess("Login successful");
         return profile;
@@ -111,6 +112,21 @@ public class ProfileInteractor {
             setSuccess("Password Change successful");
         else
             setFailure("Password Change failed");
+    }
+
+    public ArrayList<Profile> getHighscore() throws Exception {
+        String query = "Select Top 10 * from Profile order by points desc ";
+        ResultSet res = _dbConnector.runQuery(query);
+        ArrayList<Profile> high = new ArrayList<>();
+        while(res.next()) {
+            int id = res.getInt("profilID");
+            String name = res.getString("name");
+            int points = res.getInt("points");
+            Profile profile = new Profile(id, name, points);
+            high.add(profile);
+            setSuccess("Highscore set");
+        }
+        return high;
     }
 
     private void setSuccess(String message)

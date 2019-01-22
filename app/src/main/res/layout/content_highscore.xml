@@ -8,4 +8,9 @@
     tools:context=".HighscoreActivity"
     tools:showIn="@layout/activity_highscore">
 
+    <LinearLayout
+        android:id="@+id/highscore"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"></LinearLayout>
 </android.support.constraint.ConstraintLayout>
