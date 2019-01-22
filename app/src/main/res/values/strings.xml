@@ -29,4 +29,5 @@
     <string name="sort">SORT</string>
     <string name="highscore">Highscore</string>
     <string name="title_activity_highscore">HighscoreActivity</string>
+    <string name="title_activity_shop">ShopActivity</string>
 </resources>
