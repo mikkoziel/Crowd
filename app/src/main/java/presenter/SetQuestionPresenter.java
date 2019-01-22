@@ -57,7 +57,7 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
                 possibleAnswerPresenter.execute();
             }
             while(i != 0){
-                if(_game.getQuestions().get(i).answerEmpty()){
+                if(_game.getQuestions().get(_game.getQuestions().size() - i).answerEmpty()){
                     i -= 1;
                 }
             }

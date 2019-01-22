@@ -61,21 +61,23 @@ public class QuestionInteractor {
     }
 
     private void addPossibleQuestion(ResultSet resultSet, Game game) throws SQLException {
-        String content = resultSet.getString("questionText");
-        int ID = resultSet.getInt("questionID");
-        int type = resultSet.getInt("typeID");
-        Boolean defaultAnswer = resultSet.getBoolean("defaultAnswer");
+        if(resultSet.next()) {
+            String content = resultSet.getString("questionText");
+            int ID = resultSet.getInt("questionID");
+            int type = resultSet.getInt("typeID");
+            Boolean defaultAnswer = resultSet.getBoolean("defaultAnswer");
 
-        Blob blobImage = resultSet.getBlob("questionImage");
-        Question question;
-        if (resultSet.wasNull())
-            question = new Question(content, ID, type, defaultAnswer);
+            Blob blobImage = resultSet.getBlob("questionImage");
+            Question question;
+            if (resultSet.wasNull())
+                question = new Question(content, ID, type, defaultAnswer);
 
-        else {
-            byte[] byteImage = blobImage.getBytes(1, (int) blobImage.length());
-            question = new Question(content, ID, type, defaultAnswer, byteImage);
+            else {
+                byte[] byteImage = blobImage.getBytes(1, (int) blobImage.length());
+                question = new Question(content, ID, type, defaultAnswer, byteImage);
+            }
+            game.addQuestion(question);
         }
-        game.addQuestion(question);
     }
 
     public void setQuestions(Game game) throws SQLException {
