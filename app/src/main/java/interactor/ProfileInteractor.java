@@ -41,7 +41,7 @@ public class ProfileInteractor {
             setFailure("Login already exist");
         else {
             String pass = encrypt(password);
-            String query1 = "Insert into Profile(Name, Password, Points, Userlevel) values('" + username + "', '" + pass + "', 0, 0)";
+            String query1 = "Insert into Profile(Name, Password) values('" + username + "', '" + pass + "')";
                 int result = _dbConnector.updateQuery(query1);
                 if(result > 0)
                     setSuccess("Login registration successful");
