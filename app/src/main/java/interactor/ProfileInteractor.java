@@ -35,12 +35,13 @@ public class ProfileInteractor {
             return true;
     }
 
-    public void registerLogin(String username, String password) throws SQLException {
+    public void registerLogin(String username, String password) throws Exception {
         ResultSet resultSet = getLogin(username);
         if (resultSet.next())
             setFailure("Login already exist");
         else {
-            String query1 = "Insert into Profile(Name, Password, Points, Userlevel) values('" + username + "', '" + password + "', 0, 0)";
+            String pass = encrypt(password);
+            String query1 = "Insert into Profile(Name, Password, Points, Userlevel) values('" + username + "', '" + pass + "', 0, 0)";
                 int result = _dbConnector.updateQuery(query1);
                 if(result > 0)
                     setSuccess("Login registration successful");
@@ -55,10 +56,11 @@ public class ProfileInteractor {
     }
 
 
-    public ResultSet checkLogin(String username, String password) throws SQLException {
+    public ResultSet checkLogin(String username, String password) throws Exception {
         ResultSet resultSet = getLogin(username);
         if (resultSet.next()) {
-            if (resultSet.getString("password").equals(password))
+            String pass = encrypt(password);
+            if (resultSet.getString("password").equals(pass))
                 setSuccess("Login Successful");
             else
                 setFailure("Invalid Credentials!");
@@ -101,8 +103,9 @@ public class ProfileInteractor {
                 setSuccess("Correct Data");
     }
 
-    public void modeChangeToNew(String password, Profile profile){
-        String query = "Update Profile set password = '" + password + "' where profilID = " + profile.getID();
+    public void modeChangeToNew(String password, Profile profile) throws Exception {
+        String pass = encrypt(password);
+        String query = "Update Profile set password = '" + pass + "' where profilID = " + profile.getID();
         int res = _dbConnector.updateQuery(query);
         if(res > 0)
             setSuccess("Password Change successful");
