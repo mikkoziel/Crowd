@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import entity.Profile;
 import interactor.GameInteractor;
 import interactor.ProfileInteractor;
+import interactor.TagInteractor;
 
 public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
 
@@ -28,6 +29,7 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
 
     private ProfileInteractor _profileInteractor;
     private GameInteractor _gameInteractor;
+    private TagInteractor _tagInteractor;
 
     public CheckLoginPresenter(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT, Intent intent){
         this._activity = activity;
@@ -37,6 +39,7 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
         this._intent = intent;
         this._profileInteractor = new ProfileInteractor();
         this._gameInteractor = new GameInteractor();
+        this._tagInteractor = new TagInteractor();
     }
 
     @Override
@@ -47,35 +50,34 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... voids){
 
-        if(_username.trim().equals("")|| _password.trim().equals("")){
-            _profileInteractor.setResult("Please enter Username and Password");
-            _profileInteractor.setSuccess(false);
-        }
-        else {
-            ResultSet res;
+        if(_profileInteractor.userCredentialsFilled(_username, _password))
+        {
             try {
-                res = _profileInteractor.checkLogin(_username, _password);
-                if(_profileInteractor.getSuccess()) {
-                    Profile profile = _profileInteractor.setProfile(res);
+                ResultSet resultSet = _profileInteractor.checkLogin(_username, _password);
+                if(_profileInteractor.isSuccess()) {
+                    Profile profile = _profileInteractor.setProfile(resultSet);
                     _gameInteractor.setGames(profile);
+                    _tagInteractor.addTagsForUserGames(profile);
                     _intent.putExtra("profile", profile);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
         return null;
     }
 
-
     @Override
-    protected void onPostExecute(Void voids){
+    protected void onPostExecute(Void voids) {
         _progress.setVisibility(View.GONE);
         String result = _profileInteractor.getResult();
         Toast.makeText(_activity, result, Toast.LENGTH_LONG).show();
-        if(_profileInteractor.getSuccess()){
+
+        if (_profileInteractor.isSuccess())
             _activity.startActivity(_intent);
-        }
+
+        _gameInteractor.endWork();
+        _profileInteractor.endWork();
+        _tagInteractor.endWork();
     }
 }

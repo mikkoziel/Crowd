@@ -37,11 +37,8 @@ public class RegistrationPresenter extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... voids){
-        if(_username.trim().equals("")|| _password.trim().equals("")){
-            _profileInteractor.setResult("Please enter Username and Password");
-            _profileInteractor.setSuccess(false);
-        }
-        else{
+        if(_profileInteractor.userCredentialsFilled(_username, _password))
+        {
             try {
                 _profileInteractor.registerLogin(_username, _password);
             } catch (Exception e) {
@@ -51,12 +48,12 @@ public class RegistrationPresenter extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
-
     @Override
     protected void onPostExecute(Void voids){
         _progress.setVisibility(View.GONE);
         String result = _profileInteractor.getResult();
         Toast.makeText(_activity, result, Toast.LENGTH_LONG).show();
+        _profileInteractor.endWork();
     }
 
 

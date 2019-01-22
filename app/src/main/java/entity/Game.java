@@ -87,26 +87,4 @@ public class Game implements Serializable {
     public String toString() {
         return _gameName;
     }
-
-    //    public String setQuestions(ResultSet res) throws SQLException {
-//        String z = "";
-//
-////        Connection con = connector.connectionClass();
-////        if (con == null) {
-////            z = "Check Your Internet Access!";
-////        }
-////        else {
-////            String query = "select * from Question where gameID = " + gameID + ";";
-////            ResultSet res = connector.runQuery(query, con);
-//            while(res.next()){
-//                int type = res.getInt("typeID");
-//                Question question = new Question(res.getString("question"), res.getInt("gameID"));
-//                question.setType(type);
-//                questions.add(question);
-//            }
-//      //  }
-//        return z;
-//    }
-
-
 }
