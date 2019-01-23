@@ -1,11 +1,20 @@
 package interactor;
 
+import android.util.Base64;
+
+import java.security.Key;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 import entity.Profile;
 
 public class ProfileInteractor {
+    private static final String ALGORITHM = "AES";
+    private static final String KEY = "1Hbfh667adfDEJ78";
     private DataBaseConnector _dbConnector;
     private String _result;
     private Boolean _isSuccess;
@@ -27,12 +36,13 @@ public class ProfileInteractor {
             return true;
     }
 
-    public void registerLogin(String username, String password) throws SQLException {
+    public void registerLogin(String username, String password) throws Exception {
         ResultSet resultSet = getLogin(username);
         if (resultSet.next())
             setFailure("Login already exist");
         else {
-            String query1 = "Insert into Profile(Name, Password, Points, Userlevel) values('" + username + "', '" + password + "', 0, 0)";
+            String pass = encrypt(password);
+            String query1 = "Insert into Profile(Name, Password) values('" + username + "', '" + pass + "')";
                 int result = _dbConnector.updateQuery(query1);
                 if(result > 0)
                     setSuccess("Login registration successful");
@@ -47,10 +57,11 @@ public class ProfileInteractor {
     }
 
 
-    public ResultSet checkLogin(String username, String password) throws SQLException {
+    public ResultSet checkLogin(String username, String password) throws Exception {
         ResultSet resultSet = getLogin(username);
         if (resultSet.next()) {
-            if (resultSet.getString("password").equals(password))
+            String pass = encrypt(password);
+            if (resultSet.getString("password").equals(pass))
                 setSuccess("Login Successful");
             else
                 setFailure("Invalid Credentials!");
@@ -69,12 +80,12 @@ public class ProfileInteractor {
         return profile;
     }
 
-    public void modeCheckOld(Profile profile, String password, String passwordCheck, String passwordCheck2) throws SQLException {
+    public void modeCheckOld(Profile profile, String password, String passwordCheck, String passwordCheck2) throws Exception {
         String query = "Select * from Profile where profilID = " + profile.getID();
         ResultSet res = _dbConnector.runQuery(query);
         if (res.next()) {
             String name = res.getString("name");
-            String oldPasswordRes = res.getString("password");
+            String oldPasswordRes = decrypt(res.getString("password"));
             if(profile.getName().equals(name) && password.equals(oldPasswordRes)){
                 checkRest(passwordCheck, passwordCheck2, password);
             }
@@ -93,13 +104,29 @@ public class ProfileInteractor {
                 setSuccess("Correct Data");
     }
 
-    public void modeChangeToNew(String password, Profile profile){
-        String query = "Update Profile set password = '" + password + "' where profilID = " + profile.getID();
+    public void modeChangeToNew(String password, Profile profile) throws Exception {
+        String pass = encrypt(password);
+        String query = "Update Profile set password = '" + pass + "' where profilID = " + profile.getID();
         int res = _dbConnector.updateQuery(query);
         if(res > 0)
             setSuccess("Password Change successful");
         else
             setFailure("Password Change failed");
+    }
+
+    public ArrayList<Profile> getHighscore() throws Exception {
+        String query = "Select Top 10 * from Profile order by points desc ";
+        ResultSet res = _dbConnector.runQuery(query);
+        ArrayList<Profile> high = new ArrayList<>();
+        while(res.next()) {
+            int id = res.getInt("profilID");
+            String name = res.getString("name");
+            int points = res.getInt("points");
+            Profile profile = new Profile(id, name, points);
+            high.add(profile);
+            setSuccess("Highscore set");
+        }
+        return high;
     }
 
     private void setSuccess(String message)
@@ -124,6 +151,34 @@ public class ProfileInteractor {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private String encrypt(String value) throws Exception
+    {
+        Key key = generateKey();
+        Cipher cipher = Cipher.getInstance(ALGORITHM);
+        cipher.init(Cipher.ENCRYPT_MODE, key);
+        byte [] encryptedByteValue = cipher.doFinal(value.getBytes("utf-8"));
+        String encryptedValue64 = Base64.encodeToString(encryptedByteValue, Base64.DEFAULT);
+        return encryptedValue64.substring(0, encryptedValue64.length() - 1);
+
+    }
+
+    private String decrypt(String value) throws Exception
+    {
+        Key key = generateKey();
+        Cipher cipher = Cipher.getInstance(ALGORITHM);
+        cipher.init(Cipher.DECRYPT_MODE, key);
+        byte[] decryptedValue64 = Base64.decode(value, Base64.DEFAULT);
+        byte [] decryptedByteValue = cipher.doFinal(decryptedValue64);
+        String decryptedValue = new String(decryptedByteValue,"utf-8");
+        return decryptedValue.substring(0, decryptedValue.length() - 1);
+
+    }
+
+    private static Key generateKey() throws Exception
+    {
+        return new SecretKeySpec(KEY.getBytes(),ALGORITHM);
     }
 
 
