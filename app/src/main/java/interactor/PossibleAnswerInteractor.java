@@ -76,9 +76,10 @@ public class PossibleAnswerInteractor {
             int ID = res.getInt("answerID");
             int type = res.getInt("typeID");
             Boolean defaultAnswer = res.getBoolean("defaultAnswer");
-            Blob blobImage = res.getBlob("answerImage");
             int showed = res.getInt("showed");
             int chosen = res.getInt("chosen");
+            Blob blobImage = res.getBlob("answerImage");
+
 
             Answer answer;
             if (res.wasNull()) {

@@ -15,7 +15,7 @@ import entity.Profile;
 import interactor.ProfileInteractor;
 import interactor.QuestionInteractor;
 
-public class HighscorePresenter extends AsyncTask<Void, Void, Void> {
+public class HighScorePresenter extends AsyncTask<Void, Void, Void> {
 
     @SuppressLint("StaticFieldLeak")
     private Activity _activity;
@@ -24,13 +24,13 @@ public class HighscorePresenter extends AsyncTask<Void, Void, Void> {
     private Intent _intent;
     private ArrayList<Profile> high;
 
-    private ProfileInteractor _proflieInteractor;
+    private ProfileInteractor _profileInteractor;
 
-    public HighscorePresenter(Profile profile,Activity activity, Intent intent) {
+    public HighScorePresenter(Profile profile,Activity activity, Intent intent) {
         this._profile = profile;
         this._activity = activity;
         this._intent = intent;
-        this._proflieInteractor = new ProfileInteractor();
+        this._profileInteractor = new ProfileInteractor();
     }
 
     @Override
@@ -41,7 +41,7 @@ public class HighscorePresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... voids) {
         try {
-            this.high = _proflieInteractor.getHighscore();
+            this.high = _profileInteractor.getHighScore();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -50,11 +50,11 @@ public class HighscorePresenter extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void voids) {
-        if (_proflieInteractor.isSuccess()) {
+        if (_profileInteractor.isSuccess()) {
             _intent.putExtra("profile", _profile);
             _intent.putExtra("high", high);
             _activity.startActivity(_intent);
         }
-        _proflieInteractor.endWork();
+        _profileInteractor.endWork();
     }
 }

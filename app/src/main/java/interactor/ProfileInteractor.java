@@ -114,7 +114,7 @@ public class ProfileInteractor {
             setFailure("Password Change failed");
     }
 
-    public ArrayList<Profile> getHighscore() throws Exception {
+    public ArrayList<Profile> getHighScore() throws Exception {
         String query = "Select Top 10 * from Profile order by points desc ";
         ResultSet res = _dbConnector.runQuery(query);
         ArrayList<Profile> high = new ArrayList<>();
@@ -124,7 +124,7 @@ public class ProfileInteractor {
             int points = res.getInt("points");
             Profile profile = new Profile(id, name, points);
             high.add(profile);
-            setSuccess("Highscore set");
+            setSuccess("HighScore set");
         }
         return high;
     }

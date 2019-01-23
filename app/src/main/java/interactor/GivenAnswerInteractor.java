@@ -68,7 +68,7 @@ public class GivenAnswerInteractor {
         else
             profile.increasePoints(10);
 
-        String query = "update Profile set points = " + profile.getPoints() + " where profileID = " + profile.getID();
+        String query = "update Profile set points = " + profile.getPoints() + " where profilID = " + profile.getID();
         _dbConnector.updateQuery(query);
     }
 
