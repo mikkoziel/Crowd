@@ -75,21 +75,41 @@ public class PossibleAnswerInteractor {
             String content = res.getString("answerText");
             int ID = res.getInt("answerID");
             int type = res.getInt("typeID");
-            int used = res.getInt("used");
-            double percentageUsed = res.getDouble("percentageUsed");
             Boolean defaultAnswer = res.getBoolean("defaultAnswer");
+            int showed = res.getInt("showed");
+            int chosen = res.getInt("chosen");
             Blob blobImage = res.getBlob("answerImage");
 
             Answer answer;
             if (res.wasNull()) {
-                answer = new Answer(ID, content, used, percentageUsed, type, defaultAnswer);
+                answer = new Answer(ID, content, type, defaultAnswer, showed,chosen);
             }
             else{
                 byte[] byteImage = blobImage.getBytes(1, (int)blobImage.length());
-                answer = new Answer(ID, content, used, percentageUsed, type, defaultAnswer, byteImage);
+                answer = new Answer(ID, content, type, defaultAnswer, byteImage, showed, chosen);
             }
             question.addAnswer(answer);
+            updateAnswerShowedValue(answer);
+
         }
+    }
+
+    private void updateAnswerShowedValue(Answer answer) throws SQLException
+    {
+        String query = "Select * from Answer where answerID = " + answer.getAnswerID();
+        ResultSet res = _dbConnector.runQuery(query);
+        if (res.next())
+            answer.setShowed(res.getInt("showed"));
+        else
+        {
+            setFailure("Fail!");
+            return;
+        }
+
+        answer.increaseShowed();
+
+        query = "update Answer set showed = " + answer.getShowed() + " where answerID = " + answer.getAnswerID();
+        _dbConnector.updateQuery(query);
     }
 
     private void setSuccess(String message)
