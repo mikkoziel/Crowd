@@ -1,7 +1,11 @@
 package interactor;
 
-import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import entity.Answer;
 import entity.GivenAnswer;
@@ -25,10 +29,11 @@ public class GivenAnswerInteractor {
         int questionID = givenAnswer.getQuestion().getQuestionID();
         int answerID = givenAnswer.getAnswer().getAnswerID();
 
-        java.util.Date dateUtil = new java.util.Date();
-        Date date = new Date(dateUtil.getYear(), dateUtil.getMonth(), dateUtil.getDay());
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        Date today = Calendar.getInstance().getTime();
+        String date = dateFormat.format(today);
 
-        String query = "Insert into Log(profilID, questionID, answerID, date) values(" + profileID + ", " + questionID + ", " + answerID + ", " + date + ")";
+        String query = "Insert into Log(profilID, questionID, answerID, date) values(" + profileID + ", " + questionID + ", " + answerID + ", '" + date + "')";
 
         int result = _dbConnector.updateQuery(query);
         if(result > 0)
@@ -37,15 +42,35 @@ public class GivenAnswerInteractor {
             setFailure("Fail");
     }
 
-    public void updateAnswerChosenValue(Answer answer)
+    public void updateAnswerChosenValue(Answer answer) throws SQLException
     {
+        String query = "Select * from Answer where answerID = " + answer.getAnswerID();
+        ResultSet res = _dbConnector.runQuery(query);
+        if (res.next())
+            answer.setChosen(res.getInt("chosen"));
+        else
+        {
+            setFailure("Fail!");
+            return;
+        }
+
         answer.increaseChosen();
-        String query = "update Answer set chosen = " + answer.getChosen() + " where answerID = " + answer.getAnswerID();
+        query = "update Answer set chosen = " + answer.getChosen() + " where answerID = " + answer.getAnswerID();
         _dbConnector.updateQuery(query);
     }
 
-    public void givePoints(Answer answer, Profile profile)
+    public void givePoints(Answer answer, Profile profile) throws SQLException
     {
+        String query = "Select * from Profile where profilID = " + profile.getID();
+        ResultSet res = _dbConnector.runQuery(query);
+        if (res.next())
+            profile.setPoints(res.getInt("points"));
+        else
+        {
+            setFailure("Fail!");
+            return;
+        }
+
         double percentage = (double)answer.getChosen() / (double)answer.getShowed();
         if(percentage < 0.1)
             profile.increasePoints(1);
@@ -68,7 +93,7 @@ public class GivenAnswerInteractor {
         else
             profile.increasePoints(10);
 
-        String query = "update Profile set points = " + profile.getPoints() + " where profilID = " + profile.getID();
+        query = "update Profile set points = " + profile.getPoints() + " where profilID = " + profile.getID();
         _dbConnector.updateQuery(query);
     }
 

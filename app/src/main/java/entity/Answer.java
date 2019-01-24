@@ -67,4 +67,8 @@ public class Answer implements Serializable {
     public void increaseChosen(){_chosen++;}
 
     public int getChosen(){return _chosen;}
+
+    public void setChosen(int chosen){_chosen  = chosen;}
+
+    public void setShowed(int showed){_showed = showed;}
 }

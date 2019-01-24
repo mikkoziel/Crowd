@@ -2,6 +2,8 @@ package presenter;
 
 import android.os.AsyncTask;
 
+import java.sql.SQLException;
+
 import entity.GivenAnswer;
 import interactor.GivenAnswerInteractor;
 
@@ -20,10 +22,13 @@ public class GivenAnswerPresenter extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-        _givenAnswerInteractor.logAnswer(_givenAnswer);
-        _givenAnswerInteractor.updateAnswerChosenValue(_givenAnswer.getAnswer());
-        _givenAnswerInteractor.givePoints(_givenAnswer.getAnswer(), _givenAnswer.getProfile());
-
+        try {
+            _givenAnswerInteractor.logAnswer(_givenAnswer);
+            _givenAnswerInteractor.updateAnswerChosenValue(_givenAnswer.getAnswer());
+            _givenAnswerInteractor.givePoints(_givenAnswer.getAnswer(), _givenAnswer.getProfile());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

@@ -80,7 +80,6 @@ public class PossibleAnswerInteractor {
             int chosen = res.getInt("chosen");
             Blob blobImage = res.getBlob("answerImage");
 
-
             Answer answer;
             if (res.wasNull()) {
                 answer = new Answer(ID, content, type, defaultAnswer, showed,chosen);
@@ -95,11 +94,21 @@ public class PossibleAnswerInteractor {
         }
     }
 
-    //TO DO: do sprawdzenia
-    private void updateAnswerShowedValue(Answer answer)
+    private void updateAnswerShowedValue(Answer answer) throws SQLException
     {
+        String query = "Select * from Answer where answerID = " + answer.getAnswerID();
+        ResultSet res = _dbConnector.runQuery(query);
+        if (res.next())
+            answer.setShowed(res.getInt("showed"));
+        else
+        {
+            setFailure("Fail!");
+            return;
+        }
+
         answer.increaseShowed();
-        String query = "update Answer set showed = " + answer.getShowed() + " where answerID = " + answer.getAnswerID();
+
+        query = "update Answer set showed = " + answer.getShowed() + " where answerID = " + answer.getAnswerID();
         _dbConnector.updateQuery(query);
     }
 

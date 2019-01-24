@@ -41,6 +41,9 @@ public class Profile implements Serializable {
         this._games.add(game);
     }
 
-    public void increasePoints(int extraPoints){_points += extraPoints;}
+    public void increasePoints(int extraPoints){
+        _points =  _points + extraPoints;
+    }
 
+    public void setPoints(int points){_points = points;}
 }
