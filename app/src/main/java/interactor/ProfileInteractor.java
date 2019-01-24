@@ -75,7 +75,8 @@ public class ProfileInteractor {
         int id = res.getInt("profilID");
         String name = res.getString("name");
         int points = res.getInt("points");
-        Profile profile = new Profile(id, name, points);
+        int level = res.getInt("userlevel");
+        Profile profile = new Profile(id, name, points, level);
         setSuccess("Login successful");
         return profile;
     }
@@ -122,7 +123,8 @@ public class ProfileInteractor {
             int id = res.getInt("profilID");
             String name = res.getString("name");
             int points = res.getInt("points");
-            Profile profile = new Profile(id, name, points);
+            int level = res.getInt("userlevel");
+            Profile profile = new Profile(id, name, points, level);
             high.add(profile);
             setSuccess("HighScore set");
         }

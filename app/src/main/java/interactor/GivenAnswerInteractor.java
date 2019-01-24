@@ -97,6 +97,46 @@ public class GivenAnswerInteractor {
         _dbConnector.updateQuery(query);
     }
 
+
+    public void updateLevel(Profile profile) throws SQLException
+    {
+        int previousLevel;
+        String query = "Select * from Profile where profilID = " + profile.getID();
+        ResultSet res = _dbConnector.runQuery(query);
+        if (res.next())
+            previousLevel = res.getInt("userlevel");
+        else
+        {
+            setFailure("Fail!");
+            return;
+        }
+
+        int points = profile.getPoints();
+        findLevel(10, points, 1, profile);
+
+        //TODO: congratulations alert
+        if(previousLevel != profile.getLevel()) {
+            setSuccess("Congratulations!");
+        }
+
+        query = "update Profile set userlevel = " + profile.getLevel() + " where profilID = " + profile.getID();
+        _dbConnector.updateQuery(query);
+
+        query = "update Profile set missingPoints = " + profile.getMissingPoints() + " where profilID = " + profile.getID();
+        _dbConnector.updateQuery(query);
+
+    }
+
+    private void findLevel(int basePoints, int userPoints, int targetLevel, Profile profile)
+    {
+        if(userPoints < basePoints)
+        {
+            profile.setLevel(targetLevel);
+            profile.setMissingPoints(basePoints - userPoints);
+        } else
+            findLevel(basePoints*2, userPoints, targetLevel+1, profile);
+    }
+
     private void setSuccess(String message)
     {
         _result = message;

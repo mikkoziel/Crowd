@@ -8,13 +8,17 @@ public class Profile implements Serializable {
     private int _ID;
     private int _points;
     private ArrayList<Game> _games;
+    private int _level;
+    private int _missingPoints;
 
 
-    public Profile(int ID, String name, int points){
+    public Profile(int ID, String name, int points, int level){
         this._ID = ID;
         this._name = name;
         this._points = points;
         this._games = new ArrayList<>();
+        this._level = level;
+        this._missingPoints = -1;
     }
 
     public String getName() {
@@ -46,4 +50,12 @@ public class Profile implements Serializable {
     }
 
     public void setPoints(int points){_points = points;}
+
+    public int getLevel(){return _level;}
+
+    public void setLevel(int level){_level = level;}
+
+    public void setMissingPoints(int missingPoints){_missingPoints = missingPoints;}
+
+    public int getMissingPoints(){return _missingPoints;}
 }
