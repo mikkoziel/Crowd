@@ -13,26 +13,36 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/highscoreTitle"
+            android:textAlignment="center"
+            android:textSize="36sp"
+            android:textStyle="bold" />
+
         <TableLayout
             android:id="@+id/table1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="*" >
+            android:stretchColumns="*"
+            tools:layout_editor_absoluteY="567dp">
 
             <TableRow
                 android:id="@+id/row1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <TableRow
                 android:id="@+id/row2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <TableRow
                 android:id="@+id/row3"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <TableRow
                 android:id="@+id/row4"
@@ -40,13 +50,16 @@
                 android:layout_height="wrap_content" />
         </TableLayout>
 
-        <LinearLayout
-            android:id="@+id/highscore"
+        <TableLayout
+            android:id="@+id/table2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:stretchColumns="2"
+            android:layout_marginTop = "10dp"
+            android:layout_marginRight = "10dp"
+            android:layout_marginLeft = "10dp">
 
-        </LinearLayout>
+        </TableLayout>
 
     </LinearLayout>
 
