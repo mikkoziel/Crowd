@@ -31,4 +31,5 @@
     <string name="title_activity_highscore">HighscoreActivity</string>
     <string name="title_activity_shop">ShopActivity</string>
     <string name="highscoreTitle">HIGHSCORE</string>
+    <string name="logo">Logo</string>
 </resources>
