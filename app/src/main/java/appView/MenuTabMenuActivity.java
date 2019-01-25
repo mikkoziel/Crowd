@@ -149,4 +149,5 @@ public class MenuTabMenuActivity extends Fragment {
             v.setVisibility(View.VISIBLE);
         }
     }
+
 }

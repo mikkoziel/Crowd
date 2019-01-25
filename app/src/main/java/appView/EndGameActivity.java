@@ -42,7 +42,7 @@ public class EndGameActivity extends AppCompatActivity {
         endText.setText(text);
     }
 
-    public void backButton(View view){
+    public void backButton(){
         Intent intent = new Intent(this, TabMenuActivity.class);
         intent.putExtra("profile", profile);
         intent.putExtra("item", 1);
@@ -58,9 +58,6 @@ public class EndGameActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, TabMenuActivity.class);
-        intent.putExtra("profile", profile);
-        intent.putExtra("item", 1);
-        this.startActivity(intent);
+        backButton();
     }
 }

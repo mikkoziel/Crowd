@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     public Intent intent;
     public EditText loginT, passwordT;
     public Button submit;
+    public Button register;
     public ProgressBar progress;
 
 
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         loginT = (EditText) findViewById(R.id.login);
         passwordT = (EditText) findViewById(R.id.password);
         submit = findViewById(R.id.button);
+        register = findViewById(R.id.button2);
         progress = findViewById(R.id.progressBar);
 
         progress.setVisibility(View.GONE);
@@ -37,13 +39,18 @@ public class MainActivity extends AppCompatActivity {
     public void loginBttn(View view){
         intent = new Intent(this, TabMenuActivity.class);
         intent.putExtra("item", 1);
+        submit.setClickable(false);
+        register.setClickable(false);
 
-        CheckLoginPresenter checkLoginPresenter = new CheckLoginPresenter(this, progress, loginT, passwordT, intent);
+        CheckLoginPresenter checkLoginPresenter = new CheckLoginPresenter(this, progress, loginT, passwordT, intent, submit, register);
         checkLoginPresenter.execute();
     }
 
     public void registerBttn(View view){
-        RegistrationPresenter registerLogin = new RegistrationPresenter(this, progress, loginT, passwordT);
+        submit.setClickable(false);
+        register.setClickable(false);
+
+        RegistrationPresenter registerLogin = new RegistrationPresenter(this, progress, loginT, passwordT, submit, register);
         registerLogin.execute();
     }
 

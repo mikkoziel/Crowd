@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,11 +44,20 @@ public class ChangePasswordActivity extends AppCompatActivity {
     }
 
     public void changePassword(View view){
+        Button change = findViewById(R.id.changeButton);
+        Button back = findViewById(R.id.button2);
+
+        change.setClickable(false);
+        back.setClickable(false);
+
         if(checkPasswords()) {
             String newPasswordText = newPassword.getText().toString();
             ChangePasswordPresenter changePasswordPresenter = new ChangePasswordPresenter(this, progress, profile, newPasswordText, 1);
             changePasswordPresenter.execute();
         }
+
+        change.setClickable(true);
+        back.setClickable(true);
     }
 
     public Boolean checkPasswords(){
