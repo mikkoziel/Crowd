@@ -33,7 +33,7 @@ public class EndGameActivity extends AppCompatActivity {
 
         if(getIntent().hasExtra("answer")){
             GivenAnswer given = (GivenAnswer) intent.getSerializableExtra("answer");
-            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(given);
+            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(given, this);
             givenAnswerPresenter.execute();
         }
 
