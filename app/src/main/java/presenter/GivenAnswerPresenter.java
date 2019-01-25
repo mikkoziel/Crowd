@@ -27,6 +27,7 @@ public class GivenAnswerPresenter extends AsyncTask<Void, Void, Void> {
             _givenAnswerInteractor.updateAnswerChosenValue(_givenAnswer.getAnswer());
             _givenAnswerInteractor.givePoints(_givenAnswer.getAnswer(), _givenAnswer.getProfile());
             _givenAnswerInteractor.updateLevel(_givenAnswer.getProfile());
+            _givenAnswerInteractor.updateMoney(_givenAnswer.getProfile());
         } catch (SQLException e) {
             e.printStackTrace();
         }
