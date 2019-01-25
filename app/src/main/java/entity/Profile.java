@@ -10,15 +10,17 @@ public class Profile implements Serializable {
     private ArrayList<Game> _games;
     private int _level;
     private int _missingPoints;
+    private int _money;
 
 
-    public Profile(int ID, String name, int points, int level){
+    public Profile(int ID, String name, int points, int level, int money){
         this._ID = ID;
         this._name = name;
         this._points = points;
         this._games = new ArrayList<>();
         this._level = level;
         this._missingPoints = -1;
+        this._money = money;
     }
 
     public String getName() {
@@ -58,4 +60,8 @@ public class Profile implements Serializable {
     public void setMissingPoints(int missingPoints){_missingPoints = missingPoints;}
 
     public int getMissingPoints(){return _missingPoints;}
+
+    public int getMoney(){return _money;}
+
+    public void setMoney(int money){_money = money;}
 }

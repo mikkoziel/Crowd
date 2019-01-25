@@ -71,6 +71,9 @@ public class GivenAnswerInteractor {
             return;
         }
 
+        if(answer.getDefaultAnswer())
+            return;
+        
         double percentage = (double)answer.getChosen() / (double)answer.getShowed();
         if(percentage < 0.1)
             profile.increasePoints(1);
@@ -135,6 +138,14 @@ public class GivenAnswerInteractor {
             profile.setMissingPoints(basePoints - userPoints);
         } else
             findLevel(basePoints*2, userPoints, targetLevel+1, profile);
+    }
+
+    public void updateMoney(Profile profile)
+    {
+        int money = profile.getPoints() * 10;
+        String query = "update Profile set money = " + money + " where profilID = " + profile.getID();
+        _dbConnector.updateQuery(query);
+        profile.setMoney(money);
     }
 
     private void setSuccess(String message)
