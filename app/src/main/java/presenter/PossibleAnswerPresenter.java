@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -32,9 +33,14 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
     @SuppressLint("StaticFieldLeak")
     private ProgressBar _progress;
     private Question _question;
+    private int _i;
 
     @SuppressLint("StaticFieldLeak")
     private LinearLayout _answerLayout;
+    @SuppressLint("StaticFieldLeak")
+    private LinearLayout _row1;
+    @SuppressLint("StaticFieldLeak")
+    private LinearLayout _row2;
     private LinearLayout.LayoutParams _lp;
     private Game _game;
     private Profile _profile;
@@ -50,6 +56,8 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
         this._profile = profile;
         this._game = game;
         this._possibleAnswerInteractor = new PossibleAnswerInteractor();
+        this._row1 = _activity.findViewById(appView.R.id.row1);
+        this._row2 = _activity.findViewById(appView.R.id.row2);
     }
 
     @Override
@@ -65,8 +73,10 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
             e.printStackTrace();
         }
 
+        _i = 0;
         for(Answer answer : _question.getAnswers()){
             Button button = setButtons(answer.getAnswer(), answer);
+//            button.set();
             publishProgress(button);
         }
         return null;
@@ -74,7 +84,17 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
 
     @Override
     protected void onProgressUpdate(Button... answer) {
-        _answerLayout.addView(answer[0], _lp);
+        if(_i < 2){
+            _row1.addView(answer[0], _lp);
+        }else{
+            if(_i < 4){
+                _row2.addView(answer[0], _lp);
+            }
+            else{
+                _answerLayout.addView(answer[0], _lp);
+            }
+        }
+        _i +=1;
     }
 
     @Override
@@ -88,7 +108,7 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
     private Button setButtons(String answerText, final Answer a){
         Button answer = new Button(_activity);
 
-        answer.setText(answerText);
+        answer.setText(String.format("\n%s\n", answerText));
         if(a.isImageAnswer()){
             Drawable image = new BitmapDrawable(_activity.getResources(), BitmapFactory.decodeByteArray(a.getImage(), 0, a.getImage().length));
             answer.setCompoundDrawablesWithIntrinsicBounds( image, null, null, null);

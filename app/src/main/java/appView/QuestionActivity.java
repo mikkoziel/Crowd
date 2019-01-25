@@ -54,7 +54,7 @@ public class QuestionActivity extends AppCompatActivity {
         }
 
         this.answerLayout = findViewById(appView.R.id.answerlayout);
-        this.lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        this.lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
 
         setQuestion();
         setAnswer();
