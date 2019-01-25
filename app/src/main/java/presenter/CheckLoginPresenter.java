@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -26,12 +27,16 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
     private String _username;
     private String _password;
     private Intent _intent;
+    @SuppressLint("StaticFieldLeak")
+    private Button _submit;
+    @SuppressLint("StaticFieldLeak")
+    private Button _register;
 
     private ProfileInteractor _profileInteractor;
     private GameInteractor _gameInteractor;
     private TagInteractor _tagInteractor;
 
-    public CheckLoginPresenter(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT, Intent intent){
+    public CheckLoginPresenter(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT, Intent intent, Button submit, Button register){
         this._activity = activity;
         this._progress = progress;
         this._username = loginT.getText().toString();
@@ -40,6 +45,8 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
         this._profileInteractor = new ProfileInteractor();
         this._gameInteractor = new GameInteractor();
         this._tagInteractor = new TagInteractor();
+        this._submit = submit;
+        this._register = register;
     }
 
     @Override
@@ -72,6 +79,8 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
         _progress.setVisibility(View.GONE);
         String result = _profileInteractor.getResult();
         Toast.makeText(_activity, result, Toast.LENGTH_LONG).show();
+        _submit.setClickable(true);
+        _register.setClickable(true);
 
         if (_profileInteractor.isSuccess())
             _activity.startActivity(_intent);
