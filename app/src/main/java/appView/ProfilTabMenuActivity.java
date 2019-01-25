@@ -33,9 +33,7 @@ public class ProfilTabMenuActivity extends Fragment {
 
         this.profile = (Profile) thisIntent.getSerializableExtra("profile");
 
-        TextView user = rootView.findViewById(R.id.user);
-
-        user.setText(String.format("Username: %s\n Points: %s", profile.getName(), Integer.toString(profile.getPoints())));
+        populateView(rootView);
 
         Button highscore = rootView.findViewById(R.id.highscore);
         highscore.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +51,19 @@ public class ProfilTabMenuActivity extends Fragment {
         });
 
         return rootView;
+    }
+
+    public void populateView(View rootView){
+
+        TextView user = rootView.findViewById(R.id.userName);
+        user.setText(String.format("%s", profile.getName()));
+
+        TextView points = rootView.findViewById(R.id.points);
+        points.setText(String.format("%s", Integer.toString(profile.getPoints())));
+
+        TextView stats = rootView.findViewById(R.id.stats);
+        stats.setText(String.format("Level: %s\nMissing points to next level: %s", profile.getLevel(), Integer.toString(profile.getMissingPoints())));
+
     }
 
     public void showHighscore(){
