@@ -89,12 +89,12 @@ public class PossibleAnswerInteractor {
                 answer = new Answer(ID, content, type, defaultAnswer, byteImage, showed, chosen);
             }
             question.addAnswer(answer);
-            updateAnswerShowedValue(answer);
+            increaseAnswerShowedValue(answer);
 
         }
     }
 
-    private void updateAnswerShowedValue(Answer answer) throws SQLException
+    private void increaseAnswerShowedValue(Answer answer) throws SQLException
     {
         String query = "Select * from Answer where answerID = " + answer.getAnswerID();
         ResultSet res = _dbConnector.runQuery(query);

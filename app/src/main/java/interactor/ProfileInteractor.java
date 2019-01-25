@@ -37,7 +37,9 @@ public class ProfileInteractor {
     }
 
     public void registerLogin(String username, String password) throws Exception {
-        ResultSet resultSet = getLogin(username);
+        String query = "select * from Profile where Name= '" + username + "'";
+        ResultSet resultSet =_dbConnector.runQuery(query);
+
         if (resultSet.next())
             setFailure("Login already exist");
         else {
@@ -51,14 +53,9 @@ public class ProfileInteractor {
             }
     }
 
-    private ResultSet getLogin(String username){
-        String query = "select * from Profile where Name= '" + username + "'";
-        return _dbConnector.runQuery(query);
-    }
-
-
     public ResultSet checkLogin(String username, String password) throws Exception {
-        ResultSet resultSet = getLogin(username);
+        String query = "select * from Profile where Name= '" + username + "'";
+        ResultSet resultSet =_dbConnector.runQuery(query);
         if (resultSet.next()) {
             String pass = encrypt(password);
             if (resultSet.getString("password").equals(pass))

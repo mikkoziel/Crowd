@@ -23,11 +23,7 @@ public class GivenAnswerPresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... voids) {
         try {
-            _givenAnswerInteractor.logAnswer(_givenAnswer);
-            _givenAnswerInteractor.updateAnswerChosenValue(_givenAnswer.getAnswer());
-            _givenAnswerInteractor.givePoints(_givenAnswer.getAnswer(), _givenAnswer.getProfile());
-            _givenAnswerInteractor.updateLevel(_givenAnswer.getProfile());
-            _givenAnswerInteractor.updateMoney(_givenAnswer.getProfile());
+            _givenAnswerInteractor.handleGivenAnswer(_givenAnswer);
         } catch (SQLException e) {
             e.printStackTrace();
         }

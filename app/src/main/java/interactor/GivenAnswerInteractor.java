@@ -23,7 +23,69 @@ public class GivenAnswerInteractor {
         this._isSuccess = false;
     }
 
-    public void logAnswer(GivenAnswer givenAnswer)
+    public void handleGivenAnswer(GivenAnswer givenAnswer) throws SQLException
+    {
+        logAnswer(givenAnswer);
+        increaseAnswerChosenValue(givenAnswer.getAnswer());
+        givePoints(givenAnswer.getProfile(), getPercentage(givenAnswer.getAnswer()));
+        updateLevel(givenAnswer.getProfile());
+        updateMoney(givenAnswer.getProfile());
+    }
+
+    //Answer
+    private void updateChosenValue(Answer answer) throws SQLException
+    {
+        String query = "Select * from Answer where answerID = " + answer.getAnswerID();
+        ResultSet res = _dbConnector.runQuery(query);
+        if (res.next()) {
+            answer.setChosen(res.getInt("chosen"));
+            setSuccess("Chosen updated");
+        }
+        else
+            setFailure("Fail!");
+    }
+
+    //Answer
+    private void updateShowedValue(Answer answer) throws SQLException
+    {
+        String query = "Select * from Answer where answerID = " + answer.getAnswerID();
+        ResultSet res = _dbConnector.runQuery(query);
+        if (res.next()) {
+            answer.setShowed(res.getInt("showed"));
+            setSuccess("Showed updated");
+        }
+        else
+            setFailure("Fail!");
+    }
+
+    //Profile
+    private void updatePointsValue(Profile profile) throws SQLException
+    {
+        String query = "Select * from Profile where profilID = " + profile.getID();
+        ResultSet res = _dbConnector.runQuery(query);
+        if (res.next()) {
+            profile.setPoints(res.getInt("points"));
+            setSuccess("Points updated");
+        }
+        else
+            setFailure("Fail!");
+    }
+
+    //Profile
+    private void updateUserLevelValue(Profile profile) throws SQLException
+    {
+        String query = "Select * from Profile where profilID = " + profile.getID();
+        ResultSet res = _dbConnector.runQuery(query);
+        if (res.next()) {
+            profile.setLevel(res.getInt("userlevel"));
+            setSuccess("level updated");
+        }
+        else
+            setFailure("Fail!");
+    }
+
+    //given answer
+    private void logAnswer(GivenAnswer givenAnswer)
     {
         int profileID = givenAnswer.getProfile().getID();
         int questionID = givenAnswer.getQuestion().getQuestionID();
@@ -42,39 +104,35 @@ public class GivenAnswerInteractor {
             setFailure("Fail");
     }
 
-    public void updateAnswerChosenValue(Answer answer) throws SQLException
+    //answer
+    private void increaseAnswerChosenValue(Answer answer) throws SQLException
     {
-        String query = "Select * from Answer where answerID = " + answer.getAnswerID();
-        ResultSet res = _dbConnector.runQuery(query);
-        if (res.next())
-            answer.setChosen(res.getInt("chosen"));
-        else
-        {
-            setFailure("Fail!");
-            return;
-        }
-
+        updateChosenValue(answer);
         answer.increaseChosen();
-        query = "update Answer set chosen = " + answer.getChosen() + " where answerID = " + answer.getAnswerID();
+        String query = "update Answer set chosen = " + answer.getChosen() + " where answerID = " + answer.getAnswerID();
         _dbConnector.updateQuery(query);
     }
 
-    public void givePoints(Answer answer, Profile profile) throws SQLException
+    //answer
+    private double getPercentage(Answer answer) throws SQLException
     {
-        String query = "Select * from Profile where profilID = " + profile.getID();
-        ResultSet res = _dbConnector.runQuery(query);
-        if (res.next())
-            profile.setPoints(res.getInt("points"));
-        else
-        {
-            setFailure("Fail!");
-            return;
-        }
+        updateChosenValue(answer);
+        updateShowedValue(answer);
 
         if(answer.getDefaultAnswer())
+            return 0;
+        else
+            return (double)answer.getChosen() / (double)answer.getShowed();
+    }
+
+    //profile
+    private void givePoints(Profile profile, double percentage) throws SQLException
+    {
+        updatePointsValue(profile);
+
+        if(percentage == 0)
             return;
-        
-        double percentage = (double)answer.getChosen() / (double)answer.getShowed();
+
         if(percentage < 0.1)
             profile.increasePoints(1);
         else if(percentage < 0.2)
@@ -96,24 +154,18 @@ public class GivenAnswerInteractor {
         else
             profile.increasePoints(10);
 
-        query = "update Profile set points = " + profile.getPoints() + " where profilID = " + profile.getID();
+        String query = "update Profile set points = " + profile.getPoints() + " where profilID = " + profile.getID();
         _dbConnector.updateQuery(query);
     }
 
 
-    public void updateLevel(Profile profile) throws SQLException
+    //Profile
+    private void updateLevel(Profile profile) throws SQLException
     {
-        int previousLevel;
-        String query = "Select * from Profile where profilID = " + profile.getID();
-        ResultSet res = _dbConnector.runQuery(query);
-        if (res.next())
-            previousLevel = res.getInt("userlevel");
-        else
-        {
-            setFailure("Fail!");
-            return;
-        }
+        updateUserLevelValue(profile);
+        int previousLevel = profile.getLevel();
 
+        updatePointsValue(profile);
         int points = profile.getPoints();
         findLevel(10, points, 1, profile);
 
@@ -122,7 +174,8 @@ public class GivenAnswerInteractor {
             setSuccess("Congratulations!");
         }
 
-        query = "update Profile set userlevel = " + profile.getLevel() + " where profilID = " + profile.getID();
+
+        String query = "update Profile set userlevel = " + profile.getLevel() + " where profilID = " + profile.getID();
         _dbConnector.updateQuery(query);
 
         query = "update Profile set missingPoints = " + profile.getMissingPoints() + " where profilID = " + profile.getID();
@@ -130,6 +183,7 @@ public class GivenAnswerInteractor {
 
     }
 
+    //Profile
     private void findLevel(int basePoints, int userPoints, int targetLevel, Profile profile)
     {
         if(userPoints < basePoints)
@@ -140,7 +194,8 @@ public class GivenAnswerInteractor {
             findLevel(basePoints*2, userPoints, targetLevel+1, profile);
     }
 
-    public void updateMoney(Profile profile)
+    //Profile
+    private void updateMoney(Profile profile)
     {
         int money = profile.getPoints() * 10;
         String query = "update Profile set money = " + money + " where profilID = " + profile.getID();
