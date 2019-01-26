@@ -144,25 +144,25 @@ public class GivenAnswerInteractor {
             return;
 
         if(percentage < 0.1)
-            profile.increasePoints(1);
+            profile.decreasePoints(2);
         else if(percentage < 0.2)
-            profile.increasePoints(2);
+            profile.decreasePoints(1);
         else if(percentage < 0.3)
-            profile.increasePoints(3);
+            profile.increasePoints(1);
         else if(percentage < 0.4)
-            profile.increasePoints(4);
+            profile.increasePoints(2);
         else if(percentage < 0.5)
-            profile.increasePoints(5);
+            profile.increasePoints(3);
         else if(percentage < 0.6)
-            profile.increasePoints(6);
+            profile.increasePoints(4);
         else if(percentage < 0.7)
-            profile.increasePoints(7);
+            profile.increasePoints(5);
         else if(percentage < 0.8)
-            profile.increasePoints(8);
+            profile.increasePoints(6);
         else if(percentage < 0.9)
-            profile.increasePoints(9);
+            profile.increasePoints(7);
         else
-            profile.increasePoints(10);
+            profile.increasePoints(8);
 
         String query = "update Profile set points = " + profile.getPoints() + " where profilID = " + profile.getID();
         _dbConnector.updateQuery(query);
@@ -183,7 +183,12 @@ public class GivenAnswerInteractor {
 
 
         if(previousLevel != profile.getLevel())
-            setLevelInfo(profile.getLevel());
+        {
+            if(profile.getLevel() - previousLevel > 0)
+                setLevelInfo("Congratulations! You've gained " + profile.getLevel() + " level.");
+            else
+                setLevelInfo("Your level has dropped. If you not sure of the answer, better chose 'non of above' option.");
+        }
 
 
         String query = "update Profile set userlevel = " + profile.getLevel() + " where profilID = " + profile.getID();
@@ -226,10 +231,10 @@ public class GivenAnswerInteractor {
         _isSuccess = false;
     }
 
-    private void setLevelInfo(int newLevel)
+    private void setLevelInfo(String message)
     {
         _isNewLevel = true;
-        _levelInfo = "Congratulations! You've gained " + newLevel + " level.";
+        _levelInfo = message;
     }
 
     public Boolean isSuccess(){return _isSuccess;}

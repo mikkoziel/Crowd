@@ -48,7 +48,14 @@ public class Profile implements Serializable {
     }
 
     public void increasePoints(int extraPoints){
-        _points =  _points + extraPoints;
+        _points += extraPoints;
+    }
+
+    public void decreasePoints(int negativePoints){
+        if(_points - negativePoints > 0)
+            _points -= negativePoints;
+        else
+            _points = 0;
     }
 
     public void setPoints(int points){_points = points;}

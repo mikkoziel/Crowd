@@ -40,7 +40,7 @@ public class GivenAnswerPresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void voids) {
         if(_givenAnswerInteractor.isNewLevel()){
-            createAlertDialog("NEW LEVEL", _givenAnswerInteractor.getLevelInfo());
+            createAlertDialog("LEVEL CHANGED", _givenAnswerInteractor.getLevelInfo());
         }
         _givenAnswerInteractor.endWork();
     }
