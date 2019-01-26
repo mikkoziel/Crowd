@@ -2,6 +2,8 @@ package appView;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -9,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import entity.Profile;
@@ -54,6 +58,7 @@ public class ProfilTabMenuActivity extends Fragment {
     }
 
     public void populateView(View rootView){
+        addAvatar(rootView);
 
         TextView user = rootView.findViewById(R.id.userName);
         user.setText(String.format("%s", profile.getName()));
@@ -63,6 +68,22 @@ public class ProfilTabMenuActivity extends Fragment {
 
         TextView stats = rootView.findViewById(R.id.stats);
         stats.setText(String.format("Level: %s\nMissing points to next level: %s", profile.getLevel(), Integer.toString(profile.getMissingPoints())));
+
+    }
+
+    public void addAvatar(View rootView){
+//        LinearLayout layout = rootView.findViewById(R.id.profilLayout);
+        ImageView avatar = rootView.findViewById(R.id.imageView);
+
+        byte[] byteImage =  profile.getAvatar();
+        Bitmap bitmapImage = BitmapFactory.decodeByteArray(byteImage, 0, byteImage.length);
+//        ImageView avatar = new ImageView(activity);
+        avatar.setImageBitmap(bitmapImage);
+        avatar.setMinimumHeight(LinearLayout.LayoutParams.MATCH_PARENT);
+//        avatar.setMaxHeight(LinearLayout.LayoutParams.MATCH_PARENT);
+//        avatar.setMaxWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
+
+//        layout.addView(avatar, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
     }
 

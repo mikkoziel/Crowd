@@ -63,6 +63,7 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
                 ResultSet resultSet = _profileInteractor.checkLogin(_username, _password);
                 if(_profileInteractor.isSuccess()) {
                     Profile profile = _profileInteractor.setProfile(resultSet);
+                    _profileInteractor.getAvatar(profile);
                     _gameInteractor.setGames(profile);
                     _tagInteractor.addTagsForUserGames(profile);
                     _intent.putExtra("profile", profile);
