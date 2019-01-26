@@ -33,7 +33,7 @@ public class EndGameActivity extends AppCompatActivity {
 
         if(getIntent().hasExtra("answer")){
             GivenAnswer given = (GivenAnswer) intent.getSerializableExtra("answer");
-            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(given);
+            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(given, this);
             givenAnswerPresenter.execute();
         }
 
@@ -42,7 +42,7 @@ public class EndGameActivity extends AppCompatActivity {
         endText.setText(text);
     }
 
-    public void backButton(View view){
+    public void backButton(){
         Intent intent = new Intent(this, TabMenuActivity.class);
         intent.putExtra("profile", profile);
         intent.putExtra("item", 1);
@@ -58,9 +58,6 @@ public class EndGameActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, TabMenuActivity.class);
-        intent.putExtra("profile", profile);
-        intent.putExtra("item", 1);
-        this.startActivity(intent);
+        backButton();
     }
 }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -21,13 +22,19 @@ public class RegistrationPresenter extends AsyncTask<Void, Void, Void> {
     private String _username;
     private String _password;
     private ProfileInteractor _profileInteractor;
+    @SuppressLint("StaticFieldLeak")
+    private Button _submit;
+    @SuppressLint("StaticFieldLeak")
+    private Button _register;
 
-    public RegistrationPresenter(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT){
+    public RegistrationPresenter(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT, Button submit, Button register){
         this._activity = activity;
         this._progress = progress;
         this._username = loginT.getText().toString();
         this._password = passwordT.getText().toString();
         this._profileInteractor = new ProfileInteractor();
+        this._submit = submit;
+        this._register = register;
     }
 
     @Override
@@ -51,6 +58,8 @@ public class RegistrationPresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void voids){
         _progress.setVisibility(View.GONE);
+        _submit.setClickable(true);
+        _register.setClickable(true);
         String result = _profileInteractor.getResult();
         Toast.makeText(_activity, result, Toast.LENGTH_LONG).show();
         _profileInteractor.endWork();

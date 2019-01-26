@@ -49,7 +49,7 @@ public class QuestionActivity extends AppCompatActivity {
         this.activity = this;
         if(getIntent().hasExtra("answer")){
             GivenAnswer given = (GivenAnswer) intent.getSerializableExtra("answer");
-            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(given);
+            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(given, activity);
             givenAnswerPresenter.execute();
         }
 
