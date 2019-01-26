@@ -13,6 +13,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import entity.Profile;
+import presenter.AvatarPresenter;
 
 public class SettingsTabMenuActivity extends Fragment {
 
@@ -81,6 +82,8 @@ public class SettingsTabMenuActivity extends Fragment {
 
     public void changeAvatar(View view) {
         Toast.makeText(activity, "Change Avatar", Toast.LENGTH_LONG).show();
+        AvatarPresenter avatarPresenter = new AvatarPresenter(activity, profile);
+        avatarPresenter.execute();
     }
 
 }
