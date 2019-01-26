@@ -12,11 +12,6 @@ public class Answer implements Serializable {
     private int _showed;
     private int _chosen;
 
-    public Answer(int answerID, String answer){
-        this._answerID = answerID;
-        this._answer = answer;
-    }
-
     public Answer(int answerID, String answer, int type, Boolean defaultAnswer, int showed, int chosen){
         this._answerID = answerID;
         this._answer = answer;

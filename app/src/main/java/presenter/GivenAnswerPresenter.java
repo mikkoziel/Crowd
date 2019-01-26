@@ -30,11 +30,7 @@ public class GivenAnswerPresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... voids) {
         try {
-            _givenAnswerInteractor.logAnswer(_givenAnswer);
-            _givenAnswerInteractor.updateAnswerChosenValue(_givenAnswer.getAnswer());
-            _givenAnswerInteractor.givePoints(_givenAnswer.getAnswer(), _givenAnswer.getProfile());
-            _givenAnswerInteractor.updateLevel(_givenAnswer.getProfile());
-            _givenAnswerInteractor.updateMoney(_givenAnswer.getProfile());
+            _givenAnswerInteractor.handleGivenAnswer(_givenAnswer);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -43,10 +39,12 @@ public class GivenAnswerPresenter extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void voids) {
-        _givenAnswerInteractor.endWork();
-        if(_givenAnswerInteractor.isSuccess()){
-            createAlertDialog("NEW LEVEL", _givenAnswerInteractor.getResult());
+        if(_givenAnswerInteractor.isNewLevel()){
+            createAlertDialog("LEVEL CHANGED", _givenAnswerInteractor.getLevelInfo());
         }
+        _givenAnswerInteractor.endWork();
+
+        //TODO i tutaj wywoływana funkcja na widoku z przekazanym zaktualizowanym given answer, da sie?
     }
 
     private void createAlertDialog(String title, String message){

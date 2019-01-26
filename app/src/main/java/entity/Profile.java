@@ -13,13 +13,13 @@ public class Profile implements Serializable {
     private int _money;
 
 
-    public Profile(int ID, String name, int points, int level, int money){
+    public Profile(int ID, String name, int points, int level, int money, int missingPoints){
         this._ID = ID;
         this._name = name;
         this._points = points;
         this._games = new ArrayList<>();
         this._level = level;
-        this._missingPoints = -1;
+        this._missingPoints = missingPoints;
         this._money = money;
     }
 
@@ -48,7 +48,14 @@ public class Profile implements Serializable {
     }
 
     public void increasePoints(int extraPoints){
-        _points =  _points + extraPoints;
+        _points += extraPoints;
+    }
+
+    public void decreasePoints(int negativePoints){
+        if(_points - negativePoints > 0)
+            _points -= negativePoints;
+        else
+            _points = 0;
     }
 
     public void setPoints(int points){_points = points;}
