@@ -9,6 +9,7 @@ import android.view.View;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import appView.ChangeAvatarActivity;
 import appView.ChangePasswordActivity;
 import entity.Profile;
 import interactor.ProfileInteractor;
@@ -48,7 +49,7 @@ public class AvatarPresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void voids) {
         if(_profileInteractor.isSuccess()) {
-            Intent intent = new Intent(_activity, ChangePasswordActivity.class);
+            Intent intent = new Intent(_activity, ChangeAvatarActivity.class);
             intent.putExtra("profile", _profile);
             intent.putExtra("avatars", _avatars);
             _activity.startActivity(intent);

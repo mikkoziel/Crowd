@@ -1,11 +1,15 @@
 package appView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 
 import java.util.ArrayList;
 
@@ -38,7 +42,25 @@ public class ChangeAvatarActivity extends AppCompatActivity {
     }
 
     public void populateAvatars(TableLayout table){
+        int i =0;
+        TableRow row = new TableRow(this);;
+        for(byte[] byteImage: _avatars){
+            ImageView avatar = new ImageView(this);
+            Bitmap bitmapImage = BitmapFactory.decodeByteArray(byteImage, 0, byteImage.length);
+            avatar.setImageBitmap(bitmapImage);
+            i+=1;
+            if(i >= 2) {
+                i = 0;
+                row = new TableRow(this);
+                table.addView(row);
 
+            }
+//            else {
+                row.addView(avatar);
+//            }
+
+
+        }
     }
 
 //    public void addButtons(){
