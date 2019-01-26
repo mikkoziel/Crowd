@@ -12,6 +12,7 @@ import entity.Profile;
 import entity.GivenAnswer;
 
 import presenter.GivenAnswerPresenter;
+import presenter.UpdateProfilePresenter;
 
 public class EndGameActivity extends AppCompatActivity {
 
@@ -42,11 +43,9 @@ public class EndGameActivity extends AppCompatActivity {
         endText.setText(text);
     }
 
-    public void backButton(){
-        Intent intent = new Intent(this, TabMenuActivity.class);
-        intent.putExtra("profile", profile);
-        intent.putExtra("item", 1);
-        this.startActivity(intent);
+    public void backButton(View view){
+        UpdateProfilePresenter updateProfilePresenter = new UpdateProfilePresenter(profile, this, progress);
+        updateProfilePresenter.execute();
     }
 
     public void repeatButton(View view){
@@ -58,6 +57,7 @@ public class EndGameActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        backButton();
+        UpdateProfilePresenter updateProfilePresenter = new UpdateProfilePresenter(profile, this, progress);
+        updateProfilePresenter.execute();
     }
 }
