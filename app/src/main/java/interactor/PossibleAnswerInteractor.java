@@ -23,13 +23,11 @@ public class PossibleAnswerInteractor {
 
     public void setPossibleAnswers(Question question) throws SQLException {
         ArrayList<Integer> ids = selectAnswerID(question);
+        int numberOfAnswer = (ids.size() > 4) ? 4: ids.size();
 
+        setRandomAnswer(ids, question, numberOfAnswer);
         if(question.getDefaultAnswer()){
-            setRandomAnswer(ids, question, 4);
             defaultAnswer(question);
-        }
-        else{
-            setRandomAnswer(ids, question, 3);
         }
     }
 
