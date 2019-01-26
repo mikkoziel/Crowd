@@ -21,6 +21,8 @@ public class PossibleAnswerInteractor {
         this._isSuccess = false;
     }
 
+    public void emptyAnswers(Question question){question.getAnswers().clear();}
+
     public void setPossibleAnswers(Question question) throws SQLException {
         ArrayList<Integer> ids = selectAnswerID(question);
         int numberOfAnswer = (ids.size() > 4) ? 4: ids.size();

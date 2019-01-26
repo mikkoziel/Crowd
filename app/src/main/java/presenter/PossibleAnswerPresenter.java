@@ -68,6 +68,7 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
     @Override
     protected Void doInBackground(Void... voids){
         try {
+            _possibleAnswerInteractor.emptyAnswers(_question);
             _possibleAnswerInteractor.setPossibleAnswers(_question);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -76,7 +77,6 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
         _i = 0;
         for(Answer answer : _question.getAnswers()){
             Button button = setButtons(answer.getAnswer(), answer);
-//            button.set();
             publishProgress(button);
         }
         return null;
