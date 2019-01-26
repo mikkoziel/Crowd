@@ -86,4 +86,12 @@ public class Profile implements Serializable {
     public byte[] getAvatar() {
         return _avatar;
     }
+
+    public void updateProfile(int points, int level, int money, int missingPoints, int avatarID){
+        this._points = points;
+        this._level = level;
+        this._missingPoints = missingPoints;
+        this._money = money;
+        this._avatarID = avatarID;
+    }
 }

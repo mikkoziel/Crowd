@@ -13,6 +13,7 @@ import android.widget.TextView;
 import entity.Game;
 import entity.Profile;
 import presenter.SetQuestionPresenter;
+import presenter.UpdateProfilePresenter;
 
 public class GameActivity extends AppCompatActivity {
     public Game game;
@@ -114,12 +115,10 @@ public class GameActivity extends AppCompatActivity {
         startBttn.setText(R.string.back);
         startBttn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(activity, TabMenuActivity.class);
-                intent.putExtra("profile", profile);
-                intent.putExtra("item", 1);
                 game.setPlayed(false);
                 game.zeroIndex();
-                activity.startActivity(intent);
+                UpdateProfilePresenter updateProfilePresenter = new UpdateProfilePresenter(profile, activity, progress);
+                updateProfilePresenter.execute();
             }
         });
         buttonLayout.addView(text, lp);
@@ -129,9 +128,7 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, TabMenuActivity.class);
-        intent.putExtra("profile", profile);
-        intent.putExtra("item", 1);
-        this.startActivity(intent);
+        UpdateProfilePresenter updateProfilePresenter = new UpdateProfilePresenter(profile, this, progress);
+        updateProfilePresenter.execute();
     }
 }

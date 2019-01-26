@@ -69,7 +69,7 @@ public class ProfileInteractor {
         return resultSet;
     }
 
-    public Profile setProfile(ResultSet res) throws SQLException {
+    public Profile setProfile(ResultSet res, Profile profile) throws SQLException {
         int id = res.getInt("profilID");
         String name = res.getString("name");
         int points = res.getInt("points");
@@ -77,7 +77,12 @@ public class ProfileInteractor {
         int money = res.getInt("money");
         int missingPoints = res.getInt("missingPoints");
         int avatarID = res.getInt("avatarID");
-        Profile profile = new Profile(id, name, points, level, money, missingPoints, avatarID);
+        if(profile == null) {
+            profile = new Profile(id, name, points, level, money, missingPoints, avatarID);
+        }
+        else{
+            profile.updateProfile(points, level, money, missingPoints, avatarID);
+        }
         setSuccess("Login successful");
         return profile;
     }
@@ -145,6 +150,19 @@ public class ProfileInteractor {
             setSuccess("HighScore set");
         }
         return high;
+    }
+
+    public Profile updateProfile(Profile profile) throws SQLException {
+        String query = "Select * from Profile where profilID =" + profile.getID();
+        ResultSet res = _dbConnector.runQuery(query);
+        if(res.next()){
+            profile = setProfile(res, profile);
+            setSuccess("Profile Updated");
+        }
+        else{
+            setFailure("Error occured with DataBase connection");
+        }
+        return profile;
     }
 
     private void setSuccess(String message)
