@@ -27,6 +27,10 @@ public class Tag implements Serializable {
         return _tag;
     }
 
+    public Boolean isEqual(int ID){
+        return _tagID == ID;
+    }
+
     @Override
     public String toString() {
         return _tag;

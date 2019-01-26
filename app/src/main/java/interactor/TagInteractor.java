@@ -1,6 +1,5 @@
 package interactor;
 
-import android.app.Activity;
 import android.widget.ArrayAdapter;
 
 import java.sql.ResultSet;
@@ -24,8 +23,7 @@ public class TagInteractor {
         this._isSuccess = false;
     }
 
-    public ArrayAdapter<Tag> getTags(Activity activity) throws SQLException {
-        ArrayAdapter<Tag> adapter = new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line);
+    public ArrayAdapter<Tag> getTags(ArrayAdapter<Tag> adapter) throws SQLException {
         String query = "select * from Tag";
 
         ResultSet resultSet = _dbConnector.runQuery(query);
@@ -39,44 +37,39 @@ public class TagInteractor {
         return adapter;
     }
 
-    public void addTagsForUserGames(Profile profile)
-    {
+    public void addGameTags(Profile profile, ArrayAdapter<Tag> adapter){
         for(Game game : profile.getGames())
             try {
                 int gameID = game.getGameID();
-                game.setTags(getTagsForGame(gameID));
+                game.setTags(getTagsFromDB(gameID, adapter));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
     }
 
-    private ArrayList<Tag> getTagsForGame(int gameID) throws SQLException {
+    private ArrayList<Tag> getTagsFromDB(int gameID, ArrayAdapter<Tag> adapter) throws SQLException {
 
-        ArrayList<Integer> tags = new ArrayList<>();
+        ArrayList<Tag> tags = new ArrayList<>();
         String query = "select * from GameTagRelation where gameID =" +gameID;
         ResultSet res = _dbConnector.runQuery(query);
         while (res.next()) {
             int ID = res.getInt("tagID");
-            tags.add(ID);
+            Tag tag = findTag(ID, adapter);
+            tags.add(tag);
             setSuccess("Tags ok");
         }
-        return makeIntToTag(tags);
+        return tags;
     }
 
-    private ArrayList<Tag> makeIntToTag(ArrayList<Integer> tagsInt) throws SQLException {
-        ResultSet resultSet;
-        ArrayList<Tag>  tags = new ArrayList<>();
-        for(int x: tagsInt) {
-            String query = "select * from Tag where tagID =" + x;
-            resultSet = _dbConnector.runQuery(query);
-            while (resultSet.next()) {
-                String name = resultSet.getString("tag");
-                Tag tag = new Tag(x, name);
-                tags.add(tag);
-                setSuccess("Tags ok");
+    private Tag findTag(int ID, ArrayAdapter<Tag> adapter){
+        Tag tag = null;
+        for(int i=0 ; i<adapter.getCount() ; i++){
+            tag = adapter.getItem(i);
+            if(tag.isEqual(ID)){
+                return tag;
             }
         }
-        return tags;
+        return tag;
     }
 
     private void setSuccess(String message)
