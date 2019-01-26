@@ -36,28 +36,28 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
     private int _i;
 
     @SuppressLint("StaticFieldLeak")
-    private LinearLayout _answerLayout;
-    @SuppressLint("StaticFieldLeak")
     private LinearLayout _row1;
     @SuppressLint("StaticFieldLeak")
     private LinearLayout _row2;
+    @SuppressLint("StaticFieldLeak")
+    private LinearLayout _row3;
     private LinearLayout.LayoutParams _lp;
     private Game _game;
     private Profile _profile;
 
     private PossibleAnswerInteractor _possibleAnswerInteractor;
 
-    public PossibleAnswerPresenter(Activity activity, Question question, ProgressBar progress, LinearLayout.LayoutParams lp, LinearLayout answerLayout, Game game, Profile profile) {
+    public PossibleAnswerPresenter(Activity activity, Question question, ProgressBar progress, LinearLayout.LayoutParams lp, Game game, Profile profile) {
         this._activity = activity;
         this._question = question;
         this._progress = progress;
         this._lp = lp;
-        this._answerLayout = answerLayout;
         this._profile = profile;
         this._game = game;
         this._possibleAnswerInteractor = new PossibleAnswerInteractor();
         this._row1 = _activity.findViewById(appView.R.id.row1);
         this._row2 = _activity.findViewById(appView.R.id.row2);
+        this._row3 = _activity.findViewById(appView.R.id.row3);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
                 _row2.addView(answer[0], _lp);
             }
             else{
-                _answerLayout.addView(answer[0], _lp);
+                _row3.addView(answer[0], _lp);
             }
         }
         _i +=1;

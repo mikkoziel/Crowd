@@ -29,7 +29,7 @@ public class QuestionActivity extends AppCompatActivity {
     public Question _question;
     public ProgressBar progress;
     public Activity activity;
-    public LinearLayout answerLayout;
+//    public LinearLayout answerLayout;
     public LinearLayout.LayoutParams lp;
 
     @Override
@@ -53,7 +53,7 @@ public class QuestionActivity extends AppCompatActivity {
             givenAnswerPresenter.execute();
         }
 
-        this.answerLayout = findViewById(appView.R.id.answerlayout);
+//        this.answerLayout = findViewById(appView.R.id.answerlayout);
         this.lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
 
         setQuestion();
@@ -102,7 +102,7 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     public void setAnswer(){
-        PossibleAnswerPresenter possibleAnswerPresenter = new PossibleAnswerPresenter(this, _question, progress, lp, answerLayout, game, profile);
+        PossibleAnswerPresenter possibleAnswerPresenter = new PossibleAnswerPresenter(this, _question, progress, lp, game, profile);
         possibleAnswerPresenter.execute();
     }
 
