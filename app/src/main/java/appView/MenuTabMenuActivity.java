@@ -23,6 +23,7 @@ import entity.Game;
 import entity.Tag;
 import interactor.TagInteractor;
 import presenter.SetQuestionPresenter;
+import presenter.TagPresenter;
 
 public class MenuTabMenuActivity extends Fragment {
 
@@ -54,13 +55,11 @@ public class MenuTabMenuActivity extends Fragment {
         final LinearLayout ll = (LinearLayout) rootView.findViewById(appView.R.id.layout);
         final LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
-//        String[] Tags = {"image", "text"};
-//
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line, Tags);
-        TagInteractor tagInteractor = new TagInteractor();
+        TagPresenter tagPresenter = new TagPresenter();
         ArrayAdapter<Tag> adapter = null;
         try {
-            adapter = tagInteractor.getTags(activity);
+            adapter = tagPresenter.getAllTags(activity);
+            tagPresenter.addGameTags(profile, adapter);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -91,8 +90,6 @@ public class MenuTabMenuActivity extends Fragment {
                     sortText.requestFocus();
                 }
                 else{
-//                    Tag selected = (Tag) sortText.getText();
-//                    sortGame(selected, ll, lp);
                     sortText.setVisibility(View.GONE);
                     allVisible(ll);
                 }
@@ -101,15 +98,12 @@ public class MenuTabMenuActivity extends Fragment {
         addGames(ll, lp, profile.getGames());
 
 
-
-
         return rootView;
     }
 
 
     public void sortGame(Tag tag, LinearLayout ll, LinearLayout.LayoutParams lp){
         int count = ll.getChildCount();
-//        Button v = null;
         for(int i=0; i<count; i++) {
             Button v = (Button) ll.getChildAt(i);
             for (Game game : profile.getGames()){

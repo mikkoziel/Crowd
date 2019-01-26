@@ -75,12 +75,7 @@ public class Game implements Serializable {
     }
 
     public Boolean haveTag(Tag tag) {
-       for(Tag x: _tags){
-            if(x.get_tag().equals(tag.get_tag())){
-                return true;
-            }
-        }
-        return false;
+       return _tags.contains(tag);
     }
 
     @Override
