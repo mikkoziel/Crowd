@@ -3,6 +3,8 @@ package interactor;
 import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Random;
 
 import entity.Game;
 import entity.Question;
@@ -22,9 +24,44 @@ public class QuestionInteractor {
     public void emptyQuestions(Game game){game.getQuestions().clear();}
 
     public void setQuestions(Game game) throws SQLException {
+        ArrayList<Integer> ids = selectQuestionID(game);
+        setRandomQuestions(ids, game);
+    }
 
-        ResultSet resultSet = getQuestions(game);
-        while (resultSet.next()) {
+    private ArrayList<Integer> selectQuestionID(Game game) throws SQLException {
+        String query = "select questionID from Question where gameID= " + game.getGameID();
+
+        ResultSet res = _dbConnector.runQuery(query);
+        ArrayList<Integer> ids = new ArrayList<>();
+
+        while(res.next()) {
+            ids.add(res.getInt("questionID"));
+        }
+        return ids;
+    }
+
+    private void setRandomQuestions(ArrayList<Integer> ids, Game game) throws SQLException {
+        Random rand = new Random();
+        int numberOfQuestions = (ids.size() < 10) ? ids.size() : 10;
+
+        for(int i = 0; i < numberOfQuestions; i++){
+            int random = rand.nextInt(ids.size());
+            int randomElement = ids.get(random);
+            ids.remove(random);
+            getRandomQuestion(game, randomElement);
+        }
+        setSuccess("Game Starting");
+    }
+
+    private void getRandomQuestion(Game game, int randomIndex) throws SQLException {
+        String query = "select * from Question where questionID= " + randomIndex;
+
+        ResultSet resultSet = _dbConnector.runQuery(query);
+        addPossibleQuestion(resultSet, game);
+    }
+
+    private void addPossibleQuestion(ResultSet resultSet, Game game) throws SQLException {
+        if(resultSet.next()) {
             String content = resultSet.getString("questionText");
             int ID = resultSet.getInt("questionID");
             int type = resultSet.getInt("typeID");
@@ -41,13 +78,6 @@ public class QuestionInteractor {
             }
             game.addQuestion(question);
         }
-        setSuccess("Game Starting");
-    }
-
-    // TO DO ograniczyć do 10 pytań
-    private ResultSet getQuestions(Game game){
-        String query = "select * from Question where gameID = " + game.getGameID() + ";";
-        return _dbConnector.runQuery(query);
     }
 
     private void setSuccess(String message)
