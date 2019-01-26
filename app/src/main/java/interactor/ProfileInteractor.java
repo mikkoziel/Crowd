@@ -3,6 +3,7 @@ package interactor;
 import android.util.Base64;
 
 import java.security.Key;
+import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -37,7 +38,9 @@ public class ProfileInteractor {
     }
 
     public void registerLogin(String username, String password) throws Exception {
-        ResultSet resultSet = getLogin(username);
+        String query = "select * from Profile where Name= '" + username + "'";
+        ResultSet resultSet =_dbConnector.runQuery(query);
+
         if (resultSet.next())
             setFailure("Login already exist");
         else {
@@ -51,14 +54,9 @@ public class ProfileInteractor {
             }
     }
 
-    private ResultSet getLogin(String username){
-        String query = "select * from Profile where Name= '" + username + "'";
-        return _dbConnector.runQuery(query);
-    }
-
-
     public ResultSet checkLogin(String username, String password) throws Exception {
-        ResultSet resultSet = getLogin(username);
+        String query = "select * from Profile where Name= '" + username + "'";
+        ResultSet resultSet =_dbConnector.runQuery(query);
         if (resultSet.next()) {
             String pass = encrypt(password);
             if (resultSet.getString("password").equals(pass))
@@ -77,9 +75,24 @@ public class ProfileInteractor {
         int points = res.getInt("points");
         int level = res.getInt("userlevel");
         int money = res.getInt("money");
-        Profile profile = new Profile(id, name, points, level, money);
+        int missingPoints = res.getInt("missingPoints");
+        int avatarID = res.getInt("avatarID");
+        Profile profile = new Profile(id, name, points, level, money, missingPoints, avatarID);
         setSuccess("Login successful");
         return profile;
+    }
+
+    public void getAvatar(Profile profile) throws SQLException{
+        String query = "Select * from Avatar where avatarID = " + profile.getAvatarID();
+        ResultSet res = _dbConnector.runQuery(query);
+        if (res.next()) {
+            Blob blobImage = res.getBlob("avatar");
+            byte[] byteImage = blobImage.getBytes(1, (int) blobImage.length());
+            profile.setAvatar(byteImage);
+            }
+            else{
+                setFailure("Wrong old password");
+        }
     }
 
     public void modeCheckOld(Profile profile, String password, String passwordCheck, String passwordCheck2) throws Exception {
@@ -126,7 +139,8 @@ public class ProfileInteractor {
             int points = res.getInt("points");
             int level = res.getInt("userlevel");
             int money = res.getInt("money");
-            Profile profile = new Profile(id, name, points, level, money);
+            int missingPoints = res.getInt("missingPoints");
+            Profile profile = new Profile(id, name, points, level, money, missingPoints, 0);
             high.add(profile);
             setSuccess("HighScore set");
         }

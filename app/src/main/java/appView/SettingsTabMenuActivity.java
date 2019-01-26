@@ -54,6 +54,13 @@ public class SettingsTabMenuActivity extends Fragment {
             }
         });
 
+        Button changeAvatarBttn = rootView.findViewById(R.id.changeAvatar);
+        changeAvatarBttn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                changeAvatar(rootView);
+            }
+        });
+
         return rootView;
     }
 
@@ -69,6 +76,11 @@ public class SettingsTabMenuActivity extends Fragment {
 
     public void setDarkTheme(){
         Toast.makeText(activity, "Dark Theme", Toast.LENGTH_LONG).show();
+    }
+
+
+    public void changeAvatar(View view) {
+        Toast.makeText(activity, "Change Avatar", Toast.LENGTH_LONG).show();
     }
 
 }
