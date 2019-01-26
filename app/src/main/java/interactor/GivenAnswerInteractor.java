@@ -15,12 +15,16 @@ public class GivenAnswerInteractor {
     private DataBaseConnector _dbConnector;
     private String _result;
     private Boolean _isSuccess;
+    private Boolean _isNewLevel;
+    private String _levelInfo;
 
     public GivenAnswerInteractor()
     {
         this._dbConnector = new DataBaseConnector();
         this._result = null;
         this._isSuccess = false;
+        this._isNewLevel = false;
+        this._levelInfo = null;
     }
 
     public void handleGivenAnswer(GivenAnswer givenAnswer) throws SQLException
@@ -28,8 +32,8 @@ public class GivenAnswerInteractor {
         logAnswer(givenAnswer);
         increaseAnswerChosenValue(givenAnswer.getAnswer());
         givePoints(givenAnswer.getProfile(), getPercentage(givenAnswer.getAnswer()));
-        updateLevel(givenAnswer.getProfile());
         updateMoney(givenAnswer.getProfile());
+        updateLevel(givenAnswer.getProfile());
     }
 
     //Answer
@@ -108,6 +112,8 @@ public class GivenAnswerInteractor {
     private void increaseAnswerChosenValue(Answer answer) throws SQLException
     {
         updateChosenValue(answer);
+        if(!isSuccess())
+            return;
         answer.increaseChosen();
         String query = "update Answer set chosen = " + answer.getChosen() + " where answerID = " + answer.getAnswerID();
         _dbConnector.updateQuery(query);
@@ -118,6 +124,8 @@ public class GivenAnswerInteractor {
     {
         updateChosenValue(answer);
         updateShowedValue(answer);
+        if(!isSuccess())
+            return 0;
 
         if(answer.getDefaultAnswer())
             return 0;
@@ -129,6 +137,8 @@ public class GivenAnswerInteractor {
     private void givePoints(Profile profile, double percentage) throws SQLException
     {
         updatePointsValue(profile);
+        if(!isSuccess())
+            return;
 
         if(percentage == 0)
             return;
@@ -163,16 +173,17 @@ public class GivenAnswerInteractor {
     private void updateLevel(Profile profile) throws SQLException
     {
         updateUserLevelValue(profile);
+        if(!isSuccess())
+            return;
         int previousLevel = profile.getLevel();
 
         updatePointsValue(profile);
         int points = profile.getPoints();
         findLevel(10, points, 1, profile);
 
-        //TODO: congratulations alert
-        if(previousLevel != profile.getLevel()) {
-            setSuccess("Congratulations!");
-        }
+
+        if(previousLevel != profile.getLevel())
+            setLevelInfo(profile.getLevel());
 
 
         String query = "update Profile set userlevel = " + profile.getLevel() + " where profilID = " + profile.getID();
@@ -215,8 +226,17 @@ public class GivenAnswerInteractor {
         _isSuccess = false;
     }
 
+    private void setLevelInfo(int newLevel)
+    {
+        _isNewLevel = true;
+        _levelInfo = "Congratulations! You've gained " + newLevel + " level.";
+    }
+
     public Boolean isSuccess(){return _isSuccess;}
     public String getResult(){return _result;}
+    public Boolean isNewLevel(){return _isNewLevel;}
+    public String getLevelInfo(){return _levelInfo;}
+
 
     public void endWork()
     {
