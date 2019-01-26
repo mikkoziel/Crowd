@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loginT = (EditText) findViewById(R.id.login);
-        passwordT = (EditText) findViewById(R.id.password);
+        loginT = findViewById(R.id.login);
+        passwordT = findViewById(R.id.password);
         submit = findViewById(R.id.button);
         register = findViewById(R.id.button2);
         progress = findViewById(R.id.progressBar);

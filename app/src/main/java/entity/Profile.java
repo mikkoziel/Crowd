@@ -7,7 +7,6 @@ public class Profile implements Serializable {
     private String _name;
     private int _ID;
     private int _points;
-    private ArrayList<Game> _games;
     private int _level;
     private int _missingPoints;
     private int _money;
@@ -19,7 +18,6 @@ public class Profile implements Serializable {
         this._ID = ID;
         this._name = name;
         this._points = points;
-        this._games = new ArrayList<>();
         this._level = level;
         this._missingPoints = missingPoints;
         this._money = money;
@@ -38,21 +36,9 @@ public class Profile implements Serializable {
         return _points;
     }
 
-    public ArrayList<Game> getGames() {
-        return _games;
-    }
+    public void setName(String name) { this._name = name; }
 
-    public void setName(String name) {
-        this._name = name;
-    }
-
-    public void addGames(Game game){
-        this._games.add(game);
-    }
-
-    public void increasePoints(int extraPoints){
-        _points += extraPoints;
-    }
+    public void increasePoints(int extraPoints){ _points += extraPoints; }
 
     public void decreasePoints(int negativePoints){
         if(_points - negativePoints > 0)
