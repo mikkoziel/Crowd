@@ -37,4 +37,8 @@
     <string name="points">Points:   </string>
     <string name="username">Username:   </string>
     <string name="avatar">avatar</string>
+    <string name="change_avatar">CHANGE AVATAR</string>
+    <string name="stats">STATS</string>
+    <string name="your_items">YOUR ITEMS</string>
+    <string name="level">LEVEL</string>
 </resources>

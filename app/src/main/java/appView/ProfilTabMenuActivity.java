@@ -66,24 +66,20 @@ public class ProfilTabMenuActivity extends Fragment {
         TextView points = rootView.findViewById(R.id.points);
         points.setText(String.format("%s", Integer.toString(profile.getPoints())));
 
-        TextView stats = rootView.findViewById(R.id.stats);
-        stats.setText(String.format("Level: %s\nMissing points to next level: %s", profile.getLevel(), Integer.toString(profile.getMissingPoints())));
+        TextView stats = rootView.findViewById(R.id.level);
+        stats.setText(String.format("%s", profile.getLevel()));
 
+        TextView misspoints = rootView.findViewById(R.id.missPoints);
+        misspoints.setText(String.format("Missing points to next level: %s", Integer.toString(profile.getMissingPoints())));
     }
 
     public void addAvatar(View rootView){
-//        LinearLayout layout = rootView.findViewById(R.id.profilLayout);
         ImageView avatar = rootView.findViewById(R.id.imageView);
 
         byte[] byteImage =  profile.getAvatar();
         Bitmap bitmapImage = BitmapFactory.decodeByteArray(byteImage, 0, byteImage.length);
-//        ImageView avatar = new ImageView(activity);
         avatar.setImageBitmap(bitmapImage);
-        avatar.setMinimumHeight(LinearLayout.LayoutParams.MATCH_PARENT);
-//        avatar.setMaxHeight(LinearLayout.LayoutParams.MATCH_PARENT);
-//        avatar.setMaxWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
-
-//        layout.addView(avatar, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//        avatar.setMinimumHeight(LinearLayout.LayoutParams.MATCH_PARENT);
 
     }
 
