@@ -15,40 +15,26 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import entity.AppContent;
+
 public class TabMenuActivity extends AppCompatActivity {
 
-    public Intent intent;
-    public Activity activity;
-
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    private ViewPager mViewPager;
+    private Intent _intent;
+    private Activity _activity;
+    private AppContent _appContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(appView.R.layout.activity_tab_menu);
 
-        this.intent = getIntent();
-        this.activity = this;
+        this._intent = getIntent();
+        this._activity = this;
+        this._appContent = (AppContent) _intent.getSerializableExtra("appContent");
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = findViewById(appView.R.id.container);
+        ViewPager mViewPager = findViewById(appView.R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = findViewById(appView.R.id.tabs);
@@ -65,64 +51,48 @@ public class TabMenuActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(appView.R.menu.menu_tab_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == appView.R.id.action_settings) {
+        if (id == appView.R.id.action_settings)
             return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
+
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        private SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
-
         @Override
         public Fragment getItem(int position) {
-//            // getItem is called to instantiate the fragment for the given page.
-//            // Return a PlaceholderFragment (defined as a static inner class below).
-//            return PlaceholderFragment.newInstance(position + 1);
+            _intent.putExtra("appContent", _appContent);
             switch(position) {
                 case 0:
-                    ProfilTabMenuActivity tab1 = new ProfilTabMenuActivity();
-                    tab1.setOnCreate(activity, intent);
+                    ProfileTabMenuActivity tab1 = new ProfileTabMenuActivity();
+                    tab1.setOnCreate(_activity, _intent);
                     return tab1;
                 case 1:
                     MenuTabMenuActivity tab2 = new MenuTabMenuActivity();
-                    tab2.setOnCreate(activity, intent);
+                    tab2.setOnCreate(_activity, _intent);
                     return tab2;
                 case 2:
                     SettingsTabMenuActivity tab3 = new SettingsTabMenuActivity();
-                    tab3.setOnCreate(activity, intent);
+                    tab3.setOnCreate(_activity, _intent);
                     return tab3;
                 default:
                     return null;
-
             }
-
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
             return 3;
         }
 
@@ -146,6 +116,7 @@ public class TabMenuActivity extends AppCompatActivity {
     }
 
     public void createAlertDialog(String title, String message){
+
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle(title)
@@ -154,8 +125,9 @@ public class TabMenuActivity extends AppCompatActivity {
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(activity, MainActivity.class);
-                        activity.startActivity(intent);
+                        Intent intent = new Intent(_activity, MainActivity.class);
+                        intent.putExtra("appContent", _appContent);
+                        _activity.startActivity(intent);
                     }
 
                 })

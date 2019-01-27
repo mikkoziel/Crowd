@@ -23,6 +23,7 @@ public class AppContent implements Serializable {
         return _games;
     }
     public ArrayList<Tag> getTags() {return _tags;}
+    public Profile getProfile(){return _userProfile;}
 
     public void addGame(Game game){
         this._games.add(game);
