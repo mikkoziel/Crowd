@@ -1,11 +1,13 @@
 package entity;
 
+import android.widget.ArrayAdapter;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class AppContent implements Serializable {
     private ArrayList<Game> _games;
-    private ArrayList<Tag> _tags;
+    private ArrayAdapter<Tag> _tags;
     private Profile _userProfile;
     private ArrayList<Avatar> _avatars;
     private ArrayList<Item> _shop;
@@ -24,14 +26,14 @@ public class AppContent implements Serializable {
     public ArrayList<Game> getGames() {
         return _games;
     }
-    public ArrayList<Tag> getTags() {return _tags;}
+    public ArrayAdapter<Tag> getTags() {return _tags;}
     public Profile getProfile(){return _userProfile;}
     public ArrayList<HighScore> getHighScore(){return _highScore;}
 
     public void addGame(Game game){
         this._games.add(game);
     }
-    public void setTags(ArrayList<Tag> tags){this._tags = tags;}
+    public void setTags(ArrayAdapter<Tag> tags){this._tags = tags;}
     public void setProfile(Profile profile){this._userProfile = profile;}
     public void setAvatar(Avatar avatar){this._avatars.add(avatar);}
     public void setShop(ArrayList<Item> shop){this._shop = shop;}

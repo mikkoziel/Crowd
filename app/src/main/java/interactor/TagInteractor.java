@@ -45,8 +45,7 @@ public class TagInteractor {
                 e.printStackTrace();
             }
     }
-
-    //TODO ???? czemu z DB? mam już listę tagów
+    
     private ArrayList<Tag> getTagsFromDB(int gameID, ArrayAdapter<Tag> adapter) throws SQLException {
 
         ArrayList<Tag> tags = new ArrayList<>();

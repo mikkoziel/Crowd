@@ -29,7 +29,7 @@ public class TagPresenter {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        //_appContent.setTags(adapter);  //TODO tagi nie są trzymane w arrayList?
+        _appContent.setTags(adapter);
         return adapter;
     }
 
