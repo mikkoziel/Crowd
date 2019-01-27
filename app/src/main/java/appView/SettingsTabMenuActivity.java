@@ -9,16 +9,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import entity.Profile;
+import presenter.AvatarPresenter;
 
 public class SettingsTabMenuActivity extends Fragment {
 
     public Activity activity;
     public Intent thisIntent;
     public Profile profile;
+    private ProgressBar _progress;
 
     public void setOnCreate(Activity activity, Intent intent){
         this.activity = activity;
@@ -32,6 +35,8 @@ public class SettingsTabMenuActivity extends Fragment {
         final View rootView = inflater.inflate(appView.R.layout.settings_tab_menu, container, false);
 
         this.profile = (Profile) thisIntent.getSerializableExtra("profile");
+        this._progress = rootView.findViewById(R.id.progress);
+        _progress.setVisibility(View.GONE);
 
         Button changeBttn = rootView.findViewById(appView.R.id.changePass);
         changeBttn.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +85,9 @@ public class SettingsTabMenuActivity extends Fragment {
 
 
     public void changeAvatar(View view) {
-        Toast.makeText(activity, "Change Avatar", Toast.LENGTH_LONG).show();
+//        Toast.makeText(activity, "Change Avatar", Toast.LENGTH_LONG).show();
+        AvatarPresenter avatarPresenter = new AvatarPresenter(activity, profile, 0, 0, _progress);
+        avatarPresenter.execute();
     }
 
 }
