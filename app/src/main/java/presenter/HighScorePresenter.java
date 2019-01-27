@@ -4,33 +4,30 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.view.View;
-import android.widget.ProgressBar;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
 
-import entity.Game;
+import entity.AppContent;
+import entity.HighScore;
 import entity.Profile;
-import interactor.ProfileInteractor;
-import interactor.QuestionInteractor;
+import interactor.HighScoreInteractor;
+
 
 public class HighScorePresenter extends AsyncTask<Void, Void, Void> {
 
     @SuppressLint("StaticFieldLeak")
     private Activity _activity;
     @SuppressLint("StaticFieldLeak")
-    private Profile _profile;
     private Intent _intent;
-    private ArrayList<Profile> high;
 
-    private ProfileInteractor _profileInteractor;
+    private AppContent _appContent;
 
-    public HighScorePresenter(Profile profile,Activity activity, Intent intent) {
-        this._profile = profile;
+    private HighScoreInteractor _highScoreInteractor;
+
+    public HighScorePresenter(Activity activity, Intent intent, AppContent appContent) {
         this._activity = activity;
         this._intent = intent;
-        this._profileInteractor = new ProfileInteractor();
+        this._appContent = appContent;
+        this._highScoreInteractor = new HighScoreInteractor();
     }
 
     @Override
@@ -41,7 +38,8 @@ public class HighScorePresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... voids) {
         try {
-            this.high = _profileInteractor.getHighScore();
+            ArrayList<HighScore> highScore = _highScoreInteractor.getHighScore();
+            _appContent.setHighScore(highScore);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -50,11 +48,10 @@ public class HighScorePresenter extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void voids) {
-        if (_profileInteractor.isSuccess()) {
-            _intent.putExtra("profile", _profile);
-            _intent.putExtra("high", high);
+        if (_highScoreInteractor.isSuccess()) {
+            _intent.putExtra("appContent", _appContent);
             _activity.startActivity(_intent);
         }
-        _profileInteractor.endWork();
+        _highScoreInteractor.endWork();
     }
 }

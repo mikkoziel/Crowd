@@ -9,6 +9,7 @@ public class AppContent implements Serializable {
     private Profile _userProfile;
     private ArrayList<Avatar> _avatars;
     private Shop _shop;
+    private ArrayList<HighScore> _highScore;
 
     public AppContent()
     {
@@ -17,6 +18,7 @@ public class AppContent implements Serializable {
         this._userProfile = null;
         this._avatars = null;
         this._shop = null;
+        this._highScore = null;
     }
 
     public ArrayList<Game> getGames() {
@@ -24,6 +26,7 @@ public class AppContent implements Serializable {
     }
     public ArrayList<Tag> getTags() {return _tags;}
     public Profile getProfile(){return _userProfile;}
+    public ArrayList<HighScore> getHighScore(){return _highScore;}
 
     public void addGame(Game game){
         this._games.add(game);
@@ -32,4 +35,5 @@ public class AppContent implements Serializable {
     public void setProfile(Profile profile){this._userProfile = profile;}
     public void setAvatar(Avatar avatar){this._avatars.add(avatar);}
     public void setShop(Shop shop){this._shop = shop;}
+    public void setHighScore(ArrayList<HighScore> highScore){this._highScore = highScore;}
 }

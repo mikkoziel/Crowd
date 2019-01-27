@@ -83,9 +83,9 @@ public class ProfileTabMenuActivity extends Fragment {
     }
 
     public void showHighScore(){
-        Intent intent = new Intent(_activity, HighscoreActivity.class);
+        Intent intent = new Intent(_activity, HighScoreActivity.class);
         intent.putExtra("appContent", _appContent);
-        HighScorePresenter highscorePresenter = new HighScorePresenter(_profile, _activity, intent);
+        HighScorePresenter highscorePresenter = new HighScorePresenter(_activity, intent, _appContent);
         highscorePresenter.execute();
     }
 
