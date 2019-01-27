@@ -43,4 +43,5 @@
     <string name="level">LEVEL</string>
     <string name="cancel">CANCEL</string>
     <string name="change">CHANGE</string>
+    <string name="choose_avatar">CHOOSE AVATAR</string>
 </resources>

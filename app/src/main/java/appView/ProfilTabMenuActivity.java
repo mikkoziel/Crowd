@@ -79,7 +79,6 @@ public class ProfilTabMenuActivity extends Fragment {
         byte[] byteImage =  profile.getAvatar();
         Bitmap bitmapImage = BitmapFactory.decodeByteArray(byteImage, 0, byteImage.length);
         avatar.setImageBitmap(bitmapImage);
-//        avatar.setMinimumHeight(LinearLayout.LayoutParams.MATCH_PARENT);
 
     }
 

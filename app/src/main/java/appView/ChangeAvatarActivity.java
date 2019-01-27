@@ -15,13 +15,19 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Space;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import entity.Profile;
+import presenter.AvatarPresenter;
+import presenter.UpdateProfilePresenter;
+
+import static android.view.Gravity.CENTER;
 
 public class ChangeAvatarActivity extends AppCompatActivity {
 
@@ -29,9 +35,7 @@ public class ChangeAvatarActivity extends AppCompatActivity {
     private ArrayList<byte[]> _avatars;
     private Button btn_unfocus;
     private ArrayList<Button> _buttons;
-
-//    private LinearLayout ll;
-//    private LinearLayout.LayoutParams lp;
+    private ProgressBar _progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,8 @@ public class ChangeAvatarActivity extends AppCompatActivity {
         this._profile = (Profile) intent.getSerializableExtra("profile");
         this._avatars = ( ArrayList<byte[]>) intent.getSerializableExtra("avatars");
         this._buttons = new ArrayList<>();
+        _progress = findViewById(R.id.progress);
+        _progress.setVisibility(View.GONE);
 
         LinearLayout layout = findViewById(R.id.avatarsLay);
 
@@ -51,21 +57,17 @@ public class ChangeAvatarActivity extends AppCompatActivity {
     }
 
     public void populateAvatars(LinearLayout layout){
-        int i =2;
+        int inRow = 3;
+        int i =inRow;
         LinearLayout row = null;
-//        LinearLayout row = new LinearLayout(this);
-//        row.setOrientation(LinearLayout.HORIZONTAL);
-//        row.setPadding(0, 10, 0, 10);
-//        row.setGravity(Gravity.CENTER_HORIZONTAL);
-//        layout.addView(row);
 
         for(byte[] byteImage: _avatars){
-            if(i == 2) {
+            if(i == inRow) {
                 i = 0;
                 row = new LinearLayout(this);
                 row.setOrientation(LinearLayout.HORIZONTAL);
                 row.setPadding(0, 10, 0, 10);
-                row.setGravity(Gravity.CENTER_HORIZONTAL);
+                row.setGravity(CENTER);
                 layout.addView(row);
             }
 
@@ -83,8 +85,8 @@ public class ChangeAvatarActivity extends AppCompatActivity {
 
             FrameLayout frame = new FrameLayout(this);
             frame.setPadding(3,3,3,3);
-            frame.setForegroundGravity(Gravity.CENTER_VERTICAL);
-            frame.addView(avatar, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT, 1));
+            frame.setForegroundGravity(CENTER);
+            frame.addView(avatar, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.MATCH_PARENT, CENTER));
 
             i+=1;
 
@@ -101,6 +103,29 @@ public class ChangeAvatarActivity extends AppCompatActivity {
         focusLayout.setBackgroundColor(Color.parseColor("#33FF5555"));
         this.btn_unfocus = btn_focus;
 
+    }
+
+    public void cancelBttn(View view){
+        Intent intent = new Intent(this, TabMenuActivity.class);
+        intent.putExtra("profile", _profile);
+        intent.putExtra("item", 2);
+        this.startActivity(intent);
+    }
+
+    public void changeBttn(View view){
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        ((BitmapDrawable) btn_unfocus.getBackground()).getBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
+        _profile.setAvatar(stream.toByteArray());
+        AvatarPresenter avatarPresenter = new AvatarPresenter(this, _profile, 1, 1, _progress);
+        avatarPresenter.execute();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, TabMenuActivity.class);
+        intent.putExtra("profile", _profile);
+        intent.putExtra("item", 2);
+        this.startActivity(intent);
     }
 
 }

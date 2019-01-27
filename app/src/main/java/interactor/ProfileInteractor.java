@@ -113,7 +113,7 @@ public class ProfileInteractor {
         return avatars;
     }
 
-    public void changeAvatar(Profile profile, int avatar) throws SQLException {
+    public void changeAvatar(Profile profile, int avatar) {
         String query = "Update Profile set avatarID= " + avatar + "where profileID = " + profile.getID();
         int res = _dbConnector.updateQuery(query);
         if (res > 0) {
