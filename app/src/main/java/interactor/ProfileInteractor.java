@@ -113,6 +113,16 @@ public class ProfileInteractor {
         return avatars;
     }
 
+    public void changeAvatar(Profile profile, int avatar) throws SQLException {
+        String query = "Update Profile set avatarID= " + avatar + "where profileID = " + profile.getID();
+        int res = _dbConnector.updateQuery(query);
+        if (res > 0) {
+            setSuccess("Avatar changed");
+        }else{
+            setFailure("Avatar not changed");
+        }
+    }
+
     public void modeCheckOld(Profile profile, String password, String passwordCheck, String passwordCheck2) throws Exception {
         String query = "Select * from Profile where profilID = " + profile.getID();
         ResultSet res = _dbConnector.runQuery(query);

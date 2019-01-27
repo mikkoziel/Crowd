@@ -82,7 +82,7 @@ public class SettingsTabMenuActivity extends Fragment {
 
     public void changeAvatar(View view) {
         Toast.makeText(activity, "Change Avatar", Toast.LENGTH_LONG).show();
-        AvatarPresenter avatarPresenter = new AvatarPresenter(activity, profile);
+        AvatarPresenter avatarPresenter = new AvatarPresenter(activity, profile, 0);
         avatarPresenter.execute();
     }
 

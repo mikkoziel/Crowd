@@ -41,4 +41,6 @@
     <string name="stats">STATS</string>
     <string name="your_items">YOUR ITEMS</string>
     <string name="level">LEVEL</string>
+    <string name="cancel">CANCEL</string>
+    <string name="change">CHANGE</string>
 </resources>

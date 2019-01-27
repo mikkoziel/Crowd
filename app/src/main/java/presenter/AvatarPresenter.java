@@ -19,14 +19,16 @@ public class AvatarPresenter extends AsyncTask<Void, Void, Void> {
     @SuppressLint("StaticFieldLeak")
     private Activity _activity;
     private Profile _profile;
+    private int _mode;
 
     private ProfileInteractor _profileInteractor;
     private ArrayList<byte[]> _avatars;
 
-    public AvatarPresenter(Activity activity, Profile profile) {
+    public AvatarPresenter(Activity activity, Profile profile, int mode) {
         this._activity = activity;
         this._profile = profile;
         this._profileInteractor = new ProfileInteractor();
+        this._mode = mode;
 
     }
 
@@ -39,7 +41,14 @@ public class AvatarPresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... voids) {
         try {
-            _avatars = _profileInteractor.getAllAvatars();
+            switch(_mode){
+                case 0:
+                    _avatars = _profileInteractor.getAllAvatars();
+                    break;
+                case 1:
+                    _profileInteractor.changeAvatar(_profile, 1);
+
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
