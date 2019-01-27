@@ -76,12 +76,14 @@ public class ProfileInteractor {
         int level = res.getInt("userlevel");
         int money = res.getInt("money");
         int missingPoints = res.getInt("missingPoints");
-        int avatarID = res.getInt("avatarID");
+
+        //TODO z listy avatarow wybrac ten o avatarID
+        //int avatarID = res.getInt("avatarID");
         if(profile == null) {
-            profile = new Profile(id, name, points, level, money, missingPoints, avatarID);
+            profile = new Profile(id, name, points, level, money, missingPoints, null);
         }
         else{
-            profile.updateProfile(points, level, money, missingPoints, avatarID);
+            profile.updateProfile(points, level, money, missingPoints, null);
         }
         setSuccess("Login successful");
         return profile;

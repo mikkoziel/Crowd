@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import java.sql.SQLException;
 
 import appView.TabMenuActivity;
+import entity.AppContent;
 import entity.Profile;
 import interactor.ProfileInteractor;
 
@@ -17,16 +18,19 @@ public class UpdateProfilePresenter extends AsyncTask<Void, Void, Void> {
 
     @SuppressLint("StaticFieldLeak")
     private Activity _activity;
-    private Profile _profile;
     @SuppressLint("StaticFieldLeak")
     private ProgressBar _progress;
 
+    private Profile _profile;
+    private AppContent _appContent;
+
     private ProfileInteractor _profileInteractor;
 
-    public UpdateProfilePresenter(Profile profile, Activity activity, ProgressBar progress) {
+    public UpdateProfilePresenter(Activity activity, ProgressBar progress, AppContent appContent) {
         this._activity = activity;
-        this._profile = profile;
         this._progress = progress;
+        this._appContent = appContent;
+        this._profile = appContent.getProfile();
         this._profileInteractor = new ProfileInteractor();
     }
 
@@ -42,6 +46,7 @@ public class UpdateProfilePresenter extends AsyncTask<Void, Void, Void> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        _appContent.updateCurrentProfile(_profile);
         return null;
     }
 
@@ -49,8 +54,7 @@ public class UpdateProfilePresenter extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void voids) {
         if (_profileInteractor.isSuccess()) {
             Intent intent = new Intent(_activity, TabMenuActivity.class);
-            intent.putExtra("profile", _profile);
-            intent.putExtra("item", 1);
+            intent.putExtra("appContent", _appContent);
             _activity.startActivity(intent);
         }
         _profileInteractor.endWork();

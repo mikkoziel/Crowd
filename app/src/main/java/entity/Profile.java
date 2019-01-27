@@ -9,18 +9,17 @@ public class Profile implements Serializable {
     private int _level;
     private int _missingPoints;
     private int _money;
-    private byte[] _avatar;
-    private int _avatarID;
+    private Avatar _avatar;
 
 
-    public Profile(int ID, String name, int points, int level, int money, int missingPoints, int avatarID){
+    public Profile(int ID, String name, int points, int level, int money, int missingPoints, Avatar avatar){
         this._ID = ID;
         this._name = name;
         this._points = points;
         this._level = level;
         this._missingPoints = missingPoints;
         this._money = money;
-        this._avatarID = avatarID;
+        this._avatar = avatar;
     }
 
     public String getName() {
@@ -60,23 +59,19 @@ public class Profile implements Serializable {
 
     public void setMoney(int money){_money = money;}
 
-    public void setAvatar(byte[] _avatar) {
-        this._avatar = _avatar;
+    public void setAvatar(Avatar avatar) {
+        this._avatar = avatar;
     }
 
-    public int getAvatarID() {
-        return _avatarID;
-    }
-
-    public byte[] getAvatar() {
+    public Avatar getAvatar() {
         return _avatar;
     }
 
-    public void updateProfile(int points, int level, int money, int missingPoints, int avatarID){
+    public void updateProfile(int points, int level, int money, int missingPoints, Avatar avatar){
         this._points = points;
         this._level = level;
         this._missingPoints = missingPoints;
         this._money = money;
-        this._avatarID = avatarID;
+        this._avatar = avatar;
     }
 }

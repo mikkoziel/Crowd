@@ -18,7 +18,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import entity.AppContent;
-import entity.Profile;
 import entity.Game;
 import entity.Tag;
 import presenter.SetQuestionPresenter;
@@ -30,7 +29,6 @@ public class MenuTabMenuActivity extends Fragment {
     private ProgressBar _progress;
     private Activity _activity;
     private AppContent _appContent;
-    private Profile _profile;
     private  ArrayList<Game> _games;
 
     public void setOnCreate(Activity activity, Intent intent){
@@ -48,7 +46,6 @@ public class MenuTabMenuActivity extends Fragment {
         _progress.setVisibility(View.GONE);
 
         this._appContent = (AppContent) _intent.getSerializableExtra("appContent");
-        this._profile = _appContent.getProfile();
         this._games = _appContent.getGames();
 
         final LinearLayout ll = rootView.findViewById(appView.R.id.layout);
@@ -57,7 +54,8 @@ public class MenuTabMenuActivity extends Fragment {
 
         TagPresenter tagPresenter = new TagPresenter(_appContent);
         ArrayAdapter<Tag> adapter = tagPresenter.getAllTags(_activity);
-        tagPresenter.addGameTags(adapter);
+        if(adapter != null)
+            tagPresenter.addGameTags(adapter);
 
 
         final AutoCompleteTextView sortText = rootView.findViewById(appView.R.id.sortTag);
@@ -92,8 +90,6 @@ public class MenuTabMenuActivity extends Fragment {
             }});
 
         addGames(ll, lp);
-
-
         return rootView;
     }
 
@@ -103,7 +99,7 @@ public class MenuTabMenuActivity extends Fragment {
         for(int i=0; i<count; i++) {
             Button v = (Button) ll.getChildAt(i);
             for (Game game : _games){
-                if(game.getGameName().contentEquals(v.getText())){
+                if(game.getName().contentEquals(v.getText())){
                     if(game.haveTag(tag)) {
                         v.setVisibility(View.VISIBLE);
                     }
@@ -112,23 +108,22 @@ public class MenuTabMenuActivity extends Fragment {
                     }
                 }
             }
-
         }
     }
 
     public void addGames(LinearLayout ll, LinearLayout.LayoutParams lp){
-        this._intent = new Intent(_activity, GameActivity.class);
-        _intent.putExtra("appContent", _appContent);
+        final Intent intent = new Intent(_activity, GameActivity.class);
+        intent.putExtra("appContent", _appContent);
 
+        //TODO tutaj uruchamiamy tyle async tasków ile gier, nie powinniśmy przy każdym execute pobierać nowego appContent z nowego intenta?
         for (final Game game : _games) {
             Button gameButton = new Button(_activity);
-            gameButton.setText(game.getGameName());
+            gameButton.setText(game.getName());
             gameButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    SetQuestionPresenter setQuestionPresenter = new SetQuestionPresenter(game, _activity, _progress, _intent);
+                    SetQuestionPresenter setQuestionPresenter = new SetQuestionPresenter(game, _activity, _progress, intent);
                     setQuestionPresenter.execute();
                 }
-//                }
             });
             ll.addView(gameButton, lp);
 

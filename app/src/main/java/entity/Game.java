@@ -20,11 +20,11 @@ public class Game implements Serializable {
         this._tags = new ArrayList<>();
     }
 
-    public int getGameID() {
+    public int getID() {
         return _gameID;
     }
 
-    public String getGameName() {
+    public String getName() {
         return _gameName;
     }
 
@@ -81,5 +81,18 @@ public class Game implements Serializable {
     @Override
     public String toString() {
         return _gameName;
+    }
+
+    public void setQuestions(ArrayList<Question> questions) {this._questions = questions;}
+
+    public void setIndex(int index){this._index = index;}
+
+    public void updateGame(ArrayList<Question> questions, Boolean played,
+                           ArrayList<Tag> tags, int index)
+    {
+        this._questions = questions;
+        this._played = played;
+        this._tags = tags;
+        this._index = index;
     }
 }

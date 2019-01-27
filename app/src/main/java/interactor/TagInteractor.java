@@ -39,13 +39,13 @@ public class TagInteractor {
     public void addGameTags(ArrayAdapter<Tag> adapter, ArrayList<Game> games){
         for(Game game : games)
             try {
-                int gameID = game.getGameID();
+                int gameID = game.getID();
                 game.setTags(getTagsFromDB(gameID, adapter));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
     }
-    
+
     private ArrayList<Tag> getTagsFromDB(int gameID, ArrayAdapter<Tag> adapter) throws SQLException {
 
         ArrayList<Tag> tags = new ArrayList<>();
