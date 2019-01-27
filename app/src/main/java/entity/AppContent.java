@@ -31,7 +31,7 @@ public class AppContent implements Serializable {
     public void addGame(Game game){
         this._games.add(game);
     }
-    public void addTag(Tag tag){this._tags.add(tag);}
+    public void setTags(ArrayList<Tag> tags){this._tags = tags;}
     public void setProfile(Profile profile){this._userProfile = profile;}
     public void setAvatar(Avatar avatar){this._avatars.add(avatar);}
     public void setShop(ArrayList<Item> shop){this._shop = shop;}

@@ -23,7 +23,7 @@ public class TagInteractor {
         this._isSuccess = false;
     }
 
-    public ArrayAdapter<Tag> getTags(ArrayAdapter<Tag> adapter) throws SQLException {
+    public void setTags(ArrayAdapter<Tag> adapter) throws SQLException {
         String query = "select * from Tag";
 
         ResultSet resultSet = _dbConnector.runQuery(query);
@@ -33,12 +33,11 @@ public class TagInteractor {
             Tag tag = new Tag(ID, name);
             adapter.add(tag);
             setSuccess("Tags ok");
-            }
-        return adapter;
+        }
     }
 
-    public void addGameTags(Profile profile, ArrayAdapter<Tag> adapter){
-        for(Game game : profile.getGames())
+    public void addGameTags(ArrayAdapter<Tag> adapter, ArrayList<Game> games){
+        for(Game game : games)
             try {
                 int gameID = game.getGameID();
                 game.setTags(getTagsFromDB(gameID, adapter));
@@ -47,6 +46,7 @@ public class TagInteractor {
             }
     }
 
+    //TODO ???? czemu z DB? mam już listę tagów
     private ArrayList<Tag> getTagsFromDB(int gameID, ArrayAdapter<Tag> adapter) throws SQLException {
 
         ArrayList<Tag> tags = new ArrayList<>();

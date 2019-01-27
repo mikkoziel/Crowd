@@ -15,27 +15,27 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
+import entity.AppContent;
 import entity.Profile;
 import entity.Game;
 import entity.Tag;
-import interactor.TagInteractor;
 import presenter.SetQuestionPresenter;
 import presenter.TagPresenter;
 
 public class MenuTabMenuActivity extends Fragment {
 
-    public Profile profile;
-    public Intent intent;
-    public Intent thisIntent;
-    public ProgressBar progress;
-    public Activity activity;
+    private Intent _intent;
+    private ProgressBar _progress;
+    private Activity _activity;
+    private AppContent _appContent;
+    private Profile _profile;
+    private  ArrayList<Game> _games;
 
     public void setOnCreate(Activity activity, Intent intent){
-        this.activity = activity;
-        this.thisIntent = intent;
+        this._activity = activity;
+        this._intent = intent;
     }
 
     @Override
@@ -43,25 +43,22 @@ public class MenuTabMenuActivity extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(appView.R.layout.menu_tab_menu, container, false);
 
-        this.profile = (Profile) thisIntent.getSerializableExtra("profile");
 
-        this.progress = rootView.findViewById(appView.R.id.progressMenu);
-        progress.setVisibility(View.GONE);
+        this._progress = rootView.findViewById(appView.R.id.progressMenu);
+        _progress.setVisibility(View.GONE);
 
-        this.intent = new Intent(activity, GameActivity.class);
-        intent.putExtra("profile", profile);
+        this._appContent = (AppContent) _intent.getSerializableExtra("appContent");
+        this._profile = _appContent.getProfile();
+        this._games = _appContent.getGames();
 
-        final LinearLayout ll = (LinearLayout) rootView.findViewById(appView.R.id.layout);
+        final LinearLayout ll = rootView.findViewById(appView.R.id.layout);
         final LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
-        TagPresenter tagPresenter = new TagPresenter();
-        ArrayAdapter<Tag> adapter = null;
-        try {
-            adapter = tagPresenter.getAllTags(activity);
-            tagPresenter.addGameTags(profile, adapter);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+        TagPresenter tagPresenter = new TagPresenter(_appContent);
+        ArrayAdapter<Tag> adapter = tagPresenter.getAllTags(_activity);
+        tagPresenter.addGameTags(adapter);
+
 
         final AutoCompleteTextView sortText = rootView.findViewById(appView.R.id.sortTag);
         sortText.setAdapter(adapter);
@@ -74,7 +71,7 @@ public class MenuTabMenuActivity extends Fragment {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
                 Tag selected = (Tag) arg0.getAdapter().getItem(arg2);
-                Toast.makeText(activity,
+                Toast.makeText(_activity,
                         "Clicked " + arg2 + " name: " + selected.get_tag(),
                         Toast.LENGTH_SHORT).show();
                 sortGame(selected, ll, lp);
@@ -94,7 +91,7 @@ public class MenuTabMenuActivity extends Fragment {
                 }
             }});
 
-        addGames(ll, lp, profile.getGames());
+        addGames(ll, lp);
 
 
         return rootView;
@@ -105,7 +102,7 @@ public class MenuTabMenuActivity extends Fragment {
         int count = ll.getChildCount();
         for(int i=0; i<count; i++) {
             Button v = (Button) ll.getChildAt(i);
-            for (Game game : profile.getGames()){
+            for (Game game : _games){
                 if(game.getGameName().contentEquals(v.getText())){
                     if(game.haveTag(tag)) {
                         v.setVisibility(View.VISIBLE);
@@ -119,13 +116,16 @@ public class MenuTabMenuActivity extends Fragment {
         }
     }
 
-    public void addGames(LinearLayout ll, LinearLayout.LayoutParams lp, ArrayList<Game> games){
-        for (final Game game : games) {
-            Button gameButton = new Button(activity);
+    public void addGames(LinearLayout ll, LinearLayout.LayoutParams lp){
+        this._intent = new Intent(_activity, GameActivity.class);
+        _intent.putExtra("appContent", _appContent);
+
+        for (final Game game : _games) {
+            Button gameButton = new Button(_activity);
             gameButton.setText(game.getGameName());
             gameButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    SetQuestionPresenter setQuestionPresenter = new SetQuestionPresenter(game, activity, progress, intent);
+                    SetQuestionPresenter setQuestionPresenter = new SetQuestionPresenter(game, _activity, _progress, _intent);
                     setQuestionPresenter.execute();
                 }
 //                }
