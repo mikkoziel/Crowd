@@ -15,6 +15,7 @@ public class AppContent implements Serializable {
         this._games = null;
         this._tags = null;
         this._userProfile = null;
+        this._avatars = null;
         this._shop = null;
     }
 
@@ -28,5 +29,6 @@ public class AppContent implements Serializable {
     }
     public void addTag(Tag tag){this._tags.add(tag);}
     public void setProfile(Profile profile){this._userProfile = profile;}
+    public void setAvatar(Avatar avatar){this._avatars.add(avatar);}
     public void setShop(Shop shop){this._shop = shop;}
 }

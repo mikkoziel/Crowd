@@ -13,7 +13,9 @@ import android.widget.Toast;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import entity.AppContent;
 import entity.Profile;
+import interactor.AvatarInteractor;
 import interactor.GameInteractor;
 import interactor.ProfileInteractor;
 import interactor.TagInteractor;
@@ -32,21 +34,28 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
     @SuppressLint("StaticFieldLeak")
     private Button _register;
 
+    private AppContent _appContent;
+
     private ProfileInteractor _profileInteractor;
     private GameInteractor _gameInteractor;
     private TagInteractor _tagInteractor;
+    private AvatarInteractor _avatarInteractor;
 
-    public CheckLoginPresenter(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT, Intent intent, Button submit, Button register){
+    public CheckLoginPresenter(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT, Intent intent, Button submit, Button register, AppContent appContent){
         this._activity = activity;
         this._progress = progress;
         this._username = loginT.getText().toString();
         this._password = passwordT.getText().toString();
         this._intent = intent;
+        this._submit = submit;
+        this._register = register;
+
+        this._appContent = appContent;
+
         this._profileInteractor = new ProfileInteractor();
         this._gameInteractor = new GameInteractor();
         this._tagInteractor = new TagInteractor();
-        this._submit = submit;
-        this._register = register;
+        this._avatarInteractor = new AvatarInteractor();
     }
 
     @Override
@@ -63,9 +72,10 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
                 ResultSet resultSet = _profileInteractor.checkLogin(_username, _password);
                 if(_profileInteractor.isSuccess()) {
                     Profile profile = _profileInteractor.setProfile(resultSet, null);
-                    _profileInteractor.getAvatar(profile);
-                    _gameInteractor.setGames(profile);
-                    _intent.putExtra("profile", profile);
+                    _avatarInteractor.setAvatar(profile);
+                    _gameInteractor.setGames(_appContent);
+                    _appContent.setProfile(profile);
+                    _intent.putExtra("appContent", _appContent);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -82,11 +92,12 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
         _submit.setClickable(true);
         _register.setClickable(true);
 
-        if (_profileInteractor.isSuccess())
-            _activity.startActivity(_intent);
-
         _gameInteractor.endWork();
         _profileInteractor.endWork();
         _tagInteractor.endWork();
+        _avatarInteractor.endWork();
+
+        if (_profileInteractor.isSuccess())
+            _activity.startActivity(_intent);
     }
 }

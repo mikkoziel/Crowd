@@ -3,6 +3,7 @@ package interactor;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import entity.AppContent;
 import entity.Game;
 import entity.Profile;
 
@@ -14,14 +15,14 @@ public class GameInteractor {
         this._dbConnector = new DataBaseConnector();
     }
 
-    public void setGames(Profile profile) throws SQLException {
+    public void setGames(AppContent appContent) throws SQLException {
         String query = "select * from Game";
 
         ResultSet res = _dbConnector.runQuery(query);
         while (res.next()) {
             int gameID = res.getInt("gameID");
             Game game = new Game(gameID, res.getString("gameName"));
-            profile.addGames(game);
+            appContent.addGame(game);
         }
     }
 

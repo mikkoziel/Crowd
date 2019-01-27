@@ -36,7 +36,6 @@ public class MenuTabMenuActivity extends Fragment {
     public void setOnCreate(Activity activity, Intent intent){
         this.activity = activity;
         this.thisIntent = intent;
-
     }
 
     @Override

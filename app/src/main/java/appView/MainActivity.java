@@ -10,15 +10,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import entity.AppContent;
 import presenter.CheckLoginPresenter;
 import presenter.RegistrationPresenter;
 
 public class MainActivity extends AppCompatActivity {
-    public Intent intent;
-    public EditText loginT, passwordT;
-    public Button submit;
-    public Button register;
-    public ProgressBar progress;
+    private EditText _loginT;
+    private EditText _passwordT;
+    private Button _submit;
+    private Button _register;
+    private ProgressBar _progress;
+
+    private AppContent _appContent;
 
 
     @Override
@@ -26,31 +29,33 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loginT = findViewById(R.id.login);
-        passwordT = findViewById(R.id.password);
-        submit = findViewById(R.id.button);
-        register = findViewById(R.id.button2);
-        progress = findViewById(R.id.progressBar);
+        _loginT = findViewById(R.id.login);
+        _passwordT = findViewById(R.id.password);
+        _submit = findViewById(R.id.button);
+        _register = findViewById(R.id.button2);
+        _progress = findViewById(R.id.progressBar);
 
-        progress.setVisibility(View.GONE);
+        _progress.setVisibility(View.GONE);
 
+        _appContent = new AppContent(); //empty for now
     }
 
-    public void loginBttn(View view){
-        intent = new Intent(this, TabMenuActivity.class);
+    public void loginButton(View view){
+        Intent intent = new Intent(this, TabMenuActivity.class);
         intent.putExtra("item", 1);
-        submit.setClickable(false);
-        register.setClickable(false);
+        _submit.setClickable(false);
+        _register.setClickable(false);
 
-        CheckLoginPresenter checkLoginPresenter = new CheckLoginPresenter(this, progress, loginT, passwordT, intent, submit, register);
+        CheckLoginPresenter checkLoginPresenter = new CheckLoginPresenter(this, _progress, _loginT, _passwordT, intent, _submit, _register, _appContent);
         checkLoginPresenter.execute();
     }
 
-    public void registerBttn(View view){
-        submit.setClickable(false);
-        register.setClickable(false);
+    public void registerButton(View view){
+        _submit.setClickable(false);
+        _register.setClickable(false);
 
-        RegistrationPresenter registerLogin = new RegistrationPresenter(this, progress, loginT, passwordT, submit, register);
+        //app Content bez zmiam
+        RegistrationPresenter registerLogin = new RegistrationPresenter(this, _progress, _loginT, _passwordT, _submit, _register);
         registerLogin.execute();
     }
 
