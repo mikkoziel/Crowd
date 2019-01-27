@@ -17,6 +17,7 @@ import android.widget.TextView;
 import entity.AppContent;
 import entity.Profile;
 import presenter.HighScorePresenter;
+import presenter.ShopPresenter;
 
 public class ProfileTabMenuActivity extends Fragment {
 
@@ -92,7 +93,8 @@ public class ProfileTabMenuActivity extends Fragment {
     public void showShop(){
         Intent intent = new Intent(_activity, ShopActivity.class);
         intent.putExtra("appContent", _appContent);
-        _activity.startActivity(intent);
+        ShopPresenter shopPresenter = new ShopPresenter(_activity, intent, _appContent);
+        shopPresenter.execute();
     }
 
 }

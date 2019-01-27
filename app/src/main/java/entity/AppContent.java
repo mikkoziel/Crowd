@@ -8,7 +8,7 @@ public class AppContent implements Serializable {
     private ArrayList<Tag> _tags;
     private Profile _userProfile;
     private ArrayList<Avatar> _avatars;
-    private Shop _shop;
+    private ArrayList<Item> _shop;
     private ArrayList<HighScore> _highScore;
 
     public AppContent()
@@ -34,6 +34,6 @@ public class AppContent implements Serializable {
     public void addTag(Tag tag){this._tags.add(tag);}
     public void setProfile(Profile profile){this._userProfile = profile;}
     public void setAvatar(Avatar avatar){this._avatars.add(avatar);}
-    public void setShop(Shop shop){this._shop = shop;}
+    public void setShop(ArrayList<Item> shop){this._shop = shop;}
     public void setHighScore(ArrayList<HighScore> highScore){this._highScore = highScore;}
 }
