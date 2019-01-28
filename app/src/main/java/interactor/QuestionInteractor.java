@@ -29,15 +29,13 @@ public class QuestionInteractor {
         this._isSuccess = false;
     }
 
-    public void emptyQuestions(Game game){game.getQuestions().clear();}
-
     public void setQuestions(Game game) throws SQLException {
         ArrayList<Integer> ids = selectQuestionID(game);
         setRandomQuestions(ids, game);
     }
 
     private ArrayList<Integer> selectQuestionID(Game game) throws SQLException {
-        String query = "select questionID from Question where gameID= " + game.getGameID();
+        String query = "select questionID from Question where gameID= " + game.getID();
 
         ResultSet res = _dbConnector.runQuery(query);
         ArrayList<Integer> ids = new ArrayList<>();

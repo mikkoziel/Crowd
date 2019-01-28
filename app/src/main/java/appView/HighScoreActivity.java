@@ -4,75 +4,77 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import entity.AppContent;
+import entity.HighScore;
 import entity.Profile;
 
-public class HighscoreActivity extends AppCompatActivity {
+public class HighScoreActivity extends AppCompatActivity {
 
-    public Profile profile;
-    private int found;
+    private Intent _intent;
+    private AppContent _appContent;
+    private int _found;
+
+    private Profile _profile;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_highscore);
 
-        Intent intent = getIntent();
-        this.profile = (Profile) intent.getSerializableExtra("profile");
-        ArrayList<Profile> high = (ArrayList<Profile>) intent.getSerializableExtra("high");
+        this._intent = getIntent();
+        this._appContent = (AppContent) _intent.getSerializableExtra("appContent");
+        this._found = 0;
+        this._profile = _appContent.getProfile();
 
-        this.found = 0;
+        ArrayList<HighScore> highScore =_appContent.getHighScore();
 
 //        LinearLayout ll = (LinearLayout) findViewById(appView.R.id.highscore);
 //        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        setTables(high);
+        setTables(highScore);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                backToProfil();
+                backToProfile();
             }
         });
 
     }
 
-    public void backToProfil() {
+    public void backToProfile() {
         Intent intent = new Intent(this, TabMenuActivity.class);
-        intent.putExtra("profile", profile);
+        intent.putExtra("appContent", _appContent);
         intent.putExtra("item", 0);
         this.startActivity(intent);
     }
 
-    private void setTables(ArrayList<Profile> high) {
-
-        high = setTable1(high);
-        setTable2(high);
+    private void setTables(ArrayList<HighScore> highScore) {
+        ArrayList<HighScore> hs = setTable1(highScore);
+        setTable2(hs);
     }
 
-    private ArrayList<Profile> setTable1(ArrayList<Profile> high) {
+    private ArrayList<HighScore> setTable1(ArrayList<HighScore> high) {
 
-        Profile firstplace = high.remove(0);
-        Profile secondplace = high.remove(0);
-        Profile thirdplace = high.remove(0);
+        HighScore firstPlace = high.remove(0);
+        HighScore secondPlace = high.remove(0);
+        HighScore thirdPlace = high.remove(0);
 
-        TableRow row1 = (TableRow) findViewById(R.id.row1);
-        TableRow row2 = (TableRow) findViewById(R.id.row2);
-        TableRow row3 = (TableRow) findViewById(R.id.row3);
-        TableRow row4 = (TableRow) findViewById(R.id.row4);
+        TableRow row1 = findViewById(R.id.row1);
+        TableRow row2 = findViewById(R.id.row2);
+        TableRow row3 = findViewById(R.id.row3);
+        TableRow row4 = findViewById(R.id.row4);
 
         TableRow.LayoutParams firstColumn = new TableRow.LayoutParams(0);
         TableRow.LayoutParams secondColumn = new TableRow.LayoutParams(1);
@@ -83,9 +85,9 @@ public class HighscoreActivity extends AppCompatActivity {
         TextView text2 = new TextView(this);
         TextView text3 = new TextView(this);
 
-        text1.setText(String.format("%s\n%s", firstplace.getName(), Integer.toString(firstplace.getPoints())));
-        text2.setText(String.format("%s\n%s", secondplace.getName(), Integer.toString(secondplace.getPoints())));
-        text3.setText(String.format("%s\n%s", thirdplace.getName(), Integer.toString(thirdplace.getPoints())));
+        text1.setText(String.format("%s\n%s", firstPlace.getName(), Integer.toString(firstPlace.getPoints())));
+        text2.setText(String.format("%s\n%s", secondPlace.getName(), Integer.toString(secondPlace.getPoints())));
+        text3.setText(String.format("%s\n%s", thirdPlace.getName(), Integer.toString(thirdPlace.getPoints())));
 
         text1.setTextSize(20);
         text2.setTextSize(20);
@@ -135,20 +137,16 @@ public class HighscoreActivity extends AppCompatActivity {
         empty2.setBackgroundColor(Color.parseColor("#33FF5555"));
 
         //-------------------------------------------------------------------------------------------
-        if (firstplace.getName().equals(profile.getName())) {
+
+        _found = 1;
+        if (firstPlace.getName().equals(_profile.getName()))
             text1.setBackgroundColor(Color.parseColor("#33005555"));
-            found = 1;
-        } else {
-            if (secondplace.getName().equals(profile.getName())) {
-                text2.setBackgroundColor(Color.parseColor("#33005555"));
-                found = 1;
-            } else {
-                if (thirdplace.getName().equals(profile.getName())) {
-                    text3.setBackgroundColor(Color.parseColor("#33005555"));
-                    found = 1;
-                }
-            }
-        }
+        else if (secondPlace.getName().equals(_profile.getName()))
+            text2.setBackgroundColor(Color.parseColor("#33005555"));
+        else if (thirdPlace.getName().equals(_profile.getName()))
+            text3.setBackgroundColor(Color.parseColor("#33005555"));
+        else
+            _found = 0;
 
         //-------------------------------------------------------------------------------------------
         row4.setBackgroundColor(Color.parseColor("#33FF5555"));
@@ -165,22 +163,22 @@ public class HighscoreActivity extends AppCompatActivity {
     }
 
 
-    private void setTable2(ArrayList<Profile> high) {
+    private void setTable2(ArrayList<HighScore> high) {
 
-        TableLayout tl = (TableLayout) findViewById(appView.R.id.table2);
+        TableLayout tl = findViewById(appView.R.id.table2);
         TableLayout.LayoutParams tp = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
         int i = 4;
 
-        for (Profile x : high) {
+        for (HighScore hs : high) {
 
             TextView place = new TextView(this);
             place.setText(String.format("%s  ", Integer.toString(i)));
 
             TextView name = new TextView(this);
-            name.setText(String.format("%s", x.getName()));
+            name.setText(String.format("%s", hs.getName()));
 
             TextView points = new TextView(this);
-            points.setText(String.format("%s", Integer.toString(x.getPoints())));
+            points.setText(String.format("%s", Integer.toString(hs.getPoints())));
             points.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
 
             place.setTextSize(16);
@@ -195,10 +193,10 @@ public class HighscoreActivity extends AppCompatActivity {
             row.addView(points);
 
             //-------------------------------------------------------------------------------------------
-            if (x.getName().equals(profile.getName())) {
+            if (hs.getName().equals(_profile.getName())) {
 //                name.setBackgroundColor(Color.parseColor("#33005555"));
                 row.setBackgroundColor(Color.parseColor("#33005555"));
-                found = 1;
+                _found = 1;
             }
 
             //-------------------------------------------------------------------------------------------

@@ -12,22 +12,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import entity.AppContent;
 import entity.Profile;
 import presenter.HighScorePresenter;
+import presenter.ShopPresenter;
 
-public class ProfilTabMenuActivity extends Fragment {
+public class ProfileTabMenuActivity extends Fragment {
 
-    public Activity activity;
-    public Intent thisIntent;
-    public Profile profile;
+    private Activity _activity;
+    private Intent _intent;
+    private AppContent _appContent;
+    private Profile _profile;
 
 
     public void setOnCreate(Activity activity, Intent intent){
-        this.activity = activity;
-        this.thisIntent = intent;
+        this._activity = activity;
+        this._intent = intent;
+        this._appContent = (AppContent) _intent.getSerializableExtra("appContent");
+        this._profile = _appContent.getProfile();
     }
 
     @Override
@@ -35,18 +39,16 @@ public class ProfilTabMenuActivity extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.profil_tab_menu, container, false);
 
-        this.profile = (Profile) thisIntent.getSerializableExtra("profile");
-
         populateView(rootView);
 
-        Button highscore = rootView.findViewById(R.id.highscore);
-        highscore.setOnClickListener(new View.OnClickListener() {
+        Button highScore = rootView.findViewById(R.id.highscore);
+        highScore.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                showHighscore();
+                showHighScore();
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        FloatingActionButton fab = rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,37 +63,39 @@ public class ProfilTabMenuActivity extends Fragment {
         addAvatar(rootView);
 
         TextView user = rootView.findViewById(R.id.userName);
-        user.setText(String.format("%s", profile.getName()));
+        user.setText(String.format("%s", _profile.getName()));
 
         TextView points = rootView.findViewById(R.id.points);
-        points.setText(String.format("%s", Integer.toString(profile.getPoints())));
+        points.setText(String.format("%s", Integer.toString(_profile.getPoints())));
 
         TextView stats = rootView.findViewById(R.id.level);
-        stats.setText(String.format("%s", profile.getLevel()));
+        stats.setText(String.format("%s", _profile.getLevel()));
 
-        TextView misspoints = rootView.findViewById(R.id.missPoints);
-        misspoints.setText(String.format("Missing points to next level: %s", Integer.toString(profile.getMissingPoints())));
+        TextView missingPoints = rootView.findViewById(R.id.missPoints);
+        missingPoints.setText(String.format("Missing points to next level: %s", Integer.toString(_profile.getMissingPoints())));
     }
 
     public void addAvatar(View rootView){
         ImageView avatar = rootView.findViewById(R.id.imageView);
 
-        byte[] byteImage =  profile.getAvatar();
+        byte[] byteImage =  _profile.getAvatar().getIcon();
         Bitmap bitmapImage = BitmapFactory.decodeByteArray(byteImage, 0, byteImage.length);
         avatar.setImageBitmap(bitmapImage);
-
     }
 
-    public void showHighscore(){
-        Intent intent = new Intent(activity, HighscoreActivity.class);
-        HighScorePresenter highscorePresenter = new HighScorePresenter(profile, activity, intent);
+    public void showHighScore(){
+        Intent intent = new Intent(_activity, HighScoreActivity.class);
+        intent.putExtra("appContent", _appContent);
+        HighScorePresenter highscorePresenter = new HighScorePresenter(_activity, intent, _appContent);
         highscorePresenter.execute();
     }
 
     public void showShop(){
-        Intent intent = new Intent(activity, ShopActivity.class);
-        intent.putExtra("profile", profile);
-        activity.startActivity(intent);
+        Intent intent = new Intent(_activity, ShopActivity.class);
+        intent.putExtra("appContent", _appContent);
+        //_activity.startActivity(intent);
+        ShopPresenter shopPresenter = new ShopPresenter(_activity, intent, _appContent);
+        shopPresenter.execute();
     }
 
 }

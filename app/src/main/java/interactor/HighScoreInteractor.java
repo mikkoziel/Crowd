@@ -4,31 +4,42 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import entity.Game;
+import entity.HighScore;
 
-public class GameInteractor {
+public class HighScoreInteractor {
+
     private DataBaseConnector _dbConnector;
     private String _result;
     private Boolean _isSuccess;
 
-    public GameInteractor()
+    public HighScoreInteractor()
     {
         this._dbConnector = new DataBaseConnector();
         this._result = null;
         this._isSuccess = false;
     }
 
-    public ArrayList<Game> getGames() throws SQLException {
-        ArrayList<Game> games = new ArrayList<>();
-        String query = "select * from Game";
+    public ArrayList<HighScore> getHighScore() throws Exception {
+        String query = "Select Top 10 * from Profile order by points desc ";
         ResultSet res = _dbConnector.runQuery(query);
-        while (res.next()) {
-            int gameID = res.getInt("gameID");
-            String name = res.getString("gameName");
-            Game game = new Game(gameID, name);
-            games.add(game);
+        ArrayList<HighScore> highScores = new ArrayList<>();
+        while(res.next()) {
+            int id = res.getInt("profilID");
+            String name = res.getString("name");
+            int points = res.getInt("points");
+
+            /* TODO potrzebne to przy rankingu?
+            int level = res.getInt("userlevel");
+            int money = res.getInt("money");
+            int missingPoints = res.getInt("missingPoints");
+            */
+
+            HighScore highScore = new HighScore(name, points, id);
+
+            highScores.add(highScore);
+            setSuccess("HighScore set");
         }
-        return games;
+        return highScores;
     }
 
     private void setSuccess(String message)
@@ -54,4 +65,5 @@ public class GameInteractor {
             e.printStackTrace();
         }
     }
+
 }

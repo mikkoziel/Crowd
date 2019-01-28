@@ -23,24 +23,26 @@ public class TagInteractor {
         this._isSuccess = false;
     }
 
-    public ArrayAdapter<Tag> getTags(ArrayAdapter<Tag> adapter) throws SQLException {
-        String query = "select * from Tag";
+    public ArrayList<Tag> getTags() throws SQLException {
+        ArrayList<Tag> tags = new ArrayList<>();
 
+        String query = "select * from Tag";
         ResultSet resultSet = _dbConnector.runQuery(query);
+
         while (resultSet.next()) {
             String name = resultSet.getString("tag");
             int ID = resultSet.getInt("tagID");
             Tag tag = new Tag(ID, name);
-            adapter.add(tag);
+            tags.add(tag);
             setSuccess("Tags ok");
-            }
-        return adapter;
+        }
+        return tags;
     }
 
-    public void addGameTags(Profile profile, ArrayAdapter<Tag> adapter){
-        for(Game game : profile.getGames())
+    public void addGameTags(ArrayAdapter<Tag> adapter, ArrayList<Game> games){
+        for(Game game : games)
             try {
-                int gameID = game.getGameID();
+                int gameID = game.getID();
                 game.setTags(getTagsFromDB(gameID, adapter));
             } catch (SQLException e) {
                 e.printStackTrace();

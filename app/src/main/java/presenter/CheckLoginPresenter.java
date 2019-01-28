@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -12,8 +13,14 @@ import android.widget.Toast;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import entity.AppContent;
+import entity.Avatar;
+import entity.Game;
 import entity.Profile;
+import entity.Tag;
+import interactor.AvatarInteractor;
 import interactor.GameInteractor;
 import interactor.ProfileInteractor;
 import interactor.TagInteractor;
@@ -32,21 +39,28 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
     @SuppressLint("StaticFieldLeak")
     private Button _register;
 
+    private AppContent _appContent;
+
     private ProfileInteractor _profileInteractor;
     private GameInteractor _gameInteractor;
     private TagInteractor _tagInteractor;
+    private AvatarInteractor _avatarInteractor;
 
-    public CheckLoginPresenter(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT, Intent intent, Button submit, Button register){
+    public CheckLoginPresenter(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT, Intent intent, Button submit, Button register, AppContent appContent){
         this._activity = activity;
         this._progress = progress;
         this._username = loginT.getText().toString();
         this._password = passwordT.getText().toString();
         this._intent = intent;
+        this._submit = submit;
+        this._register = register;
+
+        this._appContent = appContent;
+
         this._profileInteractor = new ProfileInteractor();
         this._gameInteractor = new GameInteractor();
         this._tagInteractor = new TagInteractor();
-        this._submit = submit;
-        this._register = register;
+        this._avatarInteractor = new AvatarInteractor();
     }
 
     @Override
@@ -61,11 +75,36 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
         {
             try {
                 ResultSet resultSet = _profileInteractor.checkLogin(_username, _password);
+                //skoro uzytkownik istnieje w bazie zaczynamy gre
                 if(_profileInteractor.isSuccess()) {
-                    Profile profile = _profileInteractor.setProfile(resultSet, null);
-                    _profileInteractor.getAvatar(profile);
-                    _gameInteractor.setGames(profile);
-                    _intent.putExtra("profile", profile);
+
+                    //ustawiamy avatary
+                    ArrayList<Avatar> avatars = _avatarInteractor.getAllAvatars();
+                    _appContent.setAvatars(avatars);
+
+                    //ustawiamy jego profil
+                    Profile profile = _profileInteractor.createProfile(resultSet);
+                    _appContent.setProfile(profile);
+
+                    //ustawiamy avatar profilu
+                    int avatarID = _profileInteractor.getAvatarID(profile);
+                    Avatar avatar;
+                    if(avatarID == -1)
+                        avatar = _appContent.getAvatar(0);
+                    else
+                        avatar = _appContent.getAvatar(avatarID);
+                    profile.setAvatar(avatar);
+                    _appContent.updateCurrentProfile(profile);
+
+
+                    //ustawiamy gry
+                    ArrayList<Game> games = _gameInteractor.getGames();
+                    _appContent.setGames(games);
+
+
+                    //ustawiamy tagi
+                    ArrayList<Tag> tags = _tagInteractor.getTags();
+                    _appContent.setTags(tags);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -77,16 +116,20 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void voids) {
         _progress.setVisibility(View.GONE);
+        _intent.putExtra("appContent", _appContent);
+
         String result = _profileInteractor.getResult();
         Toast.makeText(_activity, result, Toast.LENGTH_LONG).show();
+
         _submit.setClickable(true);
         _register.setClickable(true);
-
-        if (_profileInteractor.isSuccess())
-            _activity.startActivity(_intent);
 
         _gameInteractor.endWork();
         _profileInteractor.endWork();
         _tagInteractor.endWork();
+        _avatarInteractor.endWork();
+
+        if (_profileInteractor.isSuccess())
+            _activity.startActivity(_intent);
     }
 }

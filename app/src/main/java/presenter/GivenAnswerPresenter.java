@@ -43,8 +43,6 @@ public class GivenAnswerPresenter extends AsyncTask<Void, Void, Void> {
             createAlertDialog("LEVEL CHANGED", _givenAnswerInteractor.getLevelInfo());
         }
         _givenAnswerInteractor.endWork();
-
-        //TODO i tutaj wywoływana funkcja na widoku z przekazanym zaktualizowanym given answer, da sie?
     }
 
     private void createAlertDialog(String title, String message){
