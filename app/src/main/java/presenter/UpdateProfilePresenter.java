@@ -33,6 +33,7 @@ public class UpdateProfilePresenter extends AsyncTask<Void, Void, Void> {
         this._activity = activity;
         this._progress = progress;
         this._appContent = appContent;
+        this._givenAnswerInteractor = new GivenAnswerInteractor();
 
     }
 
@@ -76,6 +77,7 @@ public class UpdateProfilePresenter extends AsyncTask<Void, Void, Void> {
         if (_givenAnswerInteractor.isSuccess()) {
             Intent intent = new Intent(_activity, TabMenuActivity.class);
             intent.putExtra("appContent", _appContent);
+            intent.putExtra("item", 1);
             _activity.startActivity(intent);
         }
         _givenAnswerInteractor.endWork();

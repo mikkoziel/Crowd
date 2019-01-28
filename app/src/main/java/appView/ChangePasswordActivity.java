@@ -76,7 +76,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent(this, TabMenuActivity.class);
         intent.putExtra("appContent", _appContent);
-        //intent.putExtra("item", 2);
+        intent.putExtra("item", 2);
         this.startActivity(intent);
     }
 

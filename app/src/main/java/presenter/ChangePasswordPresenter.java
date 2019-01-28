@@ -73,6 +73,7 @@ public class ChangePasswordPresenter extends AsyncTask<Void, Void, Void> {
         if (_profileInteractor.isSuccess()) {
             Intent intent = new Intent(_activity, TabMenuActivity.class);
             intent.putExtra("appContent", _appContent);
+            intent.putExtra("item", 2);
             _activity.startActivity(intent);
         }
     }
