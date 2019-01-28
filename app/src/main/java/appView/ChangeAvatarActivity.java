@@ -30,6 +30,7 @@ public class ChangeAvatarActivity extends AppCompatActivity {
     private ProgressBar _progress;
 
     private AppContent _appContent;
+    private ArrayList<Avatar> _avatars;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class ChangeAvatarActivity extends AppCompatActivity {
         _progress = findViewById(R.id.progress);
         _progress.setVisibility(View.GONE);
 
+        _avatars = _appContent.getAvatars();
         LinearLayout layout = findViewById(R.id.avatarsLay);
 
         populateAvatars(layout);
@@ -54,9 +56,7 @@ public class ChangeAvatarActivity extends AppCompatActivity {
         int i =inRow;
         LinearLayout row = null;
 
-        ArrayList<Avatar> avatars = _appContent.getAvatars();
-
-        for(Avatar avatar : avatars){
+        for(Avatar avatar : _avatars){
             byte[] avatarIcon = avatar.getIcon();
             if(i == inRow) {
                 i = 0;
@@ -119,9 +119,9 @@ public class ChangeAvatarActivity extends AppCompatActivity {
         avatarPresenter.execute();
     */
         //TODO moja propzycja, potrzeba tylko ID nowego avatara
-        int newAvatarID = 2;
-        AvatarPresenter avatarPresenter = new AvatarPresenter(
-                this,_progress, _appContent, newAvatarID);
+        int index = _buttons.indexOf(btn_unfocus);
+        int newAvatarID = _avatars.get(index).getID();
+        AvatarPresenter avatarPresenter = new AvatarPresenter(this, _progress, _appContent, newAvatarID);
         avatarPresenter.execute();
     }
 

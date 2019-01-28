@@ -92,6 +92,17 @@ public class ProfileInteractor {
             return -1;
     }
 
+    public void updateAvatar(int avatarID, int profileID){
+        String query = "Update Profile set avatarID =" + avatarID + "where profilID = " + profileID;
+        int res = _dbConnector.updateQuery(query);
+        if (res > 0) {
+            setSuccess("Avatar changed");
+        }
+        else{
+            setFailure("Avatar unchanged");
+        }
+    }
+
     /*
     public Profile setProfile(ResultSet res, Profile profile) throws SQLException {
         int id = res.getInt("profilID");
