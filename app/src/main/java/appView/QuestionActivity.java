@@ -41,7 +41,6 @@ public class QuestionActivity extends AppCompatActivity {
         this._appContent = (AppContent) intent.getSerializableExtra("appContent");
         this._game = _appContent.getCurrentGame();
         this._question = _game.getCurrentQueston();
-        _game.nextIndex();
         this._progress = findViewById(appView.R.id.progress);
         this._activity = this;
         if(getIntent().hasExtra("answer")){

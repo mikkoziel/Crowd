@@ -65,6 +65,7 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
         this._game = appContent.getCurrentGame();
         this._profile = appContent.getProfile();
         this._question = _game.getCurrentQueston();
+        _game.nextIndex();
 
         this._possibleAnswerInteractor = new PossibleAnswerInteractor();
     }

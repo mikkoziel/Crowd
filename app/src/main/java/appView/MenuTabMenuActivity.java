@@ -56,7 +56,7 @@ public class MenuTabMenuActivity extends Fragment {
 
         TagPresenter tagPresenter = new TagPresenter(_appContent);
         ArrayAdapter<Tag> _adapter = new ArrayAdapter<>(_activity, android.R.layout.simple_dropdown_item_1line, _tags);
-        if(_adapter.isEmpty())
+        if(!_adapter.isEmpty())
             tagPresenter.addGameTags(_adapter);
 
 
@@ -117,7 +117,7 @@ public class MenuTabMenuActivity extends Fragment {
         final Intent intent = new Intent(_activity, GameActivity.class);
         intent.putExtra("appContent", _appContent);
 
-        //TODO tutaj uruchamiamy tyle async tasków ile gier, nie powinniśmy przy każdym execute pobierać nowego appContent z nowego intenta?
+        //TODO tutaj uruchamiamy tyle async tasków ile gier, nie powinniśmy przy każdym execute pobierać nowego appContent z nowego intenta? Z jakiego nowego intenta?
         for (final Game game : _games) {
             Button gameButton = new Button(_activity);
             gameButton.setText(game.getName());
