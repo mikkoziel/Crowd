@@ -95,6 +95,7 @@ public class QuestionActivity extends AppCompatActivity {
     public TextView setTextView(String questionText){
         TextView question = new TextView(this);
         question.setText(questionText);
+        question.setTextSize(26);
         question.setGravity(Gravity.CENTER);
         return question;
     }
