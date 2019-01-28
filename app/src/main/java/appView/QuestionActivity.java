@@ -81,6 +81,7 @@ public class QuestionActivity extends AppCompatActivity {
         String questionText = _question.getQuestion();
         TextView question = setTextView(questionText);
 
+        //TODO Interactor out
         String imagePath =  _question.getImage();
         QuestionInteractor questionInteractor = new QuestionInteractor();
 
