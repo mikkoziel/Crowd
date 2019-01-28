@@ -40,6 +40,8 @@ public class SettingsTabMenuActivity extends Fragment {
                 changePassword(rootView);
             }
         });
+        ProgressBar progress = rootView.findViewById(R.id.progress);
+        progress.setVisibility(View.GONE);
 
         ToggleButton themeBttn = rootView.findViewById(appView.R.id.themeBttn);
         themeBttn.setText("Dark Theme");
