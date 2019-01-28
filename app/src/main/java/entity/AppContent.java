@@ -35,6 +35,7 @@ public class AppContent implements Serializable {
     public ArrayList<Avatar> getAvatars() {
         return _avatars;
     }
+    public ArrayList<Item> getShop() {return  _shop;}
 
     public void setGames(ArrayList<Game> games){
         this._games = games;
