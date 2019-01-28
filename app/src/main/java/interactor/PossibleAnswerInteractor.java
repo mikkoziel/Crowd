@@ -94,7 +94,7 @@ public class PossibleAnswerInteractor {
 
     private void increaseAnswerShowedValue(Answer answer) throws SQLException
     {
-        String query = "Select * from Answer where answerID = " + answer.getAnswerID();
+        String query = "Select * from Answer where answerID = " + answer.getID();
         ResultSet res = _dbConnector.runQuery(query);
         if (res.next())
             answer.setShowed(res.getInt("showed"));
@@ -106,7 +106,7 @@ public class PossibleAnswerInteractor {
 
         answer.increaseShowed();
 
-        query = "update Answer set showed = " + answer.getShowed() + " where answerID = " + answer.getAnswerID();
+        query = "update Answer set showed = " + answer.getShowed() + " where answerID = " + answer.getID();
         _dbConnector.updateQuery(query);
     }
 

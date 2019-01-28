@@ -85,6 +85,18 @@ public class Question implements Serializable{
         this._index = index;
     }
 
+    public void updateAnswer(Answer answer)
+    {
+        for(Answer a: _answers)
+        {
+            if(a.getID() == answer.getID()) {
+                a.updateContent(answer.getShowed(), answer.getChosen());
+                return;
+            }
+
+        }
+    }
+
 
 }
 

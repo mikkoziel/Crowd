@@ -32,38 +32,33 @@ public class Answer implements Serializable {
         this._isImageAnswer = true;
         this._showed = showed;
         this._chosen = chosen;
-
     }
 
-    public int getAnswerID() {
+    public int getID() {
         return _answerID;
     }
-
     public String getAnswer() {
         return _answer;
     }
-
     public int getType() {
         return _type;
     }
-
     public Boolean getDefaultAnswer() {
         return _defaultAnswer;
     }
-
     public Boolean isImageAnswer(){return _isImageAnswer;}
-
     public byte[] getImage(){return _image;}
-
-    public void increaseShowed(){_showed++;}
-
     public int getShowed(){return _showed;}
-
-    public void increaseChosen(){_chosen++;}
-
     public int getChosen(){return _chosen;}
 
     public void setChosen(int chosen){_chosen  = chosen;}
-
     public void setShowed(int showed){_showed = showed;}
+    public void increaseChosen(){_chosen++;}
+    public void increaseShowed(){_showed++;}
+
+    public void updateContent(int showed, int chosen)
+    {
+        this._showed = showed;
+        this._chosen = chosen;
+    }
 }

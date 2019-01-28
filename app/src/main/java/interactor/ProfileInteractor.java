@@ -123,19 +123,6 @@ public class ProfileInteractor {
             setFailure("Password Change failed");
     }
 
-    public Profile updateProfile(Profile profile) throws SQLException {
-        String query = "Select * from Profile where profilID =" + profile.getID();
-        ResultSet res = _dbConnector.runQuery(query);
-        if(res.next()){
-            profile = setProfile(res, profile);
-            setSuccess("Profile Updated");
-        }
-        else{
-            setFailure("Error occured with DataBase connection");
-        }
-        return profile;
-    }
-
     private void setSuccess(String message)
     {
         _result = message;

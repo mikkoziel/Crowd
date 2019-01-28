@@ -78,7 +78,7 @@ public class ProfileTabMenuActivity extends Fragment {
     public void addAvatar(View rootView){
         ImageView avatar = rootView.findViewById(R.id.imageView);
 
-        byte[] byteImage =  _profile.getAvatar();
+        byte[] byteImage =  _profile.getAvatar().getIcon();
         Bitmap bitmapImage = BitmapFactory.decodeByteArray(byteImage, 0, byteImage.length);
         avatar.setImageBitmap(bitmapImage);
     }
@@ -93,6 +93,7 @@ public class ProfileTabMenuActivity extends Fragment {
     public void showShop(){
         Intent intent = new Intent(_activity, ShopActivity.class);
         intent.putExtra("appContent", _appContent);
+        //_activity.startActivity(intent);
         ShopPresenter shopPresenter = new ShopPresenter(_activity, intent, _appContent);
         shopPresenter.execute();
     }
