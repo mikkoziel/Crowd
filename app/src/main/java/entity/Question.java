@@ -12,7 +12,7 @@ public class Question implements Serializable{
     private int _index;
     private Boolean _defaultAnswer;
     private Boolean _isImageQuestion;
-    private byte[] _image;
+    private String _image;
 
     public Question(String question, int questionID, int type, Boolean defaultAnswer){
         this._question = question;
@@ -25,7 +25,7 @@ public class Question implements Serializable{
         this._image = null;
     }
 
-    public Question(String question, int questionID, int type, Boolean defaultAnswer, byte[] image){
+    public Question(String question, int questionID, int type, Boolean defaultAnswer, String imagePath){
         this._question = question;
         this._questionID = questionID;
         this._type = type;
@@ -33,7 +33,7 @@ public class Question implements Serializable{
         this._index = 0;
         this._defaultAnswer = defaultAnswer;
         this._isImageQuestion = true;
-        this._image = image;
+        this._image = imagePath;
     }
 
     public Question()
@@ -102,8 +102,8 @@ public class Question implements Serializable{
 
     public Boolean isImageQuestion(){return _isImageQuestion;}
 
-    public void setImage(byte[] image){this._image = image;}
+    public void setImage(String image){this._image = image;}
 
-    public byte[] getImage(){return _image;}
+    public String getImage(){return _image;}
 }
 

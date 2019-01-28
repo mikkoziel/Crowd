@@ -19,6 +19,7 @@ import entity.Profile;
 import entity.Question;
 import entity.GivenAnswer;
 
+import interactor.QuestionInteractor;
 import presenter.PossibleAnswerPresenter;
 import presenter.GivenAnswerPresenter;
 
@@ -80,7 +81,10 @@ public class QuestionActivity extends AppCompatActivity {
         String questionText = _question.getQuestion();
         TextView question = setTextView(questionText);
 
-        byte[] byteImage =  _question.getImage();
+        String imagePath =  _question.getImage();
+        QuestionInteractor questionInteractor = new QuestionInteractor();
+
+        byte[] byteImage = questionInteractor.readFromFile(imagePath);
         Bitmap bitmapImage = BitmapFactory.decodeByteArray(byteImage, 0, byteImage.length);
         ImageView questionI = setImageView(bitmapImage);
 
