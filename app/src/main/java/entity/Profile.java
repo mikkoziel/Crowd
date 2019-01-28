@@ -76,6 +76,15 @@ public class Profile implements Serializable {
 
     public void addItem(Item item){this._items.add(item);}
 
+    public boolean hasItem(int index){
+        for(Item x: _items){
+            if(x.getID() == index) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void updateProfile(int points, int level, int money, int missingPoints, Avatar avatar){
         this._points = points;
         this._level = level;

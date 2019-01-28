@@ -6,12 +6,14 @@ public class Avatar implements Serializable {
     private int _avatarID;
     private byte[] _icon;
     private byte[] _locked;
+    private int _itemID;
 
-    public Avatar(int avatarID, byte[] icon, byte[] locked)
+    public Avatar(int avatarID, byte[] icon, byte[] locked, int itemID)
     {
         this._avatarID = avatarID;
         this._icon = icon;
         this._locked = locked;
+        this._itemID = itemID;
     }
 
     public int getID(){return _avatarID;}
@@ -19,4 +21,5 @@ public class Avatar implements Serializable {
     public byte[] getLocked() {
         return _locked;
     }
+    public int getItemID(){return _itemID;}
 }
