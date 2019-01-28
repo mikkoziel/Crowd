@@ -1,5 +1,13 @@
 package interactor;
 
+import android.os.Environment;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -72,10 +80,64 @@ public class QuestionInteractor {
 
             else {
                 byte[] byteImage = blobImage.getBytes(1, (int) blobImage.length());
-                question = new Question(content, ID, type, defaultAnswer, byteImage);
+                String path = null;
+                try {
+                    path = writeToFile(byteImage, ID);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                question = new Question(content, ID, type, defaultAnswer, path);
             }
             game.addQuestion(question);
         }
+    }
+
+    private String writeToFile(byte[] image, int questionID) throws IOException {
+        File dir = Environment.getExternalStorageDirectory();
+        File root = new File(dir + "/Crowd/");
+        if (!root.exists()) root.mkdirs();
+        File file = new File(root, String.valueOf(questionID));
+        if (!file.exists()) file.createNewFile();
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(file);
+            fos.write(image);
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("File not found" + e);
+        }
+        catch (IOException ioe) {
+            System.out.println("Exception while writing file " + ioe);
+        }
+        finally {
+            try {
+                if (fos != null) {
+                    fos.close();
+                }
+            }
+            catch (IOException ioe) {
+                System.out.println("Error while closing stream: " + ioe);
+            }
+        }
+        return file.getAbsolutePath();
+
+    }
+
+    public byte[] readFromFile(String path){
+        File file = new File(path);
+        int size = (int) file.length();
+        byte[] bytes = new byte[size];
+        try {
+            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
+            buf.read(bytes, 0, bytes.length);
+            buf.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return bytes;
     }
 
     private void setSuccess(String message)
