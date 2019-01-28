@@ -23,7 +23,7 @@ public class TagInteractor {
         this._isSuccess = false;
     }
 
-    public void setTags(ArrayAdapter<Tag> adapter) throws SQLException {
+    public ArrayList<Tag> setTags(ArrayList<Tag> adapter) throws SQLException {
         String query = "select * from Tag";
 
         ResultSet resultSet = _dbConnector.runQuery(query);
@@ -34,6 +34,7 @@ public class TagInteractor {
             adapter.add(tag);
             setSuccess("Tags ok");
         }
+        return adapter;
     }
 
     public void addGameTags(ArrayAdapter<Tag> adapter, ArrayList<Game> games){

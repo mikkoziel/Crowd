@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -12,9 +13,11 @@ import android.widget.Toast;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import entity.AppContent;
 import entity.Profile;
+import entity.Tag;
 import interactor.AvatarInteractor;
 import interactor.GameInteractor;
 import interactor.ProfileInteractor;
@@ -71,11 +74,12 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
             try {
                 ResultSet resultSet = _profileInteractor.checkLogin(_username, _password);
                 if(_profileInteractor.isSuccess()) {
-                    Profile profile = _profileInteractor.setProfile(resultSet, null);
-                    _avatarInteractor.setAvatar(profile);
+                    _avatarInteractor.getAllAvatars(_appContent);
+                    Profile profile = _profileInteractor.setProfile(resultSet, null, _avatarInteractor, _appContent.getAvatars());
+//                    _avatarInteractor.setAvatar(profile);
                     _gameInteractor.setGames(_appContent);
                     _appContent.setProfile(profile);
-                    _intent.putExtra("appContent", _appContent);
+                    _appContent.setTags(_tagInteractor.setTags(new ArrayList<Tag>()));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -87,8 +91,11 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void voids) {
         _progress.setVisibility(View.GONE);
+        _intent.putExtra("appContent", _appContent);
+
         String result = _profileInteractor.getResult();
         Toast.makeText(_activity, result, Toast.LENGTH_LONG).show();
+
         _submit.setClickable(true);
         _register.setClickable(true);
 

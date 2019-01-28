@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class AppContent implements Serializable {
     private ArrayList<Game> _games;
-    private ArrayAdapter<Tag> _tags;
+    private ArrayList<Tag> _tags;
     private Profile _userProfile;
     private ArrayList<Avatar> _avatars;
     private ArrayList<Item> _shop;
@@ -17,28 +17,31 @@ public class AppContent implements Serializable {
 
     public AppContent()
     {
-        this._games = null;
-        this._tags = null;
+        this._games = new ArrayList<>();
+        this._tags = new ArrayList<>();
         this._userProfile = null;
-        this._avatars = null;
-        this._shop = null;
-        this._highScore = null;
+        this._avatars = new ArrayList<>();
+        this._shop = new ArrayList<>();
+        this._highScore = new ArrayList<>();
         this._currentGameID = -1;
     }
 
     public ArrayList<Game> getGames() {
         return _games;
     }
-    public ArrayAdapter<Tag> getTags() {return _tags;}
+    public ArrayList<Tag> getTags() {return _tags;}
     public Profile getProfile(){return _userProfile;}
     public ArrayList<HighScore> getHighScore(){return _highScore;}
     public int getCurrentGameID(){return _currentGameID;}
     public Game getCurrentGame(){return getGame(_currentGameID);}
+    public ArrayList<Avatar> getAvatars() {
+        return _avatars;
+    }
 
     public void addGame(Game game){
         this._games.add(game);
     }
-    public void setTags(ArrayAdapter<Tag> tags){this._tags = tags;}
+    public void setTags(ArrayList<Tag> tags){this._tags = tags;}
     public void setProfile(Profile profile){this._userProfile = profile;}
     public void setAvatar(Avatar avatar){this._avatars.add(avatar);}
     public void setShop(ArrayList<Item> shop){this._shop = shop;}

@@ -56,7 +56,7 @@ public class HighScoreActivity extends AppCompatActivity {
     public void backToProfile() {
         Intent intent = new Intent(this, TabMenuActivity.class);
         intent.putExtra("appContent", _appContent);
-        //intent.putExtra("item", 0); //TODO ?? co to za item?
+        intent.putExtra("item", 0);
         this.startActivity(intent);
     }
 

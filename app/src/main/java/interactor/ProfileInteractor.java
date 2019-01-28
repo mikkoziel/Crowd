@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
+import entity.Avatar;
 import entity.Profile;
 
 public class ProfileInteractor {
@@ -69,21 +70,21 @@ public class ProfileInteractor {
         return resultSet;
     }
 
-    public Profile setProfile(ResultSet res, Profile profile) throws SQLException {
+    public Profile setProfile(ResultSet res, Profile profile, AvatarInteractor avatarInteractor, ArrayList<Avatar> avatars) throws SQLException {
         int id = res.getInt("profilID");
         String name = res.getString("name");
         int points = res.getInt("points");
         int level = res.getInt("userlevel");
         int money = res.getInt("money");
         int missingPoints = res.getInt("missingPoints");
+        int avatarID = res.getInt("avatarID");
 
-        //TODO z listy avatarow wybrac ten o avatarID
-        //int avatarID = res.getInt("avatarID");
+        Avatar avatar = avatarInteractor.getAvatar(avatarID, avatars);
         if(profile == null) {
-            profile = new Profile(id, name, points, level, money, missingPoints, null);
+            profile = new Profile(id, name, points, level, money, missingPoints, avatar);
         }
         else{
-            profile.updateProfile(points, level, money, missingPoints, null);
+            profile.updateProfile(points, level, money, missingPoints, avatar);
         }
         setSuccess("Login successful");
         return profile;

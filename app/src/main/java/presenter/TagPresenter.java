@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.widget.ArrayAdapter;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import entity.AppContent;
 import entity.Tag;
@@ -20,17 +21,15 @@ public class TagPresenter {
 
     }
 
-    public ArrayAdapter<Tag> getAllTags(Activity activity)
+    public void getAllTags(Activity activity)
     {
-        ArrayAdapter<Tag> adapter = new ArrayAdapter<>(activity,
-                android.R.layout.simple_dropdown_item_1line);
+        ArrayList<Tag> adapter = new ArrayList<>();
         try {
-            _tagInteractor.setTags(adapter);
+            adapter = _tagInteractor.setTags(adapter);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         _appContent.setTags(adapter);
-        return adapter;
     }
 
     public void addGameTags(ArrayAdapter<Tag> adapter){

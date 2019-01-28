@@ -29,7 +29,8 @@ public class MenuTabMenuActivity extends Fragment {
     private ProgressBar _progress;
     private Activity _activity;
     private AppContent _appContent;
-    private  ArrayList<Game> _games;
+    private ArrayList<Game> _games;
+    private ArrayList<Tag> _tags;
 
     public void setOnCreate(Activity activity, Intent intent){
         this._activity = activity;
@@ -47,19 +48,20 @@ public class MenuTabMenuActivity extends Fragment {
 
         this._appContent = (AppContent) _intent.getSerializableExtra("appContent");
         this._games = _appContent.getGames();
+        this._tags = _appContent.getTags();
 
         final LinearLayout ll = rootView.findViewById(appView.R.id.layout);
         final LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
 
         TagPresenter tagPresenter = new TagPresenter(_appContent);
-        ArrayAdapter<Tag> adapter = tagPresenter.getAllTags(_activity);
-        if(adapter != null)
-            tagPresenter.addGameTags(adapter);
+        ArrayAdapter<Tag> _adapter = new ArrayAdapter<>(_activity, android.R.layout.simple_dropdown_item_1line, _tags);
+        if(_adapter.isEmpty())
+            tagPresenter.addGameTags(_adapter);
 
 
         final AutoCompleteTextView sortText = rootView.findViewById(appView.R.id.sortTag);
-        sortText.setAdapter(adapter);
+        sortText.setAdapter(_adapter);
         sortText.setThreshold(1);
         sortText.setVisibility(View.GONE);
 

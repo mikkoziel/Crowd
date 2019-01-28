@@ -40,7 +40,6 @@ public class EndGameActivity extends AppCompatActivity {
         endText.setText(text);
     }
 
-    //TODO czem tu są dwie funkcje co robią to samo?
     public void backButton(View view){
         UpdateProfilePresenter updateProfilePresenter = new UpdateProfilePresenter(this, _progress, _appContent);
         updateProfilePresenter.execute();
@@ -52,7 +51,6 @@ public class EndGameActivity extends AppCompatActivity {
         this.startActivity(intent);
     }
 
-    //TODO czemu tu są dwie funkcje co robią to samo?
     @Override
     public void onBackPressed() {
         UpdateProfilePresenter updateProfilePresenter = new UpdateProfilePresenter(this, _progress, _appContent);

@@ -3,7 +3,9 @@ package interactor;
 import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import entity.AppContent;
 import entity.Avatar;
 import entity.Profile;
 
@@ -20,17 +22,44 @@ public class AvatarInteractor {
     }
 
 
-    public void setAvatar(Profile profile) throws SQLException {
-        String query = "Select * from Avatar where avatarID = " + profile.getAvatar().getID();
-        ResultSet res = _dbConnector.runQuery(query);
-        if (res.next()) {
-            Blob blobImage = res.getBlob("avatar");
-            byte[] byteImage = blobImage.getBytes(1, (int) blobImage.length());
-            //TODO soon
-            profile.setAvatar(null);
+//    public void setAvatar(Profile profile) throws SQLException {
+//        String query = "Select * from Avatar where avatarID = " + profile.getAvatar().getID();
+//        ResultSet res = _dbConnector.runQuery(query);
+//        if (res.next()) {
+//            Blob blobImage = res.getBlob("avatar");
+//            byte[] byteImage = blobImage.getBytes(1, (int) blobImage.length());
+//            //TODO soon
+//            profile.setAvatar(null);
+//        }
+//        else{
+//            setFailure("User Avatar error");
+//        }
+//    }
+
+
+    public Avatar getAvatar(int ID, ArrayList<Avatar> avatars){
+        for(Avatar x : avatars){
+            if(x.getID()==ID){
+                return x;
+            }
         }
-        else{
-            setFailure("Wrong old password");// TODO e?
+        return null;
+    }
+
+    public void getAllAvatars(AppContent appContent) throws SQLException {
+        String query = "Select * from Avatar";
+        ResultSet res = _dbConnector.runQuery(query);
+        while (res.next()) {
+            int id = res.getInt("avatarID");
+            Blob blobImage = res.getBlob("avatar");
+            Blob blobLocked = res.getBlob("locked");
+            byte[] byteImage = blobImage.getBytes(1, (int) blobImage.length());
+            byte[] byteLocked = null;
+            if(!res.wasNull()) {
+                byteLocked = blobImage.getBytes(1, (int) blobLocked.length());
+            }
+            Avatar avatar = new Avatar(id, byteImage, byteLocked);
+            appContent.setAvatar(avatar);
         }
     }
 
