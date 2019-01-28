@@ -16,6 +16,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import entity.AppContent;
+import entity.Avatar;
+import entity.Game;
 import entity.Profile;
 import entity.Tag;
 import interactor.AvatarInteractor;
@@ -73,13 +75,35 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
         {
             try {
                 ResultSet resultSet = _profileInteractor.checkLogin(_username, _password);
+                //skoro uzytkownik istnieje w bazie zaczynamy gre
                 if(_profileInteractor.isSuccess()) {
-                    _avatarInteractor.getAllAvatars(_appContent);
-                    Profile profile = _profileInteractor.setProfile(resultSet, null, _avatarInteractor, _appContent.getAvatars());
-//                    _avatarInteractor.setAvatar(profile);
-                    _gameInteractor.setGames(_appContent);
+
+                    //ustawiamy avatary
+                    ArrayList<Avatar> avatars = _avatarInteractor.getAllAvatars();
+                    _appContent.setAvatars(avatars);
+
+                    //ustawiamy jego profil
+                    Profile profile = _profileInteractor.createProfile(resultSet);
+
+                    //ustawiamy avatar profilu
+                    int avatarID = _profileInteractor.getAvatarID(profile);
+                    Avatar avatar;
+                    if(avatarID == -1)
+                        avatar = _appContent.getAvatar(0);
+                    else
+                        avatar = _appContent.getAvatar(avatarID);
+                    profile.setAvatar(avatar);
                     _appContent.setProfile(profile);
-                    _appContent.setTags(_tagInteractor.setTags(new ArrayList<Tag>()));
+
+
+                    //ustawiamy gry
+                    ArrayList<Game> games = _gameInteractor.getGames();
+                    _appContent.setGames(games);
+
+
+                    //ustawiamy tagi
+                    ArrayList<Tag> tags = _tagInteractor.getTags();
+                    _appContent.setTags(tags);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

@@ -5,9 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import entity.AppContent;
 import entity.Avatar;
-import entity.Profile;
 
 public class AvatarInteractor {
 
@@ -22,31 +20,8 @@ public class AvatarInteractor {
     }
 
 
-//    public void setAvatar(Profile profile) throws SQLException {
-//        String query = "Select * from Avatar where avatarID = " + profile.getAvatar().getID();
-//        ResultSet res = _dbConnector.runQuery(query);
-//        if (res.next()) {
-//            Blob blobImage = res.getBlob("avatar");
-//            byte[] byteImage = blobImage.getBytes(1, (int) blobImage.length());
-//            //TODO soon
-//            profile.setAvatar(null);
-//        }
-//        else{
-//            setFailure("User Avatar error");
-//        }
-//    }
-
-
-    public Avatar getAvatar(int ID, ArrayList<Avatar> avatars){
-        for(Avatar x : avatars){
-            if(x.getID()==ID){
-                return x;
-            }
-        }
-        return null;
-    }
-
-    public void getAllAvatars(AppContent appContent) throws SQLException {
+    public ArrayList<Avatar> getAllAvatars() throws SQLException {
+        ArrayList<Avatar> avatars = null;
         String query = "Select * from Avatar";
         ResultSet res = _dbConnector.runQuery(query);
         while (res.next()) {
@@ -59,9 +34,52 @@ public class AvatarInteractor {
                 byteLocked = blobImage.getBytes(1, (int) blobLocked.length());
             }
             Avatar avatar = new Avatar(id, byteImage, byteLocked);
-            appContent.setAvatar(avatar);
+            avatars.add(avatar);
+        }
+        setSuccess("Avatars set");
+        return avatars;
+    }
+
+
+    /*
+    public void getAvatar(Profile profile) throws SQLException{
+        String query = "Select * from Avatar where avatarID = " + profile.getAvatarID();
+        ResultSet res = _dbConnector.runQuery(query);
+        if (res.next()) {
+            Blob blobImage = res.getBlob("avatar");
+            byte[] byteImage = blobImage.getBytes(1, (int) blobImage.length());
+            profile.setAvatar(byteImage);
+        }
+        else{
+            setFailure("Wrong old password");
         }
     }
+    */
+
+    /*public ArrayList<byte[]> getAllAvatars() throws SQLException {
+        ArrayList<byte[]> avatars = new ArrayList<>();
+        String query = "Select * from Avatar";
+        ResultSet res = _dbConnector.runQuery(query);
+        while (res.next()) {
+            Blob blobImage = res.getBlob("avatar");
+            byte[] byteImage = blobImage.getBytes(1, (int) blobImage.length());
+            avatars.add(byteImage);
+        }
+        setSuccess("Avatars downloaded");
+        return avatars;
+    } */
+
+    /*
+    public void changeAvatar(Profile profile, int avatar) {
+        String query = "Update Profile set avatarID= " + avatar + "where profileID = " + profile.getID();
+        int res = _dbConnector.updateQuery(query);
+        if (res > 0) {
+            setSuccess("Avatar changed");
+        }else{
+            setFailure("Avatar not changed");
+        }
+    }
+    */
 
 
     private void setSuccess(String message)

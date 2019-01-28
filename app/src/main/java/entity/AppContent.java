@@ -1,7 +1,5 @@
 package entity;
 
-import android.widget.ArrayAdapter;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -38,12 +36,12 @@ public class AppContent implements Serializable {
         return _avatars;
     }
 
-    public void addGame(Game game){
-        this._games.add(game);
+    public void setGames(ArrayList<Game> games){
+        this._games = games;
     }
     public void setTags(ArrayList<Tag> tags){this._tags = tags;}
     public void setProfile(Profile profile){this._userProfile = profile;}
-    public void setAvatar(Avatar avatar){this._avatars.add(avatar);}
+    public void setAvatars(ArrayList<Avatar> avatars){this._avatars = avatars;}
     public void setShop(ArrayList<Item> shop){this._shop = shop;}
     public void setHighScore(ArrayList<HighScore> highScore){this._highScore = highScore;}
     public void setCurrentGameID(int gameID){this._currentGameID = gameID;}
@@ -73,6 +71,16 @@ public class AppContent implements Serializable {
         for(Game g : _games) {
             if (g.getID() == id)
                 return g;
+        }
+        return null;
+    }
+
+    public Avatar getAvatar(int id)
+    {
+        for(Avatar a: _avatars)
+        {
+            if(a.getID() == id)
+                return a;
         }
         return null;
     }

@@ -8,34 +8,28 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Space;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
+import entity.AppContent;
+import entity.Avatar;
 import entity.Profile;
 import presenter.AvatarPresenter;
-import presenter.UpdateProfilePresenter;
-
 import static android.view.Gravity.CENTER;
 
 public class ChangeAvatarActivity extends AppCompatActivity {
 
-    private Profile _profile;
-    private ArrayList<byte[]> _avatars;
     private Button btn_unfocus;
     private ArrayList<Button> _buttons;
     private ProgressBar _progress;
+
+    private AppContent _appContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +37,7 @@ public class ChangeAvatarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_change_avatar);
 
         Intent intent = getIntent();
-        this._profile = (Profile) intent.getSerializableExtra("profile");
-        this._avatars = ( ArrayList<byte[]>) intent.getSerializableExtra("avatars");
+        this._appContent = (AppContent) intent.getSerializableExtra("appContent");
         this._buttons = new ArrayList<>();
         _progress = findViewById(R.id.progress);
         _progress.setVisibility(View.GONE);
@@ -61,7 +54,10 @@ public class ChangeAvatarActivity extends AppCompatActivity {
         int i =inRow;
         LinearLayout row = null;
 
-        for(byte[] byteImage: _avatars){
+        ArrayList<Avatar> avatars = _appContent.getAvatars();
+
+        for(Avatar avatar : avatars){
+            byte[] avatarIcon = avatar.getIcon();
             if(i == inRow) {
                 i = 0;
                 row = new LinearLayout(this);
@@ -71,22 +67,22 @@ public class ChangeAvatarActivity extends AppCompatActivity {
                 layout.addView(row);
             }
 
-            final Button avatar = new Button(this);
-            Bitmap bitmapImage = BitmapFactory.decodeByteArray(byteImage, 0, byteImage.length);
+            final Button avatarButton = new Button(this);
+            Bitmap bitmapImage = BitmapFactory.decodeByteArray(avatarIcon, 0, avatarIcon.length);
             Drawable drawableImage = new BitmapDrawable(getResources(), bitmapImage);
-            avatar.setBackground(drawableImage);
-            avatar.setOnClickListener(new View.OnClickListener() {
+            avatarButton.setBackground(drawableImage);
+            avatarButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    setFocus(btn_unfocus, avatar);
+                    setFocus(btn_unfocus, avatarButton);
                 }
             });
-            avatar.setPadding(10, 0, 10, 0);
-            _buttons.add(avatar);
+            avatarButton.setPadding(10, 0, 10, 0);
+            _buttons.add(avatarButton);
 
             FrameLayout frame = new FrameLayout(this);
             frame.setPadding(3,3,3,3);
             frame.setForegroundGravity(CENTER);
-            frame.addView(avatar, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.MATCH_PARENT, CENTER));
+            frame.addView(avatarButton, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.MATCH_PARENT, CENTER));
 
             i+=1;
 
@@ -105,25 +101,34 @@ public class ChangeAvatarActivity extends AppCompatActivity {
 
     }
 
-    public void cancelBttn(View view){
+    public void cancelButton(View view){
         Intent intent = new Intent(this, TabMenuActivity.class);
-        intent.putExtra("profile", _profile);
+        intent.putExtra("appContent", _appContent);
         intent.putExtra("item", 2);
         this.startActivity(intent);
     }
 
-    public void changeBttn(View view){
+    public void changeButton(View view){
+
+        //TODO ?? co tu się dzieje?
+        /*
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         ((BitmapDrawable) btn_unfocus.getBackground()).getBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
         _profile.setAvatar(stream.toByteArray());
         AvatarPresenter avatarPresenter = new AvatarPresenter(this, _profile, 1, 1, _progress);
+        avatarPresenter.execute();
+    */
+        //TODO moja propzycja, potrzeba tylko ID nowego avatara
+        int newAvatarID = 2;
+        AvatarPresenter avatarPresenter = new AvatarPresenter(
+                this,_progress, _appContent, newAvatarID);
         avatarPresenter.execute();
     }
 
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, TabMenuActivity.class);
-        intent.putExtra("profile", _profile);
+        intent.putExtra("appContent", _appContent);
         intent.putExtra("item", 2);
         this.startActivity(intent);
     }

@@ -18,14 +18,13 @@ public class TagPresenter {
     public TagPresenter(AppContent appContent){
         this._appContent = appContent;
         this._tagInteractor = new TagInteractor();
-
     }
 
     public void getAllTags(Activity activity)
     {
         ArrayList<Tag> adapter = new ArrayList<>();
         try {
-            adapter = _tagInteractor.setTags(adapter);
+            adapter = _tagInteractor.getTags();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -35,5 +34,4 @@ public class TagPresenter {
     public void addGameTags(ArrayAdapter<Tag> adapter){
         _tagInteractor.addGameTags(adapter, _appContent.getGames());
     }
-
 }
