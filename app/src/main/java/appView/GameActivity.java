@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import entity.AppContent;
 import entity.Game;
-import entity.Profile;
 import presenter.SetQuestionPresenter;
 import presenter.UpdateProfilePresenter;
 
@@ -22,7 +21,6 @@ public class GameActivity extends AppCompatActivity {
 
     private AppContent _appContent;
     private Game _game;
-    private Profile _profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +29,7 @@ public class GameActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         this._appContent = (AppContent) intent.getSerializableExtra("appContent");
-        //TODO check!
-        //this._game = (Game)intent.getSerializableExtra("game");
         this._game = _appContent.getGame(_appContent.getCurrentGameID());
-        this._profile = _appContent.getProfile();
         this._activity = this;
 
         this._progress = findViewById(R.id.progress);

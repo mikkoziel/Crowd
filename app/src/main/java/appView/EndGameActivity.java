@@ -7,8 +7,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import entity.Game;
-import entity.Profile;
+import entity.AppContent;
 import entity.GivenAnswer;
 
 import presenter.GivenAnswerPresenter;
@@ -16,9 +15,8 @@ import presenter.UpdateProfilePresenter;
 
 public class EndGameActivity extends AppCompatActivity {
 
-    public ProgressBar progress;
-    public Game game;
-    public Profile profile;
+    private ProgressBar _progress;
+    private AppContent _appContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +24,10 @@ public class EndGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_end_game);
 
         Intent intent = getIntent();
-        this.game = (Game)intent.getSerializableExtra("game");
-        this.profile = (Profile) intent.getSerializableExtra("profile");
+        this._appContent = (AppContent) intent.getSerializableExtra("appContent");
 
-        this.progress = findViewById(R.id.progress);
-        progress.setVisibility(View.GONE);
+        this._progress = findViewById(R.id.progress);
+        _progress.setVisibility(View.GONE);
 
         if(getIntent().hasExtra("answer")){
             GivenAnswer given = (GivenAnswer) intent.getSerializableExtra("answer");
@@ -45,21 +42,20 @@ public class EndGameActivity extends AppCompatActivity {
 
     //TODO czem tu są dwie funkcje co robią to samo?
     public void backButton(View view){
-        UpdateProfilePresenter updateProfilePresenter = new UpdateProfilePresenter(profile, this, progress);
+        UpdateProfilePresenter updateProfilePresenter = new UpdateProfilePresenter(this, _progress, _appContent);
         updateProfilePresenter.execute();
     }
 
     public void repeatButton(View view){
         Intent intent = new Intent(this, GameActivity.class);
-        intent.putExtra("game", game);
-        intent.putExtra("profile", profile);
+        intent.putExtra("appContent", _appContent);
         this.startActivity(intent);
     }
 
-    //TODO czem tu są dwie funkcje co robią to samo?
+    //TODO czemu tu są dwie funkcje co robią to samo?
     @Override
     public void onBackPressed() {
-        UpdateProfilePresenter updateProfilePresenter = new UpdateProfilePresenter(profile, this, progress);
+        UpdateProfilePresenter updateProfilePresenter = new UpdateProfilePresenter(this, _progress, _appContent);
         updateProfilePresenter.execute();
     }
 }

@@ -39,6 +39,7 @@ public class UpdateProfilePresenter extends AsyncTask<Void, Void, Void> {
         _progress.setVisibility(View.VISIBLE);
     }
 
+    //TODO update showed i chosen, wszystko co given answer ustawiał
     @Override
     protected Void doInBackground(Void... voids) {
         try {
