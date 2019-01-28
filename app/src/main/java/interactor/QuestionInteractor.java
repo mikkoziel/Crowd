@@ -92,6 +92,7 @@ public class QuestionInteractor {
         }
     }
 
+    //TODO zmienić z karty pamięci na pamięć wewnętrzną
     private String writeToFile(byte[] image, int questionID) throws IOException {
         File dir = Environment.getExternalStorageDirectory();
         File root = new File(dir + "/Crowd/");
