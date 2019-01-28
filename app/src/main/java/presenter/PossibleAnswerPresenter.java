@@ -19,6 +19,7 @@ import appView.QuestionActivity;
 import java.sql.SQLException;
 
 import entity.Answer;
+import entity.AppContent;
 import entity.GivenAnswer;
 import entity.Game;
 import entity.Profile;
@@ -32,7 +33,6 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
     private Activity _activity;
     @SuppressLint("StaticFieldLeak")
     private ProgressBar _progress;
-    private Question _question;
     private int _i;
 
     @SuppressLint("StaticFieldLeak")
@@ -42,22 +42,31 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
     @SuppressLint("StaticFieldLeak")
     private LinearLayout _row3;
     private LinearLayout.LayoutParams _lp;
+
+    private AppContent _appContent;
     private Game _game;
     private Profile _profile;
+    private Question _question;
 
     private PossibleAnswerInteractor _possibleAnswerInteractor;
 
-    public PossibleAnswerPresenter(Activity activity, Question question, ProgressBar progress, LinearLayout.LayoutParams lp, Game game, Profile profile) {
+    public PossibleAnswerPresenter(Activity activity,
+                                   ProgressBar progress,
+                                   LinearLayout.LayoutParams lp,
+                                   AppContent appContent) {
         this._activity = activity;
-        this._question = question;
         this._progress = progress;
         this._lp = lp;
-        this._profile = profile;
-        this._game = game;
-        this._possibleAnswerInteractor = new PossibleAnswerInteractor();
         this._row1 = _activity.findViewById(appView.R.id.row1);
         this._row2 = _activity.findViewById(appView.R.id.row2);
         this._row3 = _activity.findViewById(appView.R.id.row3);
+
+        this._appContent = appContent;
+        this._game = appContent.getCurrentGame();
+        this._profile = appContent.getProfile();
+        this._question = _game.getCurrentQueston();
+
+        this._possibleAnswerInteractor = new PossibleAnswerInteractor();
     }
 
     @Override
@@ -68,13 +77,13 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
     @Override
     protected Void doInBackground(Void... voids){
         try {
-            _possibleAnswerInteractor.emptyAnswers(_question);
+            _question.getAnswers().clear();
             _possibleAnswerInteractor.setPossibleAnswers(_question);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         _i = 0;
+
         for(Answer answer : _question.getAnswers()){
             Button button = setButtons(answer.getAnswer(), answer);
             publishProgress(button);
@@ -101,9 +110,7 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
     protected void onPostExecute(Void voids){
         _progress.setVisibility(View.GONE);
         _possibleAnswerInteractor.endWork();
-
     }
-
 
     private Button setButtons(String answerText, final Answer a){
         Button answer = new Button(_activity);
@@ -114,14 +121,16 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
             answer.setCompoundDrawablesWithIntrinsicBounds( image, null, null, null);
         }
 
+        _game.updateQuestion(_question);
+        _appContent.updateGame(_game);
+
         if(_game.getIndex() < _game.getQuestions().size()) {
             answer.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Intent intent = new Intent(_activity, QuestionActivity.class);
                     GivenAnswer given = new GivenAnswer(_profile, _question, a);
                     intent.putExtra("answer", given);
-                    intent.putExtra("profile", _profile);
-                    intent.putExtra("game", _game);
+                    intent.putExtra("appContent", _appContent);
                     _activity.startActivity(intent);
                 }
             });
@@ -133,8 +142,7 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
                     Intent intent = new Intent(_activity, EndGameActivity.class);
                     GivenAnswer given = new GivenAnswer(_profile, _question, a);
                     intent.putExtra("answer", given);
-                    intent.putExtra("profile", _profile);
-                    intent.putExtra("game", _game);
+                    intent.putExtra("appContent", _appContent);
                     _activity.startActivity(intent);
                 }
             });

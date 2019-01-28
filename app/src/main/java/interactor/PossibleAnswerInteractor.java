@@ -21,8 +21,6 @@ public class PossibleAnswerInteractor {
         this._isSuccess = false;
     }
 
-    public void emptyAnswers(Question question){question.getAnswers().clear();}
-
     public void setPossibleAnswers(Question question) throws SQLException {
         ArrayList<Integer> ids = selectAnswerID(question);
         int numberOfAnswer = (ids.size() > 4) ? 4: ids.size();
@@ -34,7 +32,7 @@ public class PossibleAnswerInteractor {
     }
 
     private ArrayList<Integer> selectAnswerID(Question question) throws SQLException {
-        String query = "select answerID from Answer where questionID= '" + question.getQuestionID() + "' and defaultAnswer = 0";
+        String query = "select answerID from Answer where questionID= '" + question.getID() + "' and defaultAnswer = 0";
 
         ResultSet res = _dbConnector.runQuery(query);
         ArrayList<Integer> ids = new ArrayList<>();
@@ -64,7 +62,7 @@ public class PossibleAnswerInteractor {
     }
 
     private void defaultAnswer(Question question) throws SQLException {
-        String query = "select * from Answer where questionID= '" + question.getQuestionID() + "' and defaultAnswer = 1";
+        String query = "select * from Answer where questionID= '" + question.getID() + "' and defaultAnswer = 1";
 
         ResultSet resultSet = _dbConnector.runQuery(query);
         addPossibleAnswers(resultSet, question);

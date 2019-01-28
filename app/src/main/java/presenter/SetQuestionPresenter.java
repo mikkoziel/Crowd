@@ -49,7 +49,7 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        //TODO czy appContent zawiera tą grę z ustawionymi pytaniami?
+
         _appContent.updateGame(_game);
         _appContent.setCurrentGameID(_game.getID());
         return null;
@@ -60,7 +60,7 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
         _questionInteractor.endWork();
         if (_questionInteractor.isSuccess()) {
             _intent.putExtra("appContent", _appContent);
-            _intent.putExtra("game", _game);
+            //_intent.putExtra("game", _game);
             _activity.startActivity(_intent);
         }
     }

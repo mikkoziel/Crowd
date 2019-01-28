@@ -33,6 +33,7 @@ public class AppContent implements Serializable {
     public Profile getProfile(){return _userProfile;}
     public ArrayList<HighScore> getHighScore(){return _highScore;}
     public int getCurrentGameID(){return _currentGameID;}
+    public Game getCurrentGame(){return getGame(_currentGameID);}
 
     public void addGame(Game game){
         this._games.add(game);
@@ -45,11 +46,12 @@ public class AppContent implements Serializable {
     public void setCurrentGameID(int gameID){this._currentGameID = gameID;}
 
 
+
     public void updateGame(Game game)
     {
         for(Game g : _games) {
             if (g.getID() == game.getID()) {
-                g.updateGame(game.getQuestions(), game.getPlayed(),
+                g.updateContent(game.getQuestions(), game.getPlayed(),
                         game.getTags(), game.getIndex());
                 return;
             }

@@ -92,7 +92,7 @@ public class GivenAnswerInteractor {
     private void logAnswer(GivenAnswer givenAnswer)
     {
         int profileID = givenAnswer.getProfile().getID();
-        int questionID = givenAnswer.getQuestion().getQuestionID();
+        int questionID = givenAnswer.getQuestion().getID();
         int answerID = givenAnswer.getAnswer().getAnswerID();
 
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
