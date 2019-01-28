@@ -84,4 +84,14 @@ public class AppContent implements Serializable {
         }
         return null;
     }
+
+    public Item getItem(int id)
+    {
+        for(Item a: _shop)
+        {
+            if(a.getID() == id)
+                return a;
+        }
+        return null;
+    }
 }

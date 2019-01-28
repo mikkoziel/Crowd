@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import entity.Item;
+import entity.Profile;
 
 public class ShopInteractor {
 
@@ -35,6 +36,17 @@ public class ShopInteractor {
             Item item = new Item(itemId, name, byteIcon, price, description);
             items.add(item);
             setSuccess("Items set");
+        }
+        return items;
+    }
+
+    public ArrayList<Integer> getUserItemsID(Profile profile) throws SQLException {
+        String query = "Select * from UsersItems where profileID = "+ profile.getID();
+        ResultSet res = _dbConnector.runQuery(query);
+        ArrayList<Integer> items = new ArrayList<>();
+        while(res.next()) {
+            int itemID = res.getInt("itemID");
+            items.add(itemID);
         }
         return items;
     }

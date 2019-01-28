@@ -93,9 +93,9 @@ public class ProfileTabMenuActivity extends Fragment {
     public void showShop(){
         Intent intent = new Intent(_activity, ShopActivity.class);
         intent.putExtra("appContent", _appContent);
-        //_activity.startActivity(intent);
-        ShopPresenter shopPresenter = new ShopPresenter(_activity, intent, _appContent);
-        shopPresenter.execute();
+        _activity.startActivity(intent);
+//        ShopPresenter shopPresenter = new ShopPresenter(_activity, intent, _appContent);
+//        shopPresenter.execute();
     }
 
 }

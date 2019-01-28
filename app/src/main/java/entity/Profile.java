@@ -1,6 +1,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Profile implements Serializable {
     private String _name;
@@ -10,6 +11,7 @@ public class Profile implements Serializable {
     private int _missingPoints;
     private int _money;
     private Avatar _avatar;
+    private ArrayList<Item> _items;
 
 
     public Profile(int ID, String name, int points, int level, int money, int missingPoints, Avatar avatar){
@@ -20,6 +22,7 @@ public class Profile implements Serializable {
         this._missingPoints = missingPoints;
         this._money = money;
         this._avatar = avatar;
+        this._items = new ArrayList<>();
     }
 
     public String getName() {
@@ -66,6 +69,12 @@ public class Profile implements Serializable {
     public Avatar getAvatar() {
         return _avatar;
     }
+
+    public void setItems(ArrayList<Item> _items) {this._items = _items;}
+
+    public ArrayList<Item> getItems(){return this._items;}
+
+    public void addItem(Item item){this._items.add(item);}
 
     public void updateProfile(int points, int level, int money, int missingPoints, Avatar avatar){
         this._points = points;
