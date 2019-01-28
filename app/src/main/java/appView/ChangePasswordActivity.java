@@ -7,39 +7,40 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import entity.AppContent;
 import entity.Profile;
 import presenter.ChangePasswordPresenter;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
-    public ProgressBar progress;
-    public Profile profile;
-    public TextView oldPassword;
-    public TextView newPassword;
-    public TextView repeatPassword;
+    private ProgressBar _progress;
+    private TextView _oldPassword;
+    private TextView _newPassword;
+    private TextView _repeatPassword;
+
+    private AppContent _appContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(appView.R.layout.activity_change_password);
 
-        this.progress = findViewById(appView.R.id.progressBar);
-        progress.setVisibility(View.GONE);
+        this._progress = findViewById(appView.R.id.progressBar);
+        _progress.setVisibility(View.GONE);
 
         Intent intent = getIntent();
-        this.profile = (Profile) intent.getSerializableExtra("profile");
+        this._appContent = (AppContent) intent.getSerializableExtra("appContent");
 
-        this.oldPassword = findViewById(appView.R.id.oldPassword);
-        this.newPassword = findViewById(appView.R.id.newPassword);
-        this.repeatPassword = findViewById(appView.R.id.repeatPassword);
+        this._oldPassword = findViewById(appView.R.id.oldPassword);
+        this._newPassword = findViewById(appView.R.id.newPassword);
+        this._repeatPassword = findViewById(appView.R.id.repeatPassword);
     }
 
     public void backButton(View view){
         Intent intent = new Intent(this, TabMenuActivity.class);
-        intent.putExtra("profile", profile);
-        intent.putExtra("item", 2);
+        intent.putExtra("appContent", _appContent);
+        //intent.putExtra("item", 2);
         this.startActivity(intent);
     }
 
@@ -51,8 +52,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
         back.setClickable(false);
 
         if(checkPasswords()) {
-            String newPasswordText = newPassword.getText().toString();
-            ChangePasswordPresenter changePasswordPresenter = new ChangePasswordPresenter(this, progress, profile, newPasswordText, 1);
+            String newPasswordText = _newPassword.getText().toString();
+            ChangePasswordPresenter changePasswordPresenter = new ChangePasswordPresenter(this, _progress, newPasswordText, 1, _appContent);
             changePasswordPresenter.execute();
         }
 
@@ -61,10 +62,10 @@ public class ChangePasswordActivity extends AppCompatActivity {
     }
 
     public Boolean checkPasswords(){
-        String oldPasswordText = oldPassword.getText().toString();
-        ChangePasswordPresenter changePasswordPresenter = new ChangePasswordPresenter(this, progress, profile, oldPasswordText, 0);
-        changePasswordPresenter.setPasswordCheck(newPassword.getText().toString());
-        changePasswordPresenter.setPasswordCheck2(repeatPassword.getText().toString());
+        String oldPasswordText = _oldPassword.getText().toString();
+        ChangePasswordPresenter changePasswordPresenter = new ChangePasswordPresenter(this, _progress, oldPasswordText, 0, _appContent);
+        changePasswordPresenter.setPasswordCheck(_newPassword.getText().toString());
+        changePasswordPresenter.setPasswordCheck2(_repeatPassword.getText().toString());
         changePasswordPresenter.execute();
 
         while(changePasswordPresenter.getSemaphore()){ }
@@ -74,8 +75,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, TabMenuActivity.class);
-        intent.putExtra("profile", profile);
-        intent.putExtra("item", 2);
+        intent.putExtra("appContent", _appContent);
+        //intent.putExtra("item", 2);
         this.startActivity(intent);
     }
 

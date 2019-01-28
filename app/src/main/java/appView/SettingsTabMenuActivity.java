@@ -12,26 +12,24 @@ import android.widget.CompoundButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import entity.Profile;
+import entity.AppContent;
 
 public class SettingsTabMenuActivity extends Fragment {
 
-    public Activity activity;
-    public Intent thisIntent;
-    public Profile profile;
+    private Activity _activity;
+    private Intent _intent;
+    private AppContent _appContent;
 
     public void setOnCreate(Activity activity, Intent intent){
-        this.activity = activity;
-        this.thisIntent = intent;
-
+        this._activity = activity;
+        this._intent = intent;
+        this._appContent = (AppContent) _intent.getSerializableExtra("appContent");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(appView.R.layout.settings_tab_menu, container, false);
-
-        this.profile = (Profile) thisIntent.getSerializableExtra("profile");
 
         Button changeBttn = rootView.findViewById(appView.R.id.changePass);
         changeBttn.setOnClickListener(new View.OnClickListener() {
@@ -65,22 +63,22 @@ public class SettingsTabMenuActivity extends Fragment {
     }
 
     public void changePassword(View view){
-        Intent intent = new Intent(activity, ChangePasswordActivity.class);
-        intent.putExtra("profile", profile);
-        activity.startActivity(intent);
+        Intent intent = new Intent(_activity, ChangePasswordActivity.class);
+        intent.putExtra("appContent", _appContent);
+        _activity.startActivity(intent);
     }
 
     public void setLightTheme(){
-        Toast.makeText(activity, "Light Theme", Toast.LENGTH_LONG).show();
+        Toast.makeText(_activity, "Light Theme", Toast.LENGTH_LONG).show();
     }
 
     public void setDarkTheme(){
-        Toast.makeText(activity, "Dark Theme", Toast.LENGTH_LONG).show();
+        Toast.makeText(_activity, "Dark Theme", Toast.LENGTH_LONG).show();
     }
 
 
     public void changeAvatar(View view) {
-        Toast.makeText(activity, "Change Avatar", Toast.LENGTH_LONG).show();
+        Toast.makeText(_activity, "Change Avatar", Toast.LENGTH_LONG).show();
     }
 
 }

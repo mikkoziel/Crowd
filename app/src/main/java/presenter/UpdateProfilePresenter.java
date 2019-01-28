@@ -63,12 +63,11 @@ public class UpdateProfilePresenter extends AsyncTask<Void, Void, Void> {
             _givenAnswerInteractor.updateUserLevelValue(profile);
             _givenAnswerInteractor.updateMissingPointsValue(profile);
             _givenAnswerInteractor.updateMoneyValue(profile);
-            _appContent.setProfile(profile);
+            _appContent.updateCurrentProfile(profile);
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        _appContent.updateCurrentProfile(profile);
         return null;
     }
 
