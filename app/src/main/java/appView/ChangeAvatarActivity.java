@@ -109,18 +109,9 @@ public class ChangeAvatarActivity extends AppCompatActivity {
     }
 
     public void changeButton(View view){
-
-        //TODO ?? co tu się dzieje?
-        /*
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        ((BitmapDrawable) btn_unfocus.getBackground()).getBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
-        _profile.setAvatar(stream.toByteArray());
-        AvatarPresenter avatarPresenter = new AvatarPresenter(this, _profile, 1, 1, _progress);
-        avatarPresenter.execute();
-    */
-        //TODO moja propzycja, potrzeba tylko ID nowego avatara
         int index = _buttons.indexOf(btn_unfocus);
         int newAvatarID = _avatars.get(index).getID();
+        
         AvatarPresenter avatarPresenter = new AvatarPresenter(this, _progress, _appContent, newAvatarID);
         avatarPresenter.execute();
     }
