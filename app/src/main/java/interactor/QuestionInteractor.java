@@ -138,7 +138,7 @@ public class QuestionInteractor {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        boolean deleted = file.delete();
+
         return bytes;
     }
 
