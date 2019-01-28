@@ -15,28 +15,26 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
-import entity.Profile;
+import entity.AppContent;
 import entity.Game;
 import entity.Tag;
-import interactor.TagInteractor;
 import presenter.SetQuestionPresenter;
 import presenter.TagPresenter;
 
 public class MenuTabMenuActivity extends Fragment {
 
-    public Profile profile;
-    public Intent intent;
-    public Intent thisIntent;
-    public ProgressBar progress;
-    public Activity activity;
+    private Intent _intent;
+    private ProgressBar _progress;
+    private Activity _activity;
+    private AppContent _appContent;
+    private ArrayList<Game> _games;
+    private ArrayList<Tag> _tags;
 
     public void setOnCreate(Activity activity, Intent intent){
-        this.activity = activity;
-        this.thisIntent = intent;
-
+        this._activity = activity;
+        this._intent = intent;
     }
 
     @Override
@@ -44,28 +42,27 @@ public class MenuTabMenuActivity extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(appView.R.layout.menu_tab_menu, container, false);
 
-        this.profile = (Profile) thisIntent.getSerializableExtra("profile");
 
-        this.progress = rootView.findViewById(appView.R.id.progressMenu);
-        progress.setVisibility(View.GONE);
+        this._progress = rootView.findViewById(appView.R.id.progressMenu);
+        _progress.setVisibility(View.GONE);
 
-        this.intent = new Intent(activity, GameActivity.class);
-        intent.putExtra("profile", profile);
+        this._appContent = (AppContent) _intent.getSerializableExtra("appContent");
+        this._games = _appContent.getGames();
+        this._tags = _appContent.getTags();
 
-        final LinearLayout ll = (LinearLayout) rootView.findViewById(appView.R.id.layout);
+        final LinearLayout ll = rootView.findViewById(appView.R.id.layout);
         final LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
-        TagPresenter tagPresenter = new TagPresenter();
-        ArrayAdapter<Tag> adapter = null;
-        try {
-            adapter = tagPresenter.getAllTags(activity);
-            tagPresenter.addGameTags(profile, adapter);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+        //TODO tagi są ustawiane w check login execute, co tutaj się dzieje?
+        TagPresenter tagPresenter = new TagPresenter(_appContent);
+        ArrayAdapter<Tag> _adapter = new ArrayAdapter<>(_activity, android.R.layout.simple_dropdown_item_1line, _tags);
+        if(!_adapter.isEmpty())
+            tagPresenter.addGameTags(_adapter);
+
 
         final AutoCompleteTextView sortText = rootView.findViewById(appView.R.id.sortTag);
-        sortText.setAdapter(adapter);
+        sortText.setAdapter(_adapter);
         sortText.setThreshold(1);
         sortText.setVisibility(View.GONE);
 
@@ -75,7 +72,7 @@ public class MenuTabMenuActivity extends Fragment {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
                 Tag selected = (Tag) arg0.getAdapter().getItem(arg2);
-                Toast.makeText(activity,
+                Toast.makeText(_activity,
                         "Clicked " + arg2 + " name: " + selected.get_tag(),
                         Toast.LENGTH_SHORT).show();
                 sortGame(selected, ll, lp);
@@ -95,9 +92,7 @@ public class MenuTabMenuActivity extends Fragment {
                 }
             }});
 
-        addGames(ll, lp, profile.getGames());
-
-
+        addGames(ll, lp);
         return rootView;
     }
 
@@ -106,8 +101,8 @@ public class MenuTabMenuActivity extends Fragment {
         int count = ll.getChildCount();
         for(int i=0; i<count; i++) {
             Button v = (Button) ll.getChildAt(i);
-            for (Game game : profile.getGames()){
-                if(game.getGameName().contentEquals(v.getText())){
+            for (Game game : _games){
+                if(game.getName().contentEquals(v.getText())){
                     if(game.haveTag(tag)) {
                         v.setVisibility(View.VISIBLE);
                     }
@@ -116,20 +111,22 @@ public class MenuTabMenuActivity extends Fragment {
                     }
                 }
             }
-
         }
     }
 
-    public void addGames(LinearLayout ll, LinearLayout.LayoutParams lp, ArrayList<Game> games){
-        for (final Game game : games) {
-            Button gameButton = new Button(activity);
-            gameButton.setText(game.getGameName());
+    public void addGames(LinearLayout ll, LinearLayout.LayoutParams lp){
+        final Intent intent = new Intent(_activity, GameActivity.class);
+        intent.putExtra("appContent", _appContent);
+
+        //TODO tutaj uruchamiamy tyle async tasków ile gier, nie powinniśmy przy każdym execute pobierać nowego appContent z nowego intenta? Z jakiego nowego intenta?
+        for (final Game game : _games) {
+            Button gameButton = new Button(_activity);
+            gameButton.setText(game.getName());
             gameButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    SetQuestionPresenter setQuestionPresenter = new SetQuestionPresenter(game, activity, progress, intent);
+                    SetQuestionPresenter setQuestionPresenter = new SetQuestionPresenter(game, _activity, _progress, intent);
                     setQuestionPresenter.execute();
                 }
-//                }
             });
             ll.addView(gameButton, lp);
 

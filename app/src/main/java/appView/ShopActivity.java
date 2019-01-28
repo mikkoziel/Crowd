@@ -3,16 +3,14 @@ package appView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import entity.Profile;
+import entity.AppContent;
 
 public class ShopActivity extends AppCompatActivity {
 
-    public Profile profile;
+    private AppContent _appContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,20 +18,20 @@ public class ShopActivity extends AppCompatActivity {
         setContentView(R.layout.activity_shop);
 
         Intent intent = getIntent();
-        this.profile = (Profile) intent.getSerializableExtra("profile");
+        this._appContent =(AppContent) intent.getSerializableExtra("appContent");
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                backToProfil();
+                backToProfile();
             }
         });
     }
 
-    public void backToProfil(){
+    public void backToProfile(){
         Intent intent = new Intent(this, TabMenuActivity.class);
-        intent.putExtra("profile", profile);
+        intent.putExtra("appContent", _appContent);
         intent.putExtra("item", 0);
         this.startActivity(intent);
     }

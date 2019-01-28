@@ -2,13 +2,14 @@ package presenter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import java.sql.SQLException;
-
+import appView.TabMenuActivity;
+import entity.AppContent;
 import entity.Profile;
 import interactor.ProfileInteractor;
 
@@ -23,17 +24,18 @@ public class ChangePasswordPresenter extends AsyncTask<Void, Void, Void> {
     private String _passwordCheck2;
     private int _mode;
     private Boolean _semaphore;
-    private ProfileInteractor _profileInteractor;
-    private Profile _profile;
 
-    public ChangePasswordPresenter(Activity activity, ProgressBar progress, Profile profile, String password, int mode){
+    private AppContent _appContent;
+    private ProfileInteractor _profileInteractor;
+
+    public ChangePasswordPresenter(Activity activity, ProgressBar progress, String password, int mode, AppContent appContent){
         this._activity = activity;
         this._progress = progress;
         this._password = password;
         this._mode = mode;
         this._semaphore = true;
+        this._appContent = appContent;
         this._profileInteractor = new ProfileInteractor();
-        this._profile = profile;
     }
 
     @Override
@@ -43,19 +45,20 @@ public class ChangePasswordPresenter extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
+        Profile profile = _appContent.getProfile();
         try {
             switch (_mode) {
                 case 0:
-                    _profileInteractor.modeCheckOld(_profile, _password, _passwordCheck, _passwordCheck2);
+                    _profileInteractor.modeCheckOld(profile, _password, _passwordCheck, _passwordCheck2);
                     break;
                 case 1:
-                    _profileInteractor.modeChangeToNew(_password, _profile);
+                    _profileInteractor.modeChangeToNew(_password, profile);
                     break;
                 }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        _appContent.updateCurrentProfile(profile);
         _semaphore = false;
         return null;
     }
@@ -66,6 +69,13 @@ public class ChangePasswordPresenter extends AsyncTask<Void, Void, Void> {
         String result = _profileInteractor.getResult();
         Toast.makeText(_activity, result, Toast.LENGTH_LONG).show();
         _profileInteractor.endWork();
+
+        if (_profileInteractor.isSuccess()) {
+            Intent intent = new Intent(_activity, TabMenuActivity.class);
+            intent.putExtra("appContent", _appContent);
+            intent.putExtra("item", 2);
+            _activity.startActivity(intent);
+        }
     }
 
     public Boolean getSuccess() {

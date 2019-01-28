@@ -1,29 +1,25 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Profile implements Serializable {
     private String _name;
     private int _ID;
     private int _points;
-    private ArrayList<Game> _games;
     private int _level;
     private int _missingPoints;
     private int _money;
-    private byte[] _avatar;
-    private int _avatarID;
+    private Avatar _avatar;
 
 
-    public Profile(int ID, String name, int points, int level, int money, int missingPoints, int avatarID){
+    public Profile(int ID, String name, int points, int level, int money, int missingPoints, Avatar avatar){
         this._ID = ID;
         this._name = name;
         this._points = points;
-        this._games = new ArrayList<>();
         this._level = level;
         this._missingPoints = missingPoints;
         this._money = money;
-        this._avatarID = avatarID;
+        this._avatar = avatar;
     }
 
     public String getName() {
@@ -38,21 +34,9 @@ public class Profile implements Serializable {
         return _points;
     }
 
-    public ArrayList<Game> getGames() {
-        return _games;
-    }
+    public void setName(String name) { this._name = name; }
 
-    public void setName(String name) {
-        this._name = name;
-    }
-
-    public void addGames(Game game){
-        this._games.add(game);
-    }
-
-    public void increasePoints(int extraPoints){
-        _points += extraPoints;
-    }
+    public void increasePoints(int extraPoints){ _points += extraPoints; }
 
     public void decreasePoints(int negativePoints){
         if(_points - negativePoints > 0)
@@ -75,23 +59,19 @@ public class Profile implements Serializable {
 
     public void setMoney(int money){_money = money;}
 
-    public void setAvatar(byte[] _avatar) {
-        this._avatar = _avatar;
+    public void setAvatar(Avatar avatar) {
+        this._avatar = avatar;
     }
 
-    public int getAvatarID() {
-        return _avatarID;
-    }
-
-    public byte[] getAvatar() {
+    public Avatar getAvatar() {
         return _avatar;
     }
 
-    public void updateProfile(int points, int level, int money, int missingPoints, int avatarID){
+    public void updateProfile(int points, int level, int money, int missingPoints, Avatar avatar){
         this._points = points;
         this._level = level;
         this._missingPoints = missingPoints;
         this._money = money;
-        this._avatarID = avatarID;
+        this._avatar = avatar;
     }
 }

@@ -48,14 +48,14 @@
                     android:id="@+id/button3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="cancelBttn"
+                    android:onClick="cancelButton"
                     android:text="@string/cancel" />
 
                 <Button
                     android:id="@+id/button4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="changeBttn"
+                    android:onClick="changeButton"
                     android:text="@string/change" />
             </LinearLayout>
         </LinearLayout>

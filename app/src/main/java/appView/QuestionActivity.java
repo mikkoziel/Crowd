@@ -14,47 +14,42 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import entity.AppContent;
 import entity.Game;
-import entity.Profile;
-import entity.Question;
 import entity.GivenAnswer;
 
+import entity.Question;
 import presenter.PossibleAnswerPresenter;
 import presenter.GivenAnswerPresenter;
 
 public class QuestionActivity extends AppCompatActivity {
 
-    public Game game;
-    public Profile profile;
-    public Question _question;
-    public ProgressBar progress;
-    public Activity activity;
-//    public LinearLayout answerLayout;
-    public LinearLayout.LayoutParams lp;
+    private ProgressBar _progress;
+    private Activity _activity;
+    private LinearLayout.LayoutParams _lp;
+
+    private AppContent _appContent;
+    private Game _game;
+    private Question _question;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(appView.R.layout.activity_question);
 
-
         Intent intent = getIntent();
-        this.game = (Game)intent.getSerializableExtra("game");
-        this.profile = (Profile) intent.getSerializableExtra("profile");
-
-
-        this._question = game.getQuestions().get(game.getIndex());
-        game.nextIndex();
-        this.progress = findViewById(appView.R.id.progress);
-        this.activity = this;
+        this._appContent = (AppContent) intent.getSerializableExtra("appContent");
+        this._game = _appContent.getCurrentGame();
+        this._question = _game.getCurrentQueston();
+        this._progress = findViewById(appView.R.id.progress);
+        this._activity = this;
         if(getIntent().hasExtra("answer")){
             GivenAnswer given = (GivenAnswer) intent.getSerializableExtra("answer");
-            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(given, activity);
+            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(given, _activity);
             givenAnswerPresenter.execute();
         }
 
-//        this.answerLayout = findViewById(appView.R.id.answerlayout);
-        this.lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
+        this._lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
 
         setQuestion();
         setAnswer();
@@ -102,7 +97,7 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     public void setAnswer(){
-        PossibleAnswerPresenter possibleAnswerPresenter = new PossibleAnswerPresenter(this, _question, progress, lp, game, profile);
+        PossibleAnswerPresenter possibleAnswerPresenter = new PossibleAnswerPresenter(this, _progress, _lp, _appContent);
         possibleAnswerPresenter.execute();
     }
 
@@ -120,11 +115,10 @@ public class QuestionActivity extends AppCompatActivity {
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        game.prevIndex();
-                        Intent intent = new Intent(activity, GameActivity.class);
-                        intent.putExtra("profile", profile);
-                        intent.putExtra("game", game);
-                        activity.startActivity(intent);
+                        _game.prevIndex();
+                        Intent intent = new Intent(_activity, GameActivity.class);
+                        intent.putExtra("appContent", _appContent);
+                        _activity.startActivity(intent);
                     }
 
                 })

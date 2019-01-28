@@ -10,24 +10,31 @@ import android.widget.ProgressBar;
 import java.sql.SQLException;
 
 import appView.TabMenuActivity;
+import entity.Answer;
+import entity.AppContent;
+import entity.Game;
 import entity.Profile;
+import entity.Question;
+import interactor.GivenAnswerInteractor;
 import interactor.ProfileInteractor;
 
 public class UpdateProfilePresenter extends AsyncTask<Void, Void, Void> {
 
     @SuppressLint("StaticFieldLeak")
     private Activity _activity;
-    private Profile _profile;
     @SuppressLint("StaticFieldLeak")
     private ProgressBar _progress;
 
-    private ProfileInteractor _profileInteractor;
+    private AppContent _appContent;
 
-    public UpdateProfilePresenter(Profile profile, Activity activity, ProgressBar progress) {
+    private GivenAnswerInteractor _givenAnswerInteractor;
+
+    public UpdateProfilePresenter(Activity activity, ProgressBar progress, AppContent appContent) {
         this._activity = activity;
-        this._profile = profile;
         this._progress = progress;
-        this._profileInteractor = new ProfileInteractor();
+        this._appContent = appContent;
+        this._givenAnswerInteractor = new GivenAnswerInteractor();
+
     }
 
         @Override
@@ -35,10 +42,30 @@ public class UpdateProfilePresenter extends AsyncTask<Void, Void, Void> {
         _progress.setVisibility(View.VISIBLE);
     }
 
+    //wszystko co given answer interactor zmieniał trzeba teraz ustawić
     @Override
     protected Void doInBackground(Void... voids) {
+        Profile profile = _appContent.getProfile();
+        Game game = _appContent.getCurrentGame();
         try {
-            _profile = _profileInteractor.updateProfile(_profile);
+            for(Question question : game.getQuestions())
+            {
+                for(Answer answer : question.getAnswers())
+                {
+                    _givenAnswerInteractor.updateShowedValue(answer);
+                    _givenAnswerInteractor.updateChosenValue(answer);
+                    question.updateAnswer(answer);
+                }
+                game.updateQuestion(question);
+            }
+            _appContent.updateGame(game);
+
+            _givenAnswerInteractor.updatePointsValue(profile);
+            _givenAnswerInteractor.updateUserLevelValue(profile);
+            _givenAnswerInteractor.updateMissingPointsValue(profile);
+            _givenAnswerInteractor.updateMoneyValue(profile);
+            _appContent.updateCurrentProfile(profile);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -47,12 +74,12 @@ public class UpdateProfilePresenter extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void voids) {
-        if (_profileInteractor.isSuccess()) {
+        if (_givenAnswerInteractor.isSuccess()) {
             Intent intent = new Intent(_activity, TabMenuActivity.class);
-            intent.putExtra("profile", _profile);
+            intent.putExtra("appContent", _appContent);
             intent.putExtra("item", 1);
             _activity.startActivity(intent);
         }
-        _profileInteractor.endWork();
+        _givenAnswerInteractor.endWork();
     }
 }

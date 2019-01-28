@@ -3,10 +3,8 @@ package interactor;
 import android.util.Base64;
 
 import java.security.Key;
-import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -69,6 +67,32 @@ public class ProfileInteractor {
         return resultSet;
     }
 
+    public Profile createProfile(ResultSet res) throws SQLException
+    {
+        int id = res.getInt("profilID");
+        String name = res.getString("name");
+        int points = res.getInt("points");
+        int level = res.getInt("userlevel");
+        int money = res.getInt("money");
+        int missingPoints = res.getInt("missingPoints");
+
+        //TODO usunać avatar z konstruktora
+        Profile profile = new Profile(id, name, points, level, money, missingPoints, null);
+        setSuccess("Profile created");
+        return profile;
+    }
+
+    public int getAvatarID(Profile profile) throws SQLException
+    {
+        String query = "select * from Profile where profilID = " + profile.getID();
+        ResultSet res = _dbConnector.runQuery(query);
+        if (res.next()) {
+            return res.getInt("avatarID");
+        } else
+            return -1;
+    }
+
+    /*
     public Profile setProfile(ResultSet res, Profile profile) throws SQLException {
         int id = res.getInt("profilID");
         String name = res.getString("name");
@@ -76,52 +100,18 @@ public class ProfileInteractor {
         int level = res.getInt("userlevel");
         int money = res.getInt("money");
         int missingPoints = res.getInt("missingPoints");
-        int avatarID = res.getInt("avatarID");
+
+        Avatar avatar = avatarInteractor.getAvatar(avatarID, avatars);
         if(profile == null) {
-            profile = new Profile(id, name, points, level, money, missingPoints, avatarID);
+            profile = new Profile(id, name, points, level, money, missingPoints, avatar);
         }
         else{
-            profile.updateProfile(points, level, money, missingPoints, avatarID);
+            profile.updateProfile(points, level, money, missingPoints, avatar);
         }
         setSuccess("Login successful");
         return profile;
-    }
+    }*/
 
-    public void getAvatar(Profile profile) throws SQLException{
-        String query = "Select * from Avatar where avatarID = " + profile.getAvatarID();
-        ResultSet res = _dbConnector.runQuery(query);
-        if (res.next()) {
-            Blob blobImage = res.getBlob("avatar");
-            byte[] byteImage = blobImage.getBytes(1, (int) blobImage.length());
-            profile.setAvatar(byteImage);
-            }
-            else{
-                setFailure("Wrong old password");
-        }
-    }
-
-    public ArrayList<byte[]> getAllAvatars() throws SQLException {
-        ArrayList<byte[]> avatars = new ArrayList<>();
-        String query = "Select * from Avatar";
-        ResultSet res = _dbConnector.runQuery(query);
-        while (res.next()) {
-            Blob blobImage = res.getBlob("avatar");
-            byte[] byteImage = blobImage.getBytes(1, (int) blobImage.length());
-            avatars.add(byteImage);
-        }
-        setSuccess("Avatars downloaded");
-        return avatars;
-    }
-
-    public void changeAvatar(Profile profile, int avatar) {
-        String query = "Update Profile set avatarID= " + avatar + "where profileID = " + profile.getID();
-        int res = _dbConnector.updateQuery(query);
-        if (res > 0) {
-            setSuccess("Avatar changed");
-        }else{
-            setFailure("Avatar not changed");
-        }
-    }
 
     public void modeCheckOld(Profile profile, String password, String passwordCheck, String passwordCheck2) throws Exception {
         String query = "Select * from Profile where profilID = " + profile.getID();
@@ -155,37 +145,6 @@ public class ProfileInteractor {
             setSuccess("Password Change successful");
         else
             setFailure("Password Change failed");
-    }
-
-    public ArrayList<Profile> getHighScore() throws Exception {
-        String query = "Select Top 10 * from Profile order by points desc ";
-        ResultSet res = _dbConnector.runQuery(query);
-        ArrayList<Profile> high = new ArrayList<>();
-        while(res.next()) {
-            int id = res.getInt("profilID");
-            String name = res.getString("name");
-            int points = res.getInt("points");
-            int level = res.getInt("userlevel");
-            int money = res.getInt("money");
-            int missingPoints = res.getInt("missingPoints");
-            Profile profile = new Profile(id, name, points, level, money, missingPoints, 0);
-            high.add(profile);
-            setSuccess("HighScore set");
-        }
-        return high;
-    }
-
-    public Profile updateProfile(Profile profile) throws SQLException {
-        String query = "Select * from Profile where profilID =" + profile.getID();
-        ResultSet res = _dbConnector.runQuery(query);
-        if(res.next()){
-            profile = setProfile(res, profile);
-            setSuccess("Profile Updated");
-        }
-        else{
-            setFailure("Error occured with DataBase connection");
-        }
-        return profile;
     }
 
     private void setSuccess(String message)

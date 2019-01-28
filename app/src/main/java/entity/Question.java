@@ -36,74 +36,67 @@ public class Question implements Serializable{
         this._image = image;
     }
 
-    public Question()
-    {
-        this._question = "";
-        this._questionID = 0;
-        this._type = 0;
-        this._answers = null;
-        this._index = 0;
-        this._defaultAnswer = false;
-        this._isImageQuestion = false;
-        this._image = null;
-    }
-
     public String getQuestion() {
         return _question;
     }
-
-    public int getQuestionID() {
+    public int getID() {
         return _questionID;
     }
-
     public int getType() {
         return _type;
     }
-
     public ArrayList<Answer> getAnswers() {
         return _answers;
     }
-
     public int getIndex() {
         return _index;
     }
-
     public Boolean getDefaultAnswer() {
         return _defaultAnswer;
     }
+    public Boolean isImageQuestion(){return _isImageQuestion;}
+    public byte[] getImage(){return _image;}
 
     public void setQuestion(String question) {
         this._question = question;
     }
-
     public void setQuestionID(int questionID) {
         this._questionID = questionID;
     }
-
     public void setType(int type) {
         this._type = type;
     }
-
     public void addAnswer(Answer answer){
         _answers.add(answer);
     }
-
     public void setAnswers(ArrayList<Answer> answers) {
         this._answers = answers;
     }
-
     public void nextIndex(){this._index ++;}
-
     public void setDefaultAnswer(Boolean _defaultAnswer) {
         this._defaultAnswer = _defaultAnswer;
     }
-
     public void setIsImageQuestion(Boolean isImageQuestion){this._isImageQuestion = isImageQuestion;}
-
-    public Boolean isImageQuestion(){return _isImageQuestion;}
-
     public void setImage(byte[] image){this._image = image;}
 
-    public byte[] getImage(){return _image;}
+    public void updateContent(ArrayList<Answer> answers, int index)
+    {
+        this._answers = answers;
+        this._index = index;
+    }
+
+    public void updateAnswer(Answer answer)
+    {
+        for(Answer a: _answers)
+        {
+            if(a.getID() == answer.getID()) {
+                a.updateContent(answer.getShowed(), answer.getChosen());
+                return;
+            }
+
+        }
+    }
+
+
 }
 
