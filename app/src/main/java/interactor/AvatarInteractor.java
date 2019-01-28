@@ -4,6 +4,7 @@ import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import entity.Avatar;
 import entity.Profile;
 
 public class AvatarInteractor {
@@ -20,12 +21,13 @@ public class AvatarInteractor {
 
 
     public void setAvatar(Profile profile) throws SQLException {
-        String query = "Select * from Avatar where avatarID = " + profile.getAvatarID();
+        String query = "Select * from Avatar where avatarID = " + profile.getAvatar().getID();
         ResultSet res = _dbConnector.runQuery(query);
         if (res.next()) {
             Blob blobImage = res.getBlob("avatar");
             byte[] byteImage = blobImage.getBytes(1, (int) blobImage.length());
-            profile.setAvatar(byteImage);
+            //TODO soon
+            profile.setAvatar(null);
         }
         else{
             setFailure("Wrong old password");// TODO e?
