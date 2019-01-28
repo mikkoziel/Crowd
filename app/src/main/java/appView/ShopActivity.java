@@ -120,6 +120,7 @@ public class ShopActivity extends AppCompatActivity {
         _itemInfoLayout.setVisibility(View.GONE);
     }
 
+    //TODO buying items
     public void buyBttn(View view){
         _itemInfoLayout.setVisibility(View.GONE);
     }

@@ -37,6 +37,7 @@
 
     </LinearLayout>
 
+    <!--TODO dopasować kolorystyke-->
     <LinearLayout
         android:id="@+id/itemInfo"
         android:layout_width="match_parent"
