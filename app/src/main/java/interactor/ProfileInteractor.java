@@ -76,6 +76,7 @@ public class ProfileInteractor {
         int money = res.getInt("money");
         int missingPoints = res.getInt("missingPoints");
 
+        //TODO usunać avatar z konstruktora
         Profile profile = new Profile(id, name, points, level, money, missingPoints, null);
         setSuccess("Profile created");
         return profile;

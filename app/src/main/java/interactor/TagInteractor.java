@@ -24,7 +24,7 @@ public class TagInteractor {
     }
 
     public ArrayList<Tag> getTags() throws SQLException {
-        ArrayList<Tag> tags = null;
+        ArrayList<Tag> tags = new ArrayList<>();
 
         String query = "select * from Tag";
         ResultSet resultSet = _dbConnector.runQuery(query);

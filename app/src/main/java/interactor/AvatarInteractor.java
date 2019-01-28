@@ -21,7 +21,7 @@ public class AvatarInteractor {
 
 
     public ArrayList<Avatar> getAllAvatars() throws SQLException {
-        ArrayList<Avatar> avatars = null;
+        ArrayList<Avatar> avatars = new ArrayList<>();
         String query = "Select * from Avatar";
         ResultSet res = _dbConnector.runQuery(query);
         while (res.next()) {

@@ -84,6 +84,7 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
 
                     //ustawiamy jego profil
                     Profile profile = _profileInteractor.createProfile(resultSet);
+                    _appContent.setProfile(profile);
 
                     //ustawiamy avatar profilu
                     int avatarID = _profileInteractor.getAvatarID(profile);
@@ -93,7 +94,7 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
                     else
                         avatar = _appContent.getAvatar(avatarID);
                     profile.setAvatar(avatar);
-                    _appContent.setProfile(profile);
+                    _appContent.updateCurrentProfile(profile);
 
 
                     //ustawiamy gry

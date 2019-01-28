@@ -19,7 +19,7 @@ public class GameInteractor {
     }
 
     public ArrayList<Game> getGames() throws SQLException {
-        ArrayList<Game> games = null;
+        ArrayList<Game> games = new ArrayList<>();
         String query = "select * from Game";
         ResultSet res = _dbConnector.runQuery(query);
         while (res.next()) {
