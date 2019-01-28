@@ -9,9 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+<<<<<<< HEAD
 import entity.AppContent;
 
 public class SettingsTabMenuActivity extends Fragment {
@@ -19,6 +21,17 @@ public class SettingsTabMenuActivity extends Fragment {
     private Activity _activity;
     private Intent _intent;
     private AppContent _appContent;
+=======
+import entity.Profile;
+import presenter.AvatarPresenter;
+
+public class SettingsTabMenuActivity extends Fragment {
+
+    public Activity activity;
+    public Intent thisIntent;
+    public Profile profile;
+    private ProgressBar _progress;
+>>>>>>> master
 
     public void setOnCreate(Activity activity, Intent intent){
         this._activity = activity;
@@ -31,6 +44,13 @@ public class SettingsTabMenuActivity extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(appView.R.layout.settings_tab_menu, container, false);
 
+<<<<<<< HEAD
+=======
+        this.profile = (Profile) thisIntent.getSerializableExtra("profile");
+        this._progress = rootView.findViewById(R.id.progress);
+        _progress.setVisibility(View.GONE);
+
+>>>>>>> master
         Button changeBttn = rootView.findViewById(appView.R.id.changePass);
         changeBttn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -78,7 +98,13 @@ public class SettingsTabMenuActivity extends Fragment {
 
 
     public void changeAvatar(View view) {
+<<<<<<< HEAD
         Toast.makeText(_activity, "Change Avatar", Toast.LENGTH_LONG).show();
+=======
+//        Toast.makeText(activity, "Change Avatar", Toast.LENGTH_LONG).show();
+        AvatarPresenter avatarPresenter = new AvatarPresenter(activity, profile, 0, 0, _progress);
+        avatarPresenter.execute();
+>>>>>>> master
     }
 
 }

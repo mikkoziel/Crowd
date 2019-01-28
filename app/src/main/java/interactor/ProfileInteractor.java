@@ -90,6 +90,42 @@ public class ProfileInteractor {
         return profile;
     }
 
+    public void getAvatar(Profile profile) throws SQLException{
+        String query = "Select * from Avatar where avatarID = " + profile.getAvatarID();
+        ResultSet res = _dbConnector.runQuery(query);
+        if (res.next()) {
+            Blob blobImage = res.getBlob("avatar");
+            byte[] byteImage = blobImage.getBytes(1, (int) blobImage.length());
+            profile.setAvatar(byteImage);
+            }
+            else{
+                setFailure("Wrong old password");
+        }
+    }
+
+    public ArrayList<byte[]> getAllAvatars() throws SQLException {
+        ArrayList<byte[]> avatars = new ArrayList<>();
+        String query = "Select * from Avatar";
+        ResultSet res = _dbConnector.runQuery(query);
+        while (res.next()) {
+            Blob blobImage = res.getBlob("avatar");
+            byte[] byteImage = blobImage.getBytes(1, (int) blobImage.length());
+            avatars.add(byteImage);
+        }
+        setSuccess("Avatars downloaded");
+        return avatars;
+    }
+
+    public void changeAvatar(Profile profile, int avatar) {
+        String query = "Update Profile set avatarID= " + avatar + "where profileID = " + profile.getID();
+        int res = _dbConnector.updateQuery(query);
+        if (res > 0) {
+            setSuccess("Avatar changed");
+        }else{
+            setFailure("Avatar not changed");
+        }
+    }
+
     public void modeCheckOld(Profile profile, String password, String passwordCheck, String passwordCheck2) throws Exception {
         String query = "Select * from Profile where profilID = " + profile.getID();
         ResultSet res = _dbConnector.runQuery(query);
