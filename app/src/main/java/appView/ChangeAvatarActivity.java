@@ -31,6 +31,7 @@ public class ChangeAvatarActivity extends AppCompatActivity {
 
     private AppContent _appContent;
     private ArrayList<Avatar> _avatars;
+    private Profile _profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class ChangeAvatarActivity extends AppCompatActivity {
         Intent intent = getIntent();
         this._appContent = (AppContent) intent.getSerializableExtra("appContent");
         this._buttons = new ArrayList<>();
+        this._profile = _appContent.getProfile();
         _progress = findViewById(R.id.progress);
         _progress.setVisibility(View.GONE);
 
@@ -55,9 +57,19 @@ public class ChangeAvatarActivity extends AppCompatActivity {
         int inRow = 3;
         int i =inRow;
         LinearLayout row = null;
+        boolean lock;
 
         for(Avatar avatar : _avatars){
-            byte[] avatarIcon = avatar.getIcon();
+            byte[] avatarIcon = avatar.getLocked();
+            lock = false;
+//            if(_profile.hasItem(avatar.getItemID())) {
+//                avatarIcon = avatar.getIcon();
+//                lock = false;
+//            }
+//            else{
+//                avatarIcon = avatar.getLocked();
+//                lock = true;
+//            }
             if(i == inRow) {
                 i = 0;
                 row = new LinearLayout(this);
@@ -71,11 +83,13 @@ public class ChangeAvatarActivity extends AppCompatActivity {
             Bitmap bitmapImage = BitmapFactory.decodeByteArray(avatarIcon, 0, avatarIcon.length);
             Drawable drawableImage = new BitmapDrawable(getResources(), bitmapImage);
             avatarButton.setBackground(drawableImage);
-            avatarButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    setFocus(btn_unfocus, avatarButton);
-                }
-            });
+            if(!lock) {
+                avatarButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        setFocus(btn_unfocus, avatarButton);
+                    }
+                });
+            }
             avatarButton.setPadding(10, 0, 10, 0);
             _buttons.add(avatarButton);
 
