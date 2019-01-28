@@ -64,7 +64,7 @@ public class ShopActivity extends AppCompatActivity {
         LinearLayout row = null;
 
         for(final Item item: _shop){
-//            byte[] avatarIcon = item.getIcon();
+            byte[] avatarIcon = item.getIcon();
             if(i == inRow) {
                 i = 0;
                 row = new LinearLayout(this);
@@ -75,16 +75,15 @@ public class ShopActivity extends AppCompatActivity {
             }
 
             final Button itemButton = new Button(this);
-//            Bitmap bitmapImage = BitmapFactory.decodeByteArray(avatarIcon, 0, avatarIcon.length);
-//            Drawable drawableImage = new BitmapDrawable(getResources(), bitmapImage);
-//            itemButton.setBackground(drawableImage);
+            Bitmap bitmapImage = BitmapFactory.decodeByteArray(avatarIcon, 0, avatarIcon.length);
+            Drawable drawableImage = new BitmapDrawable(getResources(), bitmapImage);
+            itemButton.setBackground(drawableImage);
             itemButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     itemBttnAction(item);
                 }
             });
             itemButton.setPadding(10, 0, 10, 0);
-//            _buttons.addView(avatarButton);
 
             FrameLayout frame = new FrameLayout(this);
             frame.setPadding(3,3,3,3);

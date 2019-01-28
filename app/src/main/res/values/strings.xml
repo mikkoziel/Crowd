@@ -45,4 +45,6 @@
     <string name="choose_avatar">CHOOSE AVATAR</string>
     <string name="shop">SHOP</string>
     <string name="buy">BUY</string>
+    <string name="description">Description:</string>
+    <string name="price">Price:</string>
 </resources>
