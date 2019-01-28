@@ -32,7 +32,7 @@ public class AvatarInteractor {
             byte[] byteImage = blobImage.getBytes(1, (int) blobImage.length());
             byte[] byteLocked = null;
             if(!res.wasNull()) {
-                byteLocked = blobImage.getBytes(1, (int) blobLocked.length());
+                byteLocked = blobLocked.getBytes(1, (int) blobLocked.length());
             }
             Avatar avatar = new Avatar(id, byteImage, byteLocked, itemId);
             avatars.add(avatar);

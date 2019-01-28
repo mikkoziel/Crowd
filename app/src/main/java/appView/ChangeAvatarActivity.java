@@ -60,16 +60,15 @@ public class ChangeAvatarActivity extends AppCompatActivity {
         boolean lock;
 
         for(Avatar avatar : _avatars){
-            byte[] avatarIcon = avatar.getLocked();
-            lock = false;
-//            if(_profile.hasItem(avatar.getItemID())) {
-//                avatarIcon = avatar.getIcon();
-//                lock = false;
-//            }
-//            else{
-//                avatarIcon = avatar.getLocked();
-//                lock = true;
-//            }
+            byte[] avatarIcon = null; 
+            if(_profile.hasItem(avatar.getItemID())) {
+                avatarIcon = avatar.getIcon();
+                lock = false;
+            }
+            else{
+                avatarIcon = avatar.getLocked();
+                lock = true;
+            }
             if(i == inRow) {
                 i = 0;
                 row = new LinearLayout(this);
