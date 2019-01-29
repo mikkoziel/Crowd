@@ -94,6 +94,9 @@ public class ProfileTabMenuActivity extends Fragment {
 
         TextView missingPoints = rootView.findViewById(R.id.missPoints);
         missingPoints.setText(String.format("Missing points to next level: %s", Integer.toString(_profile.getMissingPoints())));
+
+        TextView money = rootView.findViewById(R.id.money);
+        money.setText(String.format("Money: %s", Integer.toString(_profile.getMoney())));
     }
 
     public void addAvatar(View rootView){

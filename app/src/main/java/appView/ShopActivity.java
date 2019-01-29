@@ -14,12 +14,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import entity.AppContent;
 import entity.Item;
+import entity.Profile;
+import presenter.BuyItemPresenter;
 
 import static android.view.Gravity.CENTER;
 
@@ -27,9 +30,11 @@ public class ShopActivity extends AppCompatActivity {
 
     private AppContent _appContent;
     private ArrayList<Item> _shop;
+    private Profile _profile;
 
     private LinearLayout _itemInfoLayout;
     private LinearLayout _itemsLayout;
+    private ProgressBar _progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +44,13 @@ public class ShopActivity extends AppCompatActivity {
         Intent intent = getIntent();
         this._appContent =(AppContent) intent.getSerializableExtra("appContent");
         this._shop = _appContent.getShop();
+        this._profile = _appContent.getProfile();
 
         this._itemInfoLayout = findViewById(R.id.itemInfo);
         _itemInfoLayout.setVisibility(View.GONE);
+
+        this._progress = findViewById(R.id.progress);
+        _progress.setVisibility(View.GONE);
 
         this._itemsLayout = findViewById(R.id.itemLayout);
 
@@ -96,7 +105,7 @@ public class ShopActivity extends AppCompatActivity {
         }
     }
 
-    private void itemBttnAction(Item item){
+    private void itemBttnAction(final Item item){
         _itemInfoLayout.setVisibility(View.VISIBLE);
 
         TextView itemName =  findViewById(R.id.itemName);
@@ -106,6 +115,22 @@ public class ShopActivity extends AppCompatActivity {
         itemName.setText(item.getName());
         itemPrice.setText(String.valueOf(item.getPrice()));
         itemDesc.setText(item.getDescription());
+
+
+        final Button buyBttn =  findViewById(R.id.buyBttn);
+
+
+        if(_profile.hasItem(item.getID())) {
+            buyBttn.setEnabled(false);
+        }
+        else{
+            buyBttn.setEnabled(true);
+            buyBttn.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    buyBttn(v, item);
+                }
+            });
+        }
 
     }
 
@@ -120,8 +145,12 @@ public class ShopActivity extends AppCompatActivity {
         _itemInfoLayout.setVisibility(View.GONE);
     }
 
-    //TODO buying items
-    public void buyBttn(View view){
+    public void buyBttn(View view, Item item){
+        Button buyBttn =  findViewById(R.id.buyBttn);
+        Button cancelBttn =  findViewById(R.id.cancelBttn);
+        BuyItemPresenter buyItemPresenter = new BuyItemPresenter(this, _appContent, _progress, item, buyBttn, cancelBttn);
+        buyItemPresenter.execute();
         _itemInfoLayout.setVisibility(View.GONE);
+
     }
 }

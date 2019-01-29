@@ -51,6 +51,21 @@ public class ShopInteractor {
         return items;
     }
 
+    public void addItem(Item item, Profile profile){
+        String query = "Insert into UsersItems(profileID, itemID) values(" + profile.getID() + ", " + item.getID() + ");";
+        int res = _dbConnector.updateQuery(query);
+        if(res > 0) {
+            setSuccess("Item successfully bought");
+        }
+        else{
+            setFailure("Someting went wrong. Try agian.");
+        }
+    }
+
+    public void notEnoughMoney(){
+        setFailure("You don't have enough money");
+    }
+
     private void setSuccess(String message)
     {
         _result = message;

@@ -62,6 +62,8 @@ public class Profile implements Serializable {
 
     public void setMoney(int money){_money = money;}
 
+    public void spendMoney(int money){_money -=money;}
+
     public void setAvatar(Avatar avatar) {
         this._avatar = avatar;
     }
