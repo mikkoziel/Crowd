@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
+import entity.Item;
 import entity.Profile;
 
 public class ProfileInteractor {
@@ -156,6 +157,17 @@ public class ProfileInteractor {
             setSuccess("Password Change successful");
         else
             setFailure("Password Change failed");
+    }
+
+    public void spendMoney(Profile profile){
+        String query = "Update Profile set money = " + profile.getMoney() + "where profilID = " +profile.getID();
+        int res = _dbConnector.updateQuery(query);
+        if(res > 0) {
+            setSuccess("Item successfully bought");
+        }
+        else{
+            setFailure("Someting went wrong. Try agian.");
+        }
     }
 
     private void setSuccess(String message)

@@ -35,6 +35,7 @@ public class AppContent implements Serializable {
     public ArrayList<Avatar> getAvatars() {
         return _avatars;
     }
+    public ArrayList<Item> getShop() {return  _shop;}
 
     public void setGames(ArrayList<Game> games){
         this._games = games;
@@ -78,6 +79,16 @@ public class AppContent implements Serializable {
     public Avatar getAvatar(int id)
     {
         for(Avatar a: _avatars)
+        {
+            if(a.getID() == id)
+                return a;
+        }
+        return null;
+    }
+
+    public Item getItem(int id)
+    {
+        for(Item a: _shop)
         {
             if(a.getID() == id)
                 return a;

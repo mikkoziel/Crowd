@@ -26,14 +26,15 @@ public class AvatarInteractor {
         ResultSet res = _dbConnector.runQuery(query);
         while (res.next()) {
             int id = res.getInt("avatarID");
+            int itemId = res.getInt("itemID");
             Blob blobImage = res.getBlob("avatar");
             Blob blobLocked = res.getBlob("locked");
             byte[] byteImage = blobImage.getBytes(1, (int) blobImage.length());
             byte[] byteLocked = null;
             if(!res.wasNull()) {
-                byteLocked = blobImage.getBytes(1, (int) blobLocked.length());
+                byteLocked = blobLocked.getBytes(1, (int) blobLocked.length());
             }
-            Avatar avatar = new Avatar(id, byteImage, byteLocked);
+            Avatar avatar = new Avatar(id, byteImage, byteLocked, itemId);
             avatars.add(avatar);
         }
         setSuccess("Avatars set");

@@ -83,10 +83,14 @@ public class SettingsTabMenuActivity extends Fragment {
 
 
     public void changeAvatar(View view) {
-        Toast.makeText(_activity, "Change Avatar", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(_activity, ChangeAvatarActivity.class);
-        intent.putExtra("appContent", _appContent);
-        _activity.startActivity(intent);
+        if(_appContent.getProfile().hasItem(3)) {
+            Intent intent = new Intent(_activity, ChangeAvatarActivity.class);
+            intent.putExtra("appContent", _appContent);
+            _activity.startActivity(intent);
+        }
+        else{
+            Toast.makeText(_activity, "You need to buy MAGIC AVATAR to unlock this", Toast.LENGTH_LONG).show();
+        }
     }
 
 }

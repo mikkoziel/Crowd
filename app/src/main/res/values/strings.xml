@@ -32,7 +32,6 @@
     <string name="title_activity_shop">ShopActivity</string>
     <string name="highscoreTitle">HIGHSCORE</string>
     <string name="logo">Logo</string>
-    <string name="shop">SHOP</string>
     <string name="button">Button</string>
     <string name="points">Points:   </string>
     <string name="username">Username:   </string>
@@ -44,4 +43,8 @@
     <string name="cancel">CANCEL</string>
     <string name="change">CHANGE</string>
     <string name="choose_avatar">CHOOSE AVATAR</string>
+    <string name="shop">SHOP</string>
+    <string name="buy">BUY</string>
+    <string name="description">Description:</string>
+    <string name="price">Price:</string>
 </resources>
