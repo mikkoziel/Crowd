@@ -118,7 +118,6 @@ public class MenuTabMenuActivity extends Fragment {
         final Intent intent = new Intent(_activity, GameActivity.class);
         intent.putExtra("appContent", _appContent);
 
-        //TODO tutaj uruchamiamy tyle async tasków ile gier, nie powinniśmy przy każdym execute pobierać nowego appContent z nowego intenta? Z jakiego nowego intenta?
         for (final Game game : _games) {
             Button gameButton = new Button(_activity);
             gameButton.setText(game.getName());
