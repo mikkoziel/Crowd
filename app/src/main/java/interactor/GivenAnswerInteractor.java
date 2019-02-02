@@ -112,9 +112,6 @@ public class GivenAnswerInteractor {
             setFailure("Fail!");
     }
 
-
-
-
     //given answer
     private void logAnswer(GivenAnswer givenAnswer)
     {

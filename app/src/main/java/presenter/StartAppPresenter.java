@@ -27,7 +27,7 @@ import interactor.ProfileInteractor;
 import interactor.ShopInteractor;
 import interactor.TagInteractor;
 
-public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
+public class StartAppPresenter extends AsyncTask<Void, Void, Void> {
 
     @SuppressLint("StaticFieldLeak")
     private Activity _activity;
@@ -49,7 +49,7 @@ public class CheckLoginPresenter extends AsyncTask<Void, Void, Void> {
     private AvatarInteractor _avatarInteractor;
     private ShopInteractor _shopInteractor;
 
-    public CheckLoginPresenter(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT, Intent intent, Button submit, Button register, AppContent appContent){
+    public StartAppPresenter(Activity activity, ProgressBar progress, EditText loginT, EditText passwordT, Intent intent, Button submit, Button register, AppContent appContent){
         this._activity = activity;
         this._progress = progress;
         this._username = loginT.getText().toString();

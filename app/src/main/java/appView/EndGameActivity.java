@@ -11,7 +11,7 @@ import entity.AppContent;
 import entity.GivenAnswer;
 
 import presenter.GivenAnswerPresenter;
-import presenter.UpdateProfilePresenter;
+import presenter.UpdateAppContentPresenter;
 
 public class EndGameActivity extends AppCompatActivity {
 
@@ -41,8 +41,8 @@ public class EndGameActivity extends AppCompatActivity {
     }
 
     public void backButton(View view){
-        UpdateProfilePresenter updateProfilePresenter = new UpdateProfilePresenter(this, _progress, _appContent);
-        updateProfilePresenter.execute();
+        UpdateAppContentPresenter updateAppContentPresenter = new UpdateAppContentPresenter(this, _progress, _appContent);
+        updateAppContentPresenter.execute();
     }
 
     public void repeatButton(View view){
@@ -53,7 +53,7 @@ public class EndGameActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        UpdateProfilePresenter updateProfilePresenter = new UpdateProfilePresenter(this, _progress, _appContent);
-        updateProfilePresenter.execute();
+        UpdateAppContentPresenter updateAppContentPresenter = new UpdateAppContentPresenter(this, _progress, _appContent);
+        updateAppContentPresenter.execute();
     }
 }

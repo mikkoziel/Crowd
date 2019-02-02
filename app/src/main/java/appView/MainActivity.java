@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import entity.AppContent;
-import presenter.CheckLoginPresenter;
+import presenter.StartAppPresenter;
 import presenter.RegistrationPresenter;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,15 +46,14 @@ public class MainActivity extends AppCompatActivity {
         _submit.setClickable(false);
         _register.setClickable(false);
 
-        CheckLoginPresenter checkLoginPresenter = new CheckLoginPresenter(this, _progress, _loginT, _passwordT, intent, _submit, _register, _appContent);
-        checkLoginPresenter.execute();
+        StartAppPresenter startAppPresenter = new StartAppPresenter(this, _progress, _loginT, _passwordT, intent, _submit, _register, _appContent);
+        startAppPresenter.execute();
     }
 
     public void registerButton(View view){
         _submit.setClickable(false);
         _register.setClickable(false);
 
-        //app Content bez zmiam
         RegistrationPresenter registerLogin = new RegistrationPresenter(this, _progress, _loginT, _passwordT, _submit, _register);
         registerLogin.execute();
     }

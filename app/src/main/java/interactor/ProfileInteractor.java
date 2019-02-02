@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
-import entity.Item;
 import entity.Profile;
 
 public class ProfileInteractor {
@@ -92,38 +91,6 @@ public class ProfileInteractor {
         } else
             return -1;
     }
-
-    public void updateAvatar(int avatarID, int profileID){
-        String query = "Update Profile set avatarID =" + avatarID + "where profilID = " + profileID;
-        int res = _dbConnector.updateQuery(query);
-        if (res > 0) {
-            setSuccess("Avatar changed");
-        }
-        else{
-            setFailure("Avatar unchanged");
-        }
-    }
-
-    /*
-    public Profile setProfile(ResultSet res, Profile profile) throws SQLException {
-        int id = res.getInt("profilID");
-        String name = res.getString("name");
-        int points = res.getInt("points");
-        int level = res.getInt("userlevel");
-        int money = res.getInt("money");
-        int missingPoints = res.getInt("missingPoints");
-
-        Avatar avatar = avatarInteractor.getAvatar(avatarID, avatars);
-        if(profile == null) {
-            profile = new Profile(id, name, points, level, money, missingPoints, avatar);
-        }
-        else{
-            profile.updateProfile(points, level, money, missingPoints, avatar);
-        }
-        setSuccess("Login successful");
-        return profile;
-    }*/
-
 
     public void modeCheckOld(Profile profile, String password, String passwordCheck, String passwordCheck2) throws Exception {
         String query = "Select * from Profile where profilID = " + profile.getID();

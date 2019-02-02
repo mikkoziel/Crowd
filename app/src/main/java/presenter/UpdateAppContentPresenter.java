@@ -18,7 +18,7 @@ import entity.Question;
 import interactor.GivenAnswerInteractor;
 import interactor.ProfileInteractor;
 
-public class UpdateProfilePresenter extends AsyncTask<Void, Void, Void> {
+public class UpdateAppContentPresenter extends AsyncTask<Void, Void, Void> {
 
     @SuppressLint("StaticFieldLeak")
     private Activity _activity;
@@ -29,7 +29,7 @@ public class UpdateProfilePresenter extends AsyncTask<Void, Void, Void> {
 
     private GivenAnswerInteractor _givenAnswerInteractor;
 
-    public UpdateProfilePresenter(Activity activity, ProgressBar progress, AppContent appContent) {
+    public UpdateAppContentPresenter(Activity activity, ProgressBar progress, AppContent appContent) {
         this._activity = activity;
         this._progress = progress;
         this._appContent = appContent;

@@ -28,17 +28,13 @@ public class Profile implements Serializable {
     public String getName() {
         return _name;
     }
-
     public int getID() {
         return _ID;
     }
-
     public int getPoints() {
         return _points;
     }
-
     public void setName(String name) { this._name = name; }
-
     public void increasePoints(int extraPoints){ _points += extraPoints; }
 
     public void decreasePoints(int negativePoints){

@@ -13,7 +13,7 @@ import android.widget.TextView;
 import entity.AppContent;
 import entity.Game;
 import presenter.SetQuestionPresenter;
-import presenter.UpdateProfilePresenter;
+import presenter.UpdateAppContentPresenter;
 
 public class GameActivity extends AppCompatActivity {
     private ProgressBar _progress;
@@ -117,8 +117,8 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 _game.setPlayed(false);
                 _game.zeroIndex();
-                UpdateProfilePresenter updateProfilePresenter = new UpdateProfilePresenter(_activity, _progress, _appContent);
-                updateProfilePresenter.execute();
+                UpdateAppContentPresenter updateAppContentPresenter = new UpdateAppContentPresenter(_activity, _progress, _appContent);
+                updateAppContentPresenter.execute();
             }
         });
         buttonLayout.addView(text, lp);
@@ -127,7 +127,7 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        UpdateProfilePresenter updateProfilePresenter = new UpdateProfilePresenter(this, _progress, _appContent);
-        updateProfilePresenter.execute();
+        UpdateAppContentPresenter updateAppContentPresenter = new UpdateAppContentPresenter(this, _progress, _appContent);
+        updateAppContentPresenter.execute();
     }
 }
