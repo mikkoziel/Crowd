@@ -32,7 +32,6 @@ public class GivenAnswerInteractor {
         logAnswer(givenAnswer);
         increaseAnswerChosenValue(givenAnswer.getAnswer());
         givePoints(givenAnswer.getProfile(), getPercentage(givenAnswer.getAnswer()));
-        updateMoney(givenAnswer.getProfile());
         updateLevel(givenAnswer.getProfile());
     }
 
@@ -167,28 +166,34 @@ public class GivenAnswerInteractor {
         if(percentage == 0)
             return;
 
+        int points;
+
         if(percentage < 0.1)
-            profile.decreasePoints(2);
+            points = -2;
         else if(percentage < 0.2)
-            profile.decreasePoints(1);
+            points = -1;
         else if(percentage < 0.3)
-            profile.increasePoints(1);
+            points = 1;
         else if(percentage < 0.4)
-            profile.increasePoints(2);
+            points = 2;
         else if(percentage < 0.5)
-            profile.increasePoints(3);
+            points = 3;
         else if(percentage < 0.6)
-            profile.increasePoints(4);
+            points = 4;
         else if(percentage < 0.7)
-            profile.increasePoints(5);
+            points = 5;
         else if(percentage < 0.8)
-            profile.increasePoints(6);
+            points = 6;
         else if(percentage < 0.9)
-            profile.increasePoints(7);
+            points = 7;
         else
-            profile.increasePoints(8);
+            points = 8;
+
+        profile.increasePoints(points);
 
         String query = "update Profile set points = " + profile.getPoints() + " where profilID = " + profile.getID();
+
+        updateMoney(profile, points);
         _dbConnector.updateQuery(query);
     }
 
@@ -235,12 +240,19 @@ public class GivenAnswerInteractor {
     }
 
     //Profile
-    private void updateMoney(Profile profile)
+    private void updateMoney(Profile profile, int points) throws SQLException
     {
-        int money = profile.getPoints() * 10;
-        String query = "update Profile set money = " + money + " where profilID = " + profile.getID();
+        if (points <= 0)
+            return;
+
+        updateMoneyValue(profile);
+        if(!isSuccess())
+            return;
+
+        int money = points * 10;
+        profile.increaseMoney(money);
+        String query = "update Profile set money = " + profile.getMoney() + " where profilID = " + profile.getID();
         _dbConnector.updateQuery(query);
-        profile.setMoney(money);
     }
 
     private void setSuccess(String message)

@@ -44,6 +44,8 @@ public class Profile implements Serializable {
             _points = 0;
     }
 
+    public void increaseMoney(int extraMoney){_money += extraMoney;}
+
     public void setPoints(int points){_points = points;}
 
     public int getLevel(){return _level;}
