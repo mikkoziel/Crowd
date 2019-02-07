@@ -69,8 +69,10 @@ public class ProfileTabMenuActivity extends Fragment {
             }
         });
 
-        FloatingActionButton fab = rootView.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        Button shop = rootView.findViewById(R.id.shopBttn);
+//        FloatingActionButton fab = rootView.findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+        shop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showShop();
@@ -111,7 +113,7 @@ public class ProfileTabMenuActivity extends Fragment {
         int inRow = 3;
         int i =inRow;
         LinearLayout row = null;
-        LinearLayout itemLayout = rootView.findViewById(R.id.itemLayout);
+        LinearLayout itemLayout = rootView.findViewById(R.id.itemsLay);
 
         for(final Item item: _profile.getItems()){
             byte[] avatarIcon = item.getIcon();

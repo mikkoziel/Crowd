@@ -100,12 +100,13 @@
                 android:layout_height="0dp"
                 android:layout_weight="0.9"
                 android:orientation="horizontal"
-                android:padding="10dp"
+                android:padding="5dp"
                 tools:ignore="NestedWeights">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:padding="5dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -134,13 +135,13 @@
                         android:id="@+id/missPoints"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
-                        android:layout_weight="0.4" />
+                        android:layout_weight="0.35" />
 
                     <TextView
                         android:id="@+id/money"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.4" />
+                        android:layout_weight="0.35" />
 
                     <Button
                         android:id="@+id/highscore"
@@ -160,7 +161,7 @@
             android:id="@+id/itemLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.45"
+            android:layout_weight="0.25"
             android:orientation="vertical">
 
             <TextView
@@ -172,16 +173,36 @@
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
+            <ScrollView
+                style="@android:style/Widget.Holo.ScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbarStyle="insideOverlay">
+
+                <LinearLayout
+                    android:id="@+id/itemsLay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </ScrollView>
+
+            <Button
+                android:id="@+id/shopBttn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:text="@string/shop" />
+
         </LinearLayout>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            app:backgroundTint="@color/colorAccent"
-            app:srcCompat="@android:drawable/ic_menu_revert" />
+        <!--<android.support.design.widget.FloatingActionButton-->
+            <!--android:id="@+id/fab"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="bottom|end"-->
+            <!--android:layout_margin="@dimen/fab_margin"-->
+            <!--app:backgroundTint="@color/colorAccent"-->
+            <!--app:srcCompat="@android:drawable/ic_menu_revert" />-->
 
     </LinearLayout>
 
@@ -193,7 +214,7 @@
         android:layout_margin="40dp"
         android:background="#80FFFFFF"
         android:orientation="vertical"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toStartOf="@+id/linearLayout3"
         app:layout_constraintHorizontal_bias="0.5"
