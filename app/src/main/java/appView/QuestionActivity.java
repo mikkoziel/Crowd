@@ -20,6 +20,7 @@ import entity.GivenAnswer;
 
 import entity.Question;
 import interactor.QuestionInteractor;
+import presenter.FilePresenter;
 import presenter.PossibleAnswerPresenter;
 import presenter.GivenAnswerPresenter;
 
@@ -32,6 +33,7 @@ public class QuestionActivity extends AppCompatActivity {
     private AppContent _appContent;
     private Game _game;
     private Question _question;
+    private FilePresenter _filePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class QuestionActivity extends AppCompatActivity {
             givenAnswerPresenter.execute();
         }
 
+        this._filePresenter = new FilePresenter();
         this._lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
 
         setQuestion();
@@ -76,11 +79,9 @@ public class QuestionActivity extends AppCompatActivity {
         String questionText = _question.getQuestion();
         TextView question = setTextView(questionText);
 
-        //TODO Interactor out
         String imagePath =  _question.getImage();
-        QuestionInteractor questionInteractor = new QuestionInteractor();
+        byte[] byteImage = _filePresenter.readFromFile(imagePath);
 
-        byte[] byteImage = questionInteractor.readFromFile(imagePath);
         Bitmap bitmapImage = BitmapFactory.decodeByteArray(byteImage, 0, byteImage.length);
         ImageView questionI = setImageView(bitmapImage);
 

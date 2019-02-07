@@ -45,7 +45,7 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... voids) {
         try {
             _game.getQuestions().clear();
-            _questionInteractor.setQuestions(_game);
+            _questionInteractor.setQuestions(_game, _activity);
         } catch (SQLException e) {
             e.printStackTrace();
         }
