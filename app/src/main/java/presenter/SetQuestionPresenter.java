@@ -2,15 +2,22 @@ package presenter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import entity.AppContent;
 import entity.Game;
+import entity.Question;
 import interactor.QuestionInteractor;
 
 public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
@@ -46,7 +53,17 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
         try {
             _game.getQuestions().clear();
             _questionInteractor.setQuestions(_game, _activity);
+
+            for(byte[] image: _questionInteractor.getImage()){
+                int index = _questionInteractor.getImage().indexOf(image);
+                Question question = _game.getQuestions().get(index);
+                String path = writeToFile(image, question.getID());
+                question.setImage(path);
+            }
+
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -63,5 +80,36 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
             //_intent.putExtra("game", _game);
             _activity.startActivity(_intent);
         }
+    }
+
+    private String writeToFile(byte[] image, int questionID) throws IOException {
+        File dir = _activity.getFilesDir();
+        File root = new File(dir + "/images/");
+        if (!root.exists()) root.mkdirs();
+        File file = new File(root, String.valueOf(questionID));
+        if (!file.exists()) file.createNewFile();
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(file);
+            fos.write(image);
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("File not found" + e);
+        }
+        catch (IOException ioe) {
+            System.out.println("Exception while writing file " + ioe);
+        }
+        finally {
+            try {
+                if (fos != null) {
+                    fos.close();
+                }
+            }
+            catch (IOException ioe) {
+                System.out.println("Error while closing stream: " + ioe);
+            }
+        }
+        return file.getAbsolutePath();
+
     }
 }
