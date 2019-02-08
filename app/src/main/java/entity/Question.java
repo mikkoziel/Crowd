@@ -95,7 +95,10 @@ public class Question implements Serializable{
         }
     }
 
-    public void setImage(String image){this._image = image;}
+    public void setImage(String image){
+        this._image = image;
+        this._isImageQuestion = true;
+    }
 
     public String getImage(){return _image;}
 }

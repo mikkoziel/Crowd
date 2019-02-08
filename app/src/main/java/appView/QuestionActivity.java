@@ -1,5 +1,6 @@
 package appView;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,11 +10,15 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import entity.Answer;
 import entity.AppContent;
 import entity.Game;
 import entity.GivenAnswer;
@@ -21,6 +26,7 @@ import entity.GivenAnswer;
 import entity.Question;
 import interactor.QuestionInteractor;
 import presenter.FilePresenter;
+import presenter.NewAnswerPresenter;
 import presenter.PossibleAnswerPresenter;
 import presenter.GivenAnswerPresenter;
 
@@ -55,18 +61,31 @@ public class QuestionActivity extends AppCompatActivity {
         this._filePresenter = new FilePresenter();
         this._lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
 
-        setQuestion();
-        setAnswer();
+        setContent();
     }
 
-    public void setQuestion(){
+    public void setContent(){
         LinearLayout layout = findViewById(appView.R.id.questionlayout);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        if(_question.isImageQuestion())
-            setImageQuestion(layout, lp);
-        else
-            setTextQuestion(layout, lp);
+        switch(_question.getType()){
+            case 1:
+                setTextQuestion(layout, lp);
+                setAnswer();
+                break;
+            case 1003:
+                setImageQuestion(layout, lp);
+                setAnswer();
+                break;
+            case 1004:
+                setTextQuestion(layout, lp);
+                setOpenAnswer(lp);
+                break;
+        }
+//        if(_question.isImageQuestion())
+//            setImageQuestion(layout, lp);
+//        else
+//            setTextQuestion(layout, lp);
     }
 
     public void setTextQuestion(LinearLayout layout, LinearLayout.LayoutParams lp){
@@ -106,6 +125,45 @@ public class QuestionActivity extends AppCompatActivity {
     public void setAnswer(){
         PossibleAnswerPresenter possibleAnswerPresenter = new PossibleAnswerPresenter(this, _progress, _lp, _appContent);
         possibleAnswerPresenter.execute();
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void setOpenAnswer(LinearLayout.LayoutParams lp) {
+        LinearLayout layout = findViewById(appView.R.id.answerlayout);
+
+        final EditText answer = new EditText(_activity);
+        Button button = new Button(_activity);
+        button.setText("SUBMIT");
+
+        if(_game.getIndex() < _game.getQuestions().size()) {
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    NewAnswerPresenter newAnswerPresenter = new NewAnswerPresenter(_activity, answer.getText().toString(), _question.getID());
+                    newAnswerPresenter.execute();
+
+                    Intent intent = new Intent(_activity, QuestionActivity.class);
+//                    GivenAnswer given = new GivenAnswer(_profile, _question, a);
+//                    intent.putExtra("answer", given);
+                    intent.putExtra("appContent", _appContent);
+                    _activity.startActivity(intent);
+                }
+            });
+        }
+        else{
+            _game.setPlayed(false);
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+//                    Intent intent = new Intent(_activity, EndGameActivity.class);
+//                    GivenAnswer given = new GivenAnswer(_profile, _question, a);
+//                    intent.putExtra("answer", given);
+//                    intent.putExtra("appContent", _appContent);
+//                    _activity.startActivity(intent);
+                }
+            });
+        }
+
+        layout.addView(answer, lp);
+
     }
 
     @Override

@@ -84,11 +84,11 @@ public class QuestionInteractor {
 
             else {
                 byte[] byteImage = blobImage.getBytes(1, (int) blobImage.length());
-                String path = null;
+//                String path = null;
                 //                    path = writeToFile(byteImage, ID);
                 this._images.add(byteImage);
 //                    path = writeToFile1(byteImage, ID, activity);
-                question = new Question(content, ID, type, defaultAnswer, path);
+                question = new Question(content, ID, type, defaultAnswer);
             }
             game.addQuestion(question);
         }

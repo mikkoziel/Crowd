@@ -54,11 +54,13 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
             _game.getQuestions().clear();
             _questionInteractor.setQuestions(_game, _activity);
 
-            for(byte[] image: _questionInteractor.getImage()){
-                int index = _questionInteractor.getImage().indexOf(image);
-                Question question = _game.getQuestions().get(index);
-                String path = writeToFile(image, question.getID());
-                question.setImage(path);
+            if(!_questionInteractor.getImage().isEmpty()) {
+                for (byte[] image : _questionInteractor.getImage()) {
+                    int index = _questionInteractor.getImage().indexOf(image);
+                    Question question = _game.getQuestions().get(index);
+                    String path = writeToFile(image, question.getID());
+                    question.setImage(path);
+                }
             }
 
         } catch (SQLException e) {
