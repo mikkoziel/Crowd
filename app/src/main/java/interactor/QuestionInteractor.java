@@ -23,12 +23,14 @@ public class QuestionInteractor {
     private DataBaseConnector _dbConnector;
     private String _result;
     private Boolean _isSuccess;
+    private ArrayList<byte[]> _images;
 
     public QuestionInteractor()
     {
         this._dbConnector = new DataBaseConnector();
         this._result = null;
         this._isSuccess = false;
+        this._images = new ArrayList<>();
     }
 
     public void setQuestions(Game game, Activity activity) throws SQLException {
@@ -82,14 +84,11 @@ public class QuestionInteractor {
 
             else {
                 byte[] byteImage = blobImage.getBytes(1, (int) blobImage.length());
-                String path = null;
-                try {
-//                    path = writeToFile(byteImage, ID);
-                    path = writeToFile1(byteImage, ID, activity);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                question = new Question(content, ID, type, defaultAnswer, path);
+//                String path = null;
+                //                    path = writeToFile(byteImage, ID);
+                this._images.add(byteImage);
+//                    path = writeToFile1(byteImage, ID, activity);
+                question = new Question(content, ID, type, defaultAnswer);
             }
             game.addQuestion(question);
         }
@@ -127,36 +126,36 @@ public class QuestionInteractor {
 
     }
 
-    private String writeToFile1(byte[] image, int questionID, Context context) throws IOException {
-        File dir = context.getFilesDir();
-        File root = new File(dir + "/images/");
-        if (!root.exists()) root.mkdirs();
-        File file = new File(root, String.valueOf(questionID));
-        if (!file.exists()) file.createNewFile();
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(file);
-            fos.write(image);
-        }
-        catch (FileNotFoundException e) {
-            System.out.println("File not found" + e);
-        }
-        catch (IOException ioe) {
-            System.out.println("Exception while writing file " + ioe);
-        }
-        finally {
-            try {
-                if (fos != null) {
-                    fos.close();
-                }
-            }
-            catch (IOException ioe) {
-                System.out.println("Error while closing stream: " + ioe);
-            }
-        }
-        return file.getAbsolutePath();
-
-    }
+//    private String writeToFile1(byte[] image, int questionID, Context context) throws IOException {
+//        File dir = context.getFilesDir();
+//        File root = new File(dir + "/images/");
+//        if (!root.exists()) root.mkdirs();
+//        File file = new File(root, String.valueOf(questionID));
+//        if (!file.exists()) file.createNewFile();
+//        FileOutputStream fos = null;
+//        try {
+//            fos = new FileOutputStream(file);
+//            fos.write(image);
+//        }
+//        catch (FileNotFoundException e) {
+//            System.out.println("File not found" + e);
+//        }
+//        catch (IOException ioe) {
+//            System.out.println("Exception while writing file " + ioe);
+//        }
+//        finally {
+//            try {
+//                if (fos != null) {
+//                    fos.close();
+//                }
+//            }
+//            catch (IOException ioe) {
+//                System.out.println("Error while closing stream: " + ioe);
+//            }
+//        }
+//        return file.getAbsolutePath();
+//
+//    }
 
     //TODO usuwanie pliku po pobraniu
     public byte[] readFromFile(String path){
@@ -186,6 +185,10 @@ public class QuestionInteractor {
     {
         _result = message;
         _isSuccess = false;
+    }
+
+    public ArrayList<byte[]> getImage() {
+        return _images;
     }
 
     public Boolean isSuccess(){return _isSuccess;}
