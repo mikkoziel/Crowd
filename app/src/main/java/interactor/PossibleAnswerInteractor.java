@@ -52,6 +52,13 @@ public class PossibleAnswerInteractor {
             ids.remove(random);
             getRandomAnswer(question, randomElement);
         }
+        if(question.getAnswers().size() == numberOfAnswer){
+            setSuccess("Answers added");
+        }
+        else{
+            setFailure("Error. Answers not added");
+        }
+
     }
 
     private void getRandomAnswer(Question question, int randomIndex) throws SQLException {

@@ -33,6 +33,7 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
     private Activity _activity;
     @SuppressLint("StaticFieldLeak")
     private ProgressBar _progress;
+    private Intent _intent;
     private int _i;
 
     @SuppressLint("StaticFieldLeak")
@@ -51,10 +52,12 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
     private PossibleAnswerInteractor _possibleAnswerInteractor;
 
     public PossibleAnswerPresenter(Activity activity,
+                                   Intent intent,
                                    ProgressBar progress,
                                    LinearLayout.LayoutParams lp,
                                    AppContent appContent) {
         this._activity = activity;
+        this._intent = intent;
         this._progress = progress;
         this._lp = lp;
         this._row1 = _activity.findViewById(appView.R.id.row1);
@@ -64,7 +67,7 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
         this._appContent = appContent;
         this._game = appContent.getCurrentGame();
         this._profile = appContent.getProfile();
-        this._question = _game.getCurrentQueston();
+//        this._question = _game.getCurrentQueston();
         _game.nextIndex();
 
         this._possibleAnswerInteractor = new PossibleAnswerInteractor();
@@ -77,17 +80,20 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
 
     @Override
     protected Void doInBackground(Void... voids){
-        try {
-            _question.getAnswers().clear();
-            _possibleAnswerInteractor.setPossibleAnswers(_question);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        _i = 0;
-
-        for(Answer answer : _question.getAnswers()){
-            Button button = setButtons(answer.getAnswer(), answer);
-            publishProgress(button);
+        for(Question question: _game.getQuestions()) {
+            this._question = question;
+            try {
+                _question.getAnswers().clear();
+                _possibleAnswerInteractor.setPossibleAnswers(_question);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+//        _i = 0;
+//
+//        for(Answer answer : _question.getAnswers()){
+//            Button button = setButtons(answer.getAnswer(), answer);
+//            publishProgress(button);
+//        }
         }
         return null;
     }
@@ -110,6 +116,11 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
     @Override
     protected void onPostExecute(Void voids){
         _progress.setVisibility(View.GONE);
+        if(_possibleAnswerInteractor.isSuccess()){
+            _intent.putExtra("appContent", _appContent);
+            //_intent.putExtra("game", _game);
+            _activity.startActivity(_intent);
+        }
         _possibleAnswerInteractor.endWork();
     }
 

@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,6 +38,13 @@ public class QuestionActivity extends AppCompatActivity {
     private Activity _activity;
     private LinearLayout.LayoutParams _lp;
 
+    @SuppressLint("StaticFieldLeak")
+    private LinearLayout _row1;
+    @SuppressLint("StaticFieldLeak")
+    private LinearLayout _row2;
+    @SuppressLint("StaticFieldLeak")
+    private LinearLayout _row3;
+
     private AppContent _appContent;
     private Game _game;
     private Question _question;
@@ -50,9 +59,15 @@ public class QuestionActivity extends AppCompatActivity {
         this._appContent = (AppContent) intent.getSerializableExtra("appContent");
         this._game = _appContent.getCurrentGame();
         this._question = _game.getCurrentQueston();
+
         this._progress = findViewById(appView.R.id.progress);
         _progress.setVisibility(View.GONE);
+
+        this._row1 = findViewById(appView.R.id.row1);
+        this._row2 = findViewById(appView.R.id.row2);
+        this._row3 = findViewById(appView.R.id.row3);
         this._activity = this;
+
         if(getIntent().hasExtra("answer")){
             GivenAnswer given = (GivenAnswer) intent.getSerializableExtra("answer");
             GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(given, _activity);
@@ -83,10 +98,7 @@ public class QuestionActivity extends AppCompatActivity {
                 setOpenAnswer(lp);
                 break;
         }
-//        if(_question.isImageQuestion())
-//            setImageQuestion(layout, lp);
-//        else
-//            setTextQuestion(layout, lp);
+
     }
 
     public void setTextQuestion(LinearLayout layout, LinearLayout.LayoutParams lp){
@@ -124,8 +136,67 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     public void setAnswer(){
-        PossibleAnswerPresenter possibleAnswerPresenter = new PossibleAnswerPresenter(this, _progress, _lp, _appContent);
-        possibleAnswerPresenter.execute();
+//        PossibleAnswerPresenter possibleAnswerPresenter = new PossibleAnswerPresenter(this, _progress, _lp, _appContent);
+////        possibleAnswerPresenter.execute();
+        int _i = 0;
+
+        for(Answer answer : _question.getAnswers()){
+            Button button = setButtons(answer.getAnswer(), answer);
+            _i = addButtonToView(button, _i);
+        }
+    }
+
+    private Button setButtons(String answerText, final Answer a){
+        Button answer = new Button(_activity);
+
+        answer.setText(String.format("\n%s\n", answerText));
+        if(a.isImageAnswer()){
+            Drawable image = new BitmapDrawable(_activity.getResources(), BitmapFactory.decodeByteArray(a.getImage(), 0, a.getImage().length));
+            answer.setCompoundDrawablesWithIntrinsicBounds( image, null, null, null);
+        }
+
+        _game.updateQuestion(_question);
+        _appContent.updateGame(_game);
+
+        if(_game.getIndex() < _game.getQuestions().size()) {
+            answer.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent intent = new Intent(_activity, QuestionActivity.class);
+                    GivenAnswer given = new GivenAnswer(_appContent.getProfile(), _question, a);
+                    intent.putExtra("answer", given);
+                    intent.putExtra("appContent", _appContent);
+                    _activity.startActivity(intent);
+                }
+            });
+        }
+        else{
+            _game.setPlayed(false);
+            answer.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent intent = new Intent(_activity, EndGameActivity.class);
+                    GivenAnswer given = new GivenAnswer(_appContent.getProfile(), _question, a);
+                    intent.putExtra("answer", given);
+                    intent.putExtra("appContent", _appContent);
+                    _activity.startActivity(intent);
+                }
+            });
+        }
+        return answer;
+    }
+
+    private int addButtonToView(Button answer, int _i) {
+
+        if(_i < 2){
+            _row1.addView(answer, _lp);
+        }else{
+            if(_i < 4){
+                _row2.addView(answer, _lp);
+            }
+            else{
+                _row3.addView(answer, _lp);
+            }
+        }
+        return _i + 1;
     }
 
     @SuppressLint("SetTextI18n")

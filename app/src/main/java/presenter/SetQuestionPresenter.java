@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import java.io.File;
@@ -78,9 +79,13 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void voids) {
         _questionInteractor.endWork();
         if (_questionInteractor.isSuccess()) {
-            _intent.putExtra("appContent", _appContent);
-            //_intent.putExtra("game", _game);
-            _activity.startActivity(_intent);
+            LinearLayout.LayoutParams _lp  = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
+            PossibleAnswerPresenter possibleAnswerPresenter = new PossibleAnswerPresenter(_activity, _intent, _progress, _lp, _appContent);
+            possibleAnswerPresenter.execute();
+
+//            _intent.putExtra("appContent", _appContent);
+//            //_intent.putExtra("game", _game);
+//            _activity.startActivity(_intent);
         }
     }
 
