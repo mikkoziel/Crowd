@@ -78,6 +78,29 @@ public class DataBaseConnector implements Serializable {
         return result;
     }
 
+    public Statement updateQueryWithRow(String query){
+
+        if(_connection == null)
+            _connection = establishConnection();
+
+        Statement stmt;
+        int result = 0;
+        try {
+            stmt = _connection.createStatement();
+            result = stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+            if(result > 0){
+                return stmt;
+            }
+            else{
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public void closeConnection() throws SQLException
     {
         _connection.close();

@@ -51,6 +51,7 @@ public class QuestionActivity extends AppCompatActivity {
         this._game = _appContent.getCurrentGame();
         this._question = _game.getCurrentQueston();
         this._progress = findViewById(appView.R.id.progress);
+        _progress.setVisibility(View.GONE);
         this._activity = this;
         if(getIntent().hasExtra("answer")){
             GivenAnswer given = (GivenAnswer) intent.getSerializableExtra("answer");
@@ -132,20 +133,14 @@ public class QuestionActivity extends AppCompatActivity {
         LinearLayout layout = findViewById(appView.R.id.answerlayout);
 
         final EditText answer = new EditText(_activity);
-        Button button = new Button(_activity);
+        final Button button = new Button(_activity);
         button.setText("SUBMIT");
 
         if(_game.getIndex() < _game.getQuestions().size()) {
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    NewAnswerPresenter newAnswerPresenter = new NewAnswerPresenter(_activity, answer.getText().toString(), _question.getID());
+                    NewAnswerPresenter newAnswerPresenter = new NewAnswerPresenter(_activity, answer.getText().toString(), _question, _appContent, button, 0);
                     newAnswerPresenter.execute();
-
-                    Intent intent = new Intent(_activity, QuestionActivity.class);
-//                    GivenAnswer given = new GivenAnswer(_profile, _question, a);
-//                    intent.putExtra("answer", given);
-                    intent.putExtra("appContent", _appContent);
-                    _activity.startActivity(intent);
                 }
             });
         }
@@ -153,16 +148,14 @@ public class QuestionActivity extends AppCompatActivity {
             _game.setPlayed(false);
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-//                    Intent intent = new Intent(_activity, EndGameActivity.class);
-//                    GivenAnswer given = new GivenAnswer(_profile, _question, a);
-//                    intent.putExtra("answer", given);
-//                    intent.putExtra("appContent", _appContent);
-//                    _activity.startActivity(intent);
+                    NewAnswerPresenter newAnswerPresenter = new NewAnswerPresenter(_activity, answer.getText().toString(), _question, _appContent, button, 1);
+                    newAnswerPresenter.execute();
                 }
             });
         }
 
         layout.addView(answer, lp);
+        layout.addView(button, lp);
 
     }
 
