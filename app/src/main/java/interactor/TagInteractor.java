@@ -39,7 +39,7 @@ public class TagInteractor {
         return tags;
     }
 
-    public void addGameTags(ArrayAdapter<Tag> adapter, ArrayList<Game> games){
+    public void addGameTags(ArrayList<Tag> adapter, ArrayList<Game> games){
         for(Game game : games)
             try {
                 int gameID = game.getID();
@@ -49,7 +49,7 @@ public class TagInteractor {
             }
     }
 
-    private ArrayList<Tag> getTagsFromDB(int gameID, ArrayAdapter<Tag> adapter) throws SQLException {
+    private ArrayList<Tag> getTagsFromDB(int gameID, ArrayList<Tag> adapter) throws SQLException {
 
         ArrayList<Tag> tags = new ArrayList<>();
         String query = "select * from GameTagRelation where gameID =" +gameID;
@@ -63,15 +63,13 @@ public class TagInteractor {
         return tags;
     }
 
-    private Tag findTag(int ID, ArrayAdapter<Tag> adapter){
-        Tag tag = null;
-        for(int i=0 ; i<adapter.getCount() ; i++){
-            tag = adapter.getItem(i);
-            if(tag.isEqual(ID)){
-                return tag;
-            }
+    private Tag findTag(int ID, ArrayList<Tag> adapter){
+        for(Tag a: adapter)
+        {
+            if(a.get_tagID() == ID)
+                return a;
         }
-        return tag;
+        return null;
     }
 
     private void setSuccess(String message)

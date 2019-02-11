@@ -31,7 +31,7 @@ public class TagPresenter {
         _appContent.setTags(adapter);
     }
 
-    public void addGameTags(ArrayAdapter<Tag> adapter){
+    public void addGameTags(ArrayList<Tag> adapter){
         _tagInteractor.addGameTags(adapter, _appContent.getGames());
     }
 }

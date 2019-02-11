@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -118,6 +119,12 @@ public class StartAppPresenter extends AsyncTask<Void, Void, Void> {
                         profile.addItem(item);
                     }
                     _appContent.updateCurrentProfile(profile);
+
+                    //ustawiamy tagi gier
+                    if(!_appContent.getTags().isEmpty()) {
+                        TagPresenter tagPresenter = new TagPresenter(_appContent);
+                        tagPresenter.addGameTags(_appContent.getTags());
+                    }
 
                 }
             } catch (Exception e) {

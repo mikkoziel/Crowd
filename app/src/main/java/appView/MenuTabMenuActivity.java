@@ -68,11 +68,7 @@ public class MenuTabMenuActivity extends Fragment {
         final LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
 
-        //TODO tagi są ustawiane w check login execute, co tutaj się dzieje?
-        TagPresenter tagPresenter = new TagPresenter(_appContent);
         ArrayAdapter<Tag> _adapter = new ArrayAdapter<>(_activity, android.R.layout.simple_dropdown_item_1line, _tags);
-        if(!_adapter.isEmpty())
-            tagPresenter.addGameTags(_adapter);
 
 
         final AutoCompleteTextView sortText = rootView.findViewById(appView.R.id.sortTag);
