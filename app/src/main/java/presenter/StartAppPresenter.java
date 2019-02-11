@@ -5,14 +5,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import entity.AppContent;
@@ -134,6 +132,9 @@ public class StartAppPresenter extends AsyncTask<Void, Void, Void> {
         _progress.setVisibility(View.GONE);
         _intent.putExtra("appContent", _appContent);
 
+        JsonPresenter jsonHandler = new JsonPresenter(_activity);
+        jsonHandler.writeToJson(_appContent);
+
         String result = _profileInteractor.getResult();
         Toast.makeText(_activity, result, Toast.LENGTH_LONG).show();
 
@@ -149,4 +150,7 @@ public class StartAppPresenter extends AsyncTask<Void, Void, Void> {
         if (_profileInteractor.isSuccess())
             _activity.startActivity(_intent);
     }
+
+
+
 }

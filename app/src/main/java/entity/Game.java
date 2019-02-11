@@ -1,5 +1,11 @@
 package entity;
 
+import android.graphics.YuvImage;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -89,5 +95,30 @@ public class Game implements Serializable {
                 question.updateContent(question.getAnswers(), question.getIndex());
             }
         }
+    }
+
+    public JSONObject toJson(){
+        JSONObject object = new JSONObject();
+        try {
+            object.put("_gameID", _gameID);
+            object.put("_gameName", _gameName);
+            object.put("_played", _played);
+            object.put("_index", _index);
+            JSONArray questions = new JSONArray();
+            for(Question question: _questions){
+                questions.put(question.toJson());
+            }
+            object.put("_questions", questions);
+
+            JSONArray tags = new JSONArray();
+            for(Tag tag: _tags){
+                tags.put(tag.toJson());
+            }
+            object.put("_tags", tags);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return object;
     }
 }

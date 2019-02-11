@@ -1,5 +1,9 @@
 package entity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 
 public class Answer implements Serializable {
@@ -55,10 +59,36 @@ public class Answer implements Serializable {
     public void setShowed(int showed){_showed = showed;}
     public void increaseChosen(){_chosen++;}
     public void increaseShowed(){_showed++;}
+    public void setIsImageAnswer(Boolean _isImageAnswer) {
+        this._isImageAnswer = _isImageAnswer;
+    }
 
     public void updateContent(int showed, int chosen)
     {
         this._showed = showed;
         this._chosen = chosen;
+    }
+
+    public JSONObject toJson(){
+        JSONObject object = new JSONObject();
+        try {
+            object.put("_answerID", _answerID);
+            object.put("_answer", _answer);
+            object.put("_type", _type);
+            object.put("_defaultAnswer", _defaultAnswer);
+            object.put("_isImageAnswer", _isImageAnswer);
+
+            JSONArray image = new JSONArray();
+            for(byte x: _image){
+                image.put(x);
+            }
+            object.put("_image", image);
+
+            object.put("_showed", _showed);
+            object.put("_chosen", _chosen);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return object;
     }
 }

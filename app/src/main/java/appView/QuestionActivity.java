@@ -137,7 +137,7 @@ public class QuestionActivity extends AppCompatActivity {
 
     public void setAnswer(){
 //        PossibleAnswerPresenter possibleAnswerPresenter = new PossibleAnswerPresenter(this, _progress, _lp, _appContent);
-////        possibleAnswerPresenter.execute();
+//        possibleAnswerPresenter.execute();
         int _i = 0;
 
         for(Answer answer : _question.getAnswers()){

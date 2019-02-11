@@ -1,5 +1,9 @@
 package entity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 
 public class Avatar implements Serializable {
@@ -22,4 +26,26 @@ public class Avatar implements Serializable {
         return _locked;
     }
     public int getItemID(){return _itemID;}
+
+    public JSONObject toJson(){
+        JSONObject object = new JSONObject();
+        try {
+            object.put("_avatarID", _avatarID);
+            JSONArray icon = new JSONArray();
+            for(byte x: _icon){
+                icon.put(x);
+            }
+            object.put("_icon", icon);
+
+            JSONArray locked = new JSONArray();
+            for(byte x: _locked){
+                locked.put(x);
+            }
+            object.put("_locked", locked);
+            object.put("_itemID", _itemID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return object;
+    }
 }

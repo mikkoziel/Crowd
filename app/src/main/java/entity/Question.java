@@ -1,5 +1,9 @@
 package entity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -72,6 +76,9 @@ public class Question implements Serializable{
         this._answers = answers;
     }
     public void nextIndex(){this._index ++;}
+    public void setIndex(int _index) {
+        this._index = _index;
+    }
     public void setDefaultAnswer(Boolean _defaultAnswer) {
         this._defaultAnswer = _defaultAnswer;
     }
@@ -101,5 +108,27 @@ public class Question implements Serializable{
     }
 
     public String getImage(){return _image;}
+
+    public JSONObject toJson(){
+        JSONObject object = new JSONObject();
+        try {
+            object.put("_question", _question);
+            object.put("_questionID", _questionID);
+            object.put("_type", _type);
+            object.put("_index", _index);
+            object.put("_defaultAnswer", _defaultAnswer);
+            object.put("_image", _image);
+            object.put("_isImageQuestion", _isImageQuestion);
+            JSONArray answers = new JSONArray();
+            for(Answer answer: _answers){
+                answers.put(answer.toJson());
+            }
+            object.put("_answers", answers);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return object;
+    }
 }
 

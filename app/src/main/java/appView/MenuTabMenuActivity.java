@@ -15,11 +15,17 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.gson.JsonParser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import entity.AppContent;
 import entity.Game;
 import entity.Tag;
+import presenter.JsonPresenter;
 import presenter.SetQuestionPresenter;
 import presenter.TagPresenter;
 
@@ -32,9 +38,12 @@ public class MenuTabMenuActivity extends Fragment {
     private ArrayList<Game> _games;
     private ArrayList<Tag> _tags;
 
+    private JsonPresenter _jsonPresenter;
+
     public void setOnCreate(Activity activity, Intent intent){
         this._activity = activity;
         this._intent = intent;
+        this._jsonPresenter = new JsonPresenter(_activity);
     }
 
     @Override
@@ -42,11 +51,16 @@ public class MenuTabMenuActivity extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(appView.R.layout.menu_tab_menu, container, false);
 
-
         this._progress = rootView.findViewById(appView.R.id.progressMenu);
         _progress.setVisibility(View.GONE);
 
-        this._appContent = (AppContent) _intent.getSerializableExtra("appContent");
+        try {
+            JSONObject object =_jsonPresenter.readJSONFromFile();
+            this._appContent = _jsonPresenter.parseJSON(object);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+//        this._appContent = (AppContent) _intent.getSerializableExtra("appContent");
         this._games = _appContent.getGames();
         this._tags = _appContent.getTags();
 

@@ -16,11 +16,7 @@ public class FilePresenter {
         return _questionInteractor.readFromFile(path);
     }
 
-    public void saveToFile(byte[] array, int ID){
-        try {
-            _questionInteractor.writeToFile(array, ID);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void saveJSONToFile(byte[] array, int ID){
+
     }
 }

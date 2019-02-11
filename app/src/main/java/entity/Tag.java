@@ -1,5 +1,8 @@
 package entity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 
 public class Tag implements Serializable {
@@ -34,5 +37,16 @@ public class Tag implements Serializable {
     @Override
     public String toString() {
         return _tag;
+    }
+
+    public JSONObject toJson(){
+        JSONObject object = new JSONObject();
+        try {
+            object.put("_tagID", _tagID);
+            object.put("_tag", _tag);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return object;
     }
 }

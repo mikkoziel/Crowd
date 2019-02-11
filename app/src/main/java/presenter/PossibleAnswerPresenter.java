@@ -98,30 +98,30 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
         return null;
     }
 
-    @Override
-    protected void onProgressUpdate(Button... answer) {
-        if(_i < 2){
-            _row1.addView(answer[0], _lp);
-        }else{
-            if(_i < 4){
-                _row2.addView(answer[0], _lp);
-            }
-            else{
-                _row3.addView(answer[0], _lp);
-            }
-        }
-        _i +=1;
-    }
+//    @Override
+//    protected void onProgressUpdate(Button... answer) {
+//        if(_i < 2){
+//            _row1.addView(answer[0], _lp);
+//        }else{
+//            if(_i < 4){
+//                _row2.addView(answer[0], _lp);
+//            }
+//            else{
+//                _row3.addView(answer[0], _lp);
+//            }
+//        }
+//        _i +=1;
+//    }
 
     @Override
     protected void onPostExecute(Void voids){
+        _possibleAnswerInteractor.endWork();
         _progress.setVisibility(View.GONE);
         if(_possibleAnswerInteractor.isSuccess()){
             _intent.putExtra("appContent", _appContent);
             //_intent.putExtra("game", _game);
             _activity.startActivity(_intent);
         }
-        _possibleAnswerInteractor.endWork();
     }
 
     private Button setButtons(String answerText, final Answer a){

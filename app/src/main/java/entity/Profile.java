@@ -1,5 +1,9 @@
 package entity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -91,5 +95,27 @@ public class Profile implements Serializable {
         this._missingPoints = missingPoints;
         this._money = money;
         this._avatar = avatar;
+    }
+
+    public JSONObject toJson(){
+        JSONObject object = new JSONObject();
+        try {
+            object.put("_name", _name);
+            object.put("_ID", _ID);
+            object.put("_points", _points);
+            object.put("_level", _level);
+            object.put("_missingPoints", _missingPoints);
+            object.put("_money", _money);
+            object.put("_avatar", _avatar.toJson());
+
+            JSONArray items = new JSONArray();
+            for(Item item: _items){
+                items.put(item.toJson());
+            }
+            object.put("_items", items);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return object;
     }
 }
