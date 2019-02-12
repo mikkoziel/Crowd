@@ -143,6 +143,7 @@ public class StartAppPresenter extends AsyncTask<Void, Void, Void> {
         JsonPresenter jsonHandler = new JsonPresenter(_activity);
         jsonHandler.writeToJson(_appContent, 0);
 
+        GlobalClass.getInstance().setAppContent(_appContent);
 //        GlobalClass global = ((GlobalClass) _activity.getApplicationContext());
 //        global.setAppContent(_appContent);
 

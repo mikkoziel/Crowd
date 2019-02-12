@@ -11,6 +11,7 @@ import java.util.Objects;
 import entity.AppContent;
 import entity.Game;
 import entity.GivenAnswer;
+import entity.GlobalClass;
 import entity.Question;
 import presenter.JsonPresenter;
 import presenter.UpdateAppContentPresenter;
@@ -32,9 +33,11 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         Log.d(TAG, "onCreate: Started.");
+//
+//        this._jsonPresenter = new JsonPresenter(this);
+//        this._appContent = _jsonPresenter.getJSON(0);
 
-        this._jsonPresenter = new JsonPresenter(this);
-        this._appContent = _jsonPresenter.getJSON(0);
+        this._appContent = GlobalClass.getInstance().getAppContent();
         this._game = _appContent.getGame(_appContent.getCurrentGameID());
 
         mSectionsStatePagerAdapter = new SectionsStatePagerAdapter(getSupportFragmentManager());

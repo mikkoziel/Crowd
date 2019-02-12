@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
 //        GlobalClass global = (GlobalClass) getApplication();
         _appContent = new AppContent();//empty for now
+        GlobalClass.getInstance();
 //        global.setAppContent(_appContent);
     }
 

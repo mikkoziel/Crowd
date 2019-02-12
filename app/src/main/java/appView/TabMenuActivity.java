@@ -37,8 +37,9 @@ public class TabMenuActivity extends AppCompatActivity {
 
         this._intent = getIntent();
         this._activity = this;
-        this._jsonPresenter = new JsonPresenter(_activity);
-        this._appContent = _jsonPresenter.getJSON(0);
+//        this._jsonPresenter = new JsonPresenter(_activity);
+//        this._appContent = _jsonPresenter.getJSON(0);
+        this._appContent = GlobalClass.getInstance().getAppContent();
 //        GlobalClass global = ((GlobalClass)getApplicationContext());
 //        this._appContent = global.getAppContent();
         //        this._appContent = (AppContent) _intent.getSerializableExtra("appContent");

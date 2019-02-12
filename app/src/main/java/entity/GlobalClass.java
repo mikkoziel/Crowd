@@ -1,15 +1,20 @@
 package entity;
 
-import android.app.Application;
+public class GlobalClass {
+    private static GlobalClass instance = new GlobalClass();
+    private AppContent _appContent;
 
-public class GlobalClass extends Application {
-    private AppContent appContent;
+    private GlobalClass() {}
 
-    public AppContent getAppContent() {
-        return appContent;
+    public static GlobalClass getInstance() {
+        return instance;
     }
 
     public void setAppContent(AppContent appContent) {
-        this.appContent = appContent;
+        this._appContent = appContent;
+    }
+
+    public AppContent getAppContent() {
+        return _appContent;
     }
 }

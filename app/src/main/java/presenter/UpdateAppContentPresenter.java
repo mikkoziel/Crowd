@@ -13,6 +13,7 @@ import appView.TabMenuActivity;
 import entity.Answer;
 import entity.AppContent;
 import entity.Game;
+import entity.GlobalClass;
 import entity.Profile;
 import entity.Question;
 import interactor.GivenAnswerInteractor;
@@ -80,6 +81,7 @@ public class UpdateAppContentPresenter extends AsyncTask<Void, Void, Void> {
             Intent intent = new Intent(_activity, TabMenuActivity.class);
 //            intent.putExtra("appContent", _appContent);
             _jsonPresenter.writeToJson(_appContent, 0);
+            GlobalClass.getInstance().setAppContent(_appContent);
             _appContent.destroy();
             _appContent = null;
             System.gc();
