@@ -28,12 +28,14 @@ public class UpdateAppContentPresenter extends AsyncTask<Void, Void, Void> {
     private AppContent _appContent;
 
     private GivenAnswerInteractor _givenAnswerInteractor;
+    private JsonPresenter _jsonPresenter;
 
     public UpdateAppContentPresenter(Activity activity, ProgressBar progress, AppContent appContent) {
         this._activity = activity;
         this._progress = progress;
         this._appContent = appContent;
         this._givenAnswerInteractor = new GivenAnswerInteractor();
+        this._jsonPresenter = new JsonPresenter(_activity);
 
     }
 
@@ -76,7 +78,11 @@ public class UpdateAppContentPresenter extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void voids) {
         if (_givenAnswerInteractor.isSuccess()) {
             Intent intent = new Intent(_activity, TabMenuActivity.class);
-            intent.putExtra("appContent", _appContent);
+//            intent.putExtra("appContent", _appContent);
+            _jsonPresenter.writeToJson(_appContent, 0);
+            _appContent.destroy();
+            _appContent = null;
+            System.gc();
             intent.putExtra("item", 1);
             _activity.startActivity(intent);
         }

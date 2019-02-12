@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import entity.AppContent;
 import entity.Avatar;
 import entity.Game;
+import entity.GlobalClass;
 import entity.Item;
 import entity.Profile;
 import entity.Tag;
@@ -137,10 +138,17 @@ public class StartAppPresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void voids) {
         _progress.setVisibility(View.GONE);
-        _intent.putExtra("appContent", _appContent);
+//        _intent.putExtra("appContent", _appContent);
 
         JsonPresenter jsonHandler = new JsonPresenter(_activity);
-        jsonHandler.writeToJson(_appContent);
+        jsonHandler.writeToJson(_appContent, 0);
+
+//        GlobalClass global = ((GlobalClass) _activity.getApplicationContext());
+//        global.setAppContent(_appContent);
+
+        _appContent.destroy();
+        _appContent = null;
+        System.gc();
 
         String result = _profileInteractor.getResult();
         Toast.makeText(_activity, result, Toast.LENGTH_LONG).show();

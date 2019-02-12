@@ -33,6 +33,7 @@ public class NewAnswerPresenter extends AsyncTask<Void, Button, Void> {
     private Answer _answerDB;
 
     private NewAnswerInteractor _newAnswerInteractor;
+    private JsonPresenter _jsonPresenter;
 
     public NewAnswerPresenter(Activity activity, String answer, Question question, AppContent appContent, Button bttn, int mode){
         this._activity = activity;
@@ -42,6 +43,7 @@ public class NewAnswerPresenter extends AsyncTask<Void, Button, Void> {
         this._bttn = bttn;
         this._mode = mode;
         this._newAnswerInteractor = new NewAnswerInteractor();
+        this._jsonPresenter = new JsonPresenter(_activity);
     }
 
 
@@ -72,7 +74,8 @@ public class NewAnswerPresenter extends AsyncTask<Void, Button, Void> {
         }
         GivenAnswer given = new GivenAnswer(_appContent.getProfile(), _question, _answerDB);
         intent.putExtra("answer", given);
-        intent.putExtra("appContent", _appContent);
+//        intent.putExtra("appContent", _appContent);
+        _jsonPresenter.writeToJson(_appContent, 1);
         _activity.startActivity(intent);
         _bttn.setClickable(true);
     }

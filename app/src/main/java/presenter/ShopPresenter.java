@@ -48,7 +48,7 @@ public class ShopPresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void voids) {
         if (_shopInteractor.isSuccess()) {
-            _intent.putExtra("appContent", _appContent);
+//            _intent.putExtra("appContent", _appContent);
             _activity.startActivity(_intent);
         }
         _shopInteractor.endWork();

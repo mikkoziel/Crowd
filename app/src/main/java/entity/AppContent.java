@@ -107,43 +107,107 @@ public class AppContent implements Serializable {
         return null;
     }
 
-    public JSONObject toJson(){
+    public JSONObject toJson(int mode){
         JSONObject object = new JSONObject();
         try {
-            JSONArray games = new JSONArray();
-            for (Game game : _games) {
-                games.put(game.toJson());
-            }
-            object.put("_games", games);
-
+//            switch (mode){
+//                case 0:
+//                    object.put("_tags", tagsToJson());
+//                    object.put("_avatars", avatarsToJson());
+//                    object.put("_shop", itemsToJson());
+//                    object.put("_games", gamesToJson(mode));
+//                    object.put("_userProfile", _userProfile.toJson());
+//                    object.put("_highscore", highscoreToJson());
+//                    object.put("_currentGameID", _currentGameID);
+//                    break;
+//                case 1:
+//                    object.put("_games", gamesToJson(mode));
+//                    object.put("_userProfile", _userProfile.toJson());
+//                    object.put("_currentGameID", _currentGameID);
+//                    break;
+//            }
+            object.put("_tags", tagsToJson());
+            object.put("_avatars", avatarsToJson());
+            object.put("_shop", itemsToJson());
+            object.put("_games", gamesToJson(mode));
             object.put("_userProfile", _userProfile.toJson());
+            object.put("_highscore", highscoreToJson());
+            object.put("_currentGameID", _currentGameID);
 
-            JSONArray tags = new JSONArray();
-            for (Tag tag : _tags) {
-                tags.put(tag.toJson());
-            }
-            object.put("_tags", tags);
-
-            JSONArray avatars = new JSONArray();
-            for (Avatar avatar : _avatars) {
-                avatars.put(avatar.toJson());
-            }
-            object.put("_avatars", avatars);
-
-            JSONArray items = new JSONArray();
-            for (Item item : _shop) {
-                items.put(item.toJson());
-            }
-            object.put("_shop", items);
-
-            JSONArray highscores = new JSONArray();
-            for (HighScore highScore : _highScore) {
-                highscores.put(highScore.toJson());
-            }
-            object.put("_highscore", highscores);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return object;
+    }
+
+    private JSONArray gamesToJson(int mode) throws JSONException {
+        JSONArray games = new JSONArray();
+        for (Game game : _games) {
+            games.put(game.getID(), game.toJson(mode));
+        }
+        return games;
+    }
+
+    private JSONArray tagsToJson() throws JSONException {
+        JSONArray tags = new JSONArray();
+        for (Tag tag : _tags) {
+            tags.put(tag.get_tagID(), tag.toJson());
+        }
+        return tags;
+    }
+
+    private JSONArray avatarsToJson() throws JSONException {
+        JSONArray avatars = new JSONArray();
+        for (Avatar avatar : _avatars) {
+            avatars.put(avatar.getID(), avatar.toJson());
+        }
+        return avatars;
+    }
+
+    private JSONArray itemsToJson() throws JSONException {
+        JSONArray items = new JSONArray();
+        for (Item item : _shop) {
+            items.put(item.getID(), item.toJson());
+        }
+        return  items;
+    }
+
+    private JSONArray highscoreToJson() throws JSONException {
+        JSONArray highscores = new JSONArray();
+        for (HighScore highScore : _highScore) {
+            highscores.put(highScore.getProfileID(), highScore.toJson());
+        }
+        return highscores;
+    }
+    public void destroy(){
+        for(Game game: _games) {
+            game.destroy();
+            game = null;
+        }
+        _games.clear();
+        _games = null;
+
+        for(Tag tag: _tags)
+            tag = null;
+        _tags.clear();
+        _tags = null;
+
+        _userProfile.destroy();
+        _userProfile = null;
+
+        for(Avatar avatar: _avatars)
+            avatar = null;
+        _avatars.clear();
+        _avatars = null;
+
+        for(Item item: _shop)
+            item = null;
+        _shop.clear();
+        _shop = null;
+
+        for(HighScore x: _highScore)
+            x = null;
+        _highScore.clear();
+        _highScore = null;
     }
 }

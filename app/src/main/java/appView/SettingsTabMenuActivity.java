@@ -23,10 +23,10 @@ public class SettingsTabMenuActivity extends Fragment {
     private Intent _intent;
     private AppContent _appContent;
 
-    public void setOnCreate(Activity activity, Intent intent){
+    public void setOnCreate(Activity activity, Intent intent, AppContent appContent){
         this._activity = activity;
         this._intent = intent;
-        this._appContent = (AppContent) _intent.getSerializableExtra("appContent");
+        this._appContent = _appContent;
     }
 
     @Override
@@ -69,7 +69,7 @@ public class SettingsTabMenuActivity extends Fragment {
 
     public void changePassword(View view){
         Intent intent = new Intent(_activity, ChangePasswordActivity.class);
-        intent.putExtra("appContent", _appContent);
+//        intent.putExtra("appContent", _appContent);
         _activity.startActivity(intent);
     }
 
@@ -85,7 +85,7 @@ public class SettingsTabMenuActivity extends Fragment {
     public void changeAvatar(View view) {
         if(_appContent.getProfile().hasItem(3)) {
             Intent intent = new Intent(_activity, ChangeAvatarActivity.class);
-            intent.putExtra("appContent", _appContent);
+//            intent.putExtra("appContent", _appContent);
             _activity.startActivity(intent);
         }
         else{

@@ -79,8 +79,10 @@ public class Answer implements Serializable {
             object.put("_isImageAnswer", _isImageAnswer);
 
             JSONArray image = new JSONArray();
-            for(byte x: _image){
-                image.put(x);
+            if(_image != null) {
+                for (byte x : _image) {
+                    image.put(x);
+                }
             }
             object.put("_image", image);
 
@@ -91,4 +93,5 @@ public class Answer implements Serializable {
         }
         return object;
     }
+
 }

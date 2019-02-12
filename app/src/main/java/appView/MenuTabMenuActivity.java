@@ -15,19 +15,12 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.gson.JsonParser;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 import entity.AppContent;
 import entity.Game;
 import entity.Tag;
-import presenter.JsonPresenter;
 import presenter.SetQuestionPresenter;
-import presenter.TagPresenter;
 
 public class MenuTabMenuActivity extends Fragment {
 
@@ -38,12 +31,13 @@ public class MenuTabMenuActivity extends Fragment {
     private ArrayList<Game> _games;
     private ArrayList<Tag> _tags;
 
-    private JsonPresenter _jsonPresenter;
+//    private JsonPresenter _jsonPresenter;
 
-    public void setOnCreate(Activity activity, Intent intent){
+    public void setOnCreate(Activity activity, Intent intent, AppContent appContent){
         this._activity = activity;
         this._intent = intent;
-        this._jsonPresenter = new JsonPresenter(_activity);
+        this._appContent = appContent;
+//        this._jsonPresenter = new JsonPresenter(_activity);
     }
 
     @Override
@@ -54,12 +48,13 @@ public class MenuTabMenuActivity extends Fragment {
         this._progress = rootView.findViewById(appView.R.id.progressMenu);
         _progress.setVisibility(View.GONE);
 
-        try {
-            JSONObject object =_jsonPresenter.readJSONFromFile();
-            this._appContent = _jsonPresenter.parseJSON(object);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+//        this._jsonPresenter = new JsonPresenter(_activity);
+//        try {
+//            JSONObject object =_jsonPresenter.readJSONFromFile();
+//            this._appContent = _jsonPresenter.parseJSON(object, 0);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
 //        this._appContent = (AppContent) _intent.getSerializableExtra("appContent");
         this._games = _appContent.getGames();
         this._tags = _appContent.getTags();
@@ -126,14 +121,16 @@ public class MenuTabMenuActivity extends Fragment {
 
     public void addGames(LinearLayout ll, LinearLayout.LayoutParams lp){
         final Intent intent = new Intent(_activity, GameActivity.class);
-        intent.putExtra("appContent", _appContent);
+//        intent.putExtra("appContent", _appContent);
 
         for (final Game game : _games) {
             Button gameButton = new Button(_activity);
-            gameButton.setText(game.getName());
+            gameButton.setText(String.format("%s",game.getName()));
+            gameButton.setTextSize(20);
+            gameButton.setPadding(0, 5, 0, 5);
             gameButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    SetQuestionPresenter setQuestionPresenter = new SetQuestionPresenter(game, _activity, _progress, intent);
+                    SetQuestionPresenter setQuestionPresenter = new SetQuestionPresenter(game, _activity, _progress, intent, _appContent);
                     setQuestionPresenter.execute();
                 }
             });

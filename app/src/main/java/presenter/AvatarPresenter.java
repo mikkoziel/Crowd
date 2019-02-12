@@ -60,7 +60,7 @@ public class AvatarPresenter extends AsyncTask<Void, Void, Void> {
         _avatarInteractor.endWork();
 
         Intent intent = new Intent(_activity, TabMenuActivity.class);
-        intent.putExtra("appContent", _appContent);
+//        intent.putExtra("appContent", _appContent);
         intent.putExtra("item", 2);
 
         _activity.startActivity(intent);

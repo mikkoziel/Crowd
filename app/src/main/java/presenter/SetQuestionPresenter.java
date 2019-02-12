@@ -34,12 +34,11 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
 
     private QuestionInteractor _questionInteractor;
 
-    public SetQuestionPresenter(Game game, Activity activity, ProgressBar progress, Intent intent) {
+    public SetQuestionPresenter(Game game, Activity activity, ProgressBar progress, Intent intent, AppContent appContent) {
         this._activity = activity;
         this._progress = progress;
         this._intent = intent;
-        this._appContent = (AppContent) intent
-                .getSerializableExtra("appContent");
+        this._appContent = appContent;
         this._game = game;
         this._questionInteractor = new QuestionInteractor();
     }

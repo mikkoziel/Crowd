@@ -22,6 +22,7 @@ import entity.Answer;
 import entity.AppContent;
 import entity.GivenAnswer;
 import entity.Game;
+import entity.GlobalClass;
 import entity.Profile;
 import entity.Question;
 
@@ -50,6 +51,7 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
     private Question _question;
 
     private PossibleAnswerInteractor _possibleAnswerInteractor;
+    private JsonPresenter _jsonPresenter;
 
     public PossibleAnswerPresenter(Activity activity,
                                    Intent intent,
@@ -71,6 +73,7 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
         _game.nextIndex();
 
         this._possibleAnswerInteractor = new PossibleAnswerInteractor();
+        this._jsonPresenter = new JsonPresenter(_activity);
     }
 
     @Override
@@ -118,7 +121,12 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
         _possibleAnswerInteractor.endWork();
         _progress.setVisibility(View.GONE);
         if(_possibleAnswerInteractor.isSuccess()){
-            _intent.putExtra("appContent", _appContent);
+//            _intent.putExtra("appContent", _appContent);
+//            GlobalClass global = ((GlobalClass) _activity.getApplicationContext());
+//            global.setAppContent(_appContent);
+            _jsonPresenter.writeToJson(_appContent, 1);
+            _appContent = null;
+            System.gc();
             //_intent.putExtra("game", _game);
             _activity.startActivity(_intent);
         }
@@ -142,7 +150,12 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
                     Intent intent = new Intent(_activity, QuestionActivity.class);
                     GivenAnswer given = new GivenAnswer(_profile, _question, a);
                     intent.putExtra("answer", given);
-                    intent.putExtra("appContent", _appContent);
+//                    intent.putExtra("appContent", _appContent);
+                    GlobalClass global = ((GlobalClass) _activity.getApplicationContext());
+                    global.setAppContent(_appContent);
+                    _jsonPresenter.writeToJson(_appContent, 1);
+                    _appContent = null;
+                    System.gc();
                     _activity.startActivity(intent);
                 }
             });
@@ -154,7 +167,13 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
                     Intent intent = new Intent(_activity, EndGameActivity.class);
                     GivenAnswer given = new GivenAnswer(_profile, _question, a);
                     intent.putExtra("answer", given);
-                    intent.putExtra("appContent", _appContent);
+//                    intent.putExtra("appContent", _appContent);
+                    GlobalClass global = ((GlobalClass) _activity.getApplicationContext());
+                    global.setAppContent(_appContent);
+                    _jsonPresenter.writeToJson(_appContent, 1);
+                    _appContent.destroy();
+                    _appContent = null;
+                    System.gc();
                     _activity.startActivity(intent);
                 }
             });

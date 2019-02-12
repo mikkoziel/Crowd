@@ -110,12 +110,19 @@ public class Profile implements Serializable {
 
             JSONArray items = new JSONArray();
             for(Item item: _items){
-                items.put(item.toJson());
+                items.put(item.getID(), item.toJson());
             }
             object.put("_items", items);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return object;
+    }
+
+    public void destroy(){
+        for(Item item: _items)
+            item = null;
+        _items.clear();
+        _items = null;
     }
 }

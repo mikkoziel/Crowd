@@ -49,7 +49,7 @@ public class HighScorePresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void voids) {
         if (_highScoreInteractor.isSuccess()) {
-            _intent.putExtra("appContent", _appContent);
+//            _intent.putExtra("appContent", _appContent);
             _activity.startActivity(_intent);
         }
         _highScoreInteractor.endWork();

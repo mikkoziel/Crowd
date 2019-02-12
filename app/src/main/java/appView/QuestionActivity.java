@@ -8,11 +8,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,19 +24,21 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 import entity.Answer;
 import entity.AppContent;
 import entity.Game;
 import entity.GivenAnswer;
 
+import entity.GlobalClass;
 import entity.Question;
-import interactor.QuestionInteractor;
 import presenter.FilePresenter;
+import presenter.JsonPresenter;
 import presenter.NewAnswerPresenter;
-import presenter.PossibleAnswerPresenter;
 import presenter.GivenAnswerPresenter;
 
-public class QuestionActivity extends AppCompatActivity {
+public class QuestionActivity extends Fragment {
 
     private ProgressBar _progress;
     private Activity _activity;
@@ -49,39 +55,71 @@ public class QuestionActivity extends AppCompatActivity {
     private Game _game;
     private Question _question;
     private FilePresenter _filePresenter;
+    private JsonPresenter _jsonPresenter;
+    private GlobalClass _global;
+    private int _index;
+    private GivenAnswer _given;
+    private View _view;
 
+    public void setOnCreate(AppContent appContent, Question question, int index){
+        this._appContent = appContent;
+        this._question = question;
+        this._index = index;
+        this._given = null;
+    }
+
+//    public void onDisplay(){
+//        if(_given != null){
+//            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(_given, getActivity());
+//            givenAnswerPresenter.execute();
+//        }
+//    }
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(appView.R.layout.activity_question);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable final Bundle savedInstanceState) {
+        this._view = inflater.inflate(R.layout.activity_question, container, false);
 
-        Intent intent = getIntent();
-        this._appContent = (AppContent) intent.getSerializableExtra("appContent");
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(appView.R.layout.activity_question);
+
+//        Intent intent = getIntent();
+        this._activity = getActivity();
+//        this._global = ((GlobalClass)getApplicationContext());
+//        this._appContent = _global.getAppContent();
+
+//        this._jsonPresenter = new JsonPresenter(_activity);
+//        this._appContent = _jsonPresenter.getJSON(1);
+        //        this._appContent = (AppContent) intent.getSerializableExtra("appContent");
         this._game = _appContent.getCurrentGame();
-        this._question = _game.getCurrentQueston();
 
-        this._progress = findViewById(appView.R.id.progress);
+        this._progress = _view.findViewById(appView.R.id.progress);
         _progress.setVisibility(View.GONE);
 
-        this._row1 = findViewById(appView.R.id.row1);
-        this._row2 = findViewById(appView.R.id.row2);
-        this._row3 = findViewById(appView.R.id.row3);
-        this._activity = this;
+        this._row1 = _view.findViewById(appView.R.id.row1);
+        this._row2 = _view.findViewById(appView.R.id.row2);
+        this._row3 = _view.findViewById(appView.R.id.row3);
 
-        if(getIntent().hasExtra("answer")){
-            GivenAnswer given = (GivenAnswer) intent.getSerializableExtra("answer");
-            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(given, _activity);
-            givenAnswerPresenter.execute();
-        }
+        //TODO naprawić
+//        if(getIntent().hasExtra("answer")){
+//            GivenAnswer given = (GivenAnswer) intent.getSerializableExtra("answer");
+//            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(given, _activity);
+//            givenAnswerPresenter.execute();
+//        }
+
 
         this._filePresenter = new FilePresenter();
         this._lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
 
         setContent();
+
+        return _view;
     }
 
     public void setContent(){
-        LinearLayout layout = findViewById(appView.R.id.questionlayout);
+        LinearLayout layout = _view.findViewById(appView.R.id.questionlayout);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
         switch(_question.getType()){
@@ -122,7 +160,7 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     public TextView setTextView(String questionText){
-        TextView question = new TextView(this);
+        TextView question = new TextView(_activity);
         question.setText(questionText);
         question.setTextSize(26);
         question.setGravity(Gravity.CENTER);
@@ -130,7 +168,7 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     public ImageView setImageView(Bitmap questionImage){
-        ImageView question = new ImageView(this);
+        ImageView question = new ImageView(_activity);
         question.setImageBitmap(questionImage);
         return question;
     }
@@ -161,11 +199,21 @@ public class QuestionActivity extends AppCompatActivity {
         if(_game.getIndex() < _game.getQuestions().size()) {
             answer.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Intent intent = new Intent(_activity, QuestionActivity.class);
+//                    Intent intent = new Intent(_activity, QuestionActivity.class);
+                    //TODO dodać given do nowego fragmentu, sprawdzic czy działa?
                     GivenAnswer given = new GivenAnswer(_appContent.getProfile(), _question, a);
-                    intent.putExtra("answer", given);
-                    intent.putExtra("appContent", _appContent);
-                    _activity.startActivity(intent);
+//                    intent.putExtra("answer", given);
+//                    intent.putExtra("appContent", _appContent);
+//                    _jsonPresenter.writeToJson(_appContent, 1);
+//                    _appContent.destroy();
+//                    _appContent = null;
+
+//                    _global.setAppContent(_appContent);
+//                    _activity.startActivity(intent);
+                    setGiven(given);
+                    handleGiven();
+
+                    ((GameActivity)getActivity()).setViewPager(_index + 1);
                 }
             });
         }
@@ -176,8 +224,18 @@ public class QuestionActivity extends AppCompatActivity {
                     Intent intent = new Intent(_activity, EndGameActivity.class);
                     GivenAnswer given = new GivenAnswer(_appContent.getProfile(), _question, a);
                     intent.putExtra("answer", given);
-                    intent.putExtra("appContent", _appContent);
-                    _activity.startActivity(intent);
+//                    intent.putExtra("appContent", _appContent);
+//                    _jsonPresenter.writeToJson(_appContent, 1);
+//                    _appContent.destroy();
+//                    _appContent = null;
+
+//                    _global.setAppContent(_appContent);
+//                    _activity.startActivity(intent);
+
+                    setGiven(given);
+                    handleGiven();
+
+                    ((GameActivity)getActivity()).setViewPager(_index + 1);
                 }
             });
         }
@@ -201,7 +259,7 @@ public class QuestionActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     public void setOpenAnswer(LinearLayout.LayoutParams lp) {
-        LinearLayout layout = findViewById(appView.R.id.answerlayout);
+        LinearLayout layout = _view.findViewById(appView.R.id.answerlayout);
 
         final EditText answer = new EditText(_activity);
         final Button button = new Button(_activity);
@@ -230,28 +288,41 @@ public class QuestionActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onBackPressed() {
-        createAlertDialog("Closing Activity", "Are you sure you want to end the game?");
+    public void setGiven(GivenAnswer given){
+        this._given = given;
     }
 
-    public void createAlertDialog(String title, String message){
-        new AlertDialog.Builder(this)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        _game.prevIndex();
-                        Intent intent = new Intent(_activity, GameActivity.class);
-                        intent.putExtra("appContent", _appContent);
-                        _activity.startActivity(intent);
-                    }
-
-                })
-                .setNegativeButton("No", null)
-                .show();
+    public void handleGiven(){
+        if(_given != null){
+            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(_given, getActivity());
+            givenAnswerPresenter.execute();
+        }
     }
+
+    //TODO: naprawić czy na pewno?
+//    public void onBackPressed() {
+//        createAlertDialog("Closing Activity", "Are you sure you want to end the game?");
+//    }
+//
+//    public void createAlertDialog(String title, String message){
+//        new AlertDialog.Builder(_activity)
+//                .setIcon(android.R.drawable.ic_dialog_alert)
+//                .setTitle(title)
+//                .setMessage(message)
+//                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+//                {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        _game.prevIndex();
+//                        Intent intent = new Intent(_activity, StartGameActivity.class);
+////                        intent.putExtra("appContent", _appContent);
+//
+//                        _global.setAppContent(_appContent);
+//                        _activity.startActivity(intent);
+//                    }
+//
+//                })
+//                .setNegativeButton("No", null)
+//                .show();
+//    }
 }

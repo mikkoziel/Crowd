@@ -109,7 +109,7 @@ public class Question implements Serializable{
 
     public String getImage(){return _image;}
 
-    public JSONObject toJson(){
+    public JSONObject toJson(int mode){
         JSONObject object = new JSONObject();
         try {
             object.put("_question", _question);
@@ -121,7 +121,7 @@ public class Question implements Serializable{
             object.put("_isImageQuestion", _isImageQuestion);
             JSONArray answers = new JSONArray();
             for(Answer answer: _answers){
-                answers.put(answer.toJson());
+                answers.put(answer.getID(), answer.toJson());
             }
             object.put("_answers", answers);
 
@@ -129,6 +129,14 @@ public class Question implements Serializable{
             e.printStackTrace();
         }
         return object;
+    }
+
+    public void destroy(){
+        for(Answer answer: _answers){
+            answer = null;
+        }
+        _answers.clear();
+        _answers = null;
     }
 }
 

@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import entity.AppContent;
+import entity.GlobalClass;
 import presenter.StartAppPresenter;
 import presenter.RegistrationPresenter;
 
@@ -37,7 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
         _progress.setVisibility(View.GONE);
 
-        _appContent = new AppContent(); //empty for now
+//        GlobalClass global = (GlobalClass) getApplication();
+        _appContent = new AppContent();//empty for now
+//        global.setAppContent(_appContent);
     }
 
     public void loginButton(View view){
