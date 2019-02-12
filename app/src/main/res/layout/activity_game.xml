@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     tools:context="appView.GameActivity">
 
-    <android.support.v4.view.ViewPager
+    <appView.CustomViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/containter">
 
-    </android.support.v4.view.ViewPager>
+    </appView.CustomViewPager>
 
 </android.support.constraint.ConstraintLayout>

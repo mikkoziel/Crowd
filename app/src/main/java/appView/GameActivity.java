@@ -21,19 +21,18 @@ public class GameActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     private SectionsStatePagerAdapter mSectionsStatePagerAdapter;
-    private ViewPager mViewPager;
+    private CustomViewPager mViewPager;
     private AppContent _appContent;
     private JsonPresenter _jsonPresenter;
 
     private Game _game;
-    private GivenAnswer _given;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         Log.d(TAG, "onCreate: Started.");
-//
+
 //        this._jsonPresenter = new JsonPresenter(this);
 //        this._appContent = _jsonPresenter.getJSON(0);
 
@@ -42,12 +41,8 @@ public class GameActivity extends AppCompatActivity {
 
         mSectionsStatePagerAdapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
 
-        mViewPager = (ViewPager) findViewById(R.id.containter);
-        //setup the pager
+        mViewPager = findViewById(R.id.containter);
         setupViewPager(mViewPager);
-
-
-//        mViewPager.setCurrentItem();
 
     }
 
@@ -71,15 +66,13 @@ public class GameActivity extends AppCompatActivity {
         EndGameActivity endGame = new EndGameActivity();
         endGame.setOnCreate(_appContent, index);
         adapter.addFragment(endGame);
-//        fragment.setOnCreate();
-//        adapter.addFragment(new Fragment1(), "Fragment1");
 
         viewPager.setAdapter(adapter);
     }
 
     public void setViewPager(int fragmentNumber){
         mViewPager.setCurrentItem(fragmentNumber);
-        ((SectionsStatePagerAdapter) mViewPager.getAdapter()).deleteFragment(fragmentNumber - 1);
+//        ((SectionsStatePagerAdapter) mViewPager.getAdapter()).deleteFragment(fragmentNumber - 1);
     }
 
     public Fragment getFragment(int fragmentNumber) {
@@ -88,7 +81,7 @@ public class GameActivity extends AppCompatActivity {
 
 
 
-    //TODO Coś z tym zrobić
+    //TODO Coś z tym zrobić, Gotowe?
     @Override
     public void onBackPressed() {
         int current = mViewPager.getCurrentItem();
@@ -111,8 +104,5 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
-    public void setGiven(GivenAnswer given){
-        this._given = given;
-    }
 }
 

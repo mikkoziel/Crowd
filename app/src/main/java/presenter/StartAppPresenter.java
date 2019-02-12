@@ -147,9 +147,9 @@ public class StartAppPresenter extends AsyncTask<Void, Void, Void> {
 //        GlobalClass global = ((GlobalClass) _activity.getApplicationContext());
 //        global.setAppContent(_appContent);
 
-        _appContent.destroy();
-        _appContent = null;
-        System.gc();
+//        _appContent.destroy();
+//        _appContent = null;
+//        System.gc();
 
         String result = _profileInteractor.getResult();
         Toast.makeText(_activity, result, Toast.LENGTH_LONG).show();
