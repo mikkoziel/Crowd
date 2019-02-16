@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import entity.HighScore;
+import tools.DataBaseConnector;
 
 public class HighScoreInteractor {
 

@@ -16,39 +16,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ChangeAvatarActivity"
-            android:noHistory="true"/>
-        <activity android:name=".MainActivity"
-            android:noHistory="true">
+        <activity android:name=".ChangeAvatarActivity" />
+        <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--<activity android:name=".QuestionActivity"-->
-            <!--android:noHistory="true" />-->
-        <activity android:name=".GameActivity"
-            android:noHistory="true"/>
+        <activity android:name=".GameActivity" />
         <activity
             android:name=".TabMenuActivity"
             android:label="@string/title_activity_tab_menu"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:noHistory="true" />
-        <activity android:name=".ChangePasswordActivity"
-            android:noHistory="true" />
-        <!--<activity android:name=".EndGameActivity"-->
-            <!--android:noHistory="true" />-->
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".ChangePasswordActivity" />
         <activity
             android:name=".HighScoreActivity"
             android:label="@string/title_activity_highscore"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:noHistory="true" />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".ShopActivity"
             android:label="@string/title_activity_shop"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:noHistory="true" />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
     </application>
 
 </manifest>

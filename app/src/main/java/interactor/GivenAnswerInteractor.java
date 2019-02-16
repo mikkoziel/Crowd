@@ -10,6 +10,7 @@ import java.util.Date;
 import entity.Answer;
 import entity.GivenAnswer;
 import entity.Profile;
+import tools.DataBaseConnector;
 
 public class GivenAnswerInteractor {
     private DataBaseConnector _dbConnector;

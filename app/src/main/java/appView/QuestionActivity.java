@@ -2,16 +2,12 @@ package appView;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,14 +20,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.util.Objects;
-
 import entity.Answer;
 import entity.AppContent;
 import entity.Game;
 import entity.GivenAnswer;
 
-import entity.GlobalClass;
 import entity.Question;
 import presenter.FilePresenter;
 import presenter.JsonPresenter;
@@ -56,44 +49,24 @@ public class QuestionActivity extends Fragment {
     private Question _question;
     private FilePresenter _filePresenter;
     private JsonPresenter _jsonPresenter;
-    private GlobalClass _global;
     private int _index;
     private GivenAnswer _given;
     private View _view;
 
-    public void setOnCreate(AppContent appContent, Question question, int index){
+    public void setOnCreate(AppContent appContent, Question question, int index, Game game){
         this._appContent = appContent;
         this._question = question;
         this._index = index;
+        this._game = game;
         this._given = null;
     }
-
-//    public void onDisplay(){
-//        if(_given != null){
-//            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(_given, getActivity());
-//            givenAnswerPresenter.execute();
-//        }
-//    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable final Bundle savedInstanceState) {
         this._view = inflater.inflate(R.layout.activity_question, container, false);
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(appView.R.layout.activity_question);
-
-//        Intent intent = getIntent();
         this._activity = getActivity();
-//        this._global = ((GlobalClass)getApplicationContext());
-//        this._appContent = _global.getAppContent();
-
-//        this._jsonPresenter = new JsonPresenter(_activity);
-//        this._appContent = _jsonPresenter.getJSON(1);
-        //        this._appContent = (AppContent) intent.getSerializableExtra("appContent");
-        this._game = _appContent.getCurrentGame();
 
         this._progress = _view.findViewById(appView.R.id.progress);
         _progress.setVisibility(View.GONE);
@@ -101,14 +74,6 @@ public class QuestionActivity extends Fragment {
         this._row1 = _view.findViewById(appView.R.id.row1);
         this._row2 = _view.findViewById(appView.R.id.row2);
         this._row3 = _view.findViewById(appView.R.id.row3);
-
-        //TODO naprawić
-//        if(getIntent().hasExtra("answer")){
-//            GivenAnswer given = (GivenAnswer) intent.getSerializableExtra("answer");
-//            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(given, _activity);
-//            givenAnswerPresenter.execute();
-//        }
-
 
         this._filePresenter = new FilePresenter();
         this._lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
@@ -174,8 +139,6 @@ public class QuestionActivity extends Fragment {
     }
 
     public void setAnswer(){
-//        PossibleAnswerPresenter possibleAnswerPresenter = new PossibleAnswerPresenter(this, _progress, _lp, _appContent);
-//        possibleAnswerPresenter.execute();
         int _i = 0;
 
         for(Answer answer : _question.getAnswers()){
@@ -199,21 +162,13 @@ public class QuestionActivity extends Fragment {
         if(_game.getIndex() < _game.getQuestions().size()) {
             answer.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-//                    Intent intent = new Intent(_activity, QuestionActivity.class);
+                    lockButtons();
                     //TODO dodać given do nowego fragmentu, sprawdzic czy działa?
                     GivenAnswer given = new GivenAnswer(_appContent.getProfile(), _question, a);
-//                    intent.putExtra("answer", given);
-//                    intent.putExtra("appContent", _appContent);
-//                    _jsonPresenter.writeToJson(_appContent, 1);
-//                    _appContent.destroy();
-//                    _appContent = null;
-
-//                    _global.setAppContent(_appContent);
-//                    _activity.startActivity(intent);
-                    setGiven(given);
-                    handleGiven();
+                    handleGiven(given);
 
                     ((GameActivity)getActivity()).setViewPager(_index + 1);
+                    unlockButtons();
                 }
             });
         }
@@ -221,19 +176,8 @@ public class QuestionActivity extends Fragment {
             _game.setPlayed(false);
             answer.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Intent intent = new Intent(_activity, EndGameActivity.class);
                     GivenAnswer given = new GivenAnswer(_appContent.getProfile(), _question, a);
-                    intent.putExtra("answer", given);
-//                    intent.putExtra("appContent", _appContent);
-//                    _jsonPresenter.writeToJson(_appContent, 1);
-//                    _appContent.destroy();
-//                    _appContent = null;
-
-//                    _global.setAppContent(_appContent);
-//                    _activity.startActivity(intent);
-
-                    setGiven(given);
-                    handleGiven();
+                    handleGiven(given);
 
                     ((GameActivity)getActivity()).setViewPager(_index + 1);
                 }
@@ -288,41 +232,35 @@ public class QuestionActivity extends Fragment {
 
     }
 
-    public void setGiven(GivenAnswer given){
-        this._given = given;
-    }
-
-    public void handleGiven(){
-        if(_given != null){
-            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(_given, getActivity());
+    public void handleGiven(GivenAnswer given){
+        if(given != null){
+            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(given, getActivity());
             givenAnswerPresenter.execute();
         }
     }
 
-    //TODO: naprawić czy na pewno?
-//    public void onBackPressed() {
-//        createAlertDialog("Closing Activity", "Are you sure you want to end the game?");
-//    }
-//
-//    public void createAlertDialog(String title, String message){
-//        new AlertDialog.Builder(_activity)
-//                .setIcon(android.R.drawable.ic_dialog_alert)
-//                .setTitle(title)
-//                .setMessage(message)
-//                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
-//                {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        _game.prevIndex();
-//                        Intent intent = new Intent(_activity, StartGameActivity.class);
-////                        intent.putExtra("appContent", _appContent);
-//
-//                        _global.setAppContent(_appContent);
-//                        _activity.startActivity(intent);
-//                    }
-//
-//                })
-//                .setNegativeButton("No", null)
-//                .show();
-//    }
+    public void lockButtons(){
+        LinearLayout ll = _view.findViewById(appView.R.id.answerlayout);
+        int count = ll.getChildCount();
+        for(int i=0; i<count; i++) {
+            LinearLayout tmp = (LinearLayout) ll.getChildAt(i);
+            for(int j =0; j< tmp.getChildCount(); j++) {
+                Button v = (Button) tmp.getChildAt(j);
+                v.setClickable(false);
+            }
+        }
+    }
+
+    public void unlockButtons(){
+        LinearLayout ll = _view.findViewById(appView.R.id.answerlayout);
+        int count = ll.getChildCount();
+        for(int i=0; i<count; i++) {
+            LinearLayout tmp = (LinearLayout) ll.getChildAt(i);
+            for(int j =0; j< tmp.getChildCount(); j++) {
+                Button v = (Button) tmp.getChildAt(j);
+                v.setClickable(true);
+            }
+        }
+    }
+
 }

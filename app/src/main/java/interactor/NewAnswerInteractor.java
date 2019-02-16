@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import entity.Answer;
+import tools.DataBaseConnector;
 
 public class NewAnswerInteractor {
     private DataBaseConnector _dbConnector;

@@ -69,7 +69,7 @@ public class SettingsTabMenuActivity extends Fragment {
 
     public void changePassword(View view){
         Intent intent = new Intent(_activity, ChangePasswordActivity.class);
-//        intent.putExtra("appContent", _appContent);
+        intent.putExtra("appContent", _appContent);
         _activity.startActivity(intent);
     }
 
@@ -85,7 +85,7 @@ public class SettingsTabMenuActivity extends Fragment {
     public void changeAvatar(View view) {
         if(_appContent.getProfile().hasItem(3)) {
             Intent intent = new Intent(_activity, ChangeAvatarActivity.class);
-//            intent.putExtra("appContent", _appContent);
+            intent.putExtra("appContent", _appContent);
             _activity.startActivity(intent);
         }
         else{

@@ -1,7 +1,6 @@
 package interactor;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Environment;
 
 import java.io.BufferedInputStream;
@@ -18,6 +17,7 @@ import java.util.Random;
 
 import entity.Game;
 import entity.Question;
+import tools.DataBaseConnector;
 
 public class QuestionInteractor {
     private DataBaseConnector _dbConnector;

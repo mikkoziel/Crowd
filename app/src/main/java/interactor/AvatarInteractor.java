@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import entity.Avatar;
+import tools.DataBaseConnector;
 
 public class AvatarInteractor {
 

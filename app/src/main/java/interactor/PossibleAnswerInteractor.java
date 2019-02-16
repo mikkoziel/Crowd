@@ -8,6 +8,7 @@ import java.util.Random;
 
 import entity.Answer;
 import entity.Question;
+import tools.DataBaseConnector;
 
 public class PossibleAnswerInteractor {
     private DataBaseConnector _dbConnector;

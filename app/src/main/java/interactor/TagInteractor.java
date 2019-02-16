@@ -1,14 +1,12 @@
 package interactor;
 
-import android.widget.ArrayAdapter;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import entity.Game;
-import entity.Profile;
 import entity.Tag;
+import tools.DataBaseConnector;
 
 public class TagInteractor {
 

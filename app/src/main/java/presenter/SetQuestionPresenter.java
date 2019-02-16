@@ -69,8 +69,6 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
             e.printStackTrace();
         }
 
-        _appContent.updateGame(_game);
-        _appContent.setCurrentGameID(_game.getID());
         return null;
     }
 
@@ -79,7 +77,7 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
         _questionInteractor.endWork();
         if (_questionInteractor.isSuccess()) {
             LinearLayout.LayoutParams _lp  = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
-            PossibleAnswerPresenter possibleAnswerPresenter = new PossibleAnswerPresenter(_activity, _intent, _progress, _lp, _appContent);
+            PossibleAnswerPresenter possibleAnswerPresenter = new PossibleAnswerPresenter(_activity, _intent, _progress, _lp, _appContent, _game);
             possibleAnswerPresenter.execute();
 
 //            _intent.putExtra("appContent", _appContent);

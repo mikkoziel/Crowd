@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import entity.AppContent;
+import entity.Game;
 import entity.GivenAnswer;
 
 import presenter.GivenAnswerPresenter;
@@ -27,20 +28,22 @@ public class EndGameActivity extends Fragment {
     private JsonPresenter _jsonPresenter;
     private View _view;
     private int _index;
-    private GivenAnswer _given;
+    private Game _game;
+//    private GivenAnswer _given;
 
-    public void setOnCreate(AppContent appContent, int index){
+    public void setOnCreate(AppContent appContent, int index, Game game){
         this._appContent = appContent;
         this._index = index;
-        this._given = null;
+        this._game = game;
+//        this._given = null;
     }
 
-    public void onDisplay(){
-        if(_given != null){
-            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(_given, getActivity());
-            givenAnswerPresenter.execute();
-        }
-    }
+//    public void onDisplay(){
+//        if(_given != null){
+//            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(_given, getActivity());
+//            givenAnswerPresenter.execute();
+//        }
+//    }
 
     @Nullable
     @Override
@@ -61,13 +64,13 @@ public class EndGameActivity extends Fragment {
         this._progress = _view.findViewById(R.id.progress);
         _progress.setVisibility(View.GONE);
 
-//        TODO: naprawić
-//        if(getIntent().hasExtra("answer")){
-        if(_given != null){
-//            GivenAnswer given = (GivenAnswer) intent.getSerializableExtra("answer");
-            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(_given, getActivity());
-            givenAnswerPresenter.execute();
-        }
+////
+////        if(getIntent().hasExtra("answer")){
+//        if(_given != null){
+////            GivenAnswer given = (GivenAnswer) intent.getSerializableExtra("answer");
+//            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(_given, getActivity());
+//            givenAnswerPresenter.execute();
+//        }
 
         TextView endText = _view.findViewById(R.id.endgame);
         String text = "You answered all questions.\n What would you like to do?";
@@ -91,17 +94,19 @@ public class EndGameActivity extends Fragment {
     }
 
     public void backButton(){
-        UpdateAppContentPresenter updateAppContentPresenter = new UpdateAppContentPresenter(getActivity(), _progress, _appContent);
+        UpdateAppContentPresenter updateAppContentPresenter = new UpdateAppContentPresenter(getActivity(), _progress, _appContent, _game);
         updateAppContentPresenter.execute();
     }
 
+    //TODO naprawić
     public void repeatButton(){
-        Intent intent = new Intent(getActivity(), StartGameActivity.class);
+        ((GameActivity)getActivity()).setViewPager(0);
+//        Intent intent = new Intent(getActivity(), StartGameActivity.class);
 //        intent.putExtra("appContent", _appContent);
-        _jsonPresenter.writeToJson(_appContent, 1);
-        _appContent.destroy();
-        _appContent = null;
-        this.startActivity(intent);
+//        _jsonPresenter.writeToJson(_appContent, 1);
+//        _appContent.destroy();
+//        _appContent = null;
+//        this.startActivity(intent);
     }
 
 //    public void onBackPressed() {

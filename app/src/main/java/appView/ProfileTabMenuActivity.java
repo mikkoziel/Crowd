@@ -167,14 +167,14 @@ public class ProfileTabMenuActivity extends Fragment {
 
     public void showHighScore(){
         Intent intent = new Intent(_activity, HighScoreActivity.class);
-//        intent.putExtra("appContent", _appContent);
+        intent.putExtra("appContent", _appContent);
         HighScorePresenter highscorePresenter = new HighScorePresenter(_activity, intent, _appContent);
         highscorePresenter.execute();
     }
 
     public void showShop(){
         Intent intent = new Intent(_activity, ShopActivity.class);
-//        intent.putExtra("appContent", _appContent);
+        intent.putExtra("appContent", _appContent);
         _activity.startActivity(intent);
 //        ShopPresenter shopPresenter = new ShopPresenter(_activity, intent, _appContent);
 //        shopPresenter.execute();

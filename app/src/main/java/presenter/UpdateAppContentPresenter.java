@@ -13,11 +13,9 @@ import appView.TabMenuActivity;
 import entity.Answer;
 import entity.AppContent;
 import entity.Game;
-import entity.GlobalClass;
 import entity.Profile;
 import entity.Question;
 import interactor.GivenAnswerInteractor;
-import interactor.ProfileInteractor;
 
 public class UpdateAppContentPresenter extends AsyncTask<Void, Void, Void> {
 
@@ -30,13 +28,15 @@ public class UpdateAppContentPresenter extends AsyncTask<Void, Void, Void> {
 
     private GivenAnswerInteractor _givenAnswerInteractor;
     private JsonPresenter _jsonPresenter;
+    private Game _game;
 
-    public UpdateAppContentPresenter(Activity activity, ProgressBar progress, AppContent appContent) {
+    public UpdateAppContentPresenter(Activity activity, ProgressBar progress, AppContent appContent, Game game) {
         this._activity = activity;
         this._progress = progress;
         this._appContent = appContent;
         this._givenAnswerInteractor = new GivenAnswerInteractor();
         this._jsonPresenter = new JsonPresenter(_activity);
+        this._game = game;
 
     }
 
@@ -49,9 +49,8 @@ public class UpdateAppContentPresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... voids) {
         Profile profile = _appContent.getProfile();
-        Game game = _appContent.getCurrentGame();
         try {
-            for(Question question : game.getQuestions())
+            for(Question question : _game.getQuestions())
             {
                 for(Answer answer : question.getAnswers())
                 {
@@ -59,9 +58,8 @@ public class UpdateAppContentPresenter extends AsyncTask<Void, Void, Void> {
                     _givenAnswerInteractor.updateChosenValue(answer);
                     question.updateAnswer(answer);
                 }
-                game.updateQuestion(question);
+                _game.updateQuestion(question);
             }
-            _appContent.updateGame(game);
 
             _givenAnswerInteractor.updatePointsValue(profile);
             _givenAnswerInteractor.updateUserLevelValue(profile);
@@ -80,11 +78,12 @@ public class UpdateAppContentPresenter extends AsyncTask<Void, Void, Void> {
         if (_givenAnswerInteractor.isSuccess()) {
             Intent intent = new Intent(_activity, TabMenuActivity.class);
 //            intent.putExtra("appContent", _appContent);
-            _jsonPresenter.writeToJson(_appContent, 0);
-            GlobalClass.getInstance().setAppContent(_appContent);
-            _appContent.destroy();
-            _appContent = null;
-            System.gc();
+//            _jsonPresenter.writeToJson(_appContent, 0);
+//            GlobalClass.getInstance().setAppContent(_appContent);
+//            _appContent.destroy();
+//            _appContent = null;
+//            System.gc();
+            intent.putExtra("appContent", _appContent);
             intent.putExtra("item", 1);
             _activity.startActivity(intent);
         }

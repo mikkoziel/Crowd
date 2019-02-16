@@ -10,8 +10,7 @@ import java.util.Objects;
 
 import entity.AppContent;
 import entity.Game;
-import entity.GivenAnswer;
-import entity.GlobalClass;
+import tools.CustomViewPager;
 import entity.Question;
 import presenter.JsonPresenter;
 import presenter.UpdateAppContentPresenter;
@@ -36,8 +35,9 @@ public class GameActivity extends AppCompatActivity {
 //        this._jsonPresenter = new JsonPresenter(this);
 //        this._appContent = _jsonPresenter.getJSON(0);
 
-        this._appContent = GlobalClass.getInstance().getAppContent();
-        this._game = _appContent.getGame(_appContent.getCurrentGameID());
+//        this._appContent = GlobalClass.getInstance().getAppContent();
+        this._appContent = (AppContent) getIntent().getSerializableExtra("appContent");
+        this._game = (Game) getIntent().getSerializableExtra("game");
 
         mSectionsStatePagerAdapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
 
@@ -52,19 +52,19 @@ public class GameActivity extends AppCompatActivity {
         int index = 0;
 
         StartGameActivity startGame = new StartGameActivity();
-        startGame.setOnCreate(_appContent, index, this);
+        startGame.setOnCreate(_appContent, index, this, _game);
         adapter.addFragment(startGame);
 
         for(Question question: _game.getQuestions()){
-            index =+ 1;
+            index += 1;
             QuestionActivity questionA = new QuestionActivity();
-            questionA.setOnCreate(_appContent, question, index);
+            questionA.setOnCreate(_appContent, question, index, _game);
             adapter.addFragment(questionA);
         }
 
-        index =+ 1;
+        index += 1;
         EndGameActivity endGame = new EndGameActivity();
-        endGame.setOnCreate(_appContent, index);
+        endGame.setOnCreate(_appContent, index, _game);
         adapter.addFragment(endGame);
 
         viewPager.setAdapter(adapter);
@@ -88,13 +88,13 @@ public class GameActivity extends AppCompatActivity {
         int i;
         if(current == 0){
             StartGameActivity currentFragment = (StartGameActivity) getFragment(current);
-            UpdateAppContentPresenter updateAppContentPresenter = new UpdateAppContentPresenter(this, currentFragment.getProgress(), _appContent);
+            UpdateAppContentPresenter updateAppContentPresenter = new UpdateAppContentPresenter(this, currentFragment.getProgress(), _appContent, _game);
             updateAppContentPresenter.execute();
         }
         else{
             if(current == mViewPager.getAdapter().getCount()){
                 EndGameActivity currentFragment = (EndGameActivity) getFragment(current);
-                UpdateAppContentPresenter updateAppContentPresenter = new UpdateAppContentPresenter(this, currentFragment.getProgress(), _appContent);
+                UpdateAppContentPresenter updateAppContentPresenter = new UpdateAppContentPresenter(this, currentFragment.getProgress(), _appContent, _game);
                 updateAppContentPresenter.execute();
             }
             else{

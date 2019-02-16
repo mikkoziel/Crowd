@@ -15,12 +15,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import entity.AppContent;
-import entity.GlobalClass;
-import presenter.JsonPresenter;
 
 public class TabMenuActivity extends AppCompatActivity {
 
@@ -28,7 +23,7 @@ public class TabMenuActivity extends AppCompatActivity {
     private Activity _activity;
     private AppContent _appContent;
 
-    private JsonPresenter _jsonPresenter;
+//    private JsonPresenter _jsonPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +34,10 @@ public class TabMenuActivity extends AppCompatActivity {
         this._activity = this;
 //        this._jsonPresenter = new JsonPresenter(_activity);
 //        this._appContent = _jsonPresenter.getJSON(0);
-        this._appContent = GlobalClass.getInstance().getAppContent();
+//        this._appContent = GlobalClass.getInstance().getAppContent();
 //        GlobalClass global = ((GlobalClass)getApplicationContext());
 //        this._appContent = global.getAppContent();
-        //        this._appContent = (AppContent) _intent.getSerializableExtra("appContent");
+        this._appContent = (AppContent) _intent.getSerializableExtra("appContent");
 
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 

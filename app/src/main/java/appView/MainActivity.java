@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import entity.AppContent;
-import entity.GlobalClass;
 import presenter.StartAppPresenter;
 import presenter.RegistrationPresenter;
 
@@ -40,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
 //        GlobalClass global = (GlobalClass) getApplication();
         _appContent = new AppContent();//empty for now
-        GlobalClass.getInstance();
+//        GlobalClass.getInstance();
 //        global.setAppContent(_appContent);
     }
 

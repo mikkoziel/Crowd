@@ -10,6 +10,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 import entity.Profile;
+import tools.DataBaseConnector;
 
 public class ProfileInteractor {
     private static final String ALGORITHM = "AES";
