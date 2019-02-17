@@ -104,9 +104,11 @@ public class ProfileTabMenuActivity extends Fragment {
     public void addAvatar(View rootView){
         ImageView avatar = rootView.findViewById(R.id.imageView);
 
-        byte[] byteImage =  _profile.getAvatar().getIcon();
-        Bitmap bitmapImage = BitmapFactory.decodeByteArray(byteImage, 0, byteImage.length);
-        avatar.setImageBitmap(bitmapImage);
+
+        String avatarIcon = _profile.getAvatar().getIconName();
+        int imageResource = getResources().getIdentifier(avatarIcon, null, _activity.getPackageName());
+
+        avatar.setImageDrawable(getResources().getDrawable(imageResource));
     }
 
     private void populateItems(final View rootView){

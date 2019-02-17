@@ -31,13 +31,10 @@ public class MenuTabMenuActivity extends Fragment {
     private ArrayList<Game> _games;
     private ArrayList<Tag> _tags;
 
-//    private JsonPresenter _jsonPresenter;
-
     public void setOnCreate(Activity activity, Intent intent, AppContent appContent){
         this._activity = activity;
         this._intent = intent;
         this._appContent = appContent;
-//        this._jsonPresenter = new JsonPresenter(_activity);
     }
 
     @Override
@@ -48,14 +45,6 @@ public class MenuTabMenuActivity extends Fragment {
         this._progress = rootView.findViewById(appView.R.id.progressMenu);
         _progress.setVisibility(View.GONE);
 
-//        this._jsonPresenter = new JsonPresenter(_activity);
-//        try {
-//            JSONObject object =_jsonPresenter.readJSONFromFile();
-//            this._appContent = _jsonPresenter.parseJSON(object, 0);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        this._appContent = (AppContent) _intent.getSerializableExtra("appContent");
         this._games = _appContent.getGames();
         this._tags = _appContent.getTags();
 

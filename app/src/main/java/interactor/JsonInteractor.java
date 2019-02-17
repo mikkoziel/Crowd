@@ -219,11 +219,12 @@ public class JsonInteractor {
 
     private Avatar parseAvatar(JSONObject object) throws JSONException {
         int _avatarID = object.getInt("_avatarID");
-        byte[] _icon = parseArrayToBytes(object.get("_icon"));
-        byte[] _locked = parseArrayToBytes(object.get("_locked"));
+//        byte[] _icon = parseArrayToBytes(object.get("_icon"));
+//        byte[] _locked = parseArrayToBytes(object.get("_locked"));
         int _itemID = object.getInt("_itemID");
 
-        return new Avatar(_avatarID, _icon, _locked, _itemID);
+//        return new Avatar(_avatarID, _icon, _locked, _itemID);
+        return new Avatar(_avatarID, _itemID);
     }
 
     private Item parseItem(JSONObject object) throws JSONException {

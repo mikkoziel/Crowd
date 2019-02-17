@@ -28,14 +28,15 @@ public class AvatarInteractor {
         while (res.next()) {
             int id = res.getInt("avatarID");
             int itemId = res.getInt("itemID");
-            Blob blobImage = res.getBlob("avatar");
-            Blob blobLocked = res.getBlob("locked");
-            byte[] byteImage = blobImage.getBytes(1, (int) blobImage.length());
-            byte[] byteLocked = null;
-            if(!res.wasNull()) {
-                byteLocked = blobLocked.getBytes(1, (int) blobLocked.length());
-            }
-            Avatar avatar = new Avatar(id, byteImage, byteLocked, itemId);
+//            Blob blobImage = res.getBlob("avatar");
+//            Blob blobLocked = res.getBlob("locked");
+//            byte[] byteImage = blobImage.getBytes(1, (int) blobImage.length());
+//            byte[] byteLocked = null;
+//            if(!res.wasNull()) {
+//                byteLocked = blobLocked.getBytes(1, (int) blobLocked.length());
+//            }
+//            Avatar avatar = new Avatar(id, byteImage, byteLocked, itemId);
+            Avatar avatar = new Avatar(id, itemId);
             avatars.add(avatar);
         }
         setSuccess("Avatars set");

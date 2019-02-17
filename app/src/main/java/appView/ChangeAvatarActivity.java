@@ -1,10 +1,7 @@
 package appView;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,7 +11,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import entity.AppContent;
@@ -60,13 +56,15 @@ public class ChangeAvatarActivity extends AppCompatActivity {
         boolean lock;
 
         for(Avatar avatar : _avatars){
-            byte[] avatarIcon = null; 
+            String avatarIcon = null;
             if(_profile.hasItem(avatar.getItemID())) {
-                avatarIcon = avatar.getIcon();
+//                avatarIcon = avatar.getIcon();
+                avatarIcon = avatar.getIconName();
                 lock = false;
             }
             else{
-                avatarIcon = avatar.getLocked();
+//                avatarIcon = avatar.getLocked();
+                avatarIcon = avatar.getLockedName();
                 lock = true;
             }
             if(i == inRow) {
@@ -79,8 +77,13 @@ public class ChangeAvatarActivity extends AppCompatActivity {
             }
 
             final Button avatarButton = new Button(this);
-            Bitmap bitmapImage = BitmapFactory.decodeByteArray(avatarIcon, 0, avatarIcon.length);
-            Drawable drawableImage = new BitmapDrawable(getResources(), bitmapImage);
+//            Bitmap bitmapImage = BitmapFactory.decodeByteArray(avatarIcon, 0, avatarIcon.length);
+//            Drawable drawableImage = new BitmapDrawable(getResources(), bitmapImage);
+
+            int imageResource = getResources().getIdentifier(avatarIcon, null, getPackageName());
+
+            Drawable drawableImage = getResources().getDrawable(imageResource);
+
             avatarButton.setBackground(drawableImage);
             if(!lock) {
                 avatarButton.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +119,7 @@ public class ChangeAvatarActivity extends AppCompatActivity {
 
     public void cancelButton(View view){
         Intent intent = new Intent(this, TabMenuActivity.class);
-//        intent.putExtra("appContent", _appContent);
+        intent.putExtra("appContent", _appContent);
         intent.putExtra("item", 2);
         this.startActivity(intent);
     }
@@ -132,7 +135,7 @@ public class ChangeAvatarActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, TabMenuActivity.class);
-//        intent.putExtra("appContent", _appContent);
+        intent.putExtra("appContent", _appContent);
         intent.putExtra("item", 2);
         this.startActivity(intent);
     }

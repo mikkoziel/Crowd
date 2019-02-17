@@ -26,7 +26,7 @@ public class SettingsTabMenuActivity extends Fragment {
     public void setOnCreate(Activity activity, Intent intent, AppContent appContent){
         this._activity = activity;
         this._intent = intent;
-        this._appContent = _appContent;
+        this._appContent = appContent;
     }
 
     @Override
