@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import entity.AppContent;
 import entity.Game;
-import presenter.JsonPresenter;
 import presenter.UpdateAppContentPresenter;
 
 public class StartGameActivity extends Fragment{
@@ -68,17 +67,8 @@ public class StartGameActivity extends Fragment{
         resumeButton.setText(R.string.resume);
         resumeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-//                Intent intent = new Intent(_activity, QuestionActivity.class);
-                //intent.putExtra("game", _game);
                 _game.setPlayed(true);
                 _appContent.updateGame(_game);
-//                intent.putExtra("appContent", _appContent);
-
-//                _jsonPresenter.writeToJson(_appContent, 1);
-//                _appContent.destroy();
-//                _appContent = null;
-//                _global.setAppContent(_appContent);
-//                _activity.startActivity(intent);
                 ((GameActivity)getActivity()).setViewPager(_index + 1);
             }
         });

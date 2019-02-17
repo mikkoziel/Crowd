@@ -35,6 +35,7 @@ public class ProfileTabMenuActivity extends Fragment {
     private AppContent _appContent;
     private Profile _profile;
     private LinearLayout _itemInfoLayout;
+    private View _view;
 
 
     public void setOnCreate(Activity activity, Intent intent, AppContent appContent){
@@ -47,31 +48,29 @@ public class ProfileTabMenuActivity extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.profil_tab_menu, container, false);
+        this._view = inflater.inflate(R.layout.profil_tab_menu, container, false);
 
-        this._itemInfoLayout = rootView.findViewById(R.id.itemInfo);
+        this._itemInfoLayout = _view.findViewById(R.id.itemInfo);
         _itemInfoLayout.setVisibility(View.GONE);
 
-        populateView(rootView);
-        populateItems(rootView);
+        populateView(_view);
+        populateItems(_view);
 
-        Button highScore = rootView.findViewById(R.id.highscore);
+        Button highScore = _view.findViewById(R.id.highscore);
         highScore.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 showHighScore();
             }
         });
 
-        Button cancel = rootView.findViewById(R.id.cancel);
+        Button cancel = _view.findViewById(R.id.cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                cancelBttn(rootView);
+                cancelBttn(_view);
             }
         });
 
-        Button shop = rootView.findViewById(R.id.shopBttn);
-//        FloatingActionButton fab = rootView.findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
+        Button shop = _view.findViewById(R.id.shopBttn);
         shop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,7 +78,7 @@ public class ProfileTabMenuActivity extends Fragment {
             }
         });
 
-        return rootView;
+        return _view;
     }
 
     public void populateView(View rootView){
@@ -170,7 +169,7 @@ public class ProfileTabMenuActivity extends Fragment {
     public void showHighScore(){
         Intent intent = new Intent(_activity, HighScoreActivity.class);
         intent.putExtra("appContent", _appContent);
-        HighScorePresenter highscorePresenter = new HighScorePresenter(_activity, intent, _appContent);
+        HighScorePresenter highscorePresenter = new HighScorePresenter(_activity, intent, _appContent, this, R.layout.activity_highscore);
         highscorePresenter.execute();
     }
 
@@ -178,8 +177,9 @@ public class ProfileTabMenuActivity extends Fragment {
         Intent intent = new Intent(_activity, ShopActivity.class);
         intent.putExtra("appContent", _appContent);
         _activity.startActivity(intent);
-//        ShopPresenter shopPresenter = new ShopPresenter(_activity, intent, _appContent);
-//        shopPresenter.execute();
     }
 
+    public View getView() {
+        return _view;
+    }
 }
