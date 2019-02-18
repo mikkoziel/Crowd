@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import entity.Game;
+import entity.Profile;
 import entity.Question;
 import tools.DataBaseConnector;
 
@@ -33,13 +34,14 @@ public class QuestionInteractor {
         this._images = new ArrayList<>();
     }
 
-    public void setQuestions(Game game, Activity activity) throws SQLException {
-        ArrayList<Integer> ids = selectQuestionID(game);
+    public void setQuestions(Game game, Activity activity, Profile profile) throws SQLException {
+        ArrayList<Integer> ids = selectQuestionID(game, profile);
         setRandomQuestions(ids, game, activity);
     }
 
-    private ArrayList<Integer> selectQuestionID(Game game) throws SQLException {
-        String query = "select questionID from Question where gameID= " + game.getID();
+    private ArrayList<Integer> selectQuestionID(Game game, Profile profile) throws SQLException {
+        String query = "select questionID from Question where gameID= " + game.getID() +
+                " and questionID not in (select questionID from Log where profilID = " + profile.getID() + ")";
 
         ResultSet res = _dbConnector.runQuery(query);
         ArrayList<Integer> ids = new ArrayList<>();

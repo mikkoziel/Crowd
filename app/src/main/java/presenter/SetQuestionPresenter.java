@@ -57,7 +57,7 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... voids) {
         try {
             _game.getQuestions().clear();
-            _questionInteractor.setQuestions(_game, _activity);
+            _questionInteractor.setQuestions(_game, _activity, _appContent.getProfile());
 
             if(!_questionInteractor.getImage().isEmpty()) {
                 for (byte[] image : _questionInteractor.getImage()) {
