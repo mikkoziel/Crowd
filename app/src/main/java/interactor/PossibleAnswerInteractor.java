@@ -33,13 +33,19 @@ public class PossibleAnswerInteractor {
     }
 
     private ArrayList<Integer> selectAnswerID(Question question) throws SQLException {
-        String query = "select answerID from Answer where questionID= '" + question.getID() + "' and defaultAnswer = 0";
+        String query = "select answerID, showed, chosen from Answer where questionID= '" + question.getID() + "' and defaultAnswer = 0";
 
         ResultSet res = _dbConnector.runQuery(query);
         ArrayList<Integer> ids = new ArrayList<>();
 
         while(res.next()) {
-            ids.add(res.getInt("answerID"));
+            int showed = res.getInt("showed");
+            int chosen = res.getInt("chosen");
+            int id = res.getInt("answerID");
+            int quantity = showed * 100 /chosen;
+            for(int i = 0; i < quantity; i++){
+                ids.add(id);
+            }
         }
         return ids;
     }
