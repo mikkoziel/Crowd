@@ -20,6 +20,7 @@ import entity.AppContent;
 import entity.Game;
 import entity.Question;
 import interactor.QuestionInteractor;
+import tools.InternetChecker;
 
 public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
 
@@ -46,6 +47,10 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPreExecute() {
         _progress.setVisibility(View.VISIBLE);
+        InternetChecker internetChecker = new InternetChecker(_activity);
+        if(!internetChecker.isOnline()){
+            this.cancel(true);
+        }
     }
 
     @Override

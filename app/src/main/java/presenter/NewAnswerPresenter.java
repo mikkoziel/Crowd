@@ -18,6 +18,7 @@ import entity.GivenAnswer;
 import entity.Profile;
 import entity.Question;
 import interactor.NewAnswerInteractor;
+import tools.InternetChecker;
 
 public class NewAnswerPresenter extends AsyncTask<Void, Button, Void> {
 
@@ -50,6 +51,10 @@ public class NewAnswerPresenter extends AsyncTask<Void, Button, Void> {
     @Override
     protected void onPreExecute(){
         _bttn.setClickable(false);
+        InternetChecker internetChecker = new InternetChecker(_activity);
+        if(!internetChecker.isOnline()){
+            this.cancel(true);
+        }
 
     }
 

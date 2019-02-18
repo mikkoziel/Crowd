@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import entity.AppContent;
 import entity.Item;
 import interactor.ShopInteractor;
+import tools.InternetChecker;
 
 public class ShopPresenter extends AsyncTask<Void, Void, Void> {
 
@@ -32,6 +33,10 @@ public class ShopPresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPreExecute() {
 //        _progress.setVisibility(View.VISIBLE);
+        InternetChecker internetChecker = new InternetChecker(_activity);
+        if(!internetChecker.isOnline()){
+            this.cancel(true);
+        }
     }
 
     @Override

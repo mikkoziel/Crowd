@@ -24,6 +24,7 @@ import interactor.GameInteractor;
 import interactor.ProfileInteractor;
 import interactor.ShopInteractor;
 import interactor.TagInteractor;
+import tools.InternetChecker;
 
 public class StartAppPresenter extends AsyncTask<Void, Void, Void> {
 
@@ -68,6 +69,10 @@ public class StartAppPresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPreExecute(){
         _progress.setVisibility(View.VISIBLE);
+        InternetChecker internetChecker = new InternetChecker(_activity);
+        if(!internetChecker.isOnline()){
+            this.cancel(true);
+        }
     }
 
     @Override

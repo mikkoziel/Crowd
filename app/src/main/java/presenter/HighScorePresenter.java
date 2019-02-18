@@ -10,6 +10,7 @@ import entity.AppContent;
 import entity.HighScore;
 import entity.Profile;
 import interactor.HighScoreInteractor;
+import tools.InternetChecker;
 
 
 public class HighScorePresenter extends AsyncTask<Void, Void, Void> {
@@ -33,6 +34,10 @@ public class HighScorePresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPreExecute() {
 //        _progress.setVisibility(View.VISIBLE);
+        InternetChecker internetChecker = new InternetChecker(_activity);
+        if(!internetChecker.isOnline()){
+            this.cancel(true);
+        }
     }
 
     @Override
@@ -49,7 +54,7 @@ public class HighScorePresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void voids) {
         if (_highScoreInteractor.isSuccess()) {
-//            _intent.putExtra("appContent", _appContent);
+            _intent.putExtra("appContent", _appContent);
             _activity.startActivity(_intent);
         }
         _highScoreInteractor.endWork();

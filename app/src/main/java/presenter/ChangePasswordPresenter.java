@@ -12,6 +12,7 @@ import appView.TabMenuActivity;
 import entity.AppContent;
 import entity.Profile;
 import interactor.ProfileInteractor;
+import tools.InternetChecker;
 
 public class ChangePasswordPresenter extends AsyncTask<Void, Void, Void> {
 
@@ -41,6 +42,10 @@ public class ChangePasswordPresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPreExecute(){
         _progress.setVisibility(View.VISIBLE);
+        InternetChecker internetChecker = new InternetChecker(_activity);
+        if(!internetChecker.isOnline()){
+            this.cancel(true);
+        }
     }
 
     @Override

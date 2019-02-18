@@ -16,6 +16,7 @@ import entity.Game;
 import entity.Profile;
 import entity.Question;
 import interactor.GivenAnswerInteractor;
+import tools.InternetChecker;
 
 public class UpdateAppContentPresenter extends AsyncTask<Void, Void, Void> {
 
@@ -43,6 +44,10 @@ public class UpdateAppContentPresenter extends AsyncTask<Void, Void, Void> {
         @Override
     protected void onPreExecute() {
         _progress.setVisibility(View.VISIBLE);
+        InternetChecker internetChecker = new InternetChecker(_activity);
+        if(!internetChecker.isOnline()){
+            this.cancel(true);
+        }
     }
 
     //wszystko co given answer interactor zmieniał trzeba teraz ustawić

@@ -10,6 +10,7 @@ import java.sql.SQLException;
 
 import entity.GivenAnswer;
 import interactor.GivenAnswerInteractor;
+import tools.InternetChecker;
 
 public class GivenAnswerPresenter extends AsyncTask<Void, Void, Void> {
     private GivenAnswer _givenAnswer;
@@ -25,6 +26,10 @@ public class GivenAnswerPresenter extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPreExecute(){
+        InternetChecker internetChecker = new InternetChecker(_activity);
+        if(!internetChecker.isOnline()){
+            this.cancel(true);
+        }
     }
 
     @Override

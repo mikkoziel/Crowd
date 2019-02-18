@@ -25,6 +25,7 @@ import entity.Profile;
 import entity.Question;
 
 import interactor.PossibleAnswerInteractor;
+import tools.InternetChecker;
 
 public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
 
@@ -73,6 +74,10 @@ public class PossibleAnswerPresenter extends AsyncTask<Void, Button, Void> {
     @Override
     protected void onPreExecute(){
         _progress.setVisibility(View.VISIBLE);
+        InternetChecker internetChecker = new InternetChecker(_activity);
+        if(!internetChecker.isOnline()){
+            this.cancel(true);
+        }
     }
 
     @Override
