@@ -23,10 +23,10 @@ public class SettingsTabMenuActivity extends Fragment {
     private Intent _intent;
     private AppContent _appContent;
 
-    public void setOnCreate(Activity activity, Intent intent){
+    public void setOnCreate(Activity activity, Intent intent, AppContent appContent){
         this._activity = activity;
         this._intent = intent;
-        this._appContent = (AppContent) _intent.getSerializableExtra("appContent");
+        this._appContent = appContent;
     }
 
     @Override

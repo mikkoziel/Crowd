@@ -4,10 +4,12 @@ import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import entity.Answer;
 import entity.Question;
+import tools.DataBaseConnector;
 
 public class PossibleAnswerInteractor {
     private DataBaseConnector _dbConnector;
@@ -32,13 +34,23 @@ public class PossibleAnswerInteractor {
     }
 
     private ArrayList<Integer> selectAnswerID(Question question) throws SQLException {
-        String query = "select answerID from Answer where questionID= '" + question.getID() + "' and defaultAnswer = 0";
+        String query = "select answerID, showed, chosen from Answer where questionID= '" + question.getID() + "' and defaultAnswer = 0";
 
         ResultSet res = _dbConnector.runQuery(query);
         ArrayList<Integer> ids = new ArrayList<>();
 
         while(res.next()) {
-            ids.add(res.getInt("answerID"));
+            int showed = res.getInt("showed");
+            int chosen = res.getInt("chosen");
+            int id = res.getInt("answerID");
+            int quantity;
+            if(chosen == 0 || showed == 0)
+                quantity = 1;
+            else
+                quantity = chosen * 100 /showed;
+            for(int i = 0; i < quantity; i++){
+                ids.add(id);
+            }
         }
         return ids;
     }
@@ -49,9 +61,17 @@ public class PossibleAnswerInteractor {
         for(int i = 0; i < numberOfAnswer; i++){
             int random = rand.nextInt(ids.size());
             int randomElement = ids.get(random);
-            ids.remove(random);
+//            ids.remove(random);
+            ids.removeAll(Arrays.asList(randomElement));
             getRandomAnswer(question, randomElement);
         }
+        if(question.getAnswers().size() == numberOfAnswer){
+            setSuccess("Answers added");
+        }
+        else{
+            setFailure("Error. Answers not added");
+        }
+
     }
 
     private void getRandomAnswer(Question question, int randomIndex) throws SQLException {

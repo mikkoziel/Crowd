@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import entity.HighScore;
+import tools.DataBaseConnector;
 
 public class HighScoreInteractor {
 
@@ -27,12 +28,6 @@ public class HighScoreInteractor {
             int id = res.getInt("profilID");
             String name = res.getString("name");
             int points = res.getInt("points");
-
-            /* TODO potrzebne to przy rankingu?
-            int level = res.getInt("userlevel");
-            int money = res.getInt("money");
-            int missingPoints = res.getInt("missingPoints");
-            */
 
             HighScore highScore = new HighScore(name, points, id);
 

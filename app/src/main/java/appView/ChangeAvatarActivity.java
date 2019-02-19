@@ -2,7 +2,6 @@ package appView;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -14,7 +13,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import entity.AppContent;
@@ -22,6 +20,8 @@ import entity.Avatar;
 import entity.Profile;
 import presenter.AvatarPresenter;
 import static android.view.Gravity.CENTER;
+import static android.view.Gravity.CENTER_HORIZONTAL;
+import static android.view.Gravity.CENTER_VERTICAL;
 
 public class ChangeAvatarActivity extends AppCompatActivity {
 
@@ -60,13 +60,15 @@ public class ChangeAvatarActivity extends AppCompatActivity {
         boolean lock;
 
         for(Avatar avatar : _avatars){
-            byte[] avatarIcon = null; 
+            String avatarIcon = null;
             if(_profile.hasItem(avatar.getItemID())) {
-                avatarIcon = avatar.getIcon();
+//                avatarIcon = avatar.getIcon();
+                avatarIcon = avatar.getIconName();
                 lock = false;
             }
             else{
-                avatarIcon = avatar.getLocked();
+//                avatarIcon = avatar.getLocked();
+                avatarIcon = avatar.getLockedName();
                 lock = true;
             }
             if(i == inRow) {
@@ -79,8 +81,14 @@ public class ChangeAvatarActivity extends AppCompatActivity {
             }
 
             final Button avatarButton = new Button(this);
-            Bitmap bitmapImage = BitmapFactory.decodeByteArray(avatarIcon, 0, avatarIcon.length);
-            Drawable drawableImage = new BitmapDrawable(getResources(), bitmapImage);
+//            Bitmap bitmapImage = BitmapFactory.decodeByteArray(avatarIcon, 0, avatarIcon.length);
+//            Drawable drawableImage = new BitmapDrawable(getResources(), bitmapImage);
+
+            int imageResource = getResources().getIdentifier(avatarIcon, null, getPackageName());
+
+            Drawable drawableImage = getResources().getDrawable(imageResource);
+            drawableImage = scaleImage(drawableImage, 0.5F);
+
             avatarButton.setBackground(drawableImage);
             if(!lock) {
                 avatarButton.setOnClickListener(new View.OnClickListener() {
@@ -93,9 +101,9 @@ public class ChangeAvatarActivity extends AppCompatActivity {
             _buttons.add(avatarButton);
 
             FrameLayout frame = new FrameLayout(this);
-            frame.setPadding(3,3,3,3);
+            frame.setPadding(10,3,3,10);
             frame.setForegroundGravity(CENTER);
-            frame.addView(avatarButton, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.MATCH_PARENT, CENTER));
+            frame.addView(avatarButton, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.MATCH_PARENT, CENTER_HORIZONTAL | CENTER_VERTICAL));
 
             i+=1;
 
@@ -127,6 +135,25 @@ public class ChangeAvatarActivity extends AppCompatActivity {
         
         AvatarPresenter avatarPresenter = new AvatarPresenter(this, _progress, _appContent, newAvatarID);
         avatarPresenter.execute();
+    }
+
+    public Drawable scaleImage (Drawable image, float scaleFactor) {
+
+        if ((image == null) || !(image instanceof BitmapDrawable)) {
+            return image;
+        }
+
+        Bitmap b = ((BitmapDrawable)image).getBitmap();
+
+        int sizeX = Math.round(image.getIntrinsicWidth() * scaleFactor);
+        int sizeY = Math.round(image.getIntrinsicHeight() * scaleFactor);
+
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, sizeX, sizeY, false);
+
+        image = new BitmapDrawable(getResources(), bitmapResized);
+
+        return image;
+
     }
 
     @Override

@@ -16,6 +16,7 @@ import entity.Item;
 import entity.Profile;
 import interactor.ProfileInteractor;
 import interactor.ShopInteractor;
+import tools.InternetChecker;
 
 public class BuyItemPresenter extends AsyncTask<Void, Void, Void> {
 
@@ -49,6 +50,10 @@ public class BuyItemPresenter extends AsyncTask<Void, Void, Void> {
         _progress.setVisibility(View.VISIBLE);
         _buy.setClickable(false);
         _cancel.setClickable(false);
+        InternetChecker internetChecker = new InternetChecker(_activity);
+        if(!internetChecker.isOnline()){
+            this.cancel(true);
+        }
     }
 
     @Override

@@ -1,6 +1,8 @@
-package interactor;
+package tools;
 
 import android.annotation.SuppressLint;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.StrictMode;
 import android.util.Log;
 
@@ -100,6 +102,7 @@ public class DataBaseConnector implements Serializable {
 
         return null;
     }
+
 
     public void closeConnection() throws SQLException
     {

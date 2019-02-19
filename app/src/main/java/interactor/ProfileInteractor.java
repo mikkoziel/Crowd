@@ -10,6 +10,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 import entity.Profile;
+import tools.DataBaseConnector;
 
 public class ProfileInteractor {
     private static final String ALGORITHM = "AES";
@@ -76,9 +77,8 @@ public class ProfileInteractor {
         int money = res.getInt("money");
         int missingPoints = res.getInt("missingPoints");
 
-        //TODO usunać avatar z konstruktora
-        Profile profile = new Profile(id, name, points, level, money, missingPoints, null);
-        setSuccess("Profile created");
+        Profile profile = new Profile(id, name, points, level, money, missingPoints);
+        setSuccess("Login completed successfully");
         return profile;
     }
 

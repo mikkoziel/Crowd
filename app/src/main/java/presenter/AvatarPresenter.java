@@ -13,6 +13,7 @@ import entity.AppContent;
 import entity.Avatar;
 import entity.Profile;
 import interactor.AvatarInteractor;
+import tools.InternetChecker;
 
 public class AvatarPresenter extends AsyncTask<Void, Void, Void> {
 
@@ -39,6 +40,10 @@ public class AvatarPresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPreExecute() {
         _progress.setVisibility(View.VISIBLE);
+        InternetChecker internetChecker = new InternetChecker(_activity);
+        if(!internetChecker.isOnline()){
+            this.cancel(true);
+        }
     }
 
     @Override
@@ -60,7 +65,7 @@ public class AvatarPresenter extends AsyncTask<Void, Void, Void> {
         _avatarInteractor.endWork();
 
         Intent intent = new Intent(_activity, TabMenuActivity.class);
-        intent.putExtra("appContent", _appContent);
+//        intent.putExtra("appContent", _appContent);
         intent.putExtra("item", 2);
 
         _activity.startActivity(intent);

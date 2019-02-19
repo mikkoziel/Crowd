@@ -23,6 +23,8 @@ public class TabMenuActivity extends AppCompatActivity {
     private Activity _activity;
     private AppContent _appContent;
 
+//    private JsonPresenter _jsonPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +32,11 @@ public class TabMenuActivity extends AppCompatActivity {
 
         this._intent = getIntent();
         this._activity = this;
+//        this._jsonPresenter = new JsonPresenter(_activity);
+//        this._appContent = _jsonPresenter.getJSON(0);
+//        this._appContent = GlobalClass.getInstance().getAppContent();
+//        GlobalClass global = ((GlobalClass)getApplicationContext());
+//        this._appContent = global.getAppContent();
         this._appContent = (AppContent) _intent.getSerializableExtra("appContent");
 
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -72,19 +79,19 @@ public class TabMenuActivity extends AppCompatActivity {
         }
         @Override
         public Fragment getItem(int position) {
-            _intent.putExtra("appContent", _appContent);
+//            _intent.putExtra("appContent", _appContent);
             switch(position) {
                 case 0:
                     ProfileTabMenuActivity tab1 = new ProfileTabMenuActivity();
-                    tab1.setOnCreate(_activity, _intent);
+                    tab1.setOnCreate(_activity, _intent, _appContent);
                     return tab1;
                 case 1:
                     MenuTabMenuActivity tab2 = new MenuTabMenuActivity();
-                    tab2.setOnCreate(_activity, _intent);
+                    tab2.setOnCreate(_activity, _intent, _appContent);
                     return tab2;
                 case 2:
                     SettingsTabMenuActivity tab3 = new SettingsTabMenuActivity();
-                    tab3.setOnCreate(_activity, _intent);
+                    tab3.setOnCreate(_activity, _intent, _appContent);
                     return tab3;
                 default:
                     return null;
@@ -126,7 +133,7 @@ public class TabMenuActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(_activity, MainActivity.class);
-                        intent.putExtra("appContent", _appContent);
+//                        intent.putExtra("appContent", _appContent);
                         _activity.startActivity(intent);
                     }
 

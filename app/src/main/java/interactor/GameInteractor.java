@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import entity.Game;
+import tools.DataBaseConnector;
 
 public class GameInteractor {
     private DataBaseConnector _dbConnector;
@@ -20,7 +21,7 @@ public class GameInteractor {
 
     public ArrayList<Game> getGames() throws SQLException {
         ArrayList<Game> games = new ArrayList<>();
-        String query = "select * from Game";
+        String query = "select * from Game where gameName is not null";
         ResultSet res = _dbConnector.runQuery(query);
         while (res.next()) {
             int gameID = res.getInt("gameID");

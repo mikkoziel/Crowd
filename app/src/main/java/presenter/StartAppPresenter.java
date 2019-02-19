@@ -5,14 +5,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import entity.AppContent;
@@ -26,6 +24,7 @@ import interactor.GameInteractor;
 import interactor.ProfileInteractor;
 import interactor.ShopInteractor;
 import interactor.TagInteractor;
+import tools.InternetChecker;
 
 public class StartAppPresenter extends AsyncTask<Void, Void, Void> {
 
@@ -70,6 +69,10 @@ public class StartAppPresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPreExecute(){
         _progress.setVisibility(View.VISIBLE);
+        InternetChecker internetChecker = new InternetChecker(_activity);
+        if(!internetChecker.isOnline()){
+            this.cancel(true);
+        }
     }
 
     @Override
@@ -121,6 +124,12 @@ public class StartAppPresenter extends AsyncTask<Void, Void, Void> {
                     }
                     _appContent.updateCurrentProfile(profile);
 
+                    //ustawiamy tagi gier
+                    if(!_appContent.getTags().isEmpty()) {
+                        TagPresenter tagPresenter = new TagPresenter(_appContent);
+                        tagPresenter.addGameTags(_appContent.getTags());
+                    }
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -133,6 +142,17 @@ public class StartAppPresenter extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void voids) {
         _progress.setVisibility(View.GONE);
         _intent.putExtra("appContent", _appContent);
+
+//        JsonPresenter jsonHandler = new JsonPresenter(_activity);
+//        jsonHandler.writeToJson(_appContent, 0);
+//
+//        GlobalClass.getInstance().setAppContent(_appContent);
+//        GlobalClass global = ((GlobalClass) _activity.getApplicationContext());
+//        global.setAppContent(_appContent);
+
+//        _appContent.destroy();
+//        _appContent = null;
+//        System.gc();
 
         String result = _profileInteractor.getResult();
         Toast.makeText(_activity, result, Toast.LENGTH_LONG).show();
@@ -149,4 +169,7 @@ public class StartAppPresenter extends AsyncTask<Void, Void, Void> {
         if (_profileInteractor.isSuccess())
             _activity.startActivity(_intent);
     }
+
+
+
 }

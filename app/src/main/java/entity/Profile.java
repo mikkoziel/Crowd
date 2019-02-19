@@ -1,5 +1,9 @@
 package entity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -14,14 +18,14 @@ public class Profile implements Serializable {
     private ArrayList<Item> _items;
 
 
-    public Profile(int ID, String name, int points, int level, int money, int missingPoints, Avatar avatar){
+    public Profile(int ID, String name, int points, int level, int money, int missingPoints){
         this._ID = ID;
         this._name = name;
         this._points = points;
         this._level = level;
         this._missingPoints = missingPoints;
         this._money = money;
-        this._avatar = avatar;
+        this._avatar = null;
         this._items = new ArrayList<>();
     }
 
@@ -92,4 +96,33 @@ public class Profile implements Serializable {
         this._money = money;
         this._avatar = avatar;
     }
+
+//    public JSONObject toJson(){
+//        JSONObject object = new JSONObject();
+//        try {
+//            object.put("_name", _name);
+//            object.put("_ID", _ID);
+//            object.put("_points", _points);
+//            object.put("_level", _level);
+//            object.put("_missingPoints", _missingPoints);
+//            object.put("_money", _money);
+//            object.put("_avatar", _avatar.toJson());
+//
+//            JSONArray items = new JSONArray();
+//            for(Item item: _items){
+//                items.put(item.getID(), item.toJson());
+//            }
+//            object.put("_items", items);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        return object;
+//    }
+//
+//    public void destroy(){
+//        for(Item item: _items)
+//            item = null;
+//        _items.clear();
+//        _items = null;
+//    }
 }

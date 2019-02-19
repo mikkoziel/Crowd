@@ -1,59 +1,82 @@
 package appView;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import entity.AppContent;
-import entity.GivenAnswer;
+import entity.Game;
 
-import presenter.GivenAnswerPresenter;
+import presenter.SetQuestionPresenter;
 import presenter.UpdateAppContentPresenter;
 
-public class EndGameActivity extends AppCompatActivity {
+public class EndGameActivity extends Fragment {
 
+    private Activity _activity;
     private ProgressBar _progress;
     private AppContent _appContent;
+    private View _view;
+    private int _index;
+    private Game _game;
 
+    public void setOnCreate(AppContent appContent, int index, Game game, Activity activity){
+        this._appContent = appContent;
+        this._index = index;
+        this._game = game;
+        this._activity = activity;
+    }
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_end_game);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable final Bundle savedInstanceState) {
+        this._view = inflater.inflate(R.layout.activity_end_game, container, false);
 
-        Intent intent = getIntent();
-        this._appContent = (AppContent) intent.getSerializableExtra("appContent");
 
-        this._progress = findViewById(R.id.progress);
+        this._progress = _view.findViewById(R.id.progress);
         _progress.setVisibility(View.GONE);
 
-        if(getIntent().hasExtra("answer")){
-            GivenAnswer given = (GivenAnswer) intent.getSerializableExtra("answer");
-            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(given, this);
-            givenAnswerPresenter.execute();
-        }
-
-        TextView endText = findViewById(R.id.endgame);
+        TextView endText = _view.findViewById(R.id.endgame);
         String text = "You answered all questions.\n What would you like to do?";
         endText.setText(text);
+
+        Button back = _view.findViewById(R.id.backToMenu);
+        back.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                backButton();
+            }
+        });
+
+        Button repeat = _view.findViewById(R.id.repeatGame);
+        repeat.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                repeatButton();
+            }
+        });
+
+        return _view;
     }
 
-    public void backButton(View view){
-        UpdateAppContentPresenter updateAppContentPresenter = new UpdateAppContentPresenter(this, _progress, _appContent);
+    public void backButton(){
+        UpdateAppContentPresenter updateAppContentPresenter = new UpdateAppContentPresenter(getActivity(), _progress, _appContent, _game);
         updateAppContentPresenter.execute();
     }
 
-    public void repeatButton(View view){
-        Intent intent = new Intent(this, GameActivity.class);
-        intent.putExtra("appContent", _appContent);
-        this.startActivity(intent);
+    public void repeatButton(){
+        Intent intent = new Intent(_activity, GameActivity.class);
+        _game.clearQuestions();
+        SetQuestionPresenter setQuestionPresenter = new SetQuestionPresenter(_game, _activity, _progress, intent, _appContent);
+        setQuestionPresenter.execute();
     }
 
-    @Override
-    public void onBackPressed() {
-        UpdateAppContentPresenter updateAppContentPresenter = new UpdateAppContentPresenter(this, _progress, _appContent);
-        updateAppContentPresenter.execute();
+    public ProgressBar getProgress() {
+        return _progress;
     }
 }

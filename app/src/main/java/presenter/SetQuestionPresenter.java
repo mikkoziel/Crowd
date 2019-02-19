@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import java.io.File;
@@ -19,6 +20,7 @@ import entity.AppContent;
 import entity.Game;
 import entity.Question;
 import interactor.QuestionInteractor;
+import tools.InternetChecker;
 
 public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
 
@@ -33,12 +35,11 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
 
     private QuestionInteractor _questionInteractor;
 
-    public SetQuestionPresenter(Game game, Activity activity, ProgressBar progress, Intent intent) {
+    public SetQuestionPresenter(Game game, Activity activity, ProgressBar progress, Intent intent, AppContent appContent) {
         this._activity = activity;
         this._progress = progress;
         this._intent = intent;
-        this._appContent = (AppContent) intent
-                .getSerializableExtra("appContent");
+        this._appContent = appContent;
         this._game = game;
         this._questionInteractor = new QuestionInteractor();
     }
@@ -46,13 +47,17 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPreExecute() {
         _progress.setVisibility(View.VISIBLE);
+        InternetChecker internetChecker = new InternetChecker(_activity);
+        if(!internetChecker.isOnline()){
+            this.cancel(true);
+        }
     }
 
     @Override
     protected Void doInBackground(Void... voids) {
         try {
             _game.getQuestions().clear();
-            _questionInteractor.setQuestions(_game, _activity);
+            _questionInteractor.setQuestions(_game, _activity, _appContent.getProfile());
 
             if(!_questionInteractor.getImage().isEmpty()) {
                 for (byte[] image : _questionInteractor.getImage()) {
@@ -69,8 +74,6 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
             e.printStackTrace();
         }
 
-        _appContent.updateGame(_game);
-        _appContent.setCurrentGameID(_game.getID());
         return null;
     }
 
@@ -78,9 +81,13 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void voids) {
         _questionInteractor.endWork();
         if (_questionInteractor.isSuccess()) {
-            _intent.putExtra("appContent", _appContent);
-            //_intent.putExtra("game", _game);
-            _activity.startActivity(_intent);
+            LinearLayout.LayoutParams _lp  = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
+            PossibleAnswerPresenter possibleAnswerPresenter = new PossibleAnswerPresenter(_activity, _intent, _progress, _lp, _appContent, _game);
+            possibleAnswerPresenter.execute();
+
+//            _intent.putExtra("appContent", _appContent);
+//            //_intent.putExtra("game", _game);
+//            _activity.startActivity(_intent);
         }
     }
 

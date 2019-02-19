@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import entity.Item;
 import entity.Profile;
+import tools.DataBaseConnector;
 
 public class ShopInteractor {
 

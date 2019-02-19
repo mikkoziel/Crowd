@@ -26,10 +26,10 @@
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/avatar"
-                android:scaleType="fitCenter" />
+                android:scaleType="fitXY" />
 
             <TableLayout
                 android:layout_width="wrap_content"
@@ -162,7 +162,7 @@
             android:id="@+id/itemLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"
+            android:layout_weight="0.40"
             android:orientation="vertical">
 
             <TextView
@@ -173,6 +173,13 @@
                 android:textAlignment="center"
                 android:textSize="28sp"
                 android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/shopBttn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:text="@string/shop" />
 
             <ScrollView
                 style="@android:style/Widget.Holo.ScrollView"
@@ -187,27 +194,10 @@
                     android:orientation="vertical" />
             </ScrollView>
 
-            <Button
-                android:id="@+id/shopBttn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:text="@string/shop" />
-
         </LinearLayout>
-
-        <!--<android.support.design.widget.FloatingActionButton-->
-            <!--android:id="@+id/fab"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="bottom|end"-->
-            <!--android:layout_margin="@dimen/fab_margin"-->
-            <!--app:backgroundTint="@color/colorAccent"-->
-            <!--app:srcCompat="@android:drawable/ic_menu_revert" />-->
 
     </LinearLayout>
 
-    <!--TODO dopasować kolorystyke-->
     <LinearLayout
         android:id="@+id/itemInfo"
         android:layout_width="match_parent"

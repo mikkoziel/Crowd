@@ -7,11 +7,20 @@ public class GivenAnswer implements Serializable{
     private Profile _profile;
     private Question _question;
     private Answer _answer;
+    private String _text;
 
     public GivenAnswer(Profile profile, Question question, Answer answer){
         this._profile = profile;
         this._question = question;
         this._answer = answer;
+        this._text = null;
+    }
+
+    public GivenAnswer(Profile profile, Question question, Answer answer, String text){
+        this._profile = profile;
+        this._question = question;
+        this._answer = answer;
+        this._text = text;
     }
 
     public Question getQuestion() {
@@ -26,6 +35,10 @@ public class GivenAnswer implements Serializable{
         return _profile;
     }
 
+    public String getText() {
+        return _text;
+    }
+
     public void setQuestion(Question question) {
         this._question = question;
     }
@@ -36,5 +49,9 @@ public class GivenAnswer implements Serializable{
 
     public void setProfile(Profile profile) {
         this._profile = profile;
+    }
+
+    public void setText(String _text) {
+        this._text = _text;
     }
 }

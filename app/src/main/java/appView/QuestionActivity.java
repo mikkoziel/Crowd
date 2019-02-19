@@ -2,15 +2,17 @@ package appView;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,49 +26,62 @@ import entity.Game;
 import entity.GivenAnswer;
 
 import entity.Question;
-import interactor.QuestionInteractor;
 import presenter.FilePresenter;
-import presenter.NewAnswerPresenter;
-import presenter.PossibleAnswerPresenter;
 import presenter.GivenAnswerPresenter;
 
-public class QuestionActivity extends AppCompatActivity {
+public class QuestionActivity extends Fragment {
 
     private ProgressBar _progress;
     private Activity _activity;
     private LinearLayout.LayoutParams _lp;
 
+    @SuppressLint("StaticFieldLeak")
+    private LinearLayout _row1;
+    @SuppressLint("StaticFieldLeak")
+    private LinearLayout _row2;
+    @SuppressLint("StaticFieldLeak")
+    private LinearLayout _row3;
+
     private AppContent _appContent;
     private Game _game;
     private Question _question;
     private FilePresenter _filePresenter;
+    private int _index;
+    private GivenAnswer _given;
+    private View _view;
 
+    public void setOnCreate(AppContent appContent, Question question, int index, Game game){
+        this._appContent = appContent;
+        this._question = question;
+        this._index = index;
+        this._game = game;
+        this._given = null;
+    }
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(appView.R.layout.activity_question);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable final Bundle savedInstanceState) {
+        this._view = inflater.inflate(R.layout.activity_question, container, false);
 
-        Intent intent = getIntent();
-        this._appContent = (AppContent) intent.getSerializableExtra("appContent");
-        this._game = _appContent.getCurrentGame();
-        this._question = _game.getCurrentQueston();
-        this._progress = findViewById(appView.R.id.progress);
+        this._activity = getActivity();
+
+        this._progress = _view.findViewById(appView.R.id.progress);
         _progress.setVisibility(View.GONE);
-        this._activity = this;
-        if(getIntent().hasExtra("answer")){
-            GivenAnswer given = (GivenAnswer) intent.getSerializableExtra("answer");
-            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(given, _activity);
-            givenAnswerPresenter.execute();
-        }
+
+        this._row1 = _view.findViewById(appView.R.id.row1);
+        this._row2 = _view.findViewById(appView.R.id.row2);
+        this._row3 = _view.findViewById(appView.R.id.row3);
 
         this._filePresenter = new FilePresenter();
         this._lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
 
         setContent();
+
+        return _view;
     }
 
     public void setContent(){
-        LinearLayout layout = findViewById(appView.R.id.questionlayout);
+        LinearLayout layout = _view.findViewById(appView.R.id.questionlayout);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
         switch(_question.getType()){
@@ -83,10 +98,7 @@ public class QuestionActivity extends AppCompatActivity {
                 setOpenAnswer(lp);
                 break;
         }
-//        if(_question.isImageQuestion())
-//            setImageQuestion(layout, lp);
-//        else
-//            setTextQuestion(layout, lp);
+
     }
 
     public void setTextQuestion(LinearLayout layout, LinearLayout.LayoutParams lp){
@@ -110,7 +122,7 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     public TextView setTextView(String questionText){
-        TextView question = new TextView(this);
+        TextView question = new TextView(_activity);
         question.setText(questionText);
         question.setTextSize(26);
         question.setGravity(Gravity.CENTER);
@@ -118,69 +130,148 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     public ImageView setImageView(Bitmap questionImage){
-        ImageView question = new ImageView(this);
+        ImageView question = new ImageView(_activity);
         question.setImageBitmap(questionImage);
         return question;
     }
 
     public void setAnswer(){
-        PossibleAnswerPresenter possibleAnswerPresenter = new PossibleAnswerPresenter(this, _progress, _lp, _appContent);
-        possibleAnswerPresenter.execute();
+        int _i = 0;
+
+        for(Answer answer : _question.getAnswers()){
+            Button button = setButtons(answer.getAnswer(), answer);
+            _i = addButtonToView(button, _i);
+        }
+    }
+
+    private Button setButtons(String answerText, final Answer a){
+        Button answer = new Button(_activity);
+
+        answer.setText(String.format("\n%s\n", answerText));
+        if(a.isImageAnswer()){
+            Drawable image = new BitmapDrawable(_activity.getResources(), BitmapFactory.decodeByteArray(a.getImage(), 0, a.getImage().length));
+            answer.setCompoundDrawablesWithIntrinsicBounds( image, null, null, null);
+        }
+
+        _game.updateQuestion(_question);
+        _appContent.updateGame(_game);
+
+//        if(_game.getIndex() < _game.getQuestions().size()) {
+            answer.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    lockButtons();
+                    GivenAnswer given = new GivenAnswer(_appContent.getProfile(), _question, a);
+                    handleGiven(given);
+
+                    ((GameActivity)getActivity()).setViewPager(_index + 1);
+                    unlockButtons();
+                }
+            });
+//        }
+//        else{
+//            _game.setPlayed(false);
+//            answer.setOnClickListener(new View.OnClickListener() {
+//                public void onClick(View v) {
+//                    GivenAnswer given = new GivenAnswer(_appContent.getProfile(), _question, a);
+//                    handleGiven(given);
+//
+//                    ((GameActivity)getActivity()).setViewPager(_index + 1);
+//                }
+//            });
+//        }
+        return answer;
+    }
+
+    private int addButtonToView(Button answer, int _i) {
+
+        if(_i < 2){
+            _row1.addView(answer, _lp);
+        }else{
+            if(_i < 4){
+                _row2.addView(answer, _lp);
+            }
+            else{
+                _row3.addView(answer, _lp);
+            }
+        }
+        return _i + 1;
     }
 
     @SuppressLint("SetTextI18n")
     public void setOpenAnswer(LinearLayout.LayoutParams lp) {
-        LinearLayout layout = findViewById(appView.R.id.answerlayout);
+        LinearLayout layout = _view.findViewById(appView.R.id.answerlayout);
 
         final EditText answer = new EditText(_activity);
+        answer.setGravity(Gravity.CENTER_HORIZONTAL);
+        answer.requestFocus();
         final Button button = new Button(_activity);
         button.setText("SUBMIT");
 
-        if(_game.getIndex() < _game.getQuestions().size()) {
+//        if(_game.getIndex() < _game.getQuestions().size()) {
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    NewAnswerPresenter newAnswerPresenter = new NewAnswerPresenter(_activity, answer.getText().toString(), _question, _appContent, button, 0);
-                    newAnswerPresenter.execute();
+//                    NewAnswerPresenter newAnswerPresenter = new NewAnswerPresenter(_activity, answer.getText().toString(), _question, _appContent, button, 0);
+//                    newAnswerPresenter.execute();
+                    button.setClickable(false);
+                    GivenAnswer given = new GivenAnswer(_appContent.getProfile(), _question, _question.getAnswers().get(0), answer.getText().toString());
+                    handleGiven(given);
+
+                    ((GameActivity)getActivity()).setViewPager(_index + 1);
+                    button.setClickable(true);
                 }
             });
-        }
-        else{
-            _game.setPlayed(false);
-            button.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    NewAnswerPresenter newAnswerPresenter = new NewAnswerPresenter(_activity, answer.getText().toString(), _question, _appContent, button, 1);
-                    newAnswerPresenter.execute();
-                }
-            });
-        }
+//        }
+//        else{
+//            _game.setPlayed(false);
+//            button.setOnClickListener(new View.OnClickListener() {
+//                public void onClick(View v) {
+////                    NewAnswerPresenter newAnswerPresenter = new NewAnswerPresenter(_activity, answer.getText().toString(), _question, _appContent, button, 1);
+////                    newAnswerPresenter.execute();
+//                    lockButtons();
+//                    GivenAnswer given = new GivenAnswer(_appContent.getProfile(), _question, _question.getAnswers().get(0));
+//                    handleGiven(given);
+//
+//                    ((GameActivity)getActivity()).setViewPager(_index + 1);
+//                    unlockButtons();
+//
+//                }
+//            });
+//        }
 
         layout.addView(answer, lp);
         layout.addView(button, lp);
 
     }
 
-    @Override
-    public void onBackPressed() {
-        createAlertDialog("Closing Activity", "Are you sure you want to end the game?");
+    public void handleGiven(GivenAnswer given){
+        if(given != null){
+            GivenAnswerPresenter givenAnswerPresenter = new GivenAnswerPresenter(given, getActivity());
+            givenAnswerPresenter.execute();
+        }
     }
 
-    public void createAlertDialog(String title, String message){
-        new AlertDialog.Builder(this)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        _game.prevIndex();
-                        Intent intent = new Intent(_activity, GameActivity.class);
-                        intent.putExtra("appContent", _appContent);
-                        _activity.startActivity(intent);
-                    }
-
-                })
-                .setNegativeButton("No", null)
-                .show();
+    public void lockButtons(){
+        LinearLayout ll = _view.findViewById(appView.R.id.answerlayout);
+        int count = ll.getChildCount();
+        for(int i=0; i<count; i++) {
+            LinearLayout tmp = (LinearLayout) ll.getChildAt(i);
+            for(int j =0; j< tmp.getChildCount(); j++) {
+                Button v = (Button) tmp.getChildAt(j);
+                v.setClickable(false);
+            }
+        }
     }
+
+    public void unlockButtons(){
+        LinearLayout ll = _view.findViewById(appView.R.id.answerlayout);
+        int count = ll.getChildCount();
+        for(int i=0; i<count; i++) {
+            LinearLayout tmp = (LinearLayout) ll.getChildAt(i);
+            for(int j =0; j< tmp.getChildCount(); j++) {
+                Button v = (Button) tmp.getChildAt(j);
+                v.setClickable(true);
+            }
+        }
+    }
+
 }

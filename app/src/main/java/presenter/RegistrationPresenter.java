@@ -12,6 +12,7 @@ import android.widget.Toast;
 import java.sql.SQLException;
 
 import interactor.ProfileInteractor;
+import tools.InternetChecker;
 
 public class RegistrationPresenter extends AsyncTask<Void, Void, Void> {
 
@@ -40,6 +41,10 @@ public class RegistrationPresenter extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPreExecute(){
         _progress.setVisibility(View.VISIBLE);
+        InternetChecker internetChecker = new InternetChecker(_activity);
+        if(!internetChecker.isOnline()){
+            this.cancel(true);
+        }
     }
 
     @Override

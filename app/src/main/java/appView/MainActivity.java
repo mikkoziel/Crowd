@@ -37,7 +37,10 @@ public class MainActivity extends AppCompatActivity {
 
         _progress.setVisibility(View.GONE);
 
-        _appContent = new AppContent(); //empty for now
+//        GlobalClass global = (GlobalClass) getApplication();
+        _appContent = new AppContent();//empty for now
+//        GlobalClass.getInstance();
+//        global.setAppContent(_appContent);
     }
 
     public void loginButton(View view){

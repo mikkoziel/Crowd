@@ -1,7 +1,6 @@
 package interactor;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Environment;
 
 import java.io.BufferedInputStream;
@@ -17,7 +16,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import entity.Game;
+import entity.Profile;
 import entity.Question;
+import tools.DataBaseConnector;
 
 public class QuestionInteractor {
     private DataBaseConnector _dbConnector;
@@ -33,13 +34,15 @@ public class QuestionInteractor {
         this._images = new ArrayList<>();
     }
 
-    public void setQuestions(Game game, Activity activity) throws SQLException {
-        ArrayList<Integer> ids = selectQuestionID(game);
+    public void setQuestions(Game game, Activity activity, Profile profile) throws SQLException {
+        ArrayList<Integer> ids = selectQuestionID(game, profile);
         setRandomQuestions(ids, game, activity);
     }
 
-    private ArrayList<Integer> selectQuestionID(Game game) throws SQLException {
-        String query = "select questionID from Question where gameID= " + game.getID();
+    private ArrayList<Integer> selectQuestionID(Game game, Profile profile) throws SQLException {
+        String query = "select questionID from Question where gameID= " + game.getID() ;
+//                + " and questionID not in (select questionID from Log where profilID = " + profile.getID() + ")";
+//TODO: uncomment line above for disable chosing questions user already answerd;
 
         ResultSet res = _dbConnector.runQuery(query);
         ArrayList<Integer> ids = new ArrayList<>();
@@ -93,38 +96,37 @@ public class QuestionInteractor {
             game.addQuestion(question);
         }
     }
-
-    //TODO zmienić z karty pamięci na pamięć wewnętrzną
-    public String writeToFile(byte[] image, int questionID) throws IOException {
-        File dir = Environment.getExternalStorageDirectory();
-        File root = new File(dir + "/Crowd/");
-        if (!root.exists()) root.mkdirs();
-        File file = new File(root, String.valueOf(questionID));
-        if (!file.exists()) file.createNewFile();
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(file);
-            fos.write(image);
-        }
-        catch (FileNotFoundException e) {
-            System.out.println("File not found" + e);
-        }
-        catch (IOException ioe) {
-            System.out.println("Exception while writing file " + ioe);
-        }
-        finally {
-            try {
-                if (fos != null) {
-                    fos.close();
-                }
-            }
-            catch (IOException ioe) {
-                System.out.println("Error while closing stream: " + ioe);
-            }
-        }
-        return file.getAbsolutePath();
-
-    }
+//
+//    public String writeToFile(byte[] image, int questionID) throws IOException {
+//        File dir = Environment.getExternalStorageDirectory();
+//        File root = new File(dir + "/Crowd/");
+//        if (!root.exists()) root.mkdirs();
+//        File file = new File(root, String.valueOf(questionID));
+//        if (!file.exists()) file.createNewFile();
+//        FileOutputStream fos = null;
+//        try {
+//            fos = new FileOutputStream(file);
+//            fos.write(image);
+//        }
+//        catch (FileNotFoundException e) {
+//            System.out.println("File not found" + e);
+//        }
+//        catch (IOException ioe) {
+//            System.out.println("Exception while writing file " + ioe);
+//        }
+//        finally {
+//            try {
+//                if (fos != null) {
+//                    fos.close();
+//                }
+//            }
+//            catch (IOException ioe) {
+//                System.out.println("Error while closing stream: " + ioe);
+//            }
+//        }
+//        return file.getAbsolutePath();
+//
+//    }
 
 //    private String writeToFile1(byte[] image, int questionID, Context context) throws IOException {
 //        File dir = context.getFilesDir();
@@ -157,7 +159,6 @@ public class QuestionInteractor {
 //
 //    }
 
-    //TODO usuwanie pliku po pobraniu
     public byte[] readFromFile(String path){
         File file = new File(path);
         int size = (int) file.length();
