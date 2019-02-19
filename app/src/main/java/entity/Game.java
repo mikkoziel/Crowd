@@ -77,6 +77,7 @@ public class Game implements Serializable {
     public void addTag(Tag tag){
         this._tags.add(tag);
     }
+    public void clearQuestions() {this._questions.clear();}
 
     public void updateContent(ArrayList<Question> questions, Boolean played,
                            ArrayList<Tag> tags, int index)

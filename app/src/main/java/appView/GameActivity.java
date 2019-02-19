@@ -58,7 +58,7 @@ public class GameActivity extends AppCompatActivity {
 
         index += 1;
         EndGameActivity endGame = new EndGameActivity();
-        endGame.setOnCreate(_appContent, index, _game);
+        endGame.setOnCreate(_appContent, index, _game, this);
         adapter.addFragment(endGame);
 
         viewPager.setAdapter(adapter);
@@ -71,10 +71,7 @@ public class GameActivity extends AppCompatActivity {
     public Fragment getFragment(int fragmentNumber) {
         return ((SectionsStatePagerAdapter) Objects.requireNonNull(mViewPager.getAdapter())).getItem(fragmentNumber);
     }
-
-
-
-    //TODO Coś z tym zrobić, Gotowe?
+    
     @Override
     public void onBackPressed() {
         int current = mViewPager.getCurrentItem();

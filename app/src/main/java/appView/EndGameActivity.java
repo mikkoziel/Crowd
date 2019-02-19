@@ -1,5 +1,7 @@
 package appView;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -13,20 +15,23 @@ import android.widget.TextView;
 import entity.AppContent;
 import entity.Game;
 
+import presenter.SetQuestionPresenter;
 import presenter.UpdateAppContentPresenter;
 
 public class EndGameActivity extends Fragment {
 
+    private Activity _activity;
     private ProgressBar _progress;
     private AppContent _appContent;
     private View _view;
     private int _index;
     private Game _game;
 
-    public void setOnCreate(AppContent appContent, int index, Game game){
+    public void setOnCreate(AppContent appContent, int index, Game game, Activity activity){
         this._appContent = appContent;
         this._index = index;
         this._game = game;
+        this._activity = activity;
     }
 
     @Nullable
@@ -64,9 +69,11 @@ public class EndGameActivity extends Fragment {
         updateAppContentPresenter.execute();
     }
 
-    //TODO naprawić
     public void repeatButton(){
-        ((GameActivity)getActivity()).setViewPager(0);
+        Intent intent = new Intent(_activity, GameActivity.class);
+        _game.clearQuestions();
+        SetQuestionPresenter setQuestionPresenter = new SetQuestionPresenter(_game, _activity, _progress, intent, _appContent);
+        setQuestionPresenter.execute();
     }
 
     public ProgressBar getProgress() {

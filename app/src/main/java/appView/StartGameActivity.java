@@ -49,51 +49,46 @@ public class StartGameActivity extends Fragment{
             gameEmpty(buttonLayout, lp);
         }
         else {
-            if (_game.getPlayed()) {
-                gamePlayed(buttonLayout, lp);
-            } else {
-                gameNotPlayed(buttonLayout, lp);
-            }
+            gameNotPlayed(buttonLayout, lp);
         }
 
         return view;
     }
 
-    public void gamePlayed( LinearLayout buttonLayout, LinearLayout.LayoutParams lp){
-        TextView previousText = new TextView(_activity);
-        previousText.setText(R.string.previousGame);
-
-        Button resumeButton = new Button(_activity);
-        resumeButton.setText(R.string.resume);
-        resumeButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                _game.setPlayed(true);
-                _appContent.updateGame(_game);
-                ((GameActivity)getActivity()).setViewPager(_index + 1);
-            }
-        });
-
-//  TODO zrobić cos z tymi przysickami
-//        Button newButton = new Button(_activity);
-//        newButton.setText(R.string.newGame);
-//        newButton.setOnClickListener(new View.OnClickListener() {
+//    public void gamePlayed( LinearLayout buttonLayout, LinearLayout.LayoutParams lp){
+//        TextView previousText = new TextView(_activity);
+//        previousText.setText(R.string.previousGame);
+//
+//        Button resumeButton = new Button(_activity);
+//        resumeButton.setText(R.string.resume);
+//        resumeButton.setOnClickListener(new View.OnClickListener() {
 //            public void onClick(View v) {
-////                Intent intent = new Intent(_activity, QuestionActivity.class);
-//                //intent.putExtra("game", _game);
 //                _game.setPlayed(true);
-//                _game.zeroIndex();
 //                _appContent.updateGame(_game);
-////                intent.putExtra("appContent", _appContent);
-////                _jsonPresenter.writeToJson(_appContent);
-//                SetQuestionPresenter setQuestionPresenter = new SetQuestionPresenter(_game, _activity, _progress, _index + 1, _appContent);
-//                setQuestionPresenter.execute();
+//                ((GameActivity)getActivity()).setViewPager(_index + 1);
 //            }
 //        });
-
-        buttonLayout.addView(previousText, lp);
-        buttonLayout.addView(resumeButton, lp);
-//        buttonLayout.addView(newButton, lp);
-    }
+//
+////        Button newButton = new Button(_activity);
+////        newButton.setText(R.string.newGame);
+////        newButton.setOnClickListener(new View.OnClickListener() {
+////            public void onClick(View v) {
+//////                Intent intent = new Intent(_activity, QuestionActivity.class);
+////                //intent.putExtra("game", _game);
+////                _game.setPlayed(true);
+////                _game.zeroIndex();
+////                _appContent.updateGame(_game);
+//////                intent.putExtra("appContent", _appContent);
+//////                _jsonPresenter.writeToJson(_appContent);
+////                SetQuestionPresenter setQuestionPresenter = new SetQuestionPresenter(_game, _activity, _progress, _index + 1, _appContent);
+////                setQuestionPresenter.execute();
+////            }
+////        });
+//
+//        buttonLayout.addView(previousText, lp);
+//        buttonLayout.addView(resumeButton, lp);
+////        buttonLayout.addView(newButton, lp);
+//    }
 
     public void gameNotPlayed( LinearLayout buttonLayout, LinearLayout.LayoutParams lp){
         Button startButton = new Button(_activity);

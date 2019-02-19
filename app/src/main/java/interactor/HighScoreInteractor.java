@@ -29,12 +29,6 @@ public class HighScoreInteractor {
             String name = res.getString("name");
             int points = res.getInt("points");
 
-            /* TODO potrzebne to przy rankingu?
-            int level = res.getInt("userlevel");
-            int money = res.getInt("money");
-            int missingPoints = res.getInt("missingPoints");
-            */
-
             HighScore highScore = new HighScore(name, points, id);
 
             highScores.add(highScore);
