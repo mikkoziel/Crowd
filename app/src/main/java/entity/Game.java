@@ -97,46 +97,46 @@ public class Game implements Serializable {
         }
     }
 
-    public JSONObject toJson(int mode) {
-        JSONObject object = new JSONObject();
-        try {
-            object.put("_gameID", _gameID);
-            object.put("_gameName", _gameName);
-            object.put("_played", _played);
-            object.put("_index", _index);
-            JSONArray questions = new JSONArray();
-            for (Question question : _questions) {
-                questions.put(question.getID(), question.toJson(mode));
-            }
-            object.put("_questions", questions);
-
-            if(mode != 2) {
-                JSONArray tags = new JSONArray();
-                for (Tag tag : _tags) {
-                    tags.put(tag.get_tagID(), tag.toJson());
-                }
-                object.put("_tags", tags);
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return object;
-    }
-
-
-
-    public void destroy() {
-        for(Question question: _questions) {
-            question.destroy();
-            question = null;
-        }
-        _questions.clear();
-        _questions = null;
-
-        for(Tag tag: _tags)
-            tag = null;
-        _tags.clear();
-        _tags = null;
-    }
+//    public JSONObject toJson(int mode) {
+//        JSONObject object = new JSONObject();
+//        try {
+//            object.put("_gameID", _gameID);
+//            object.put("_gameName", _gameName);
+//            object.put("_played", _played);
+//            object.put("_index", _index);
+//            JSONArray questions = new JSONArray();
+//            for (Question question : _questions) {
+//                questions.put(question.getID(), question.toJson(mode));
+//            }
+//            object.put("_questions", questions);
+//
+//            if(mode != 2) {
+//                JSONArray tags = new JSONArray();
+//                for (Tag tag : _tags) {
+//                    tags.put(tag.get_tagID(), tag.toJson());
+//                }
+//                object.put("_tags", tags);
+//            }
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        return object;
+//    }
+//
+//
+//
+//    public void destroy() {
+//        for(Question question: _questions) {
+//            question.destroy();
+//            question = null;
+//        }
+//        _questions.clear();
+//        _questions = null;
+//
+//        for(Tag tag: _tags)
+//            tag = null;
+//        _tags.clear();
+//        _tags = null;
+//    }
 }

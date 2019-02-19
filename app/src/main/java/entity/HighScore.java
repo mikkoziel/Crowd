@@ -24,15 +24,15 @@ public class HighScore implements Serializable {
         return _profileID;
     }
 
-    public JSONObject toJson(){
-        JSONObject object = new JSONObject();
-        try {
-            object.put("_profileID", _profileID);
-            object.put("_name", _name);
-            object.put("_profileID", _profileID);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return object;
-    }
+//    public JSONObject toJson(){
+//        JSONObject object = new JSONObject();
+//        try {
+//            object.put("_profileID", _profileID);
+//            object.put("_name", _name);
+//            object.put("_profileID", _profileID);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        return object;
+//    }
 }

@@ -28,7 +28,6 @@ public class UpdateAppContentPresenter extends AsyncTask<Void, Void, Void> {
     private AppContent _appContent;
 
     private GivenAnswerInteractor _givenAnswerInteractor;
-    private JsonPresenter _jsonPresenter;
     private Game _game;
 
     public UpdateAppContentPresenter(Activity activity, ProgressBar progress, AppContent appContent, Game game) {
@@ -36,7 +35,6 @@ public class UpdateAppContentPresenter extends AsyncTask<Void, Void, Void> {
         this._progress = progress;
         this._appContent = appContent;
         this._givenAnswerInteractor = new GivenAnswerInteractor();
-        this._jsonPresenter = new JsonPresenter(_activity);
         this._game = game;
 
     }

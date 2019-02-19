@@ -27,8 +27,6 @@ import entity.GivenAnswer;
 
 import entity.Question;
 import presenter.FilePresenter;
-import presenter.JsonPresenter;
-import presenter.NewAnswerPresenter;
 import presenter.GivenAnswerPresenter;
 
 public class QuestionActivity extends Fragment {
@@ -48,7 +46,6 @@ public class QuestionActivity extends Fragment {
     private Game _game;
     private Question _question;
     private FilePresenter _filePresenter;
-    private JsonPresenter _jsonPresenter;
     private int _index;
     private GivenAnswer _given;
     private View _view;
@@ -159,11 +156,10 @@ public class QuestionActivity extends Fragment {
         _game.updateQuestion(_question);
         _appContent.updateGame(_game);
 
-        if(_game.getIndex() < _game.getQuestions().size()) {
+//        if(_game.getIndex() < _game.getQuestions().size()) {
             answer.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     lockButtons();
-                    //TODO dodać given do nowego fragmentu, sprawdzic czy działa?
                     GivenAnswer given = new GivenAnswer(_appContent.getProfile(), _question, a);
                     handleGiven(given);
 
@@ -171,18 +167,18 @@ public class QuestionActivity extends Fragment {
                     unlockButtons();
                 }
             });
-        }
-        else{
-            _game.setPlayed(false);
-            answer.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    GivenAnswer given = new GivenAnswer(_appContent.getProfile(), _question, a);
-                    handleGiven(given);
-
-                    ((GameActivity)getActivity()).setViewPager(_index + 1);
-                }
-            });
-        }
+//        }
+//        else{
+//            _game.setPlayed(false);
+//            answer.setOnClickListener(new View.OnClickListener() {
+//                public void onClick(View v) {
+//                    GivenAnswer given = new GivenAnswer(_appContent.getProfile(), _question, a);
+//                    handleGiven(given);
+//
+//                    ((GameActivity)getActivity()).setViewPager(_index + 1);
+//                }
+//            });
+//        }
         return answer;
     }
 
@@ -206,26 +202,41 @@ public class QuestionActivity extends Fragment {
         LinearLayout layout = _view.findViewById(appView.R.id.answerlayout);
 
         final EditText answer = new EditText(_activity);
+        answer.setGravity(Gravity.CENTER_HORIZONTAL);
+        answer.requestFocus();
         final Button button = new Button(_activity);
         button.setText("SUBMIT");
 
-        if(_game.getIndex() < _game.getQuestions().size()) {
+//        if(_game.getIndex() < _game.getQuestions().size()) {
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    NewAnswerPresenter newAnswerPresenter = new NewAnswerPresenter(_activity, answer.getText().toString(), _question, _appContent, button, 0);
-                    newAnswerPresenter.execute();
+//                    NewAnswerPresenter newAnswerPresenter = new NewAnswerPresenter(_activity, answer.getText().toString(), _question, _appContent, button, 0);
+//                    newAnswerPresenter.execute();
+                    button.setClickable(false);
+                    GivenAnswer given = new GivenAnswer(_appContent.getProfile(), _question, _question.getAnswers().get(0), answer.getText().toString());
+                    handleGiven(given);
+
+                    ((GameActivity)getActivity()).setViewPager(_index + 1);
+                    button.setClickable(true);
                 }
             });
-        }
-        else{
-            _game.setPlayed(false);
-            button.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    NewAnswerPresenter newAnswerPresenter = new NewAnswerPresenter(_activity, answer.getText().toString(), _question, _appContent, button, 1);
-                    newAnswerPresenter.execute();
-                }
-            });
-        }
+//        }
+//        else{
+//            _game.setPlayed(false);
+//            button.setOnClickListener(new View.OnClickListener() {
+//                public void onClick(View v) {
+////                    NewAnswerPresenter newAnswerPresenter = new NewAnswerPresenter(_activity, answer.getText().toString(), _question, _appContent, button, 1);
+////                    newAnswerPresenter.execute();
+//                    lockButtons();
+//                    GivenAnswer given = new GivenAnswer(_appContent.getProfile(), _question, _question.getAnswers().get(0));
+//                    handleGiven(given);
+//
+//                    ((GameActivity)getActivity()).setViewPager(_index + 1);
+//                    unlockButtons();
+//
+//                }
+//            });
+//        }
 
         layout.addView(answer, lp);
         layout.addView(button, lp);

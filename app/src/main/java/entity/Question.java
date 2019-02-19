@@ -109,34 +109,34 @@ public class Question implements Serializable{
 
     public String getImage(){return _image;}
 
-    public JSONObject toJson(int mode){
-        JSONObject object = new JSONObject();
-        try {
-            object.put("_question", _question);
-            object.put("_questionID", _questionID);
-            object.put("_type", _type);
-            object.put("_index", _index);
-            object.put("_defaultAnswer", _defaultAnswer);
-            object.put("_image", _image);
-            object.put("_isImageQuestion", _isImageQuestion);
-            JSONArray answers = new JSONArray();
-            for(Answer answer: _answers){
-                answers.put(answer.getID(), answer.toJson());
-            }
-            object.put("_answers", answers);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return object;
-    }
-
-    public void destroy(){
-        for(Answer answer: _answers){
-            answer = null;
-        }
-        _answers.clear();
-        _answers = null;
-    }
+//    public JSONObject toJson(int mode){
+//        JSONObject object = new JSONObject();
+//        try {
+//            object.put("_question", _question);
+//            object.put("_questionID", _questionID);
+//            object.put("_type", _type);
+//            object.put("_index", _index);
+//            object.put("_defaultAnswer", _defaultAnswer);
+//            object.put("_image", _image);
+//            object.put("_isImageQuestion", _isImageQuestion);
+//            JSONArray answers = new JSONArray();
+//            for(Answer answer: _answers){
+//                answers.put(answer.getID(), answer.toJson());
+//            }
+//            object.put("_answers", answers);
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        return object;
+//    }
+//
+//    public void destroy(){
+//        for(Answer answer: _answers){
+//            answer = null;
+//        }
+//        _answers.clear();
+//        _answers = null;
+//    }
 }
 

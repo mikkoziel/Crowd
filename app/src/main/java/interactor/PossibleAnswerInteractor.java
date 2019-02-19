@@ -4,6 +4,7 @@ import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import entity.Answer;
@@ -42,7 +43,11 @@ public class PossibleAnswerInteractor {
             int showed = res.getInt("showed");
             int chosen = res.getInt("chosen");
             int id = res.getInt("answerID");
-            int quantity = showed * 100 /chosen;
+            int quantity;
+            if(chosen == 0 || showed == 0)
+                quantity = 1;
+            else
+                quantity = chosen * 100 /showed;
             for(int i = 0; i < quantity; i++){
                 ids.add(id);
             }
@@ -56,7 +61,8 @@ public class PossibleAnswerInteractor {
         for(int i = 0; i < numberOfAnswer; i++){
             int random = rand.nextInt(ids.size());
             int randomElement = ids.get(random);
-            ids.remove(random);
+//            ids.remove(random);
+            ids.removeAll(Arrays.asList(randomElement));
             getRandomAnswer(question, randomElement);
         }
         if(question.getAnswers().size() == numberOfAnswer){

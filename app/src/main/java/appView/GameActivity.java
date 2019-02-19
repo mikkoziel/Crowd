@@ -12,7 +12,6 @@ import entity.AppContent;
 import entity.Game;
 import tools.CustomViewPager;
 import entity.Question;
-import presenter.JsonPresenter;
 import presenter.UpdateAppContentPresenter;
 
 public class GameActivity extends AppCompatActivity {
@@ -22,7 +21,6 @@ public class GameActivity extends AppCompatActivity {
     private SectionsStatePagerAdapter mSectionsStatePagerAdapter;
     private CustomViewPager mViewPager;
     private AppContent _appContent;
-    private JsonPresenter _jsonPresenter;
 
     private Game _game;
 
@@ -32,10 +30,6 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         Log.d(TAG, "onCreate: Started.");
 
-//        this._jsonPresenter = new JsonPresenter(this);
-//        this._appContent = _jsonPresenter.getJSON(0);
-
-//        this._appContent = GlobalClass.getInstance().getAppContent();
         this._appContent = (AppContent) getIntent().getSerializableExtra("appContent");
         this._game = (Game) getIntent().getSerializableExtra("game");
 
@@ -72,7 +66,6 @@ public class GameActivity extends AppCompatActivity {
 
     public void setViewPager(int fragmentNumber){
         mViewPager.setCurrentItem(fragmentNumber);
-//        ((SectionsStatePagerAdapter) mViewPager.getAdapter()).deleteFragment(fragmentNumber - 1);
     }
 
     public Fragment getFragment(int fragmentNumber) {
@@ -85,14 +78,13 @@ public class GameActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         int current = mViewPager.getCurrentItem();
-        int i;
         if(current == 0){
             StartGameActivity currentFragment = (StartGameActivity) getFragment(current);
             UpdateAppContentPresenter updateAppContentPresenter = new UpdateAppContentPresenter(this, currentFragment.getProgress(), _appContent, _game);
             updateAppContentPresenter.execute();
         }
         else{
-            if(current == mViewPager.getAdapter().getCount()){
+            if(current == mViewPager.getAdapter().getCount() - 1){
                 EndGameActivity currentFragment = (EndGameActivity) getFragment(current);
                 UpdateAppContentPresenter updateAppContentPresenter = new UpdateAppContentPresenter(this, currentFragment.getProgress(), _appContent, _game);
                 updateAppContentPresenter.execute();

@@ -1,5 +1,6 @@
 package interactor;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -118,12 +119,14 @@ public class GivenAnswerInteractor {
         int profileID = givenAnswer.getProfile().getID();
         int questionID = givenAnswer.getQuestion().getID();
         int answerID = givenAnswer.getAnswer().getID();
+        String answerText = givenAnswer.getText();
 
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         Date today = Calendar.getInstance().getTime();
         String date = dateFormat.format(today);
 
-        String query = "Insert into Log(profilID, questionID, answerID, date) values(" + profileID + ", " + questionID + ", " + answerID + ", '" + date + "')";
+        String query = "Insert into Log(profilID, questionID, answerID, date, answerText) values(" + profileID
+                + ", " + questionID + ", " + answerID + ", '" + date + "'," + answerText +")";
 
         int result = _dbConnector.updateQuery(query);
         if(result > 0)

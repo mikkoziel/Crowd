@@ -69,29 +69,29 @@ public class Answer implements Serializable {
         this._chosen = chosen;
     }
 
-    public JSONObject toJson(){
-        JSONObject object = new JSONObject();
-        try {
-            object.put("_answerID", _answerID);
-            object.put("_answer", _answer);
-            object.put("_type", _type);
-            object.put("_defaultAnswer", _defaultAnswer);
-            object.put("_isImageAnswer", _isImageAnswer);
-
-            JSONArray image = new JSONArray();
-            if(_image != null) {
-                for (byte x : _image) {
-                    image.put(x);
-                }
-            }
-            object.put("_image", image);
-
-            object.put("_showed", _showed);
-            object.put("_chosen", _chosen);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return object;
-    }
+//    public JSONObject toJson(){
+//        JSONObject object = new JSONObject();
+//        try {
+//            object.put("_answerID", _answerID);
+//            object.put("_answer", _answer);
+//            object.put("_type", _type);
+//            object.put("_defaultAnswer", _defaultAnswer);
+//            object.put("_isImageAnswer", _isImageAnswer);
+//
+//            JSONArray image = new JSONArray();
+//            if(_image != null) {
+//                for (byte x : _image) {
+//                    image.put(x);
+//                }
+//            }
+//            object.put("_image", image);
+//
+//            object.put("_showed", _showed);
+//            object.put("_chosen", _chosen);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        return object;
+//    }
 
 }
