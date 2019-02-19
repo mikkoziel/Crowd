@@ -121,7 +121,7 @@ public class GivenAnswerInteractor {
         int answerID = givenAnswer.getAnswer().getID();
         String answerText = givenAnswer.getText();
 
-        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date today = Calendar.getInstance().getTime();
         String date = dateFormat.format(today);
 
