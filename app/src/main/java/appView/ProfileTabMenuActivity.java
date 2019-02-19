@@ -103,11 +103,35 @@ public class ProfileTabMenuActivity extends Fragment {
     public void addAvatar(View rootView){
         ImageView avatar = rootView.findViewById(R.id.imageView);
 
-
+//TODO: zmienić skale
         String avatarIcon = _profile.getAvatar().getIconName();
         int imageResource = getResources().getIdentifier(avatarIcon, null, _activity.getPackageName());
+        Drawable drawable = getResources().getDrawable(imageResource);
+//        int parent = ((LinearLayout)avatar.getParent()).getHeight();
+//        int drawH =  drawable.getMinimumHeight();
+//        float scale = (float)  parent/ drawH;
+        drawable = scaleImage(drawable, 0.5F);
 
-        avatar.setImageDrawable(getResources().getDrawable(imageResource));
+        avatar.setImageDrawable(drawable);
+    }
+
+    public Drawable scaleImage (Drawable image, float scaleFactor) {
+
+        if ((image == null) || !(image instanceof BitmapDrawable)) {
+            return image;
+        }
+
+        Bitmap b = ((BitmapDrawable)image).getBitmap();
+
+        int sizeX = Math.round(image.getIntrinsicWidth() * scaleFactor);
+        int sizeY = Math.round(image.getIntrinsicHeight() * scaleFactor);
+
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, sizeX, sizeY, false);
+
+        image = new BitmapDrawable(getResources(), bitmapResized);
+
+        return image;
+
     }
 
     private void populateItems(final View rootView){
