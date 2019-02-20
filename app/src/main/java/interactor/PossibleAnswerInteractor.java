@@ -25,7 +25,15 @@ public class PossibleAnswerInteractor {
 
     public void setPossibleAnswers(Question question) throws SQLException {
         ArrayList<Integer> ids = selectAnswerID(question);
-        int numberOfAnswer = (ids.size() > 4) ? 4: ids.size();
+        int count = 0;
+        int previous = 0;
+        for(Integer x: ids){
+            if(x != previous){
+                count++;
+            }
+            previous = x;
+        }
+        int numberOfAnswer = (count > 4) ? 4: count;
 
         setRandomAnswer(ids, question, numberOfAnswer);
         if(question.getDefaultAnswer()){
