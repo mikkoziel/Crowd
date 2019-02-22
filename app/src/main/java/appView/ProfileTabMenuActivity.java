@@ -107,10 +107,6 @@ public class ProfileTabMenuActivity extends Fragment {
         String avatarIcon = _profile.getAvatar().getIconName();
         int imageResource = getResources().getIdentifier(avatarIcon, null, _activity.getPackageName());
         Drawable drawable = getResources().getDrawable(imageResource);
-//        int parent = ((LinearLayout)avatar.getParent()).getHeight();
-//        int drawH =  drawable.getMinimumHeight();
-//        float scale = (float)  parent/ drawH;
-        drawable = scaleImage(drawable, 0.5F);
 
         avatar.setImageDrawable(drawable);
     }
