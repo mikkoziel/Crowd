@@ -2,7 +2,9 @@ package presenter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -59,12 +61,30 @@ public class GenKeyPresenter extends AsyncTask<Void, Void, ArrayList<Integer>> {
     protected void onPostExecute(ArrayList<Integer> keys) {
         if (_genKeyInteractor.isSuccess()) {
             LinearLayout keyLay =_view.findViewById(R.id.keysLay);
+            TextView text = new TextView(_activity);
+            text.setText("YOUR KEYS");
+            text.setTextSize(20);
+            text.setGravity(Gravity.CENTER);
+            keyLay.addView(text, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             for(Integer x: keys){
                 TextView keyText = new TextView(_activity);
                 keyText.setText(Integer.toString(x));
-                keyText.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                keyText.setGravity(Gravity.CENTER);
                 keyText.setTextSize(20);
-                keyLay.addView(keyText);
+                if(x.equals(keys.get(keys.size() - 1))){
+                    keyText.setBackgroundColor(Color.parseColor("#33FF5555"));
+                    TextView spaceText = new TextView(_activity);
+                    spaceText.setText("\n");
+                    spaceText.setTextSize(20);
+                    keyLay.addView(spaceText, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                    TextView newText = new TextView(_activity);
+                    newText.setText("YOUR NEW KEY");
+                    newText.setTextSize(20);
+                    newText.setGravity(Gravity.CENTER);
+                    newText.setBackgroundColor(Color.parseColor("#33FF5555"));
+                    keyLay.addView(newText, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                }
+                keyLay.addView(keyText, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             }
         }
         _genKeyInteractor.endWork();
