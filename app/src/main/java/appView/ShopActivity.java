@@ -73,7 +73,7 @@ public class ShopActivity extends AppCompatActivity {
         LinearLayout row = null;
 
         for(final Item item: _shop){
-            byte[] avatarIcon = item.getIcon();
+           String itemIcon = item.getIconName();
             if(i == inRow) {
                 i = 0;
                 row = new LinearLayout(this);
@@ -84,9 +84,12 @@ public class ShopActivity extends AppCompatActivity {
             }
 
             final Button itemButton = new Button(this);
-            Bitmap bitmapImage = BitmapFactory.decodeByteArray(avatarIcon, 0, avatarIcon.length);
-            Drawable drawableImage = new BitmapDrawable(getResources(), bitmapImage);
-            itemButton.setBackground(drawableImage);
+//            Bitmap bitmapImage = BitmapFactory.decodeByteArray(avatarIcon, 0, avatarIcon.length);
+//            Drawable drawableImage = new BitmapDrawable(getResources(), bitmapImage);\
+
+            int imageResource = getResources().getIdentifier(itemIcon, null, this.getPackageName());
+            Drawable drawable = getResources().getDrawable(imageResource);
+            itemButton.setBackground(drawable);
             itemButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     itemBttnAction(item);

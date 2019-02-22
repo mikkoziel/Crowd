@@ -103,7 +103,6 @@ public class ProfileTabMenuActivity extends Fragment {
     public void addAvatar(View rootView){
         ImageView avatar = rootView.findViewById(R.id.imageView);
 
-//TODO: zmienić skale
         String avatarIcon = _profile.getAvatar().getIconName();
         int imageResource = getResources().getIdentifier(avatarIcon, null, _activity.getPackageName());
         Drawable drawable = getResources().getDrawable(imageResource);
@@ -137,20 +136,23 @@ public class ProfileTabMenuActivity extends Fragment {
         LinearLayout itemLayout = rootView.findViewById(R.id.itemsLay);
 
         for(final Item item: _profile.getItems()){
-            byte[] avatarIcon = item.getIcon();
+            String itemIcon = item.getIconName();
             if(i == inRow) {
                 i = 0;
                 row = new LinearLayout(_activity);
                 row.setOrientation(LinearLayout.HORIZONTAL);
                 row.setPadding(0, 10, 0, 10);
                 row.setGravity(CENTER);
-                itemLayout.addView(row);
+                itemLayout.addView(row, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, 0, 1));
             }
 
             final Button itemButton = new Button(_activity);
-            Bitmap bitmapImage = BitmapFactory.decodeByteArray(avatarIcon, 0, avatarIcon.length);
-            Drawable drawableImage = new BitmapDrawable(getResources(), bitmapImage);
-            itemButton.setBackground(drawableImage);
+//            Bitmap bitmapImage = BitmapFactory.decodeByteArray(avatarIcon, 0, avatarIcon.length);
+//            Drawable drawableImage = new BitmapDrawable(getResources(), bitmapImage);
+
+            int imageResource = getResources().getIdentifier(itemIcon, null, _activity.getPackageName());
+            Drawable drawable = getResources().getDrawable(imageResource);
+            itemButton.setBackground(drawable);
             itemButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     itemBttnAction(item, rootView);
@@ -158,14 +160,14 @@ public class ProfileTabMenuActivity extends Fragment {
             });
             itemButton.setPadding(10, 0, 10, 0);
 
-            FrameLayout frame = new FrameLayout(_activity);
-            frame.setPadding(3,3,3,3);
-            frame.setForegroundGravity(CENTER);
-            frame.addView(itemButton, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.MATCH_PARENT, CENTER));
+//            FrameLayout frame = new FrameLayout(_activity);
+//            frame.setPadding(3,3,3,3);
+//            frame.setForegroundGravity(CENTER);
+//            frame.addView(itemButton, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, CENTER));
 
             i+=1;
 
-            row.addView(frame, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT, 1));
+            row.addView(itemButton, new LinearLayout.LayoutParams( 0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
         }
     }
 

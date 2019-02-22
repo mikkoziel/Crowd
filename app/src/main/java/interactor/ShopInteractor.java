@@ -29,12 +29,14 @@ public class ShopInteractor {
         while(res.next()) {
             int itemId = res.getInt("itemID");
             String name = res.getString("name");
-            Blob blobIcon = res.getBlob("icon");
+//            Blob blobIcon = res.getBlob("icon");
             int price = res.getInt("price");
             String description = res.getString("description");
+            String iconName = res.getString("iconName");
 
-            byte[] byteIcon = blobIcon.getBytes(1, (int)blobIcon.length());
-            Item item = new Item(itemId, name, byteIcon, price, description);
+//            byte[] byteIcon = blobIcon.getBytes(1, (int)blobIcon.length());
+//            Item item = new Item(itemId, name, byteIcon, price, description);
+            Item item = new Item(itemId, name, price, description, iconName);
             items.add(item);
             setSuccess("Items set");
         }
