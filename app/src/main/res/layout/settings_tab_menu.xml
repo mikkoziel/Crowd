@@ -48,10 +48,17 @@
             android:text="@string/change_avatar" />
 
         <Button
-            android:id="@+id/button8"
+            android:id="@+id/genKey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/setting1" />
+            android:text="@string/generate_new_game_key" />
+
+        <LinearLayout
+            android:id="@+id/keysLay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"></LinearLayout>
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

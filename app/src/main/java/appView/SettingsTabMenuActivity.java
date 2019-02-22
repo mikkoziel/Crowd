@@ -16,12 +16,15 @@ import android.widget.ToggleButton;
 import entity.AppContent;
 import entity.Profile;
 import presenter.AvatarPresenter;
+import presenter.GenKeyPresenter;
 
 public class SettingsTabMenuActivity extends Fragment {
 
     private Activity _activity;
     private Intent _intent;
     private AppContent _appContent;
+    private View _rootView;
+    private ProgressBar _progress;
 
     public void setOnCreate(Activity activity, Intent intent, AppContent appContent){
         this._activity = activity;
@@ -32,18 +35,18 @@ public class SettingsTabMenuActivity extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(appView.R.layout.settings_tab_menu, container, false);
+        this._rootView = inflater.inflate(appView.R.layout.settings_tab_menu, container, false);
 
-        Button changeButton = rootView.findViewById(appView.R.id.changePass);
+        Button changeButton = _rootView.findViewById(appView.R.id.changePass);
         changeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                changePassword(rootView);
+                changePassword(_rootView);
             }
         });
-        ProgressBar progress = rootView.findViewById(R.id.progress);
-        progress.setVisibility(View.GONE);
+        this._progress = _rootView.findViewById(R.id.progress);
+        _progress.setVisibility(View.GONE);
 
-        ToggleButton themeBttn = rootView.findViewById(appView.R.id.themeBttn);
+        ToggleButton themeBttn = _rootView.findViewById(appView.R.id.themeBttn);
         themeBttn.setText("Dark Theme");
         themeBttn.setTextOff("Dark Theme");
         themeBttn.setTextOn("Light Theme");
@@ -57,14 +60,24 @@ public class SettingsTabMenuActivity extends Fragment {
             }
         });
 
-        Button changeAvatarBttn = rootView.findViewById(R.id.changeAvatar);
+        Button changeAvatarBttn = _rootView.findViewById(R.id.changeAvatar);
         changeAvatarBttn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                changeAvatar(rootView);
+                changeAvatar(_rootView);
+            }
+        });
+        if(!_appContent.getProfile().hasItem(3)) {
+            changeAvatarBttn.setClickable(false);
+        }
+
+        Button genKeyBttn = _rootView.findViewById(R.id.genKey);
+        genKeyBttn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                genKey();
             }
         });
 
-        return rootView;
+        return _rootView;
     }
 
     public void changePassword(View view){
@@ -92,5 +105,12 @@ public class SettingsTabMenuActivity extends Fragment {
             Toast.makeText(_activity, "You need to buy MAGIC AVATAR to unlock this", Toast.LENGTH_LONG).show();
         }
     }
+
+    private void genKey(){
+        GenKeyPresenter genKeyPresenter = new GenKeyPresenter(_activity, _appContent, _rootView, _progress);
+        genKeyPresenter.execute();
+    }
+
+
 
 }
