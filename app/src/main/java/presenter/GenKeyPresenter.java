@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -60,7 +61,7 @@ public class GenKeyPresenter extends AsyncTask<Void, Void, ArrayList<Integer>> {
     @Override
     protected void onPostExecute(ArrayList<Integer> keys) {
         if (_genKeyInteractor.isSuccess()) {
-            LinearLayout keyLay =_view.findViewById(R.id.keysLay);
+            final LinearLayout keyLay =_view.findViewById(R.id.keysLay);
             TextView text = new TextView(_activity);
             text.setText("YOUR KEYS");
             text.setTextSize(20);
@@ -74,7 +75,7 @@ public class GenKeyPresenter extends AsyncTask<Void, Void, ArrayList<Integer>> {
                 if(x.equals(keys.get(keys.size() - 1))){
                     keyText.setBackgroundColor(Color.parseColor("#33FF5555"));
                     TextView spaceText = new TextView(_activity);
-                    spaceText.setText("\n");
+                    spaceText.setText("");
                     spaceText.setTextSize(20);
                     keyLay.addView(spaceText, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                     TextView newText = new TextView(_activity);
@@ -86,6 +87,15 @@ public class GenKeyPresenter extends AsyncTask<Void, Void, ArrayList<Integer>> {
                 }
                 keyLay.addView(keyText, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             }
+            Button hideBttn = new Button(_activity);
+            hideBttn.setText("HIDE MY KEYS");
+            hideBttn.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    keyLay.removeAllViews();
+                }
+            });
+            keyLay.addView(hideBttn, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
         }
         _genKeyInteractor.endWork();
         _progress.setVisibility(View.GONE);
