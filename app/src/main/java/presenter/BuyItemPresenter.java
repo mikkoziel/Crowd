@@ -49,7 +49,6 @@ public class BuyItemPresenter extends AsyncTask<Void, Void, Void> {
     protected void onPreExecute() {
         _progress.setVisibility(View.VISIBLE);
         _buy.setClickable(false);
-        _cancel.setClickable(false);
         InternetChecker internetChecker = new InternetChecker(_activity);
         if(!internetChecker.isOnline()){
             this.cancel(true);
@@ -77,9 +76,6 @@ public class BuyItemPresenter extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void voids) {
         if(_shopInteractor.isSuccess()) {
             _progress.setVisibility(View.GONE);
-            _cancel.setEnabled(false);
-        }else{
-            _buy.setClickable(true);
         }
         _buy.setClickable(true);
 
