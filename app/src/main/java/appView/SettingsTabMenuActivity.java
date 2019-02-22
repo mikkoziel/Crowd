@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -107,6 +108,8 @@ public class SettingsTabMenuActivity extends Fragment {
     }
 
     private void genKey(){
+        LinearLayout keyLay = _rootView.findViewById(R.id.keysLay);
+        keyLay.removeAllViews();
         GenKeyPresenter genKeyPresenter = new GenKeyPresenter(_activity, _appContent, _rootView, _progress);
         genKeyPresenter.execute();
     }

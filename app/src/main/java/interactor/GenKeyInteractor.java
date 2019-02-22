@@ -9,12 +9,14 @@ import tools.DataBaseConnector;
 
 public class GenKeyInteractor {
     private DataBaseConnector _dbConnector;
+    private String _result;
     private Boolean _isSuccess;
     private ArrayList<Integer> _keys;
 
     public GenKeyInteractor()
     {
         this._dbConnector = new DataBaseConnector();
+        this._result = "";
         this._isSuccess = false;
         this._keys = new ArrayList<>();
     }
@@ -43,14 +45,17 @@ public class GenKeyInteractor {
         return games;
     }
 
-    public void generateKey(Profile profile){
+    public ArrayList<Integer> generateKey(Profile profile){
+        int key;
         if(_keys.isEmpty()){
-            _keys.add(profile.getID() + 1);
+            key = profile.getID() + 1;
         }
         else{
-            int key = _keys.get(_keys.size() - 1);
-            _keys.add(key);
+            key = _keys.get(_keys.size() - 1) + 1;
         }
+        _keys.add(key);
+        setSuccess("New Key:" + Integer.toString(key));
+        return _keys;
     }
 
     public int getItems(Profile profile){
@@ -63,20 +68,20 @@ public class GenKeyInteractor {
         return items;
     }
 
-    private void setSuccess(ArrayList<Integer> keys)
+    private void setSuccess(String message)
     {
-        _keys = keys;
+        _result = message;
         _isSuccess = true;
     }
 
-    private void setFailure()
+    private void setFailure(String message)
     {
-        _keys = new ArrayList<>();
+        _result = message;
         _isSuccess = false;
     }
 
     public Boolean isSuccess(){return _isSuccess;}
-    public ArrayList<Integer> getResult(){return _keys;}
+    public String getResult(){return _result;}
 
     public void endWork()
     {

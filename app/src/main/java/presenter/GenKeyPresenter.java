@@ -3,24 +3,20 @@ package presenter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import appView.R;
 import entity.AppContent;
-import entity.GivenAnswer;
 import entity.Profile;
 import interactor.GenKeyInteractor;
-import interactor.GivenAnswerInteractor;
 import tools.InternetChecker;
 
-public class GenKeyPresenter extends AsyncTask<Void, Void, Void> {
+public class GenKeyPresenter extends AsyncTask<Void, Void, ArrayList<Integer>> {
 
     private GenKeyInteractor _genKeyInteractor;
     @SuppressLint("StaticFieldLeak")
@@ -49,19 +45,19 @@ public class GenKeyPresenter extends AsyncTask<Void, Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(Void... voids) {
+    protected ArrayList<Integer> doInBackground(Void... voids) {
         Profile profile = _appContent.getProfile();
         if(_genKeyInteractor.checkItems(profile)){
-            _genKeyInteractor.generateKey(profile);
+            ArrayList<Integer> keys = _genKeyInteractor.generateKey(profile);
+            return keys;
         }
         return null;
     }
 
     @SuppressLint("SetTextI18n")
     @Override
-    protected void onPostExecute(Void voids) {
+    protected void onPostExecute(ArrayList<Integer> keys) {
         if (_genKeyInteractor.isSuccess()) {
-            ArrayList<Integer> keys = _genKeyInteractor.getResult();
             LinearLayout keyLay =_view.findViewById(R.id.keysLay);
             for(Integer x: keys){
                 TextView keyText = new TextView(_activity);
