@@ -126,7 +126,7 @@ public class GivenAnswerInteractor {
         String date = dateFormat.format(today);
 
         String query = "Insert into Log(profilID, questionID, answerID, date, answerText) values(" + profileID
-                + ", " + questionID + ", " + answerID + ", '" + date + "'," + answerText +")";
+                + ", " + questionID + ", " + answerID + ", '" + date + "', '" + answerText +"')";
 
         int result = _dbConnector.updateQuery(query);
         if(result > 0)

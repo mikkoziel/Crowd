@@ -84,7 +84,7 @@
             android:id="@+id/st"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.25"
+            android:layout_weight="0.30"
             android:orientation="vertical">
 
             <TextView
@@ -163,7 +163,7 @@
             android:id="@+id/itemLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.49"
+            android:layout_weight="0.45"
             android:orientation="vertical">
 
             <TextView
