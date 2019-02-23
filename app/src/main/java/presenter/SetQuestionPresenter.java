@@ -59,12 +59,14 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
             _game.getQuestions().clear();
             _questionInteractor.setQuestions(_game, _activity, _appContent.getProfile());
 
-            if(!_questionInteractor.getImage().isEmpty()) {
+            if(!_questionInteractor.getImage().isEmpty() && !isAllNulls(_questionInteractor.getImage())) {
                 for (byte[] image : _questionInteractor.getImage()) {
-                    int index = _questionInteractor.getImage().indexOf(image);
-                    Question question = _game.getQuestions().get(index);
-                    String path = writeToFile(image, question.getID());
-                    question.setImage(path);
+                    if(image != null) {
+                        int index = _questionInteractor.getImage().indexOf(image);
+                        Question question = _game.getQuestions().get(index);
+                        String path = writeToFile(image, question.getID());
+                        question.setImage(path);
+                    }
                 }
             }
 
@@ -120,5 +122,11 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
         }
         return file.getAbsolutePath();
 
+    }
+
+    public boolean isAllNulls(Iterable<?> array) {
+        for (Object element : array)
+            if (element != null) return false;
+        return true;
     }
 }

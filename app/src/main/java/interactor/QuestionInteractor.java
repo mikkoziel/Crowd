@@ -82,9 +82,10 @@ public class QuestionInteractor {
 
             Blob blobImage = resultSet.getBlob("questionImage");
             Question question;
-            if (resultSet.wasNull())
+            if (resultSet.wasNull()) {
                 question = new Question(content, ID, type, defaultAnswer);
-
+                this._images.add(null);
+            }
             else {
                 byte[] byteImage = blobImage.getBytes(1, (int) blobImage.length());
 //                String path = null;
