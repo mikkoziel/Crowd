@@ -147,7 +147,9 @@ public class QuestionActivity extends Fragment {
     private Button setButtons(String answerText, final Answer a){
         Button answer = new Button(_activity);
 
-        answer.setText(String.format("\n%s\n", answerText));
+        if(answerText != null && !answerText.equals("")) {
+            answer.setText(String.format("\n%s\n", answerText));
+        }
         if(a.isImageAnswer()){
             Drawable image = new BitmapDrawable(_activity.getResources(), BitmapFactory.decodeByteArray(a.getImage(), 0, a.getImage().length));
             answer.setCompoundDrawablesWithIntrinsicBounds( image, null, null, null);
