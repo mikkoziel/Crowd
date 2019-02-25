@@ -67,7 +67,7 @@ public class MenuTabMenuActivity extends Fragment {
                                     long arg3) {
                 Tag selected = (Tag) arg0.getAdapter().getItem(arg2);
                 Toast.makeText(_activity,
-                        "Clicked " + arg2 + " name: " + selected.get_tag(),
+                        "Selected: " + selected.get_tag(),
                         Toast.LENGTH_SHORT).show();
                 sortGame(selected, ll, lp);
             }

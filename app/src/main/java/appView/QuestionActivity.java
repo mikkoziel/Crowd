@@ -97,6 +97,9 @@ public class QuestionActivity extends Fragment {
                 setTextQuestion(layout, lp);
                 setOpenAnswer(lp);
                 break;
+            case 1005:
+                setSplitQuestion(layout,lp);
+                break;
         }
 
     }
@@ -210,6 +213,17 @@ public class QuestionActivity extends Fragment {
         layout.addView(answer, lp);
         layout.addView(button, lp);
 
+    }
+
+    public void setSplitQuestion(LinearLayout layout, LinearLayout.LayoutParams lp){
+        String questionText = _question.getQuestion();
+
+        TextView question = setTextView(questionText);
+
+        ImageView questionI = new ImageView(_activity);
+//        questionI.setImageBitmap(questionImage);
+
+        layout.addView(question, lp);
     }
 
     public void handleGiven(GivenAnswer given){
