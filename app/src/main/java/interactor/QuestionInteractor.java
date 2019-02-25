@@ -40,8 +40,8 @@ public class QuestionInteractor {
     }
 
     private ArrayList<Integer> selectQuestionID(Game game, Profile profile) throws SQLException {
-        String query = "select questionID from Question where gameID= " + game.getID() ;
-//                + " and questionID not in (select questionID from Log where profilID = " + profile.getID() + ")";
+        String query = "select questionID from Question where gameID= " + game.getID() 
+                + " and questionID not in (select questionID from Log where profilID = " + profile.getID() + ")";
 //TODO: uncomment line above for disable chosing questions user already answerd;
 
         ResultSet res = _dbConnector.runQuery(query);

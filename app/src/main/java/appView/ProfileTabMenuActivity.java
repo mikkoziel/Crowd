@@ -103,7 +103,6 @@ public class ProfileTabMenuActivity extends Fragment {
     public void addAvatar(View rootView){
         ImageView avatar = rootView.findViewById(R.id.imageView);
 
-//TODO: zmienić skale
         String avatarIcon = _profile.getAvatar().getIconName();
         int imageResource = getResources().getIdentifier(avatarIcon, null, _activity.getPackageName());
         Drawable drawable = getResources().getDrawable(imageResource);

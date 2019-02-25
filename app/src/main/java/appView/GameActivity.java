@@ -49,11 +49,13 @@ public class GameActivity extends AppCompatActivity {
         startGame.setOnCreate(_appContent, index, this, _game);
         adapter.addFragment(startGame);
 
-        for(Question question: _game.getQuestions()){
-            index += 1;
-            QuestionActivity questionA = new QuestionActivity();
-            questionA.setOnCreate(_appContent, question, index, _game);
-            adapter.addFragment(questionA);
+        if(!_game.getQuestions().isEmpty()) {
+            for (Question question : _game.getQuestions()) {
+                index += 1;
+                QuestionActivity questionA = new QuestionActivity();
+                questionA.setOnCreate(_appContent, question, index, _game);
+                adapter.addFragment(questionA);
+            }
         }
 
         index += 1;
