@@ -40,7 +40,7 @@ public class QuestionInteractor {
     }
 
     private ArrayList<Integer> selectQuestionID(Game game, Profile profile) throws SQLException {
-        String query = "select questionID from Question where gameID= " + game.getID() 
+        String query = "select questionID from Question where gameID= " + game.getID()
                 + " and questionID not in (select questionID from Log where profilID = " + profile.getID() + ")";
 //TODO: uncomment line above for disable chosing questions user already answerd;
 
@@ -88,77 +88,12 @@ public class QuestionInteractor {
             }
             else {
                 byte[] byteImage = blobImage.getBytes(1, (int) blobImage.length());
-//                String path = null;
-                //                    path = writeToFile(byteImage, ID);
                 this._images.add(byteImage);
-//                    path = writeToFile1(byteImage, ID, activity);
                 question = new Question(content, ID, type, defaultAnswer);
             }
             game.addQuestion(question);
         }
     }
-//
-//    public String writeToFile(byte[] image, int questionID) throws IOException {
-//        File dir = Environment.getExternalStorageDirectory();
-//        File root = new File(dir + "/Crowd/");
-//        if (!root.exists()) root.mkdirs();
-//        File file = new File(root, String.valueOf(questionID));
-//        if (!file.exists()) file.createNewFile();
-//        FileOutputStream fos = null;
-//        try {
-//            fos = new FileOutputStream(file);
-//            fos.write(image);
-//        }
-//        catch (FileNotFoundException e) {
-//            System.out.println("File not found" + e);
-//        }
-//        catch (IOException ioe) {
-//            System.out.println("Exception while writing file " + ioe);
-//        }
-//        finally {
-//            try {
-//                if (fos != null) {
-//                    fos.close();
-//                }
-//            }
-//            catch (IOException ioe) {
-//                System.out.println("Error while closing stream: " + ioe);
-//            }
-//        }
-//        return file.getAbsolutePath();
-//
-//    }
-
-//    private String writeToFile1(byte[] image, int questionID, Context context) throws IOException {
-//        File dir = context.getFilesDir();
-//        File root = new File(dir + "/images/");
-//        if (!root.exists()) root.mkdirs();
-//        File file = new File(root, String.valueOf(questionID));
-//        if (!file.exists()) file.createNewFile();
-//        FileOutputStream fos = null;
-//        try {
-//            fos = new FileOutputStream(file);
-//            fos.write(image);
-//        }
-//        catch (FileNotFoundException e) {
-//            System.out.println("File not found" + e);
-//        }
-//        catch (IOException ioe) {
-//            System.out.println("Exception while writing file " + ioe);
-//        }
-//        finally {
-//            try {
-//                if (fos != null) {
-//                    fos.close();
-//                }
-//            }
-//            catch (IOException ioe) {
-//                System.out.println("Error while closing stream: " + ioe);
-//            }
-//        }
-//        return file.getAbsolutePath();
-//
-//    }
 
     public byte[] readFromFile(String path){
         File file = new File(path);

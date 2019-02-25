@@ -110,8 +110,7 @@ public class MenuTabMenuActivity extends Fragment {
 
     public void addGames(LinearLayout ll, LinearLayout.LayoutParams lp){
         final Intent intent = new Intent(_activity, GameActivity.class);
-//        intent.putExtra("appContent", _appContent);
-
+        
         for (final Game game : _games) {
             Button gameButton = new Button(_activity);
             gameButton.setText(String.format("%s",game.getName()));
