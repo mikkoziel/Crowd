@@ -56,12 +56,13 @@ public class GameActivity extends AppCompatActivity {
                 questionA.setOnCreate(_appContent, question, index, _game);
                 adapter.addFragment(questionA);
             }
-        }
 
-        index += 1;
-        EndGameActivity endGame = new EndGameActivity();
-        endGame.setOnCreate(_appContent, index, _game, this);
-        adapter.addFragment(endGame);
+
+            index += 1;
+            EndGameActivity endGame = new EndGameActivity();
+            endGame.setOnCreate(_appContent, index, _game, this);
+            adapter.addFragment(endGame);
+        }
 
         viewPager.setAdapter(adapter);
     }

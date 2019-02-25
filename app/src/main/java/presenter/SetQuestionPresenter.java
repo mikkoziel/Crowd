@@ -86,10 +86,6 @@ public class SetQuestionPresenter extends AsyncTask<Void, Void, Void> {
             LinearLayout.LayoutParams _lp  = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
             PossibleAnswerPresenter possibleAnswerPresenter = new PossibleAnswerPresenter(_activity, _intent, _progress, _lp, _appContent, _game);
             possibleAnswerPresenter.execute();
-
-//            _intent.putExtra("appContent", _appContent);
-//            //_intent.putExtra("game", _game);
-//            _activity.startActivity(_intent);
         }
     }
 
