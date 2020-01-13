@@ -33,7 +33,12 @@ public class ShopInteractor {
             int price = res.getInt("price");
             String description = res.getString("description");
 
-            byte[] byteIcon = blobIcon.getBytes(1, (int)blobIcon.length());
+            //TODO delete this if when items have icons
+            byte[] byteIcon = null;
+            if(blobIcon != null) {
+                byteIcon = blobIcon.getBytes(1, (int)blobIcon.length());
+            }
+
             Item item = new Item(itemId, name, byteIcon, price, description);
             items.add(item);
             setSuccess("Items set");
@@ -42,7 +47,7 @@ public class ShopInteractor {
     }
 
     public ArrayList<Integer> getUserItemsID(Profile profile) throws SQLException {
-        String query = "Select * from UsersItems where profileID = "+ profile.getID();
+        String query = "Select * from UserItems where profileID = "+ profile.getID();
         ResultSet res = _dbConnector.runQuery(query);
         ArrayList<Integer> items = new ArrayList<>();
         while(res.next()) {
@@ -59,7 +64,7 @@ public class ShopInteractor {
             setSuccess("Item successfully bought");
         }
         else{
-            setFailure("Someting went wrong. Try agian.");
+            setFailure("Something went wrong. Try again.");
         }
     }
 

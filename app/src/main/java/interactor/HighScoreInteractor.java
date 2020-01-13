@@ -25,7 +25,7 @@ public class HighScoreInteractor {
         ResultSet res = _dbConnector.runQuery(query);
         ArrayList<HighScore> highScores = new ArrayList<>();
         while(res.next()) {
-            int id = res.getInt("profilID");
+            int id = res.getInt("profileID");
             String name = res.getString("name");
             int points = res.getInt("points");
 

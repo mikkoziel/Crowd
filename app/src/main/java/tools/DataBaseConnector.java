@@ -26,9 +26,9 @@ public class DataBaseConnector implements Serializable {
         StrictMode.setThreadPolicy(policy);
 
         String _user = "crowd";
-        String _password = "Ng65JF4j79-!";
+        String _password = "Sa9X?-41M3nR";
         String _database = "crowd";
-        String _ip = "den1.mssql8.gear.host";
+        String _ip = "den1.mssql7.gear.host";
         String _nameClass = "net.sourceforge.jtds.jdbc.Driver";
         String _connectionURL = "jdbc:jtds:sqlserver;//" + _ip + "/" + _database + ";user=" + _user + ";password=" + _password + ";";
 

@@ -37,14 +37,16 @@ public class ProfileInteractor {
     }
 
     public void registerLogin(String username, String password) throws Exception {
-        String query = "select * from Profile where Name= '" + username + "'";
+        String query = "select * from Profile where name= '" + username + "'";
         ResultSet resultSet =_dbConnector.runQuery(query);
 
         if (resultSet.next())
             setFailure("Login already exist");
         else {
             String pass = encrypt(password);
-            String query1 = "Insert into Profile(Name, Password) values('" + username + "', '" + pass + "')";
+            String query1 = "INSERT INTO Profile(name, password, points, " +"userLevel, " +
+                    "money, avatarID) values('" + username + "', '" + pass + "', '" + "0" +
+                    "', '" + "1" + "', '" + "0" + "', '" + "0" + "')";
                 int result = _dbConnector.updateQuery(query1);
                 if(result > 0)
                     setSuccess("Login registration successful");
@@ -54,7 +56,7 @@ public class ProfileInteractor {
     }
 
     public ResultSet checkLogin(String username, String password) throws Exception {
-        String query = "select * from Profile where Name= '" + username + "'";
+        String query = "select * from Profile where name= '" + username + "'";
         ResultSet resultSet =_dbConnector.runQuery(query);
         if (resultSet.next()) {
             String pass = encrypt(password);
@@ -70,10 +72,10 @@ public class ProfileInteractor {
 
     public Profile createProfile(ResultSet res) throws SQLException
     {
-        int id = res.getInt("profilID");
+        int id = res.getInt("profileID");
         String name = res.getString("name");
         int points = res.getInt("points");
-        int level = res.getInt("userlevel");
+        int level = res.getInt("userLevel");
         int money = res.getInt("money");
         int missingPoints = res.getInt("missingPoints");
 
@@ -84,7 +86,7 @@ public class ProfileInteractor {
 
     public int getAvatarID(Profile profile) throws SQLException
     {
-        String query = "select * from Profile where profilID = " + profile.getID();
+        String query = "select * from Profile where profileID = " + profile.getID();
         ResultSet res = _dbConnector.runQuery(query);
         if (res.next()) {
             return res.getInt("avatarID");
@@ -93,7 +95,7 @@ public class ProfileInteractor {
     }
 
     public void modeCheckOld(Profile profile, String password, String passwordCheck, String passwordCheck2) throws Exception {
-        String query = "Select * from Profile where profilID = " + profile.getID();
+        String query = "Select * from Profile where profileID = " + profile.getID();
         ResultSet res = _dbConnector.runQuery(query);
         if (res.next()) {
             String name = res.getString("name");
@@ -118,7 +120,7 @@ public class ProfileInteractor {
 
     public void modeChangeToNew(String password, Profile profile) throws Exception {
         String pass = encrypt(password);
-        String query = "Update Profile set password = '" + pass + "' where profilID = " + profile.getID();
+        String query = "Update Profile set password = '" + pass + "' where profileID = " + profile.getID();
         int res = _dbConnector.updateQuery(query);
         if(res > 0)
             setSuccess("Password Change successful");
@@ -127,13 +129,13 @@ public class ProfileInteractor {
     }
 
     public void spendMoney(Profile profile){
-        String query = "Update Profile set money = " + profile.getMoney() + "where profilID = " +profile.getID();
+        String query = "Update Profile set money = " + profile.getMoney() + "where profileID = " +profile.getID();
         int res = _dbConnector.updateQuery(query);
         if(res > 0) {
             setSuccess("Item successfully bought");
         }
         else{
-            setFailure("Someting went wrong. Try agian.");
+            setFailure("Something went wrong. Try again.");
         }
     }
 

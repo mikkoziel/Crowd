@@ -69,13 +69,13 @@ public class GenKeyInteractor {
     }
 
     public void addToDB(int id, int key){
-        String query = "Insert into Game(accessKey, ownerID) values("+ key + ", " + id + ")";
+        String query = "Insert into Game(accessKey, ownerID) " +
+                "values("+ key + ", " + id + ")";
         int res = _dbConnector.updateQuery(query);
         if (res > 0) {
-            setSuccess("New Key:" + Integer.toString(key));
+            setSuccess("New Key:" + key);
         }
     }
-
 
     private void setSuccess(String message)
     {

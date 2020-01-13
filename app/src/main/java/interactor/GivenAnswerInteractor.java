@@ -56,7 +56,7 @@ public class GivenAnswerInteractor {
         String query = "Select * from Answer where answerID = " + answer.getID();
         ResultSet res = _dbConnector.runQuery(query);
         if (res.next()) {
-            answer.setShowed(res.getInt("showed"));
+            answer.setShowed(res.getInt("shown"));
             setSuccess("Showed updated");
         }
         else
@@ -66,7 +66,7 @@ public class GivenAnswerInteractor {
     //Profile from db
     public void updatePointsValue(Profile profile) throws SQLException
     {
-        String query = "Select * from Profile where profilID = " + profile.getID();
+        String query = "Select * from Profile where profileID = " + profile.getID();
         ResultSet res = _dbConnector.runQuery(query);
         if (res.next()) {
             profile.setPoints(res.getInt("points"));
@@ -79,10 +79,10 @@ public class GivenAnswerInteractor {
     //Profile from db
     public void updateUserLevelValue(Profile profile) throws SQLException
     {
-        String query = "Select * from Profile where profilID = " + profile.getID();
+        String query = "Select * from Profile where profileID = " + profile.getID();
         ResultSet res = _dbConnector.runQuery(query);
         if (res.next()) {
-            profile.setLevel(res.getInt("userlevel"));
+            profile.setLevel(res.getInt("userLevel"));
             setSuccess("level updated");
         }
         else
@@ -91,7 +91,7 @@ public class GivenAnswerInteractor {
 
     public void updateMissingPointsValue(Profile profile) throws SQLException
     {
-        String query = "Select * from Profile where profilID = " + profile.getID();
+        String query = "Select * from Profile where profileID = " + profile.getID();
         ResultSet res = _dbConnector.runQuery(query);
         if (res.next()) {
             profile.setMissingPoints(res.getInt("missingPoints"));
@@ -103,7 +103,7 @@ public class GivenAnswerInteractor {
 
     public void updateMoneyValue(Profile profile) throws SQLException
     {
-        String query = "Select * from Profile where profilID = " + profile.getID();
+        String query = "Select * from Profile where profileID = " + profile.getID();
         ResultSet res = _dbConnector.runQuery(query);
         if (res.next()) {
             profile.setMoney(res.getInt("money"));
@@ -125,7 +125,7 @@ public class GivenAnswerInteractor {
         Date today = Calendar.getInstance().getTime();
         String date = dateFormat.format(today);
 
-        String query = "Insert into Log(profilID, questionID, answerID, date, answerText) values(" + profileID
+        String query = "Insert into Log(profileID, questionID, answerID, answerDate, answerText) values(" + profileID
                 + ", " + questionID + ", " + answerID + ", '" + date + "', '" + answerText +"')";
 
         int result = _dbConnector.updateQuery(query);
@@ -195,7 +195,7 @@ public class GivenAnswerInteractor {
 
         profile.increasePoints(points);
 
-        String query = "update Profile set points = " + profile.getPoints() + " where profilID = " + profile.getID();
+        String query = "update Profile set points = " + profile.getPoints() + " where profileID = " + profile.getID();
 
         updateMoney(profile, points);
         _dbConnector.updateQuery(query);
@@ -224,10 +224,10 @@ public class GivenAnswerInteractor {
         }
 
 
-        String query = "update Profile set userlevel = " + profile.getLevel() + " where profilID = " + profile.getID();
+        String query = "update Profile set userLevel = " + profile.getLevel() + " where profileID = " + profile.getID();
         _dbConnector.updateQuery(query);
 
-        query = "update Profile set missingPoints = " + profile.getMissingPoints() + " where profilID = " + profile.getID();
+        query = "update Profile set missingPoints = " + profile.getMissingPoints() + " where profileID = " + profile.getID();
         _dbConnector.updateQuery(query);
 
     }
@@ -255,7 +255,7 @@ public class GivenAnswerInteractor {
 
         int money = points * 10;
         profile.increaseMoney(money);
-        String query = "update Profile set money = " + profile.getMoney() + " where profilID = " + profile.getID();
+        String query = "update Profile set money = " + profile.getMoney() + " where profileID = " + profile.getID();
         _dbConnector.updateQuery(query);
     }
 

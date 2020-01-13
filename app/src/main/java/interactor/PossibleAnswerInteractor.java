@@ -42,13 +42,13 @@ public class PossibleAnswerInteractor {
     }
 
     private ArrayList<Integer> selectAnswerID(Question question) throws SQLException {
-        String query = "select answerID, showed, chosen from Answer where questionID= '" + question.getID() + "' and defaultAnswer = 0";
+        String query = "select answerID, shown, chosen from Answer where questionID= '" + question.getID() + "' and defaultAnswer = 0";
 
         ResultSet res = _dbConnector.runQuery(query);
         ArrayList<Integer> ids = new ArrayList<>();
 
         while(res.next()) {
-            int showed = res.getInt("showed");
+            int showed = res.getInt("shown");
             int chosen = res.getInt("chosen");
             int id = res.getInt("answerID");
             int quantity;
@@ -90,7 +90,7 @@ public class PossibleAnswerInteractor {
     }
 
     private void defaultAnswer(Question question) throws SQLException {
-        String query = "select * from Answer where questionID= '" + question.getID() + "' and defaultAnswer = 1";
+        String query = "select * from Answer where questionID= '" + question.getID() + "' and isDefault = 1";
 
         ResultSet resultSet = _dbConnector.runQuery(query);
         addPossibleAnswers(resultSet, question);
@@ -101,10 +101,10 @@ public class PossibleAnswerInteractor {
             String content = res.getString("answerText");
             int ID = res.getInt("answerID");
             int type = res.getInt("typeID");
-            Boolean defaultAnswer = res.getBoolean("defaultAnswer");
-            int showed = res.getInt("showed");
+            Boolean defaultAnswer = res.getBoolean("isDefault");
+            int showed = res.getInt("shown");
             int chosen = res.getInt("chosen");
-            Blob blobImage = res.getBlob("answerImage");
+            Blob blobImage = res.getBlob("answerPic");
 
             Answer answer;
             if (res.wasNull()) {
@@ -125,7 +125,7 @@ public class PossibleAnswerInteractor {
         String query = "Select * from Answer where answerID = " + answer.getID();
         ResultSet res = _dbConnector.runQuery(query);
         if (res.next())
-            answer.setShowed(res.getInt("showed"));
+            answer.setShowed(res.getInt("shown"));
         else
         {
             setFailure("Fail!");
@@ -134,7 +134,7 @@ public class PossibleAnswerInteractor {
 
         answer.increaseShowed();
 
-        query = "update Answer set showed = " + answer.getShowed() + " where answerID = " + answer.getID();
+        query = "update Answer set shown = " + answer.getShowed() + " where answerID = " + answer.getID();
         _dbConnector.updateQuery(query);
     }
 

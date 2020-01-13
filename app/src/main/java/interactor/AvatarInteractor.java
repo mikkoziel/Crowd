@@ -44,7 +44,7 @@ public class AvatarInteractor {
     }
 
     public void updateAvatar(int avatarID, int profileID){
-        String query = "Update Profile set avatarID =" + avatarID + "where profilID = " + profileID;
+        String query = "Update Profile set avatarID =" + avatarID + "where profileID = " + profileID;
         int res = _dbConnector.updateQuery(query);
         if (res > 0) {
             setSuccess("Avatar changed");
